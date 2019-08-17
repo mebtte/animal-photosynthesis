@@ -35,12 +35,15 @@ const ArticleItem = ({ article, target }) => {
   );
 };
 ArticleItem.propTypes = {
-  target: Types.string.isRequired,
+  target: Types.string,
   article: Types.shape({
     id: Types.string.isRequired,
     title: Types.string.isRequired,
     create: Types.string.isRequired,
   }).isRequired,
+};
+ArticleItem.defaultProps = {
+  target: '',
 };
 
 export default ArticleItem;

@@ -1,6 +1,6 @@
 import React from 'react';
+import Types from 'prop-types';
 import styled from 'styled-components';
-import { Link } from 'gatsby';
 
 const WORD = {
   TITLE: 'NotJustCode',
@@ -33,15 +33,21 @@ const Style = styled.header`
   }
 `;
 
-const Header = () => (
+const Header = ({ target }) => (
   <Style>
-    <Link className="name" to="/">
+    <a className="name" href="/" target={target}>
       NotJustCode
-    </Link>
+    </a>
     <a className="author" href="https://mebtte.com">
       {WORD.AUTHOR}
     </a>
   </Style>
 );
+Header.propTypes = {
+  target: Types.string,
+};
+Header.defaultProps = {
+  target: '',
+};
 
 export default Header;
