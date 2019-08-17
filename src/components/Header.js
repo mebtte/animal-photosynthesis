@@ -38,7 +38,7 @@ const Header = () => (
     <Link className="name" to="/">
       NotJustCode
     </Link>
-    <a className="author" href="https://mebtte.com" target="_blank" rel="noopener noreferrer">
+    <a className="author" href="https://mebtte.com">
       {WORD.AUTHOR}
     </a>
   </Style>

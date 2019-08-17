@@ -25,10 +25,10 @@ const Style = styled.li`
   }
 `;
 
-const ArticleItem = ({ article }) => {
+const ArticleItem = ({ article, target }) => {
   return (
     <Style>
-      <Link className="title" to={`/${article.id}`}>
+      <Link className="title" to={`/${article.id}`} target={target} rel="noopener noreferrer">
         {article.title}
       </Link>
       <time className="time">{article.create}</time>
@@ -36,6 +36,7 @@ const ArticleItem = ({ article }) => {
   );
 };
 ArticleItem.propTypes = {
+  target: Types.string.isRequired,
   article: Types.shape({
     id: Types.string.isRequired,
     title: Types.string.isRequired,

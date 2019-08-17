@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Types from 'prop-types';
 import { graphql } from 'gatsby';
 import styled from 'styled-components';
@@ -7,6 +7,8 @@ import Layout from '../components/Layout';
 import Header from '../components/Header';
 import ArticleItem from '../components/ArticleItem';
 import Footer from '../components/Footer';
+
+import parseSearch from '../utils/parseSearch';
 
 const fontFamily = 'ZiXinFangYunYa';
 const ArticleList = styled.ul`
@@ -20,12 +22,20 @@ const ArticleList = styled.ul`
 `;
 
 const Wrapper = ({ data }) => {
+  const [target, setTarget] = useState('');
+
   const { edges } = data.allMarkdownRemark;
   const text = Array.from(
     new Set(edges.map(({ node: { frontmatter } }) => frontmatter.title + frontmatter.create).join('')),
   )
     .sort()
     .join('');
+
+  useEffect(() => {
+    const { target: t } = parseSearch(window.location.search);
+    setTarget(t);
+  }, []);
+
   return (
     <Layout>
       <Header />
@@ -37,7 +47,7 @@ const Wrapper = ({ data }) => {
           } = node;
           const dirs = fileAbsolutePath.split('/');
           const id = dirs[dirs.length - 2];
-          return <ArticleItem key={id} article={{ id, title, create }} />;
+          return <ArticleItem key={id} article={{ id, title, create }} target={target} />;
         })}
       </ArticleList>
       <Footer />
