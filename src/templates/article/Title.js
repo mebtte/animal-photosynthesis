@@ -7,6 +7,7 @@ const Style = styled.div`
   > h1 {
     font-size: 32px;
     color: rgb(237, 106, 94);
+    line-height: 1.5;
   }
   > time {
     font-size: 14px;
