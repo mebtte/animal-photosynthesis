@@ -1,0 +1,14 @@
+# node & npm
+node_modules
+package-lock.json
+yarn.lock
+
+# gatsby
+.cache
+public
+
+# macOS
+.DS_Store
+
+# release script
+release.sh
