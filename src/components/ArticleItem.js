@@ -1,7 +1,6 @@
 import React from 'react';
 import Types from 'prop-types';
 import styled from 'styled-components';
-import { Link } from 'gatsby';
 
 const Style = styled.li`
   list-style: none;
@@ -28,9 +27,9 @@ const Style = styled.li`
 const ArticleItem = ({ article, target }) => {
   return (
     <Style>
-      <Link className="title" to={`/${article.id}`} target={target} rel="noopener noreferrer">
+      <a className="title" href={`/${article.id}`} target={target} rel="noopener noreferrer">
         {article.title}
-      </Link>
+      </a>
       <time className="time">{article.create}</time>
     </Style>
   );
