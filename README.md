@@ -4,7 +4,7 @@
 
 ## 文章
 
-- [RESTFUL 数据异常导致的前端错误](./articles/handle_restful_api_error/index.md)
+- [如何处理 RESTFUL 数据异常导致的前端错误](./articles/handle_restful_api_error/index.md)
 - [基于 Node.js 的 WebFont 解决方案](./articles/web_font_solution_by_node/index.md)
 
 ## 改错
