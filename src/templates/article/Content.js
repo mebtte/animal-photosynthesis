@@ -25,4 +25,7 @@ export default styled.div`
   strong {
     font-weight: bold;
   }
+  img {
+    max-width: 100%;
+  }
 `;
