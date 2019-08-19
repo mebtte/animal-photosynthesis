@@ -7,11 +7,7 @@
 - [如何处理 RESTFUL 数据异常导致的前端错误](./articles/handle_restful_api_error/index.md)
 - [基于 Node.js 的 WebFont 解决方案](./articles/web_font_solution_by_node/index.md)
 
-## 改错
-
-如果你对文章中的一些表述有更好的意见，欢迎对文章进行修改并提交 PR
-
-## 如何在本地运行
+## 本地运行
 
 ### 运行环境
 
@@ -41,4 +37,4 @@ npm run serve
 ## 问题
 
 - `npm run dev` / `npm run build` 出错
-  > `gatsby`相关问题，尝试删除`.cache` / `public`目录重新执行
+  > 尝试删除`.cache` / `public`目录重新执行
