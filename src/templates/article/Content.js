@@ -24,8 +24,14 @@ export default styled.div`
   }
   strong {
     font-weight: bold;
+    color: rgb(237, 106, 94);
   }
   img {
     max-width: 100%;
+  }
+  blockquote {
+    font-style: italic;
+    padding-left: 20px;
+    border-left: 2px solid rgb(237, 106, 94);
   }
 `;
