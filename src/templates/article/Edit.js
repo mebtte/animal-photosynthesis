@@ -4,21 +4,24 @@ import styled from 'styled-components';
 
 import { WORD } from './constants';
 
-const Style = styled.a`
-  display: block;
+const Style = styled.div`
   color: rgb(100, 55, 185);
   font-size: 14px;
-  margin: 50px 0;
-  text-decoration: underline;
+  margin: 40px 0;
+  > a {
+    color: inherit;
+  }
 `;
 
 const Edit = ({ id }) => (
-  <Style
-    href={`https://github.com/mebtte/article/edit/master/articles/${id}/index.md`}
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    {WORD.EDIT}
+  <Style>
+    <a
+      href={`https://github.com/mebtte/article/edit/master/articles/${id}/index.md`}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {WORD.EDIT}
+    </a>
   </Style>
 );
 Edit.propTypes = {

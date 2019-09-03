@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Types from 'prop-types';
 import { graphql } from 'gatsby';
 import styled from 'styled-components';
@@ -8,7 +8,6 @@ import Header from '../components/Header';
 import ArticleItem from '../components/ArticleItem';
 import Footer from '../components/Footer';
 
-import parseSearch from '../utils/parseSearch';
 import download from '../utils/download';
 
 const fontFamily = 'ZiXinFangYunYa';
@@ -17,8 +16,6 @@ const ArticleList = styled.ul`
 `;
 
 const Wrapper = ({ data }) => {
-  const [target, setTarget] = useState('');
-
   useEffect(() => {
     const text = Array.from(
       new Set(
@@ -44,14 +41,9 @@ const Wrapper = ({ data }) => {
       .catch(console.error.bind(console));
   }, [data]);
 
-  useEffect(() => {
-    const { target: t } = parseSearch(window.location.search);
-    setTarget(t);
-  }, []);
-
   return (
     <Layout>
-      <Header target={target} />
+      <Header />
       <ArticleList>
         {data.allMarkdownRemark.edges.map(({ node }) => {
           const {
@@ -60,7 +52,7 @@ const Wrapper = ({ data }) => {
           } = node;
           const dirs = fileAbsolutePath.split('/');
           const id = dirs[dirs.length - 2];
-          return <ArticleItem key={id} article={{ id, title, create }} target={target} />;
+          return <ArticleItem key={id} article={{ id, title, create }} />;
         })}
       </ArticleList>
       <Footer />

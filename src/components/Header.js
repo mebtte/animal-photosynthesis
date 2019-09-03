@@ -1,5 +1,4 @@
 import React from 'react';
-import Types from 'prop-types';
 import styled from 'styled-components';
 
 const WORD = {
@@ -22,32 +21,32 @@ const Style = styled.header`
     font-size: 32px;
     display: block;
     color: black;
-    text-decoration: none;
+    > a {
+      text-decoration: none;
+      color: inherit;
+    }
   }
   > .author {
     display: block;
     margin-top: 5px;
     font-family: "author";
     color: rgb(237, 106, 94);
-    text-decoration: none;
+    > a {
+      color: inherit;
+      text-decoration: none;
+    }
   }
 `;
 
-const Header = ({ target }) => (
+const Header = () => (
   <Style>
-    <a className="name" href="/" target={target}>
-      NotJustCode
-    </a>
-    <a className="author" href="https://mebtte.com">
-      {WORD.AUTHOR}
-    </a>
+    <h1 className="name">
+      <a href="/">NotJustCode</a>
+    </h1>
+    <div className="author">
+      <a href="https://mebtte.com">{WORD.AUTHOR}</a>
+    </div>
   </Style>
 );
-Header.propTypes = {
-  target: Types.string,
-};
-Header.defaultProps = {
-  target: '',
-};
 
 export default Header;

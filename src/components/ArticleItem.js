@@ -11,8 +11,12 @@ const Style = styled.li`
     text-decoration: none;
     line-height: 1.5;
     display: block;
-    &:hover {
-      text-decoration: underline;
+    > a {
+      text-decoration: none;
+      color: inherit;
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
   > .time {
@@ -24,26 +28,22 @@ const Style = styled.li`
   }
 `;
 
-const ArticleItem = ({ article, target }) => {
+const ArticleItem = ({ article }) => {
   return (
     <Style>
-      <a className="title" href={`/${article.id}`} target={target} rel="noopener noreferrer">
-        {article.title}
-      </a>
+      <h3 className="title">
+        <a href={`/${article.id}`}>{article.title}</a>
+      </h3>
       <time className="time">{article.create}</time>
     </Style>
   );
 };
 ArticleItem.propTypes = {
-  target: Types.string,
   article: Types.shape({
     id: Types.string.isRequired,
     title: Types.string.isRequired,
     create: Types.string.isRequired,
   }).isRequired,
-};
-ArticleItem.defaultProps = {
-  target: '',
 };
 
 export default ArticleItem;
