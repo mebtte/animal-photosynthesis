@@ -1,6 +1,7 @@
 import React from 'react';
 import Types from 'prop-types';
 import styled from 'styled-components';
+import { Link } from 'gatsby';
 
 const Style = styled.li`
   list-style: none;
@@ -32,7 +33,7 @@ const ArticleItem = ({ article }) => {
   return (
     <Style>
       <h3 className="title">
-        <a href={`/${article.id}`}>{article.title}</a>
+        <Link to={`/${article.id}`}>{article.title}</Link>
       </h3>
       <time className="time">{article.create}</time>
     </Style>
