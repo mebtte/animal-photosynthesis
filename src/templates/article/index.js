@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Types from 'prop-types';
 import styled from 'styled-components';
 
@@ -11,56 +11,43 @@ import Title from './Title';
 import Content from './Content';
 import Edit from './Edit';
 
-import download from '../../utils/download';
-import { WORD } from './constants';
+import loadFont from '../../utils/loadFont';
+import sleep from '../../utils/sleep';
 
-const fontFamily = 'ARTICLE_FONT_FAMILY';
+const FONT_FAMILY = 'ARTICLE_TaipeiSansTCLight';
 
-const Container = styled.div`
-  font-family: ${fontFamily};
+const Container = styled.article`
+  font-family: ${FONT_FAMILY};
   margin: 30px 0;
+  opacity: ${(props) => (props.visible ? 1 : 0)};
+  transition: opacity 0.5s;
 `;
 
 const Article = ({ pageContext }) => {
+  const [visible, setVisible] = useState(false);
   const { id, html, frontmatter } = pageContext;
-  const { title, create, update } = frontmatter;
+  const { title } = frontmatter;
 
-  // load font
   useEffect(() => {
-    const text = Array.from(
-      new Set(
-        html +
-          title +
-          create +
-          update +
-          Object.keys(WORD)
-            .map((key) => WORD[key])
-            .join(''),
-      ),
-    )
-      .sort()
-      .join('')
-      .replace(/(\s|%|")/g, '');
-    download(`https://engine.mebtte.com/1/dynamic/font?font=TaipeiSansTCLight&text=${encodeURIComponent(text)}`)
-      .then((blob) => {
-        const url = URL.createObjectURL(blob);
-        const style = document.createElement('style');
-        style.innerHTML = `
-        @font-face{
-          font-family: "${fontFamily}";
-          src: url("${url}");
-        }
-      `;
-        document.head.appendChild(style);
-      })
+    Promise.race([
+      loadFont({
+        id: FONT_FAMILY,
+        text: Array.from(new Set(document.querySelector('#article').textContent))
+          .sort()
+          .join(''),
+        font: 'TaipeiSansTCLight',
+      }),
+      sleep(3000),
+    ])
       // eslint-disable-next-line no-console
-      .catch((error) => console.error(error));
+      .catch((error) => console.error(error))
+      .finally(() => setVisible(true));
   }, [pageContext]);
 
   return (
     <Layout title={`${title} - NotJustCode`}>
       <Header />
-      <Container>
+      <Container id="article" visible={visible}>
         <Title article={frontmatter} />
         <Content dangerouslySetInnerHTML={{ __html: html }} />
       </Container>

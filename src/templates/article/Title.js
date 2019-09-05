@@ -2,7 +2,7 @@ import React from 'react';
 import Types from 'prop-types';
 import styled from 'styled-components';
 
-const Style = styled.div`
+const Style = styled.header`
   margin: 20px 0;
   > h1 {
     font-size: 32px;

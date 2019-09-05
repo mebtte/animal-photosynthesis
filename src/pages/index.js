@@ -8,7 +8,7 @@ import Header from '../components/Header';
 import ArticleItem from '../components/ArticleItem';
 import Footer from '../components/Footer';
 
-import download from '../utils/download';
+import loadFont from '../utils/loadFont';
 import parseSearch from '../utils/parseSearch';
 import sleep from '../utils/sleep';
 
@@ -19,30 +19,6 @@ const ArticleList = styled.ul`
   opacity: ${(props) => (props.visible ? 1 : 0)};
   transition: opacity 0.5s;
 `;
-
-function loadFont() {
-  // load font
-  const text = Array.from(new Set(document.querySelector('#article_list').textContent))
-    .sort()
-    .join('');
-  return Promise.race([
-    download(`https://engine.mebtte.com/1/dynamic/font?font=ZiXinFangYunYa&text=${encodeURIComponent(text)}`).then(
-      (font) => {
-        const url = URL.createObjectURL(font);
-        const style = document.createElement('style');
-        style.innerHTML = `
-          @font-face {
-            font-family: "${FONT_FAMILY}";
-            src: url(${url});
-          }
-        `;
-        document.head.appendChild(style);
-        return sleep(0);
-      },
-    ),
-    sleep(3000),
-  ]);
-}
 
 const Wrapper = ({ data }) => {
   const [withHidden, setWithHidden] = useState(false);
@@ -55,15 +31,22 @@ const Wrapper = ({ data }) => {
       setWithHidden(true);
     }
 
-    setTimeout(
-      () =>
-        loadFont()
-          // eslint-disable-next-line no-console
-          .catch(console.error.bind(console))
-          .finally(() => setVisible(true)),
-      0,
-    );
-  }, [data]);
+    sleep(0)
+      .then(() =>
+        Promise.race([
+          loadFont({
+            id: FONT_FAMILY,
+            text: Array.from(new Set(document.querySelector('#article_list').textContent))
+              .sort()
+              .join(''),
+            font: 'ZiXinFangYunYa',
+          }),
+          sleep(3000),
+        ]),
+      ) // eslint-disable-next-line no-console
+      .catch(console.error.bind(console))
+      .finally(() => setVisible(true));
+  }, []);
 
   return (
     <Layout>

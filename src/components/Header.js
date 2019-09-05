@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'gatsby';
 
-import download from '../utils/download';
+import loadFont from '../utils/loadFont';
 import sleep from '../utils/sleep';
 
 const TITLE_FONT_FAMILY = 'TITLE_HaiPaiQiangDiaoGunShiChaoHei';
@@ -39,39 +39,21 @@ const Header = () => {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const title = document.querySelector('#page_title').textContent;
-    const author = document.querySelector('#author').textContent;
     Promise.race([
       Promise.all([
-        download(
-          `https://engine.mebtte.com/1/dynamic/font?font=HaiPaiQiangDiaoGunShiChaoHei&text=${encodeURIComponent(
-            title,
-          )}`,
-        ).then((font) => {
-          const url = URL.createObjectURL(font);
-          const style = document.createElement('style');
-          style.innerHTML = `
-          @font-face {
-            font-family: "${TITLE_FONT_FAMILY}";
-            src: url(${url});
-          }
-        `;
-          document.head.appendChild(style);
-          return sleep(0);
+        loadFont({
+          id: TITLE_FONT_FAMILY,
+          text: Array.from(new Set(document.querySelector('#page_title').textContent))
+            .sort()
+            .join(''),
+          font: 'HaiPaiQiangDiaoGunShiChaoHei',
         }),
-        download(
-          `https://engine.mebtte.com/1/dynamic/font?font=ZiXinFangYunYa&text=${encodeURIComponent(author)}`,
-        ).then((font) => {
-          const url = URL.createObjectURL(font);
-          const style = document.createElement('style');
-          style.innerHTML = `
-          @font-face {
-            font-family: "${AUTHOR_FONT_FAMILY}";
-            src: url(${url});
-          }
-        `;
-          document.head.appendChild(style);
-          return sleep(0);
+        loadFont({
+          id: AUTHOR_FONT_FAMILY,
+          text: Array.from(new Set(document.querySelector('#author').textContent))
+            .sort()
+            .join(''),
+          font: 'ZiXinFangYunYa',
         }),
       ]),
       sleep(3000),

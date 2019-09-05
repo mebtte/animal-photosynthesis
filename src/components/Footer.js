@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-import download from '../utils/download';
+import loadFont from '../utils/loadFont';
 import sleep from '../utils/sleep';
 
 const FONT_FAMILY = 'FOOTER_ZiXinFangYunYa';
@@ -27,24 +27,14 @@ const Footer = () => {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const text = Array.from(new Set(document.querySelector('#footer').textContent))
-      .sort()
-      .join('');
     Promise.race([
-      download(`https://engine.mebtte.com/1/dynamic/font?font=ZiXinFangYunYa&text=${encodeURIComponent(text)}`).then(
-        (font) => {
-          const url = URL.createObjectURL(font);
-          const style = document.createElement('style');
-          style.innerHTML = `
-          @font-face {
-            font-family: "${FONT_FAMILY}";
-            src: url(${url});
-          }
-        `;
-          document.head.appendChild(style);
-          return sleep(0);
-        },
-      ),
+      loadFont({
+        id: FONT_FAMILY,
+        font: 'ZiXinFangYunYa',
+        text: Array.from(new Set(document.querySelector('#footer').textContent))
+          .sort()
+          .join(''),
+      }),
       sleep(3000),
     ])
       // eslint-disable-next-line no-console
