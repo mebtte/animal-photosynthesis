@@ -1,11 +1,9 @@
 import styled from 'styled-components';
 
-import firaCode from '../../assets/font/FiraCode.woff2';
-
 export default styled.div`
   @font-face {
     font-family: 'Fira Code';
-    src: url(${firaCode});
+    src: url('/font/FiraCode.woff2');
   }
   line-height: 1.7;
   pre,

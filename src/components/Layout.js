@@ -3,8 +3,6 @@ import Types from 'prop-types';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 
-import logo from './logo.png';
-
 const Style = styled.div`
   max-width: 800px;
   margin: 0 auto;
@@ -20,7 +18,7 @@ const Layout = ({ title, description, children }) => (
       <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
       {/* prevent google translate */}
       <meta name="google" value="notranslate" />
-      <link rel="icon" href={logo} />
+      <link rel="icon" href="/logo.ong" />
       <title>{title}</title>
     </Helmet>
     {children}
