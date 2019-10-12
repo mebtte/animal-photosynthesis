@@ -14,6 +14,7 @@ const Style = styled.header`
   opacity: ${(props) => (props.visible ? 1 : 0)};
   transition: opacity .5s;
   > .name {
+    margin: 0;
   font-family: "${TITLE_FONT_FAMILY}";
     font-size: 32px;
     display: block;
