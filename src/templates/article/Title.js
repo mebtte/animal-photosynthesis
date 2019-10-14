@@ -3,18 +3,18 @@ import Types from 'prop-types';
 import styled from 'styled-components';
 
 const Style = styled.header`
-  margin: 20px 0;
+  margin: 30px 0;
   > h1 {
     font-size: 32px;
     color: rgb(237, 106, 94);
     line-height: 1.5;
+    margin: 0;
   }
   > time {
+    display: block;
     font-size: 14px;
     color: #555;
     margin-top: 8px;
-    display: block;
-    letter-spacing: 1px;
   }
 `;
 

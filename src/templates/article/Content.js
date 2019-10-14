@@ -11,25 +11,46 @@ export default styled.div`
     font-family: 'Fira Code';
     border-radius: 0 !important;
   }
-  h2,
-  p,
-  hr {
-    margin: 20px 0;
-  }
-  ol,
-  ul {
-    margin: 20px 0 20px 20px;
-  }
-  strong {
-    font-weight: bold;
-    color: rgb(237, 106, 94);
-  }
   img {
     max-width: 100%;
   }
-  blockquote {
-    font-style: italic;
-    padding-left: 20px;
-    border-left: 2px solid rgb(237, 106, 94);
+  h2,
+  h3,
+  h4 {
+    margin: 20px 0;
+  }
+  p {
+    margin: 20px 0;
+    color: #333;
+  }
+  ul,
+  ol {
+    margin: 20px;
+  }
+  table {
+    margin: 20px 0;
+    border-collapse: collapse;
+    border: 1px solid rgb(222, 222, 222);
+    > thead {
+      > tr {
+        background-color: rgb(244, 244, 244);
+        > th {
+          border: 1px solid rgb(222, 222, 222);
+          padding: 5px 10px;
+        }
+      }
+    }
+    > tbody {
+      > tr {
+        &:nth-child(even) {
+          background-color: rgb(244, 244, 244);
+        }
+        > td {
+          border: 1px solid rgb(222, 222, 222);
+          font-size: 14px;
+          padding: 5px 10px;
+        }
+      }
+    }
   }
 `;
