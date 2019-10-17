@@ -12,13 +12,13 @@ const Style = styled.div`
 const Layout = ({ title, description, children }) => (
   <Style>
     <Helmet>
-      <meta charSet="utf-8" />
+      <meta charSet="UTF-8" />
       <meta name="author" content="mebtte" />
       <meta name="description" content={description} />
       <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
       {/* prevent google translate */}
       <meta name="google" value="notranslate" />
-      <link rel="icon" href="/logo.ong" />
+      <link rel="shortcut icon" href="/logo.ong" />
       <title>{title}</title>
     </Helmet>
     {children}
