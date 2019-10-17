@@ -18,7 +18,7 @@ const Layout = ({ title, description, children }) => (
       <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
       {/* prevent google translate */}
       <meta name="google" value="notranslate" />
-      <link rel="shortcut icon" href="/logo.ong" />
+      <link rel="shortcut icon" href="/logo.png" />
       <title>{title}</title>
     </Helmet>
     {children}
