@@ -1,7 +1,7 @@
 ---
 title: '常见的 WEB 攻击方式'
 create: '2019-09-27'
-update: '2019-10-13'
+update: '2019-10-17'
 outdated: ''
 hidden: false
 ---
@@ -141,8 +141,9 @@ const html = `
 
 #### 2. 明确告知用户被重定向的地址，在用户允许的情况下进行重定向
 
-比如，在重定向之前弹窗告知用户即将跳转，在用户确认的情况下才允许跳转。下图是 `https://hacpai.com` 的重定向确认  
-![](./redirect_confirm.png)
+比如，在重定向之前弹窗告知用户即将跳转，在用户确认的情况下才允许跳转。下图是 `黑客派` 和 `知乎` 的重定向确认  
+![](./redirect_confirm.png)  
+![](./redirect_confirm_2.png)
 
 ## 参考资料
 
