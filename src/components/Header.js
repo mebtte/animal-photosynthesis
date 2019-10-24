@@ -70,7 +70,7 @@ const Header = () => {
         <Link to="/">NotJustCode</Link>
       </h1>
       <div id="author" className="author">
-        <a href="https://mebtte.com">@Mebtte Pan</a>
+        <a href="https://github.com/mebtte/article">@Mebtte Pan</a>
       </div>
     </Style>
   );
