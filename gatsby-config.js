@@ -47,5 +47,55 @@ module.exports = {
     'gatsby-plugin-sharp',
     'gatsby-plugin-react-helmet',
     'gatsby-plugin-styled-components',
+    {
+      resolve: 'gatsby-plugin-feed',
+      options: {
+        query: `
+          {
+            site {
+              siteMetadata {
+                title
+                description
+                siteUrl
+                site_url: siteUrl
+              }
+            }
+          }
+        `,
+        feeds: [
+          {
+            serialize: ({ query: { allMarkdownRemark } }) =>
+              allMarkdownRemark.edges.map(({ node: { fileAbsolutePath, frontmatter: { create, title } } }) => {
+                const dirs = fileAbsolutePath.split('/');
+                const id = dirs[dirs.length - 2];
+                return {
+                  guid: id,
+                  title,
+                  description: title,
+                  date: create,
+                  url: `https://article.mebtte.com/${id}`,
+                };
+              }),
+            query: `
+              {
+                allMarkdownRemark(sort: {order: DESC, fields: frontmatter___create}, filter: {frontmatter: {hidden: {eq: false}}}) {
+                  edges {
+                    node {
+                      frontmatter {
+                        create
+                        title
+                      }
+                      fileAbsolutePath
+                    }
+                  }
+                }
+              }           
+            `,
+            output: '/rss.xml',
+            title: "NotJustCode's RSS Feed",
+          },
+        ],
+      },
+    },
   ],
 };
