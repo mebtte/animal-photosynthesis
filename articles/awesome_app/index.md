@@ -16,7 +16,7 @@ hidden: true
 
 ## macOS
 
-- [Scroll Reverser](https://pilotmoon.com/scrollreverser/) 支持单独设置鼠标以及触控板的滚动方向
 - [HyperSwitch](https://bahoom.com/hyperswitch/) 更好的 Cmd+Tab 程序切换控制
+- [coconutBattery](https://www.coconut-flavour.com/coconutbattery/index.html) 查看电池更多信息
 
 ## Windows
