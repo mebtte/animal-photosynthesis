@@ -8,7 +8,8 @@ hidden: true
 
 ## Common
 
-- [PhotoScan](https://www.google.com/photos/scan/) [ [iOS](https://itunes.apple.com/app/apple-store/id1165525994?pt=9008&ct=landing&mt=8) | [Android](https://play.google.com/store/apps/details?id=com.google.android.apps.photos.scanner&referrer=utm_source%3Dlanding) ] 纸质照片电子化
+- [PhotoScan](https://www.google.com/photos/scan/) [ iOS | Android ] 纸质照片电子化
+- [Sourcetree](https://www.sourcetreeapp.com/) [ macOS | Windows ] 优秀的 Git GUI 客户端
 
 ## iOS
 
