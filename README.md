@@ -1,13 +1,12 @@
 # NotJustCode
 
-更好的阅读体验请访问[这里](https://article.mebtte.com)
-
 ## 文章
 
-- [CSS 变量](./articles/css_variable/index.md)
-- [常见的 WEB 攻击方式](./articles/familiar_web_attacks/index.md)
-- [如何处理 RESTFUL 数据异常导致的前端错误](./articles/handle_restful_api_error/index.md)
-- [基于 Node.js 的 WebFont 解决方案](./articles/web_font_solution_by_node/index.md)
+- [在 React 中使用事件分离状态](https://article.mebtte.com/split_react_state_by_event)
+- [CSS 变量](https://article.mebtte.com/css_variable)
+- [常见的 WEB 攻击方式](https://article.mebtte.com/familiar_web_attacks)
+- [如何处理 RESTFUL 数据异常导致的前端错误](https://article.mebtte.com/handle_restful_api_error)
+- [基于 Node.js 的 WebFont 解决方案](https://article.mebtte.com/web_font_solution_by_node)
 
 ## 本地运行
 
@@ -44,4 +43,4 @@ npm run serve
 
 ### `npm run dev` / `npm run build` 出错
 
-> 尝试删除`.cache` / `public`目录重新运行
+> 尝试删除 `.cache` / `public` 目录重新运行

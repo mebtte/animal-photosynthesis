@@ -1,7 +1,7 @@
 ---
 title: '在 React 中使用事件分离状态'
 create: '2020-01-15'
-update: ''
+update: '2020-01-16'
 outdated: ''
 hidden: false
 ---
@@ -234,7 +234,7 @@ const App = () => {
 
 上面点击 `Increase` 组件使 `count + 1`, 点击 `Decrease` 组件使 `count - 1`, `Display` 组件负责展示 `count`.
 
-因为状态 `count` 属于根组件, 所以无论点击 `Increase` 或者 `Decrease` 组件导致的表更, 三个子组件都会重新执行各自的 `render` 方法. 然而实际上无论 `count` 怎么变, 我们都知道 `Increase` 和 `Decrease` 的 `render` 结果都不会变, 所以重新执行 `render` 是没有必要的, 唯一需要更新的只有 `Display` 组件.
+因为状态 `count` 属于根组件, 所以无论点击 `Increase` 或者 `Decrease` 组件导致的变更, 三个子组件都会重新执行各自的 `render` 方法. 然而实际上无论 `count` 怎么变, 我们都知道 `Increase` 和 `Decrease` 的 `render` 结果都不会变, 所以重新执行 `render` 是没有必要的, 唯一需要更新的只有 `Display` 组件.
 
 当然, 通过 React 自带的一些工具方法可以达到性能优化的目的.
 
