@@ -11,6 +11,11 @@ export default styled.div`
     font-family: 'Fira Code';
     border-radius: 0 !important;
   }
+  a {
+    color: #333;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(237, 106, 94, 0.5);
+  }
   img {
     max-width: 100%;
   }
@@ -26,6 +31,10 @@ export default styled.div`
   ul,
   ol {
     margin: 20px;
+  }
+  blockquote {
+    border-left: 5px solid rgba(237, 106, 94, 0.5);
+    padding-left: 15px;
   }
   table {
     margin: 20px 0;
