@@ -1,4 +1,4 @@
-# NotJustCode
+# 不仅代码
 
 ## 文章
 
@@ -9,7 +9,7 @@
 - [如何处理 RESTFUL 数据异常导致的前端错误](https://article.mebtte.com/handle_restful_api_error)
 - [基于 Node.js 的 WebFont 解决方案](https://article.mebtte.com/web_font_solution_by_node)
 
-## 本地运行
+## 开发
 
 ### 目录结构
 
@@ -17,6 +17,7 @@
 |- articles 存放文章及文章相关数据
 |- src 网页模板
 |- static 存放静态文件
+|- gatsby-*.js gatsby.js配置
 ```
 
 ### 运行环境
