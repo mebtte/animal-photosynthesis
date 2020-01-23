@@ -1,7 +1,7 @@
 ---
 title: '如何处理 RESTFUL 数据异常导致的前端错误'
 create: '2019-05-30'
-update: ''
+updates:
 outdated: ''
 hidden: false
 ---
@@ -144,19 +144,17 @@ const Component = () => {
       method: 'get',
       url: '/user',
       schema,
-    }).then(user => {
-      setStatus('success');
-      setUser(user);
-    }).catch(() => setStatus('error'));
+    })
+      .then((user) => {
+        setStatus('success');
+        setUser(user);
+      })
+      .catch(() => setStatus('error'));
   }, []);
 
   if (status === 'success') {
     // 保证了可以正确地获取变量，渲染过程中不会报错
-    return (
-      <div style={{ color: data.theme.color }}>
-        {data.user.name}
-      </duv>
-    );
+    return <div style={{ color: data.theme.color }}>{data.user.name}</duv>;
   }
   if (status === 'loading') {
     return <div>loading</div>;

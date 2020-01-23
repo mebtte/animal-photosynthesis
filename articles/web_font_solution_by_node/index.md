@@ -1,7 +1,7 @@
 ---
 title: '基于 Node.js 的 WebFont 解决方案'
 create: '2019-03-10'
-update: ''
+updates:
 outdated: ''
 hidden: false
 ---

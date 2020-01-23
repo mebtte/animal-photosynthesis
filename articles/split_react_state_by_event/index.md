@@ -1,7 +1,7 @@
 ---
 title: '在 React 中使用事件分离状态'
 create: '2020-01-15'
-update: '2020-01-16'
+updates:
 outdated: ''
 hidden: false
 ---

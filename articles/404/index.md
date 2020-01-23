@@ -1,7 +1,9 @@
 ---
 title: 'HTTP 404: Not Found'
 create: '0000-00-00'
-update: ''
+updates:
+  - time: '0000-00-00'
+    description: '增加HTTP CAT'
 outdated: ''
 hidden: true
 ---

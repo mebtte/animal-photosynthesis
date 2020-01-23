@@ -1,7 +1,7 @@
 ---
 title: '常见的 WEB 攻击方式'
 create: '2019-09-27'
-update: '2019-10-17'
+updates:
 outdated: ''
 hidden: false
 ---

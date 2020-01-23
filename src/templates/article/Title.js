@@ -18,16 +18,10 @@ const Style = styled.header`
   }
 `;
 
-const Title = ({ article: { title, create, update, hidden } }) => (
+const Title = ({ article: { title, create, hidden } }) => (
   <Style>
     <h1>{title}</h1>
-    {hidden ? null : (
-      <time>
-        {create}
-        创建
-        {update ? `，${update}更新` : ''}
-      </time>
-    )}
+    {hidden ? null : <time>{create}</time>}
   </Style>
 );
 Title.propTypes = {

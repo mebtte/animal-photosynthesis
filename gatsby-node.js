@@ -14,7 +14,10 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
               hidden
               outdated
               title
-              update
+              updates {
+                time
+                description
+              }
             }
             html
           }
