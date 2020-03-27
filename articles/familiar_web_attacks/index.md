@@ -3,7 +3,7 @@ title: '常见的 WEB 攻击方式'
 create: '2019-09-27'
 updates:
 outdated: ''
-hidden: false
+hidden: true
 ---
 
 ## SQL 注入（SQL Injection）

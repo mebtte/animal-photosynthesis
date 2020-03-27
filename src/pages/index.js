@@ -4,7 +4,6 @@ import { graphql } from 'gatsby';
 import styled from 'styled-components';
 
 import Layout from '../components/Layout';
-import Header from '../components/Header';
 import ArticleItem from '../components/ArticleItem';
 import Footer from '../components/Footer';
 
@@ -15,6 +14,7 @@ import sleep from '../utils/sleep';
 const FONT_FAMILY = 'ARTICLE_LIST_ZiXinFangYunYa';
 
 const ArticleList = styled.ul`
+  margin-top: 50px;
   font-family: ${FONT_FAMILY};
   opacity: ${(props) => (props.visible ? 1 : 0)};
   transition: opacity 0.5s;
@@ -50,7 +50,6 @@ const Wrapper = ({ data }) => {
 
   return (
     <Layout>
-      <Header />
       <ArticleList id="article_list" visible={visible}>
         {data.allMarkdownRemark.edges.map(({ node }) => {
           const {

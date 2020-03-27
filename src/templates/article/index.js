@@ -2,17 +2,15 @@ import React, { useState, useEffect } from 'react';
 import Types from 'prop-types';
 import styled from 'styled-components';
 
-import 'prismjs/themes/prism-okaidia.css';
+import loadFont from '../../utils/loadFont';
+import sleep from '../../utils/sleep';
 
+import 'prismjs/themes/prism-okaidia.css';
 import Layout from '../../components/Layout';
-import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import Title from './Title';
 import Content from './Content';
 import Edit from './Edit';
-
-import loadFont from '../../utils/loadFont';
-import sleep from '../../utils/sleep';
 
 const FONT_FAMILY = 'ARTICLE_TaipeiSansTCLight';
 
@@ -46,7 +44,6 @@ const Article = ({ pageContext }) => {
 
   return (
     <Layout title={`${title} - NotJustCode`}>
-      <Header />
       <Container id="article" visible={visible}>
         <Title article={frontmatter} />
         <Content dangerouslySetInnerHTML={{ __html: html }} />

@@ -3,7 +3,7 @@ title: '我是如何维权失败的'
 create: '2020-01-18'
 updates:
 outdated: ''
-hidden: false
+hidden: true
 ---
 
 19 年的 4 月的某一天, 逛淘宝的时候在一家叫"[beex 旗舰店](https://beex.tmall.com)"的天猫店发现了一款"[便携显示器](https://detail.tmall.com/item.htm?id=585080255790)"的产品, 根据它的描述, 它是一款轻薄的显示器, 所以可以放进书包随身携带, 最重要的一点, 它宣称支持连接手机, 老罗的 TNT 的有听过? 没错, 你的手机插上这款显示器, 就能变成一台功能强大的电脑.
