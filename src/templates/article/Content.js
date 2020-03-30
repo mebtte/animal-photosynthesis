@@ -23,6 +23,9 @@ export default styled.div`
   h3,
   h4 {
     margin: 20px 0;
+    > a {
+      border: none;
+    }
   }
   p {
     margin: 20px 0;

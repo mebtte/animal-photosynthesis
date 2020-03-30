@@ -30,7 +30,9 @@ const Article = ({ pageContext }) => {
     Promise.race([
       loadFont({
         id: FONT_FAMILY,
-        text: Array.from(new Set(document.querySelector('#article').textContent))
+        text: Array.from(
+          new Set(document.querySelector('#article').textContent),
+        )
           .sort()
           .join(''),
         font: 'TaipeiSansTCLight',

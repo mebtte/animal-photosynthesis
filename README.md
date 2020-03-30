@@ -2,10 +2,9 @@
 
 ## 文章
 
-- [我是如何维权失败的](https://article.mebtte.com/how_do_i_fail_to_protect_my_right)
+- [styled-components 与 React Hooks 升级指北](https://article.mebtte.com/styled_components_and_update_react_to_hooks)
 - [在 React 中使用事件分离状态](https://article.mebtte.com/split_react_state_by_event)
 - [CSS 变量](https://article.mebtte.com/css_variable)
-- [常见的 WEB 攻击方式](https://article.mebtte.com/familiar_web_attacks)
 - [如何处理 RESTFUL 数据异常导致的前端错误](https://article.mebtte.com/handle_restful_api_error)
 - [基于 Node.js 的 WebFont 解决方案](https://article.mebtte.com/web_font_solution_by_node)
 

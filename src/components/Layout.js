@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 
 const Style = styled.div`
-  max-width: 800px;
+  max-width: 960px;
   margin: 0 auto;
   padding: 0 30px;
 `;
@@ -15,7 +15,10 @@ const Layout = ({ title, description, children }) => (
       <meta charSet="UTF-8" />
       <meta name="author" content="mebtte" />
       <meta name="description" content={description} />
-      <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+      <meta
+        name="viewport"
+        content="width=device-width,initial-scale=1,user-scalable=no"
+      />
       {/* prevent google translate */}
       <meta name="google" value="notranslate" />
       <link rel="shortcut icon" href="/logo.png" />

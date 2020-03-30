@@ -37,7 +37,7 @@
   },
   "scripts": {
     "build": "gatsby build",
-    "dev": "gatsby develop",
+    "dev": "gatsby develop --host=0.0.0.0",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "info": "gatsby info --clipboard"
