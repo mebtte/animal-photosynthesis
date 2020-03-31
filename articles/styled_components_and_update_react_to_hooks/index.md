@@ -2,6 +2,8 @@
 title: 'styled-components 与 React Hooks 升级指北'
 create: '2020-03-28'
 updates:
+  - time: '2020-03-31'
+    description: '移除部分 styled-components 高级 api 的内容'
 outdated: ''
 hidden: false
 ---
@@ -10,9 +12,9 @@ hidden: false
 
 在 react 应用中样式使用 css 文件存在几个痛点:
 
-1. 需要额外的文件, 比如一个 A 组件往往附带了一个 A.(css|less|scss|styl) 的样式文件, 样式与结构和逻辑分离不符合组件化的思想
+1. 需要额外的样式文件, 比如一个 A 组件往往附带了一个 A.(css|less|scss|styl) 的样式文件, 而且样式与结构和逻辑分离不符合组件化的思想
 2. 为了防止样式互相污染, 类似于 BEM 规范命名的 classname 非常冗长, 而且增加打包体积
-3. JavaScript 只能通过 classname 或者 style 修改样式
+3. JavaScript 只能通过 classname 或者 style 属性修改样式
 4. 样式难以复用
 5. 当一个组件被删除时, 它的样式文件不一定同时删除从而成为遗留垃圾文件
 
@@ -36,18 +38,18 @@ const Container = styled.div`
   font-size: 16px;
   color: red;
 `;
-// 这里我们可以把 Container 当做普通 div 去使用, 添加事件/dom属性等等
+// 这里我们可以把 Container 当做普通 div 去使用
 const Component = () => (
   <Container
-    onClick={() => alert('hello styled!')}
-    data-balloon="styled-components"
+    onClick={() => alert('hello styled!')} // 添加事件
+    data-balloon="styled-components" // 添加 dom 属性
   >
     hello styled!
   </Container>
 );
 ```
 
-同理, 当我们需要 span/button/a/... 这些便签时, 也是通过 styled.[tagName]\`样式\` 这种写法.
+跟上面一样, 当我们需要 span/button/a/... 这些标签的时候, 也是通过 styled.[tagName]\`样式\` 这种写法.
 
 ```jsx
 // span
@@ -68,7 +70,9 @@ styled.a`
 // ...
 ```
 
-和 css 文件相比, styled-components 不需要我们额外创建一个样式文件以及写非常冗长的 className, 所以不需要担心 className 相同导致样式污染的问题, 而且也很方便地用 JS 去控制样式. 比如有个组件通过 height props 控制高度, css 文件的方式只能通过修改 className 或者 style 属性的方法, 在 styled-components 中我们可以直接将 height props 传递给样式
+和 css 文件相比, styled-components 可以让样式写在组件里面, 不需要我们额外创建一个样式文件以及写非常冗长的 className, 所以不需要担心 className 相同导致样式污染的问题. 不同于 css 文件方式只能通过修改 className 和 style 属性的方式修改样式, styled-components 可以直接通过 props 修改样式.
+
+比如下面这个例子, 我们可以传递 props 给 styled-components, 然后可以在样式里面插入一个 props 处理方法然后返回需要的样式
 
 <iframe
   src="https://codesandbox.io/embed/hopeful-meitner-5lbw5?fontsize=14&hidenavigation=1&theme=dark"
@@ -111,6 +115,7 @@ const ellipsis = css`
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  color: ${({ color }) => color};
 `;
 
 // 这时可以将 fadeIn 和 ellipsis 像普通变量一样插入到样式中
@@ -124,7 +129,7 @@ const Container = styled.div`
 
 通过 css 和 keyframes 可以提取常用的样式片段和动画进行复用.
 
-下面是使用 styled-components 实现一个进度条组件的例子(提示: 这个组件虽然能够正常工作, 但存在隐藏的性能问题, 查看完整的 styled-components [官方文档](https://styled-components.com)相信你能够找出来问题所在)
+下面是使用 styled-components 实现一个进度条组件的例子(提示: 这个组件虽然能够正常工作, 但存在隐藏的性能问题, 查看完整的 styled-components [官方文档](https://styled-components.com)应该能找出问题所在)
 
 <iframe
   src="https://codesandbox.io/embed/infinite-class-name-yd3w1?fontsize=14&hidenavigation=1&theme=dark"
@@ -194,7 +199,7 @@ hook 包含了 `useState`, `useEffect`, `useContext`, `useReducer`, `useCallback
 
 `useEffect` 用于引入含有副作用的操作, 副作用比较难理解, 如果换成可以模拟生命周期方法就容易理解多了.
 
-useEffect 有两个参数, 第一个参数是一个方法, 第二个参数是一个可选的依赖项数组, 当数组里面的依赖项发生变化的时候, 第一个方法参数就会被执行. 当不指定依赖项数组时, 则表示每次更新都需要执行第一个方法参数.
+useEffect 有两个参数, 第一个参数是一个方法, 第二个可选参数是一个可选的依赖项数组, 当数组里面的依赖项发生变化的时候, 第一个方法参数就会被执行. 当不指定依赖项数组时, 则表示每次更新都需要执行第一个方法参数.
 
 ```jsx
 import React, { useEffect } from 'react';
@@ -394,13 +399,13 @@ const Dialog = () => {
 };
 ```
 
-通过自定义 hook, 达到了公共逻辑复用的效果. 如果你觉得 function component 里面 hook 过多的话, 同样也可以将相关的部分提取成自定义 hook
+通过自定义 hook, 达到了公共逻辑复用的效果. 如果一个很复杂的 function component 里面包含很多 hook 的话, 同样也可以将相关的部分提取成自定义 hook
 
 ```jsx
 const Component = () => {
-  useA(); // a相关hook
-  useB('xxx'); // b相关hook
-  useC(); // c相关hook
+  useA(); // a 相关 hook
+  useB('xxx'); // b 相关 hook
+  useC(); // c 相关 hook
 
   return <div>...</div>;
 };
@@ -413,7 +418,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 const Component = () => {
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user); // 返回 redux 里面的 user
   const dispatch = useDispatch();
 
   return <div>...</div>;
@@ -440,7 +445,7 @@ const Component = () => {
 // ...
 ```
 
-最后, 需要完整学习 react hook 的话, 建议看一遍[官方文档](https://reactjs.org/docs/hooks-intro.html), 文档写的非常不错.
+除了上面这些以外, react 还有其他 6 个基础 hook, 比如 `useReducer` 可以用来实现 redux, 完整 hook 教程建议看[官方文档](https://reactjs.org/docs/hooks-intro.html), 文档写的非常不错.
 
 ## 参考
 
