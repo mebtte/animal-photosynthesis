@@ -1,4 +1,25 @@
 const path = require('path');
+const util = require('util');
+const fs = require('fs');
+
+const fontmin = require('./node/utils/fontmin');
+
+const readFile = util.promisify(fs.readFile);
+
+exports.onPreBootstrap = async () => {
+  // 生成header字体
+  const text = await readFile(
+    path.join(__dirname, './src/components/header.js'),
+  );
+  await fontmin({
+    fontPath: path.join(
+      __dirname,
+      './node/assets/fonts/zi_ti_quan_xin_yi_guan_hei_ti.ttf',
+    ),
+    targetFilename: path.join(__dirname, './static/font/header_font.ttf'),
+    text: text.toString(),
+  });
+};
 
 exports.createPages = async ({ actions, graphql, reporter }) => {
   const { createPage } = actions;

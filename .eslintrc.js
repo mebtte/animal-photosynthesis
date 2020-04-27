@@ -22,5 +22,7 @@ module.exports = {
     'react/jsx-filename-extension': 'off',
     'react/jsx-props-no-spreading': 'off',
     'consistent-return': 'off',
+    'no-param-reassign': 'off',
+    'import/no-extraneous-dependencies': 'off',
   },
 };

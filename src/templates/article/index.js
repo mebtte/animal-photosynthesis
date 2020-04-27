@@ -6,8 +6,8 @@ import loadFont from '../../utils/loadFont';
 import sleep from '../../utils/sleep';
 
 import 'prismjs/themes/prism-okaidia.css';
-import Layout from '../../components/Layout';
-import Footer from '../../components/Footer';
+import Page from '../../components/page';
+import Footer from '../../components/footer';
 import Title from './Title';
 import Content from './Content';
 import Edit from './Edit';
@@ -45,14 +45,14 @@ const Article = ({ pageContext }) => {
   }, [pageContext]);
 
   return (
-    <Layout title={`${title} - NotJustCode`}>
+    <Page>
       <Container id="article" visible={visible}>
         <Title article={frontmatter} />
         <Content dangerouslySetInnerHTML={{ __html: html }} />
       </Container>
       <Edit id={id} />
       <Footer />
-    </Layout>
+    </Page>
   );
 };
 Article.propTypes = {
