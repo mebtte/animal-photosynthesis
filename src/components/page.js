@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import Types from 'prop-types';
 import styled from 'styled-components';
 import { Helmet } from 'react-helmet';
@@ -17,9 +17,7 @@ const Style = styled.div`
 `;
 
 const Page = ({ children, ...props }) => {
-  const [darkMode, setDarkMode] = useState(
-    !!localStorage.getItem(STORAGE_KEY.DARK_MODE),
-  );
+  const [darkMode, setDarkMode] = useState(false);
   const setDarkModeWrapper = useCallback((m) => {
     if (m) {
       localStorage.setItem(STORAGE_KEY.DARK_MODE, 1);
@@ -28,6 +26,11 @@ const Page = ({ children, ...props }) => {
     }
     return setDarkMode(m);
   });
+
+  useEffect(() => {
+    setDarkMode(!!localStorage.getItem(STORAGE_KEY.DARK_MODE));
+  }, []);
+
   return (
     <Provider value={{ darkMode, setDarkMode: setDarkModeWrapper }}>
       <Style {...props}>
