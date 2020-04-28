@@ -1,8 +1,8 @@
 module.exports = {
   siteMetadata: {
-    title: 'NotJustCode',
+    title: '答案',
     siteUrl: 'https://article.mebtte.com',
-    description: "mebtte's writting.",
+    description: "Mebtte's writting.",
   },
   plugins: [
     {

@@ -7,7 +7,7 @@ import Page from '../components/page';
 import Header from '../components/header';
 import Footer from '../components/footer';
 
-import parseSearch from '../utils/parseSearch';
+import parseSearch from '../utils/parse_search';
 
 const Wrapper = ({ data }) => {
   const [withHidden, setWithHidden] = useState(false);
@@ -23,8 +23,8 @@ const Wrapper = ({ data }) => {
   return (
     <Page>
       <Helmet>
-        <title>答案 - 木公写的那些东西</title>
-        <meta name="description" content="木公的文章. Mebtte's writting." />
+        <title>答案 - MEBTTE写的那些东西</title>
+        <meta name="description" content="Mebtte's writting." />
       </Helmet>
       <Header />
       <Footer />

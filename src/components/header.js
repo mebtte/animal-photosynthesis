@@ -1,30 +1,53 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { Helmet } from 'react-helmet';
 
-const FONT_PATH = '/font/header_font.ttf';
+import Title from './title';
+import DarkModeContext from '../context/dark_mode_context';
+import { Github, Sun, Moon } from './icon';
+
+const iconStyle = {
+  marginLeft: 20,
+  cursor: 'pointer',
+};
 
 const Style = styled.header`
-  @font-face {
-    font-family: header_font;
-    src: url(${FONT_PATH});
-  }
   margin: 20px;
-  font-family: header_font;
+  display: flex;
+  align-items: center;
+  > h1 {
+    margin: 0;
+    flex: 1;
+    min-width: 0;
+    font-size: 48px;
+    line-height: 1;
+    color: var(--primary-color);
+    > a {
+      color: inherit;
+      text-decoration: none;
+    }
+  }
+  > a {
+    font-size: 0;
+  }
 `;
 
 const Header = () => {
+  const { darkMode, setDarkMode } = useContext(DarkModeContext);
   return (
     <Style>
-      <Helmet>
-        <link
-          rel="preload"
-          href={FONT_PATH}
-          as="font"
-          crossOrigin="anonymous"
-        />
-      </Helmet>
-      <h1>答案</h1>
+      <h1>
+        <a href="/">
+          <Title />
+        </a>
+      </h1>
+      {darkMode ? (
+        <Sun style={iconStyle} onClick={() => setDarkMode(false)} />
+      ) : (
+        <Moon style={iconStyle} onClick={() => setDarkMode(true)} />
+      )}
+      <a href="https://github.com/mebtte/article" title="Github Repository">
+        <Github style={iconStyle} />
+      </a>
     </Style>
   );
 };

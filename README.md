@@ -8,7 +8,7 @@ Mebtte 写的那些东西. [https://article.mebtte.com](https://article.mebtte.c
 
 ```
 |- articles 存放文章及文章相关数据
-|- node Node相关API
+|- node Node相关API/编译前资源
 |- src 网页模板
 |- static 存放静态文件
 |- gatsby-*.js gatsby.js配置

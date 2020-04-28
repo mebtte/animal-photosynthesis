@@ -5,20 +5,37 @@ const fs = require('fs');
 const fontmin = require('./node/utils/fontmin');
 
 const readFile = util.promisify(fs.readFile);
-
-exports.onPreBootstrap = async () => {
-  // 生成header字体
-  const text = await readFile(
-    path.join(__dirname, './src/components/header.js'),
-  );
+const generateFont = async ({ textFile, fontFile, filename }) => {
+  const text = await readFile(textFile);
   await fontmin({
-    fontPath: path.join(
-      __dirname,
-      './node/assets/fonts/zi_ti_quan_xin_yi_guan_hei_ti.ttf',
-    ),
-    targetFilename: path.join(__dirname, './static/font/header_font.ttf'),
+    fontPath: fontFile,
+    targetFilename: filename,
     text: text.toString(),
   });
+};
+
+exports.onPreBootstrap = async () => {
+  await Promise.all([
+    // 生成title字体
+    generateFont({
+      textFile: path.join(__dirname, './src/components/title.js'),
+      fontFile: path.join(
+        __dirname,
+        './node/assets/fonts/you_she_biao_ti_hei.ttf',
+      ),
+      filename: path.join(__dirname, './static/font/title_font.ttf'),
+    }),
+
+    // 生成footer字体
+    generateFont({
+      textFile: path.join(__dirname, './src/components/footer.js'),
+      fontFile: path.join(
+        __dirname,
+        './node/assets/fonts/hong_lei_ban_shu_jian_ti.ttf',
+      ),
+      filename: path.join(__dirname, './static/font/footer_font.ttf'),
+    }),
+  ]);
 };
 
 exports.createPages = async ({ actions, graphql, reporter }) => {
