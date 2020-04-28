@@ -11,4 +11,5 @@ public
 .DS_Store
 
 # release script
-release.sh
+release_production.sh
+release_test.sh
