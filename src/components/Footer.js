@@ -24,7 +24,7 @@ const Footer = () => (
     <Helmet>
       <link rel="preload" href={FONT_PATH} as="font" crossOrigin="anonymous" />
     </Helmet>
-    &copy;&nbsp;2020&nbsp;
+    ©&nbsp;2020&nbsp;
     <a
       href="https://mebtte.com"
       target="_blank"

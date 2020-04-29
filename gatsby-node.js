@@ -21,7 +21,7 @@ exports.onPreBootstrap = async () => {
       textFile: path.join(__dirname, './src/components/title.js'),
       fontFile: path.join(
         __dirname,
-        './node/assets/fonts/you_she_biao_ti_hei.ttf',
+        './node/assets/font/you_she_biao_ti_hei.ttf',
       ),
       filename: path.join(__dirname, './static/font/title_font.ttf'),
     }),
@@ -31,7 +31,7 @@ exports.onPreBootstrap = async () => {
       textFile: path.join(__dirname, './src/components/footer.js'),
       fontFile: path.join(
         __dirname,
-        './node/assets/fonts/hong_lei_ban_shu_jian_ti.ttf',
+        './node/assets/font/shi_guang_man_man_zou.ttf',
       ),
       filename: path.join(__dirname, './static/font/footer_font.ttf'),
     }),
