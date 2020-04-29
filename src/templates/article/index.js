@@ -1,37 +1,60 @@
 import React from 'react';
 import Types from 'prop-types';
 import styled from 'styled-components';
-
+import { Helmet } from 'react-helmet';
 import 'prismjs/themes/prism-okaidia.css';
+
 import Page from '../../components/page';
+import Header from './header';
 import Footer from '../../components/footer';
-import Title from './Title';
-import Content from './Content';
-import Edit from './Edit';
+import Font from './font';
+import Section from './section';
 
-const FONT_FAMILY = 'ARTICLE_TaipeiSansTCLight';
-
-const Container = styled.article`
-  font-family: ${FONT_FAMILY};
-  margin: 30px 0;
+const Article = styled.article`
+  margin: 20px;
+`;
+const Title = styled.h1`
+  font-family: ${({ id }) => id}_font;
+  font-size: 24px;
+  margin: 10px 0;
+  color: var(--normal-color);
+`;
+const Time = styled.time`
+  font-family: time_font;
+  font-size: 14px;
+  color: var(--secondary-color);
 `;
 
-const Article = ({ pageContext }) => {
+const Wrapper = ({ pageContext }) => {
   const { id, html, frontmatter } = pageContext;
+  const { create, outdated, title, updates } = frontmatter;
   return (
     <Page>
-      <Container id="article">
-        <Title article={frontmatter} />
-        <Content dangerouslySetInnerHTML={{ __html: html }} />
-      </Container>
-      <Edit id={id} />
+      <Helmet>
+        <title>{title} - 答案</title>
+      </Helmet>
+      <Header />
+      <Font id={id} />
+      <Article>
+        <header>
+          <Title id={id}>{title}</Title>
+          <Time datetime={create}>{create}</Time>
+        </header>
+        <Section
+          id={id}
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{
+            __html: html,
+          }}
+        />
+      </Article>
       <Footer />
     </Page>
   );
 };
-Article.propTypes = {
+Wrapper.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   pageContext: Types.object.isRequired,
 };
 
-export default Article;
+export default Wrapper;

@@ -1,21 +1,21 @@
 import React, { useContext, useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 
-import Title from './title';
-import DarkModeContext from '../context/dark_mode_context';
-import { Github, Sun, Moon } from './icon';
+import Title from '../../components/title';
+import DarkModeContext from '../../context/dark_mode_context';
+import { Github, Sun, Moon } from '../../components/icon';
 
 const Style = styled.header`
   margin: 40px 20px;
   display: flex;
   align-items: center;
-  > h1 {
+  > h3 {
     margin: 0;
     flex: 1;
     min-width: 0;
     font-size: 48px;
     line-height: 1;
-    color: var(--normal-color);
+    color: var(--primary-color);
     > a {
       color: inherit;
       text-decoration: none;
@@ -48,11 +48,11 @@ const Header = () => {
 
   return (
     <Style modeVisible={modeVisible}>
-      <h1>
+      <h3>
         <a href="/">
           <Title />
         </a>
-      </h1>
+      </h3>
       {darkMode ? (
         <IconWrapper>
           <Sun onClick={() => setDarkMode(false)} className="mode" />

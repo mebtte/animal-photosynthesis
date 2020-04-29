@@ -67,6 +67,9 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
               }
             }
             html
+            internal {
+              content
+            }
           }
         }
       }
@@ -77,8 +80,9 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
     return;
   }
   let allArticleTitle = '';
-  result.data.allMarkdownRemark.edges.forEach(({ node }) => {
-    const { fileAbsolutePath, frontmatter, html } = node;
+  // eslint-disable-next-line no-restricted-syntax
+  for (const edge of result.data.allMarkdownRemark.edges) {
+    const { fileAbsolutePath, frontmatter, html, internal } = edge.node;
     const { title } = frontmatter;
     const dirs = fileAbsolutePath.split('/');
     const id = dirs[dirs.length - 2];
@@ -87,10 +91,20 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
       component: template,
       context: { id, frontmatter, html },
     });
-    allArticleTitle += title;
-  });
+    // 生成每篇文章的字体
+    fontmin({
+      fontPath: path.join(
+        __dirname,
+        './node/assets/font/ping_fang_chang_gui_ti.ttf',
+      ),
+      targetFilename: path.join(__dirname, `./static/font/articles/${id}.ttf`),
+      text: internal.content,
+    });
 
-  // 生成文章标题字体
+    allArticleTitle += title;
+  }
+
+  // 生成首页文章标题字体
   await fontmin({
     fontPath: path.join(
       __dirname,
