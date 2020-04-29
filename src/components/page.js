@@ -1,8 +1,9 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import Types from 'prop-types';
 import styled from 'styled-components';
+import { Helmet } from 'react-helmet';
 
-import { STORAGE_KEY } from '../constants';
+import { STORAGE_KEY, TIME_FONT_PATH } from '../constants';
 
 import GlobalStyle from './global_style';
 import DarkModeContext from '../context/dark_mode_context';
@@ -26,7 +27,7 @@ const Page = ({ children, ...props }) => {
       document.body.className = '';
     }
     return setDarkMode(m);
-  });
+  }, []);
 
   useEffect(() => {
     setDarkMode(!!localStorage.getItem(STORAGE_KEY.DARK_MODE));
@@ -35,6 +36,14 @@ const Page = ({ children, ...props }) => {
   return (
     <Provider value={{ darkMode, setDarkMode: setDarkModeWrapper }}>
       <Style {...props}>
+        <Helmet>
+          <link
+            rel="preload"
+            href={TIME_FONT_PATH}
+            as="font"
+            crossOrigin="anonymous"
+          />
+        </Helmet>
         <GlobalStyle />
         {children}
       </Style>

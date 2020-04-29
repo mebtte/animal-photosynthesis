@@ -11,7 +11,7 @@ const iconStyle = {
 };
 
 const Style = styled.header`
-  margin: 20px;
+  margin: 40px 20px;
   display: flex;
   align-items: center;
   > h1 {

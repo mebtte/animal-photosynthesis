@@ -1,8 +1,15 @@
 import { createGlobalStyle } from 'styled-components';
 
+import { TIME_FONT_PATH } from '../constants';
+
 export default createGlobalStyle`
   :root{
     --transition-duration: 0.3s;
+  }
+
+  @font-face {
+    font-family: time_font;
+    src: url('${TIME_FONT_PATH}');
   }
 
   * {

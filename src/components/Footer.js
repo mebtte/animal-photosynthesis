@@ -11,7 +11,7 @@ const Style = styled.footer`
   }
   font-family: footer_font;
 
-  margin: 50px 20px;
+  margin: 40px 20px;
   font-size: 12px;
   color: var(--secondary-color);
   > a {

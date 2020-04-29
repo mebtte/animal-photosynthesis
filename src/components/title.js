@@ -7,7 +7,7 @@ const FONT_PATH = '/font/title_font.ttf';
 const Style = styled.span`
   @font-face {
     font-family: title_font;
-  src: url('${FONT_PATH}');
+    src: url('${FONT_PATH}');
   }
   font-family: title_font;
 `;
