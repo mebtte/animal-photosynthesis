@@ -31,6 +31,7 @@ const Wrapper = ({ pageContext }) => {
   return (
     <Page>
       <Helmet>
+        <meta name="description" content={title} />
         <title>{title} - 答案</title>
       </Helmet>
       <Header />
