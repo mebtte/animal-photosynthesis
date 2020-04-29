@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import styled from 'styled-components';
+import React, { useContext, useState, useEffect } from 'react';
+import styled, { css } from 'styled-components';
 
 import Title from './title';
 import DarkModeContext from '../context/dark_mode_context';
@@ -29,21 +29,43 @@ const Style = styled.header`
   > a {
     font-size: 0;
   }
+  > .mode {
+    transition: opacity var(--transition-duration);
+  }
+  ${({ modeVisible }) => css`
+    > .mode {
+      opacity: ${modeVisible ? 1 : 0};
+    }
+  `}
 `;
 
 const Header = () => {
+  const [modeVisible, setModeVisible] = useState(false);
   const { darkMode, setDarkMode } = useContext(DarkModeContext);
+
+  useEffect(() => {
+    setModeVisible(true);
+  }, []);
+
   return (
-    <Style>
+    <Style modeVisible={modeVisible}>
       <h1>
         <a href="/">
           <Title />
         </a>
       </h1>
       {darkMode ? (
-        <Sun style={iconStyle} onClick={() => setDarkMode(false)} />
+        <Sun
+          style={iconStyle}
+          onClick={() => setDarkMode(false)}
+          className="mode"
+        />
       ) : (
-        <Moon style={iconStyle} onClick={() => setDarkMode(true)} />
+        <Moon
+          style={iconStyle}
+          onClick={() => setDarkMode(true)}
+          className="mode"
+        />
       )}
       <a href="https://github.com/mebtte/article" title="Github Repository">
         <Github style={iconStyle} />

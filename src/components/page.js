@@ -1,7 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import Types from 'prop-types';
 import styled from 'styled-components';
-import { Helmet } from 'react-helmet';
 
 import { STORAGE_KEY } from '../constants';
 
@@ -21,8 +20,10 @@ const Page = ({ children, ...props }) => {
   const setDarkModeWrapper = useCallback((m) => {
     if (m) {
       localStorage.setItem(STORAGE_KEY.DARK_MODE, 1);
+      document.body.className = 'dark';
     } else {
       localStorage.removeItem(STORAGE_KEY.DARK_MODE);
+      document.body.className = '';
     }
     return setDarkMode(m);
   });
@@ -34,12 +35,6 @@ const Page = ({ children, ...props }) => {
   return (
     <Provider value={{ darkMode, setDarkMode: setDarkModeWrapper }}>
       <Style {...props}>
-        <Helmet>
-          <meta charSet="utf-8" />
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <meta name="author" content="mebtte" />
-          <link rel="shortcut icon" href="/logo.png" />
-        </Helmet>
         <GlobalStyle />
         {children}
       </Style>
