@@ -1,67 +1,87 @@
 import React, { useContext, useState, useEffect } from 'react';
-import styled, { css } from 'styled-components';
+import Types from 'prop-types';
+import styled, { keyframes } from 'styled-components';
 
 import Title from './title';
 import DarkModeContext from '../context/dark_mode_context';
 import { Github, Sun, Moon } from './icon';
 
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+  } 100% {
+    opacity: 1;
+  }
+`;
 const Style = styled.header`
   margin: 40px 20px;
   display: flex;
   align-items: center;
-  > h1 {
+  > h1,
+  > h3 {
     margin: 0;
     flex: 1;
     min-width: 0;
     font-size: 48px;
     line-height: 1;
-    color: var(--normal-color);
     > a {
       color: inherit;
       text-decoration: none;
     }
   }
+  > h1 {
+    color: var(--normal-color);
+  }
+  > h3 {
+    color: var(--primary-color);
+  }
   > a {
     font-size: 0;
   }
   > .mode {
-    transition: opacity var(--transition-duration);
+    animation: ${fadeIn} 1s;
   }
-  ${({ modeVisible }) => css`
-    > .mode {
-      opacity: ${modeVisible ? 1 : 0};
-    }
-  `}
 `;
 const IconWrapper = styled.span`
   margin-left: 20px;
   cursor: pointer;
 `;
 
-const Header = () => {
+const Header = ({ main }) => {
   const [modeVisible, setModeVisible] = useState(false);
   const { darkMode, setDarkMode } = useContext(DarkModeContext);
 
   useEffect(() => {
-    setModeVisible(true);
+    setTimeout(() => setModeVisible(true), 0);
   }, []);
 
   return (
-    <Style modeVisible={modeVisible}>
-      <h1>
-        <a href="/">
-          <Title />
-        </a>
-      </h1>
-      {darkMode ? (
-        <IconWrapper>
-          <Sun onClick={() => setDarkMode(false)} className="mode" />
-        </IconWrapper>
+    <Style>
+      {main ? (
+        <h1>
+          <a href="/">
+            <Title />
+          </a>
+        </h1>
       ) : (
-        <IconWrapper>
-          <Moon onClick={() => setDarkMode(true)} className="mode" />
-        </IconWrapper>
+        <h3>
+          <a href="/">
+            <Title />
+          </a>
+        </h3>
       )}
+      {/* eslint-disable-next-line no-nested-ternary */}
+      {modeVisible ? (
+        darkMode ? (
+          <IconWrapper className="mode">
+            <Sun onClick={() => setDarkMode(false)} />
+          </IconWrapper>
+        ) : (
+          <IconWrapper className="mode">
+            <Moon onClick={() => setDarkMode(true)} />
+          </IconWrapper>
+        )
+      ) : null}
       <IconWrapper>
         <a href="https://github.com/mebtte/article" title="Github Repository">
           <Github />
@@ -69,6 +89,12 @@ const Header = () => {
       </IconWrapper>
     </Style>
   );
+};
+Header.propTypes = {
+  main: Types.bool,
+};
+Header.defaultProps = {
+  main: false,
 };
 
 export default Header;

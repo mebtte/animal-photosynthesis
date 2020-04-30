@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet';
 import 'prismjs/themes/prism-okaidia.css';
 
 import Page from '../../components/page';
-import Header from './header';
+import Header from '../../components/header';
 import Footer from '../../components/footer';
 import Font from './font';
 import Section from './section';

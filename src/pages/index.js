@@ -35,7 +35,7 @@ const Wrapper = ({ data }) => (
         crossOrigin="anonymous"
       />
     </Helmet>
-    <Header />
+    <Header main />
     <ArticleList>
       {data.allMarkdownRemark.edges.map((edge) => {
         const { fileAbsolutePath, frontmatter } = edge.node;
