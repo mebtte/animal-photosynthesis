@@ -17,18 +17,22 @@ export default createGlobalStyle`
   }
 
   body {
+    --border-radius: 2px;
+
     --primary-color: rgb(237, 106, 94);
     --normal-color: #333;
     --secondary-color: #888;
-    --background-color: #eee;
-    background-color: var(--background-color);
+    --tertiary-color: #ddd;
+    --backgroud: #eee;
+    background-color: var(--backgroud);
     transition: background-color var(--transition-duration);
 
     &.dark{
       --primary-color: rgb(237, 106, 94);
       --normal-color: #eee;
       --secondary-color: #888;
-      --background-color: #333;
+      --tertiary-color: #444;
+      --backgroud: #333;
     }
   }
 `;

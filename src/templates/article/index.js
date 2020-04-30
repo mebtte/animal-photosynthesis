@@ -2,7 +2,6 @@ import React from 'react';
 import Types from 'prop-types';
 import styled from 'styled-components';
 import { Helmet } from 'react-helmet';
-import 'prismjs/themes/prism-okaidia.css';
 
 import config from '../../../config.json';
 
@@ -11,6 +10,8 @@ import Header from '../../components/header';
 import Footer from '../../components/footer';
 import Font from './font';
 import Section from './section';
+import Updates from './updates';
+import Share from './share';
 
 function findFirstImgFromAst(ast) {
   const { tagName, properties, children } = ast;
@@ -72,21 +73,25 @@ const Wrapper = ({ pageContext }) => {
           {title} - {config.title}
         </title>
       </Helmet>
-      <Header />
       <Font id={id} />
-      <Article>
-        <header>
-          <Title id={id}>{title}</Title>
-          <Time datetime={create}>{create}</Time>
-        </header>
-        <Section
-          id={id}
-          // eslint-disable-next-line react/no-danger
-          dangerouslySetInnerHTML={{
-            __html: html,
-          }}
-        />
-      </Article>
+      <Header />
+      <main>
+        <Article>
+          <header>
+            <Title id={id}>{title}</Title>
+            <Time datetime={create}>{create}</Time>
+          </header>
+          <Section
+            id={id}
+            // eslint-disable-next-line react/no-danger
+            dangerouslySetInnerHTML={{
+              __html: html,
+            }}
+          />
+          {updates ? <Updates updates={updates} /> : null}
+          <Share id={id} title={title} />
+        </Article>
+      </main>
       <Footer />
     </Page>
   );
