@@ -1,7 +1,9 @@
+const config = require('./config.json');
+
 module.exports = {
   siteMetadata: {
     title: '答案',
-    siteUrl: 'https://article.mebtte.com',
+    siteUrl: config.site,
     description: "Mebtte's writting.",
   },
   plugins: [
@@ -78,7 +80,7 @@ module.exports = {
                     guid: id,
                     title,
                     date: create,
-                    url: `https://article.mebtte.com/${id}`,
+                    url: `${config.site}/${id}`,
                   };
                 },
               ),

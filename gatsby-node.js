@@ -67,6 +67,7 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
               }
             }
             html
+            htmlAst
             internal {
               content
             }
@@ -82,14 +83,20 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
   let allArticleTitle = '';
   // eslint-disable-next-line no-restricted-syntax
   for (const edge of result.data.allMarkdownRemark.edges) {
-    const { fileAbsolutePath, frontmatter, html, internal } = edge.node;
+    const {
+      fileAbsolutePath,
+      frontmatter,
+      html,
+      htmlAst,
+      internal,
+    } = edge.node;
     const { title } = frontmatter;
     const dirs = fileAbsolutePath.split('/');
     const id = dirs[dirs.length - 2];
     createPage({
       path: id,
       component: template,
-      context: { id, frontmatter, html },
+      context: { id, frontmatter, html, htmlAst },
     });
     // 生成每篇文章的字体
     fontmin({
