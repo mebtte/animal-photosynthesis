@@ -98,7 +98,7 @@ module.exports = {
               }           
             `,
             output: '/rss.xml',
-            title: '答案RSS',
+            title: '答案 - MEBTTE写的那些东西',
           },
         ],
       },

@@ -4,7 +4,7 @@ import styled, { keyframes } from 'styled-components';
 
 import Title from './title';
 import DarkModeContext from '../context/dark_mode_context';
-import { Github, Sun, Moon } from './icon';
+import { Github, Sun, Moon, Rss } from './icon';
 
 const fadeIn = keyframes`
   0% {
@@ -48,9 +48,14 @@ const IconWrapper = styled.span`
 `;
 
 const Header = ({ main }) => {
-  const [modeVisible, setModeVisible] = useState(false);
   const { darkMode, setDarkMode } = useContext(DarkModeContext);
 
+  /**
+   * 由于暗黑模式保存在浏览器, 所以暗黑模式在react初始化之前都是false
+   * 在暗黑模式下, 打开页面就会导致 月亮->太阳 的闪屏过程
+   * 通过延时渲染+渐入动画解决这个问题
+   */
+  const [modeVisible, setModeVisible] = useState(false);
   useEffect(() => {
     setTimeout(() => setModeVisible(true), 0);
   }, []);
@@ -82,6 +87,11 @@ const Header = ({ main }) => {
           </IconWrapper>
         )
       ) : null}
+      <IconWrapper>
+        <a href="/rss.xml" title="RSS">
+          <Rss />
+        </a>
+      </IconWrapper>
       <IconWrapper>
         <a href="https://github.com/mebtte/article" title="Github Repository">
           <Github />
