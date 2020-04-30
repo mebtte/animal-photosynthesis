@@ -2,9 +2,9 @@ const config = require('./config.json');
 
 module.exports = {
   siteMetadata: {
-    title: '答案',
+    title: config.title,
     siteUrl: config.site,
-    description: "Mebtte's writting.",
+    description: config.description,
   },
   plugins: [
     {
@@ -100,7 +100,7 @@ module.exports = {
               }           
             `,
             output: '/rss.xml',
-            title: '答案 - MEBTTE写的那些东西',
+            title: `${config.title} - ${config.description}`,
           },
         ],
       },

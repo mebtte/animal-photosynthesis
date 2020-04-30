@@ -57,7 +57,7 @@ const Wrapper = ({ pageContext }) => {
     <Page>
       <Helmet>
         <meta name="description" content={title} />
-        <meta property="og:title" content={title} />
+        <meta property="og:title" content={`${title} - ${config.title}`} />
         <meta property="og:type" content="article" />
         <meta property="og:url" content={`${config.site}/${id}`} />
         <meta
@@ -68,7 +68,9 @@ const Wrapper = ({ pageContext }) => {
               : `${config.site}/logo.png`
           }
         />
-        <title>{title} - 答案</title>
+        <title>
+          {title} - {config.title}
+        </title>
       </Helmet>
       <Header />
       <Font id={id} />

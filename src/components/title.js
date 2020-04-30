@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { Helmet } from 'react-helmet';
 
+import config from '../../config.json';
+
 const FONT_PATH = '/font/title_font.ttf';
 
 const Style = styled.span`
@@ -17,7 +19,7 @@ const Title = () => (
     <Helmet>
       <link rel="preload" href={FONT_PATH} as="font" crossOrigin="anonymous" />
     </Helmet>
-    <Style>答案</Style>
+    <Style>{config.title}</Style>
   </>
 );
 

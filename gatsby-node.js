@@ -1,18 +1,7 @@
 const path = require('path');
-const util = require('util');
-const fs = require('fs');
 
 const fontmin = require('./node/utils/fontmin');
-
-const readFile = util.promisify(fs.readFile);
-const generateFont = async ({ textFile, fontFile, filename }) => {
-  const text = await readFile(textFile);
-  await fontmin({
-    fontPath: fontFile,
-    targetFilename: filename,
-    text: text.toString(),
-  });
-};
+const config = require('./config.json');
 
 exports.onPreBootstrap = async () => {
   await Promise.all([
@@ -23,7 +12,7 @@ exports.onPreBootstrap = async () => {
         './node/assets/font/you_she_biao_ti_hei.ttf',
       ),
       targetFilename: path.join(__dirname, './static/font/title_font.ttf'),
-      text: '答案',
+      text: config.title,
     }),
 
     // 生成footer字体

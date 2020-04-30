@@ -25,7 +25,7 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const Wrapper = ({ data }) => {
-  const siteTitle = '答案 - MEBTTE写的那些东西';
+  const siteTitle = `${config.title} - ${config.description}`;
   return (
     <Page>
       <GlobalStyle />
