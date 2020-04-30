@@ -77,7 +77,6 @@ module.exports = {
                   return {
                     guid: id,
                     title,
-                    description: title,
                     date: create,
                     url: `https://article.mebtte.com/${id}`,
                   };
