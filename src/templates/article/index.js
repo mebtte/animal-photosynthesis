@@ -1,63 +1,61 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Types from 'prop-types';
 import styled from 'styled-components';
-
-import loadFont from '../../utils/loadFont';
-import sleep from '../../utils/sleep';
-
+import { Helmet } from 'react-helmet';
 import 'prismjs/themes/prism-okaidia.css';
-import Layout from '../../components/Layout';
-import Footer from '../../components/Footer';
-import Title from './Title';
-import Content from './Content';
-import Edit from './Edit';
 
-const FONT_FAMILY = 'ARTICLE_TaipeiSansTCLight';
+import Page from '../../components/page';
+import Header from '../../components/header';
+import Footer from '../../components/footer';
+import Font from './font';
+import Section from './section';
 
-const Container = styled.article`
-  font-family: ${FONT_FAMILY};
-  margin: 30px 0;
-  opacity: ${(props) => (props.visible ? 1 : 0)};
-  transition: opacity 0.5s;
+const Article = styled.article`
+  margin: 20px;
+`;
+const Title = styled.h1`
+  font-family: ${({ id }) => id}_font;
+  font-size: 24px;
+  margin: 10px 0;
+  color: var(--normal-color);
+`;
+const Time = styled.time`
+  font-family: time_font;
+  font-size: 14px;
+  color: var(--secondary-color);
 `;
 
-const Article = ({ pageContext }) => {
-  const [visible, setVisible] = useState(false);
+const Wrapper = ({ pageContext }) => {
   const { id, html, frontmatter } = pageContext;
-  const { title } = frontmatter;
-
-  useEffect(() => {
-    Promise.race([
-      loadFont({
-        id: FONT_FAMILY,
-        text: Array.from(
-          new Set(document.querySelector('#article').textContent),
-        )
-          .sort()
-          .join(''),
-        font: 'TaipeiSansTCLight',
-      }),
-      sleep(3000),
-    ])
-      // eslint-disable-next-line no-console
-      .catch((error) => console.error(error))
-      .finally(() => setVisible(true));
-  }, [pageContext]);
-
+  const { create, outdated, title, updates } = frontmatter;
   return (
-    <Layout title={`${title} - NotJustCode`}>
-      <Container id="article" visible={visible}>
-        <Title article={frontmatter} />
-        <Content dangerouslySetInnerHTML={{ __html: html }} />
-      </Container>
-      <Edit id={id} />
+    <Page>
+      <Helmet>
+        <meta name="description" content={title} />
+        <title>{title} - 答案</title>
+      </Helmet>
+      <Header />
+      <Font id={id} />
+      <Article>
+        <header>
+          <Title id={id}>{title}</Title>
+          <Time datetime={create}>{create}</Time>
+        </header>
+        <Section
+          id={id}
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{
+            __html: html,
+          }}
+        />
+      </Article>
       <Footer />
-    </Layout>
+    </Page>
   );
 };
-Article.propTypes = {
+Wrapper.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   pageContext: Types.object.isRequired,
 };
 
-export default Article;
+export default Wrapper;

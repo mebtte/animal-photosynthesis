@@ -1,12 +1,6 @@
-# 不仅代码
+# 答案
 
-## 文章
-
-- [styled-components 与 React Hooks 升级指北](https://article.mebtte.com/styled_components_and_update_react_to_hooks)
-- [在 React 中使用事件分离状态](https://article.mebtte.com/split_react_state_by_event)
-- [CSS 变量](https://article.mebtte.com/css_variable)
-- [如何处理 RESTFUL 数据异常导致的前端错误](https://article.mebtte.com/handle_restful_api_error)
-- [基于 Node.js 的 WebFont 解决方案](https://article.mebtte.com/web_font_solution_by_node)
+Mebtte 写的那些东西. [https://article.mebtte.com](https://article.mebtte.com)
 
 ## 开发
 
@@ -14,6 +8,7 @@
 
 ```
 |- articles 存放文章及文章相关数据
+|- node Node相关API/编译前资源
 |- src 网页模板
 |- static 存放静态文件
 |- gatsby-*.js gatsby.js配置
@@ -21,10 +16,9 @@
 
 ### 运行环境
 
-- Node.js
-- NPM
+- Node.js / NPM
 
-### 开发模式
+### 开发
 
 ```bash
 npm install
@@ -32,7 +26,7 @@ npm run dev
 # http://localhost:8000
 ```
 
-### 生产预览模式
+### 预览
 
 ```bash
 npm run build

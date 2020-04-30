@@ -1,8 +1,8 @@
 module.exports = {
   siteMetadata: {
-    title: 'NotJustCode',
+    title: '答案',
     siteUrl: 'https://article.mebtte.com',
-    description: "mebtte's writting.",
+    description: "Mebtte's writting.",
   },
   plugins: [
     {
@@ -65,17 +65,24 @@ module.exports = {
         feeds: [
           {
             serialize: ({ query: { allMarkdownRemark } }) =>
-              allMarkdownRemark.edges.map(({ node: { fileAbsolutePath, frontmatter: { create, title } } }) => {
-                const dirs = fileAbsolutePath.split('/');
-                const id = dirs[dirs.length - 2];
-                return {
-                  guid: id,
-                  title,
-                  description: title,
-                  date: create,
-                  url: `https://article.mebtte.com/${id}`,
-                };
-              }),
+              allMarkdownRemark.edges.map(
+                ({
+                  node: {
+                    fileAbsolutePath,
+                    frontmatter: { create, title },
+                  },
+                }) => {
+                  const dirs = fileAbsolutePath.split('/');
+                  const id = dirs[dirs.length - 2];
+                  return {
+                    guid: id,
+                    title,
+                    description: title,
+                    date: create,
+                    url: `https://article.mebtte.com/${id}`,
+                  };
+                },
+              ),
             query: `
               {
                 allMarkdownRemark(sort: {order: DESC, fields: frontmatter___create}, filter: {frontmatter: {hidden: {eq: false}}}) {
@@ -92,7 +99,7 @@ module.exports = {
               }           
             `,
             output: '/rss.xml',
-            title: "NotJustCode's RSS Feed",
+            title: '答案RSS',
           },
         ],
       },
