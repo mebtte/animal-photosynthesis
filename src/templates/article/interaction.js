@@ -2,7 +2,8 @@ import React from 'react';
 import Types from 'prop-types';
 import styled from 'styled-components';
 
-import config from '../../../config.json';
+import config from '../../../config';
+import { INTERACTION_TEXT } from './constants';
 
 import Section from './section';
 
@@ -23,9 +24,8 @@ const Share = ({ id, title }) => (
       <span className="link-wrapper">
         <a
           href={`https://github.com/mebtte/article/edit/master/articles/${id}/index.md`}
-          title="Github"
         >
-          在Github编辑这篇文章
+          {INTERACTION_TEXT.EDIT_IN_GITHUB}
         </a>
       </span>
       <span className="link-wrapper">
@@ -33,9 +33,8 @@ const Share = ({ id, title }) => (
           href={`https://twitter.com/share?text=${encodeURIComponent(
             `${title} - ${config.title}`,
           )}&url=${encodeURIComponent(`${config.site}/${id}`)}`}
-          title="Twitter"
         >
-          分享到Twitter
+          {INTERACTION_TEXT.SHARE_TO_TWITTER}
         </a>
       </span>
       <span className="link-wrapper">
@@ -43,9 +42,8 @@ const Share = ({ id, title }) => (
           href={`http://v.t.sina.com.cn/share/share.php?url=${encodeURIComponent(
             `${config.site}/${id}`,
           )}&title=${`${title} - ${config.title}`}`}
-          title="微博"
         >
-          分享到微博
+          {INTERACTION_TEXT.SHARE_TO_WEIBO}
         </a>
       </span>
     </p>

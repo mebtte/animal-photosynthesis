@@ -2,6 +2,8 @@ import React from 'react';
 import Types from 'prop-types';
 import styled from 'styled-components';
 
+import { ARTICLE_TITLE_FONT_FAMILY, TIME_FONT_FAMILY } from '../constants';
+
 const Style = styled.li`
   list-style: none;
   margin: 20px 0;
@@ -10,7 +12,7 @@ const Style = styled.li`
     margin-right: 10px;
     font-size: 18px;
     font-weight: normal;
-    font-family: article_title_font;
+    font-family: ${ARTICLE_TITLE_FONT_FAMILY};
     color: var(--primary-color);
     > a {
       text-decoration: none;
@@ -21,7 +23,7 @@ const Style = styled.li`
     }
   }
   > .time {
-    font-family: time_font;
+    font-family: ${TIME_FONT_FAMILY};
     font-size: 12px;
     color: var(--secondary-color);
     white-space: nowrap;

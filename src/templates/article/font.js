@@ -3,6 +3,8 @@ import Types from 'prop-types';
 import { createGlobalStyle, css } from 'styled-components';
 import { Helmet } from 'react-helmet';
 
+import config from '../../../config';
+
 const Style = createGlobalStyle`
   ${({ id, fontPath }) => css`
     @font-face {
@@ -17,7 +19,7 @@ const Style = createGlobalStyle`
 `;
 
 const Font = ({ id }) => {
-  const fontPath = `/font/articles/${id}.ttf`;
+  const fontPath = config.article_font_path.replace('${id}', id);
   return (
     <>
       <Helmet>

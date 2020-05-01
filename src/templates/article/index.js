@@ -3,7 +3,8 @@ import Types from 'prop-types';
 import styled from 'styled-components';
 import { Helmet } from 'react-helmet';
 
-import config from '../../../config.json';
+import config from '../../../config';
+import { TIME_FONT_FAMILY } from '../../constants';
 
 import Page from '../../components/page';
 import Header from '../../components/header';
@@ -11,7 +12,7 @@ import Footer from '../../components/footer';
 import Font from './font';
 import Section from './section';
 import Updates from './updates';
-import Share from './share';
+import Interaction from './interaction';
 
 function findFirstImgFromAst(ast) {
   const { tagName, properties, children } = ast;
@@ -45,7 +46,7 @@ const Title = styled.h1`
   color: var(--normal-color);
 `;
 const Time = styled.time`
-  font-family: time_font;
+  font-family: ${TIME_FONT_FAMILY};
   font-size: 14px;
   color: var(--secondary-color);
 `;
@@ -89,7 +90,7 @@ const Wrapper = ({ pageContext }) => {
             }}
           />
           {updates ? <Updates updates={updates} /> : null}
-          <Share id={id} title={title} />
+          <Interaction id={id} title={title} />
         </Article>
       </main>
       <Footer />

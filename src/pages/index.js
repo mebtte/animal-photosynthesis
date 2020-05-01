@@ -4,14 +4,13 @@ import { graphql } from 'gatsby';
 import { Helmet } from 'react-helmet';
 import styled, { createGlobalStyle } from 'styled-components';
 
-import config from '../../config.json';
+import config from '../../config';
+import { ARTICLE_TITLE_FONT_FAMILY } from '../constants';
 
 import Page from '../components/page';
 import Header from '../components/header';
 import Footer from '../components/footer';
 import ArticleItem from '../components/article_item';
-
-const ARTICLE_TITLE_FONT_PATH = '/font/article_title_font.ttf';
 
 const ArticleList = styled.ul`
   margin: 40px 20px;
@@ -19,8 +18,8 @@ const ArticleList = styled.ul`
 `;
 const GlobalStyle = createGlobalStyle`
   @font-face {
-    font-family: article_title_font;
-    src: url('${ARTICLE_TITLE_FONT_PATH}');
+    font-family: ${ARTICLE_TITLE_FONT_FAMILY};
+    src: url('${config.all_article_title_font_path}');
   }
 `;
 
@@ -38,7 +37,7 @@ const Wrapper = ({ data }) => {
         <meta property="og:image" content={`${config.site}/logo.png`} />
         <link
           rel="preload"
-          href={ARTICLE_TITLE_FONT_PATH}
+          href={config.all_article_title_font_path}
           as="font"
           crossOrigin="anonymous"
         />

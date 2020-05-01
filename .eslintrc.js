@@ -29,5 +29,6 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'react/jsx-one-expression-per-line': 'off',
     'no-restricted-syntax': 'off',
+    'no-template-curly-in-string': 'off',
   },
 };

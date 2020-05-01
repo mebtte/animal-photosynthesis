@@ -2,4 +2,5 @@ export const STORAGE_KEY = {
   DARK_MODE: 'dark_mode',
 };
 
-export const TIME_FONT_PATH = '/font/time_font.ttf';
+export const ARTICLE_TITLE_FONT_FAMILY = 'article_title_font';
+export const TIME_FONT_FAMILY = 'time_font';

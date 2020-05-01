@@ -5,7 +5,7 @@ yarn.lock
 
 # gatsby
 .cache
-public
+public/*
 
 # macOS
 .DS_Store

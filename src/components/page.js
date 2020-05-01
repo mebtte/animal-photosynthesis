@@ -3,7 +3,8 @@ import Types from 'prop-types';
 import styled from 'styled-components';
 import { Helmet } from 'react-helmet';
 
-import { STORAGE_KEY, TIME_FONT_PATH } from '../constants';
+import { STORAGE_KEY } from '../constants';
+import config from '../../config';
 
 import GlobalStyle from './global_style';
 import DarkModeContext from '../context/dark_mode_context';
@@ -39,7 +40,7 @@ const Page = ({ children, ...props }) => {
         <Helmet>
           <link
             rel="preload"
-            href={TIME_FONT_PATH}
+            href={config.time_font_path}
             as="font"
             crossOrigin="anonymous"
           />

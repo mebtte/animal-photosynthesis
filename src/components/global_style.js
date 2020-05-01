@@ -1,6 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 
-import { TIME_FONT_PATH } from '../constants';
+import { TIME_FONT_FAMILY } from '../constants';
+import config from '../../config';
 
 export default createGlobalStyle`
   :root{
@@ -8,8 +9,8 @@ export default createGlobalStyle`
   }
 
   @font-face {
-    font-family: time_font;
-    src: url('${TIME_FONT_PATH}');
+    font-family: ${TIME_FONT_FAMILY};
+    src: url('${config.time_font_path}');
   }
 
   * {
