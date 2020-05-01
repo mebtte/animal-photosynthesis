@@ -2,6 +2,8 @@
 title: '基于 Node.js 的 WebFont 解决方案'
 create: '2019-03-10'
 updates:
+  - time: '2020-05-01'
+    description: '移除PS'
 outdated: ''
 hidden: false
 ---
@@ -87,7 +89,9 @@ export default async (ctx) => {
     return;
   }
 
-  const fontmin = new Fontmin().src(`${FONT_DIR}/${font}.ttf`).use(Fontmin.glyph({ text }));
+  const fontmin = new Fontmin()
+    .src(`${FONT_DIR}/${font}.ttf`)
+    .use(Fontmin.glyph({ text }));
 
   // fontmin没有提供promise的方法调用，这里封装一下
   const content = await new Promise((resolve, reject) => {
@@ -122,7 +126,8 @@ const FONT_DIR = path.join(__dirname, 'font dir'); // 存放原始字体的目�
 const SUB_FONT_DIR = path.join(__dirname, 'sub font dir'); // 子集字体的目录
 
 // 判断文件是否存在
-const access = (filename) => new Promise((resolve) => fs.access(filename, (error) => resolve(!error)));
+const access = (filename) =>
+  new Promise((resolve) => fs.access(filename, (error) => resolve(!error)));
 const writeFile = util.promisify(fs.writeFile);
 
 export default async (ctx) => {
@@ -143,7 +148,9 @@ export default async (ctx) => {
   const cacheFile = `${SUB_FONT_DIR}/${font}_${md5}.ttf`;
   const exist = await access(cacheFile);
   if (!exist) {
-    const fontmin = new Fontmin().src(`${FONT_DIR}/${font}.ttf`).use(Fontmin.glyph({ text }));
+    const fontmin = new Fontmin()
+      .src(`${FONT_DIR}/${font}.ttf`)
+      .use(Fontmin.glyph({ text }));
     const content = await new Promise((resolve, reject) => {
       fontmin.run((error, files) => {
         if (error) {
@@ -186,7 +193,9 @@ window.addEventListener('onload', () => {
   style.innerHTML = `
     @font-face {
       font-family: ${font};
-      src: url("https://example.com/api/font?font=${font}&text=${encodeURIComponent(text)}");
+      src: url("https://example.com/api/font?font=${font}&text=${encodeURIComponent(
+    text,
+  )}");
     }
     html {
       font-family: ${font};
@@ -220,13 +229,11 @@ const style = document.createElement('style');
 style.innerHTML = `
   @font-face {
     font-family: ${fontFamily};
-    src: url("https://example.com/api/font?font=${font}&text=${encodeURIComponent(text)}");
+    src: url("https://example.com/api/font?font=${font}&text=${encodeURIComponent(
+  text,
+)}");
   }
 `;
 document.head.appendChild(style);
 node.style.fontFamily = fontFamily;
 ```
-
-## PS
-
-顺便提一下，[article.mebtte.com](https://article.mebtte.com) 就使用了上面这种方案加载自定义字体，你可以在`devtools`中查看到。
