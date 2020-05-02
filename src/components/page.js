@@ -22,16 +22,29 @@ const Page = ({ children, ...props }) => {
   const setDarkModeWrapper = useCallback((m) => {
     if (m) {
       localStorage.setItem(STORAGE_KEY.DARK_MODE, 1);
-      document.body.className = 'dark';
     } else {
       localStorage.removeItem(STORAGE_KEY.DARK_MODE);
-      document.body.className = '';
     }
     return setDarkMode(m);
   }, []);
 
   useEffect(() => {
+    if (darkMode) {
+      document.body.className = 'dark';
+    } else {
+      document.body.className = '';
+    }
+  }, [darkMode]);
+  useEffect(() => {
     setDarkMode(!!localStorage.getItem(STORAGE_KEY.DARK_MODE));
+    const storageChange = (event) => {
+      const { key, newValue } = event;
+      if (key === STORAGE_KEY.DARK_MODE) {
+        setDarkMode(!!newValue);
+      }
+    };
+    window.addEventListener('storage', storageChange);
+    return () => window.removeEventListener('storage', storageChange);
   }, []);
 
   return (
