@@ -1,10 +1,8 @@
 import React from 'react';
 import Types from 'prop-types';
 
-import Section from './section';
-
 const Updates = ({ updates }) => (
-  <Section>
+  <>
     <h2>更新</h2>
     <table>
       <tbody>
@@ -17,11 +15,10 @@ const Updates = ({ updates }) => (
         ))}
       </tbody>
     </table>
-  </Section>
+  </>
 );
 Updates.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  updates: Types.object.isRequired,
+  updates: Types.arrayOf(Types.object).isRequired,
 };
 
 export default Updates;

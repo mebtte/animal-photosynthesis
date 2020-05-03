@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 const path = require('path');
 const fs = require('fs');
 const util = require('util');
@@ -7,6 +8,7 @@ const mkdir = require('mkdirp');
 const fontmin = require('./node/utils/fontmin');
 const config = require('./config');
 const { INTERACTION_TEXT } = require('./src/templates/article/constants');
+const transformImg = require('./node/utils/transform_img');
 
 const readFile = util.promisify(fs.readFile);
 const FONT_PATH = path.join(__dirname, './public/font');
@@ -15,7 +17,7 @@ if (!fs.existsSync(FONT_PATH)) {
   mkdir.sync(FONT_PATH);
 }
 
-exports.createPages = async ({ actions, graphql, reporter }) => {
+exports.createPages = async ({ actions, graphql }) => {
   const { createPage } = actions;
   const template = path.resolve('src/templates/article/index.js');
   const result = await graphql(`
@@ -33,30 +35,34 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
                 description
               }
             }
-            html
             htmlAst
           }
         }
       }
     }
   `);
-  if (result.errors) {
-    reporter.panicOnBuild(`Error while running GraphQL query.`);
-    return;
-  }
+
   let allArticleTitle = '';
   // eslint-disable-next-line no-restricted-syntax
   for (const edge of result.data.allMarkdownRemark.edges) {
-    const { fileAbsolutePath, frontmatter, html, htmlAst } = edge.node;
+    const { fileAbsolutePath, frontmatter, htmlAst } = edge.node;
     const { title } = frontmatter;
     const dirs = fileAbsolutePath.split('/');
     const id = dirs[dirs.length - 2];
-    createPage({
-      path: id,
-      component: template,
-      context: { id, frontmatter, html, htmlAst },
-    });
-    // 生成每篇文章的字体
+
+    const pagePath = path.join(__dirname, `./public/${id}`);
+    if (!fs.existsSync(pagePath)) {
+      mkdir.sync(pagePath);
+    }
+
+    /**
+     * 处理文章的图片
+     * 1. 同步处理产生md5
+     * 2. 复制到public目录
+     */
+    const newHtmlAst = await transformImg({ id, ast: htmlAst });
+
+    // 生成文章的字体
     readFile(path.join(__dirname, `./articles/${id}/index.md`)).then((data) =>
       fontmin({
         fontPath: path.join(
@@ -70,6 +76,12 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
         text: data.toString() + Object.values(INTERACTION_TEXT).join(''),
       }),
     );
+
+    await createPage({
+      path: id,
+      component: template,
+      context: { id, frontmatter, htmlAst: newHtmlAst },
+    });
 
     allArticleTitle += title;
   }

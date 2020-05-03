@@ -18,13 +18,6 @@ module.exports = {
       resolve: 'gatsby-transformer-remark',
       options: {
         plugins: [
-          {
-            resolve: 'gatsby-remark-images',
-            options: {
-              maxWidth: 800,
-              wrapperStyle: 'margin: 20px 0;',
-            },
-          },
           'gatsby-remark-responsive-iframe',
           {
             resolve: 'gatsby-remark-prismjs',
@@ -32,16 +25,7 @@ module.exports = {
               inlineCodeMarker: '÷',
             },
           },
-          {
-            resolve: 'gatsby-remark-external-links',
-            options: {
-              target: '_blank',
-            },
-          },
           'gatsby-remark-smartypants',
-          'gatsby-remark-copy-linked-files',
-          'gatsby-plugin-sitemap',
-          'gatsby-remark-autolink-headers', // should be listed last
         ],
       },
     },

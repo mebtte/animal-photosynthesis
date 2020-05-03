@@ -76,10 +76,7 @@ styled.a`
 
 <iframe
   src="https://codesandbox.io/embed/hopeful-meitner-5lbw5?fontsize=14&hidenavigation=1&theme=dark"
-  style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
   title="styled_components_with_props"
-  allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb"
-  sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
 ></iframe>
 
 题外话, 上面 styled.[tagName]\`样式\` 写法其实是模板字符串一种叫做 `tagged template` 的用法, 比如
@@ -133,20 +130,14 @@ const Container = styled.div`
 
 <iframe
   src="https://codesandbox.io/embed/infinite-class-name-yd3w1?fontsize=14&hidenavigation=1&theme=dark"
-  style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
   title="infinite-class-name"
-  allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb"
-  sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
 ></iframe>
 
 styled-components 还可用来修改已有组件的样式, 比如需要在一些公用组件的基础上修改样式或者第三方组件库, 通过 styled-components 我们不需要插入 className 或者 style 属性的方式可以对样式进行修改, 以 antd 作为例子
 
 <iframe
   src="https://codesandbox.io/embed/silly-davinci-9qke3?fontsize=14&hidenavigation=1&theme=dark"
-  style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
   title="styled-other-component"
-  allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb"
-  sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
 ></iframe>
 
 因为 styled-components 是通过模板字符串创建样式, 所以编辑器会把样式当做普通字符串处理. 这时需要安装额外的插件, 比如在 vscode 中 [vscode-styled-components](https://github.com/styled-components/vscode-styled-components) 插件可以高亮 styled-components 中的样式以及支持输入提示, 配合 [prettier](https://prettier.io/) 可以做到自动格式化.
@@ -187,10 +178,7 @@ hook 包含了 `useState`, `useEffect`, `useContext`, `useReducer`, `useCallback
 
 <iframe
   src="https://codesandbox.io/embed/dry-shape-ymg5s?fontsize=14&hidenavigation=1&theme=dark"
-  style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
   title="use_state"
-  allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb"
-  sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
 ></iframe>
 
 可以思考下[为什么 useState 返回一个数组](https://reactjs.org/docs/hooks-state.html#tip-what-do-square-brackets-mean)?
