@@ -7,17 +7,27 @@ function astRenderer(ast, key) {
   }
   if (type === 'element') {
     delete properties.style;
+    delete properties.dataLanguage;
 
     // lazy loading iframe/img
     if (tagName === 'iframe' || tagName === 'img') {
       properties.loading = 'lazy';
     }
 
+    if (
+      tagName === 'p' &&
+      children &&
+      children.length === 1 &&
+      children[0].tagName === 'img'
+    ) {
+      return astRenderer(children[0]);
+    }
     if (tagName === 'a') {
       return createElement(
         'a',
         {
           ...properties,
+          key,
           target: '_blank',
           rel: 'noopener noreferer',
         },
@@ -27,18 +37,23 @@ function astRenderer(ast, key) {
       );
     }
     if (tagName === 'img') {
-      return createElement('figure', null, [
+      return createElement('figure', { key: Math.random().toString() }, [
         createElement('img', {
           ...properties,
           title: properties.alt || '',
           onClick: () => window.open(properties.src),
+          key: 'img',
         }),
-        createElement('figcaption', null, properties.alt || ''),
+        createElement(
+          'figcaption',
+          { key: 'description' },
+          properties.alt || '',
+        ),
       ]);
     }
     return createElement(
       tagName,
-      { key, ...properties },
+      { ...properties, key },
       children && children.length
         ? children.map((child, index) => astRenderer(child, index))
         : null,

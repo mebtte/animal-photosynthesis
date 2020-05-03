@@ -2,10 +2,7 @@ import React from 'react';
 import Types from 'prop-types';
 import { Helmet } from 'react-helmet';
 
-import config from '../../../config';
-
-const Font = ({ id }) => {
-  const fontPath = config.article_font_path.replace('${id}', id);
+const Font = ({ id, fontPath }) => {
   return (
     <Helmet>
       <link rel="preload" href={fontPath} as="font" crossOrigin="anonymous" />
@@ -32,6 +29,7 @@ const Font = ({ id }) => {
 };
 Font.propTypes = {
   id: Types.string.isRequired,
+  fontPath: Types.string.isRequired,
 };
 
 export default Font;

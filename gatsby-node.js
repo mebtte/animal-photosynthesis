@@ -5,14 +5,15 @@ const util = require('util');
 
 const mkdir = require('mkdirp');
 
+const md5 = require('./node/utils/md5');
 const fontmin = require('./node/utils/fontmin');
 const config = require('./config');
 const { INTERACTION_TEXT } = require('./src/templates/article/constants');
 const transformImg = require('./node/utils/transform_img');
 
 const readFile = util.promisify(fs.readFile);
-const FONT_PATH = path.join(__dirname, './public/font');
 
+const FONT_PATH = path.join(__dirname, './public/font');
 if (!fs.existsSync(FONT_PATH)) {
   mkdir.sync(FONT_PATH);
 }
@@ -63,24 +64,24 @@ exports.createPages = async ({ actions, graphql }) => {
     const newHtmlAst = await transformImg({ id, ast: htmlAst });
 
     // 生成文章的字体
-    readFile(path.join(__dirname, `./articles/${id}/index.md`)).then((data) =>
-      fontmin({
-        fontPath: path.join(
-          __dirname,
-          './node/assets/font/ping_fang_chang_gui_ti.ttf',
-        ),
-        targetFilename: path.join(
-          __dirname,
-          `./public${config.article_font_path.replace('${id}', id)}`,
-        ),
-        text: data.toString() + Object.values(INTERACTION_TEXT).join(''),
-      }),
+    const textData = await readFile(
+      path.join(__dirname, `./articles/${id}/index.md`),
     );
+    const textMd5 = md5(textData);
+    const fontPath = `/font/${textMd5}.ttf`;
+    await fontmin({
+      fontPath: path.join(
+        __dirname,
+        './node/assets/font/ping_fang_chang_gui_ti.ttf',
+      ),
+      targetFilename: path.join(__dirname, `./public${fontPath}`),
+      text: textData.toString() + Object.values(INTERACTION_TEXT).join(''),
+    });
 
     await createPage({
       path: id,
       component: template,
-      context: { id, frontmatter, htmlAst: newHtmlAst },
+      context: { id, frontmatter, htmlAst: newHtmlAst, fontPath },
     });
 
     allArticleTitle += title;
