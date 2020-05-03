@@ -7,7 +7,7 @@ import { INTERACTION_TEXT } from './constants';
 
 const Style = styled.p`
   font-size: 12px !important;
-  margin: 30px 0;
+  margin: 30px 0 !important;
   > .link-wrapper {
     &:not(:last-child)::after {
       content: ' · ';
@@ -15,7 +15,7 @@ const Style = styled.p`
   }
 `;
 
-const Share = ({ id, title }) => (
+const Interaction = ({ id, title }) => (
   <Style>
     <span className="link-wrapper">
       <a
@@ -44,9 +44,9 @@ const Share = ({ id, title }) => (
     </span>
   </Style>
 );
-Share.propTypes = {
+Interaction.propTypes = {
   id: Types.string.isRequired,
   title: Types.string.isRequired,
 };
 
-export default Share;
+export default Interaction;
