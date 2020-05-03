@@ -5,12 +5,13 @@ import { Helmet } from 'react-helmet';
 
 import config from '../../../config';
 import { TIME_FONT_FAMILY } from '../../constants';
+import astRenderer from './ast_renderer';
 
 import Page from '../../components/page';
 import Header from '../../components/header';
 import Footer from '../../components/footer';
 import Font from './font';
-import Section from './section';
+import Content from './content';
 import Updates from './updates';
 import Interaction from './interaction';
 
@@ -36,15 +37,6 @@ function findFirstImgFromAst(ast) {
   return null;
 }
 
-const Article = styled.article`
-  margin: 20px;
-`;
-const Title = styled.h1`
-  font-family: ${({ id }) => id}_font;
-  font-size: 24px;
-  margin: 10px 0;
-  color: var(--normal-color);
-`;
 const Time = styled.time`
   font-family: ${TIME_FONT_FAMILY};
   font-size: 14px;
@@ -52,9 +44,9 @@ const Time = styled.time`
 `;
 
 const Wrapper = ({ pageContext }) => {
-  const { id, html, htmlAst, frontmatter } = pageContext;
+  const { id, htmlAst, frontmatter } = pageContext;
   const { create, outdated, title, updates } = frontmatter;
-  const firstImg = findFirstImgFromAst(htmlAst);
+  const img = findFirstImgFromAst(htmlAst);
   return (
     <Page>
       <Helmet>
@@ -65,8 +57,8 @@ const Wrapper = ({ pageContext }) => {
         <meta
           property="og:image"
           content={
-            firstImg
-              ? `${config.site}/${firstImg.properties.src}`
+            img
+              ? `${config.site}${img.properties.src}`
               : `${config.site}/logo.png`
           }
         />
@@ -76,23 +68,15 @@ const Wrapper = ({ pageContext }) => {
       </Helmet>
       <Font id={id} />
       <Header />
-      <main>
-        <Article>
-          <header>
-            <Title id={id}>{title}</Title>
-            <Time datetime={create}>{create}</Time>
-          </header>
-          <Section
-            id={id}
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{
-              __html: html,
-            }}
-          />
-          {updates ? <Updates updates={updates} /> : null}
-          <Interaction id={id} title={title} />
-        </Article>
-      </main>
+      <Content id={id}>
+        <header>
+          <h1>{title}</h1>
+          <Time datetime={create}>{create}</Time>
+        </header>
+        {astRenderer(htmlAst)}
+        {updates ? <Updates updates={updates} /> : null}
+        <Interaction id={id} title={title} />
+      </Content>
       <Footer />
     </Page>
   );

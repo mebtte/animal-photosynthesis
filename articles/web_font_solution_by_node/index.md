@@ -4,7 +4,7 @@ create: '2019-03-10'
 updates:
   - time: '2020-05-01'
     description: '移除PS'
-outdated: ''
+outdated: 'fontmin项目疑似已停止维护, 请采用其他方案'
 hidden: false
 ---
 
@@ -13,13 +13,13 @@ CSS3 中的`@font-face`提供了自定义字体的功能，可以使网页不局
 像英文这类的语言来说，字体文件包含非常少的字符，所以一个字体文件会非常的小。
 我随便下载了几份英文字体
 
-![](./english_font_size.png)
+![英文字体大小](./english_font_size.png)
 
 除了一些字库特别丰富的一些字体外，大部分的英文字体文件都是在 100KB 以内。
 但是对于中文这类包含非常多字符的语言来说，就没有办法保证字体文件的大小了。
 比如汉字，[常用的就有三千多个](https://www.zhihu.com/question/20767273)。
 
-![](./chinese_font_size.png)
+![中文字体大小](./chinese_font_size.png)
 
 下载了几份中文字体，都超过 1MB，一些字库丰富的字体可以超过 10MB。
 对于一个几十 KB 或几百 KB 的网页来说，加载几个 MB 的字体文件肯定是不划算的。
@@ -27,7 +27,7 @@ CSS3 中的`@font-face`提供了自定义字体的功能，可以使网页不局
 
 但是，换一个角度想，虽然一个中文字体包含了几千个常用字，但一个网页去掉重复字的情况下，往往只包含数十个到数百个字，那加载一个完整包含数千个字的字体文件是否有必要呢？能不能只加载网页需要的字体？一能减小加字体文件的大小，二能保证字体加载的速度。
 
-## [有字库](https://www.webfont.com)
+## 有字库
 
 对于上面两个问题，[有字库](https://www.webfont.com)是一种解决方案，但是对于我来说存在一些问题
 
@@ -38,7 +38,7 @@ CSS3 中的`@font-face`提供了自定义字体的功能，可以使网页不局
 
 ---
 
-## [fontmin](https://github.com/ecomfe/fontmin)
+## fontmin
 
 [fontmin](https://github.com/ecomfe/fontmin) 是 [efe](https://efe.baidu.com/) 开发的一个 npm 包，能够提取字体中需要的字体子集。
 
