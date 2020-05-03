@@ -3,8 +3,7 @@ const util = require('util');
 const path = require('path');
 
 const mkdir = require('mkdirp');
-
-const md5 = require('./md5');
+const md5 = require('md5');
 
 const readFile = util.promisify(fs.readFile);
 const writeFile = util.promisify(fs.writeFile);

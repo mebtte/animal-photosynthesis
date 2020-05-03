@@ -2,10 +2,15 @@ import React from 'react';
 import Types from 'prop-types';
 import { Helmet } from 'react-helmet';
 
-const Font = ({ id, fontPath }) => {
+const Font = ({ id, articleFontPath }) => {
   return (
     <Helmet>
-      <link rel="preload" href={fontPath} as="font" crossOrigin="anonymous" />
+      <link
+        rel="preload"
+        href={articleFontPath}
+        as="font"
+        crossOrigin="anonymous"
+      />
       <link
         rel="preload"
         href="/font/fira_code.woff2"
@@ -16,7 +21,7 @@ const Font = ({ id, fontPath }) => {
         {`
             @font-face {
               font-family: ${id}_font;
-              src: url('${fontPath}');
+              src: url('${articleFontPath}');
             }
             @font-face {
               font-family: fira_code;
@@ -29,7 +34,7 @@ const Font = ({ id, fontPath }) => {
 };
 Font.propTypes = {
   id: Types.string.isRequired,
-  fontPath: Types.string.isRequired,
+  articleFontPath: Types.string.isRequired,
 };
 
 export default Font;

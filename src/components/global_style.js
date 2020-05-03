@@ -1,17 +1,14 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle, css } from 'styled-components';
 
 import { TIME_FONT_FAMILY } from '../constants';
-import config from '../../config';
 
 export default createGlobalStyle`
-  :root{
-    --transition-duration: 0.3s;
-  }
-
-  @font-face {
-    font-family: ${TIME_FONT_FAMILY};
-    src: url('${config.time_font_path}');
-  }
+  ${({ timeFontPath }) => css`
+    @font-face {
+      font-family: ${TIME_FONT_FAMILY};
+      src: url('${timeFontPath}');
+    }
+  `}
 
   * {
     box-sizing: border-box;
@@ -19,6 +16,7 @@ export default createGlobalStyle`
 
   body {
     --border-radius: 2px;
+    --transition-duration: 0.3s;
 
     --primary-color: rgb(237, 106, 94);
     --normal-color: #333;

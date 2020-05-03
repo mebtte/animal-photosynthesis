@@ -44,11 +44,11 @@ const Time = styled.time`
 `;
 
 const Wrapper = ({ pageContext }) => {
-  const { id, htmlAst, frontmatter, fontPath } = pageContext;
+  const { id, htmlAst, frontmatter, font } = pageContext;
   const { create, outdated, title, updates } = frontmatter;
   const img = findFirstImgFromAst(htmlAst);
   return (
-    <Page>
+    <Page timeFontPath={font.time}>
       <Helmet>
         <meta name="description" content={title} />
         <meta property="og:title" content={`${title} - ${config.title}`} />
@@ -66,8 +66,8 @@ const Wrapper = ({ pageContext }) => {
           {title} - {config.title}
         </title>
       </Helmet>
-      <Font id={id} fontPath={fontPath} />
-      <Header />
+      <Font id={id} articleFontPath={font.article} />
+      <Header titleFontPath={font.title} />
       <Content id={id}>
         <header>
           <h1>{title}</h1>
@@ -77,7 +77,7 @@ const Wrapper = ({ pageContext }) => {
         {updates ? <Updates updates={updates} /> : null}
         <Interaction id={id} title={title} />
       </Content>
-      <Footer />
+      <Footer fontPath={font.footer} />
     </Page>
   );
 };

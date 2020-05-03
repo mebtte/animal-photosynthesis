@@ -1,29 +1,30 @@
 import React from 'react';
-import styled from 'styled-components';
+import Types from 'prop-types';
+import styled, { css } from 'styled-components';
 import { Helmet } from 'react-helmet';
 
 import config from '../../config';
 
 const Style = styled.span`
-  @font-face {
-    font-family: title_font;
-    src: url('${config.title_font_path}');
-  }
+  ${({ fontPath }) => css`
+    @font-face {
+      font-family: title_font;
+      src: url('${fontPath}');
+    }
+  `}
   font-family: title_font;
 `;
 
-const Title = () => (
+const Title = ({ fontPath }) => (
   <>
     <Helmet>
-      <link
-        rel="preload"
-        href={config.title_font_path}
-        as="font"
-        crossOrigin="anonymous"
-      />
+      <link rel="preload" href={fontPath} as="font" crossOrigin="anonymous" />
     </Helmet>
-    <Style>{config.title}</Style>
+    <Style fontPath={fontPath}>{config.title}</Style>
   </>
 );
+Title.propTypes = {
+  fontPath: Types.string.isRequired,
+};
 
 export default Title;

@@ -1,16 +1,19 @@
 import React from 'react';
-import styled from 'styled-components';
+import Types from 'prop-types';
+import styled, { css } from 'styled-components';
 import { Helmet } from 'react-helmet';
 
-import config from '../../config';
+const FONT_FAMILY = 'footer_font';
 
 const Style = styled.footer`
-@font-face {
-    font-family: footer_font;
-  src: url('${config.footer_font_path}');
-  }
-  font-family: footer_font;
+  ${({ fontPath }) => css`
+    @font-face {
+      font-family: ${FONT_FAMILY};
+      src: url('${fontPath}');
+    }
+  `}
 
+  font-family: ${FONT_FAMILY};
   margin: 40px 20px;
   font-size: 12px;
   color: var(--secondary-color);
@@ -19,15 +22,10 @@ const Style = styled.footer`
   }
 `;
 
-const Footer = () => (
-  <Style>
+const Footer = ({ fontPath }) => (
+  <Style fontPath={fontPath}>
     <Helmet>
-      <link
-        rel="preload"
-        href={config.footer_font_path}
-        as="font"
-        crossOrigin="anonymous"
-      />
+      <link rel="preload" href={fontPath} as="font" crossOrigin="anonymous" />
     </Helmet>
     ©&nbsp;2020&nbsp;
     <a
@@ -40,5 +38,8 @@ const Footer = () => (
     </a>
   </Style>
 );
+Footer.propTypes = {
+  fontPath: Types.string.isRequired,
+};
 
 export default Footer;

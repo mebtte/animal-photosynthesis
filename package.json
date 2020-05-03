@@ -20,6 +20,7 @@
     "gatsby-source-filesystem": "^2.1.9",
     "gatsby-transformer-remark": "^2.6.15",
     "gatsby-transformer-sharp": "^2.2.6",
+    "md5": "^2.2.1",
     "mkdirp": "^1.0.4",
     "prettier": "^1.18.2",
     "prismjs": "^1.17.1",

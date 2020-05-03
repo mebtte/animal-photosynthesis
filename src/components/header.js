@@ -47,7 +47,7 @@ const IconWrapper = styled.span`
   cursor: pointer;
 `;
 
-const Header = ({ main }) => {
+const Header = ({ main, titleFontPath }) => {
   const { darkMode, setDarkMode } = useContext(DarkModeContext);
 
   /**
@@ -65,13 +65,13 @@ const Header = ({ main }) => {
       {main ? (
         <h1>
           <a href="/">
-            <Title />
+            <Title fontPath={titleFontPath} />
           </a>
         </h1>
       ) : (
         <h3>
           <a href="/">
-            <Title />
+            <Title fontPath={titleFontPath} />
           </a>
         </h3>
       )}
@@ -102,6 +102,7 @@ const Header = ({ main }) => {
 };
 Header.propTypes = {
   main: Types.bool,
+  titleFontPath: Types.string.isRequired,
 };
 Header.defaultProps = {
   main: false,

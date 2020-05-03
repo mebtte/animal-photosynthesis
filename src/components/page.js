@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { Helmet } from 'react-helmet';
 
 import { STORAGE_KEY } from '../constants';
-import config from '../../config';
 
 import GlobalStyle from './global_style';
 import DarkModeContext from '../context/dark_mode_context';
@@ -17,7 +16,7 @@ const Style = styled.div`
   margin: 0 auto;
 `;
 
-const Page = ({ children, ...props }) => {
+const Page = ({ timeFontPath, children, ...props }) => {
   const [darkMode, setDarkMode] = useState(false);
   const setDarkModeWrapper = useCallback((m) => {
     if (m) {
@@ -53,18 +52,19 @@ const Page = ({ children, ...props }) => {
         <Helmet>
           <link
             rel="preload"
-            href={config.time_font_path}
+            href={timeFontPath}
             as="font"
             crossOrigin="anonymous"
           />
         </Helmet>
-        <GlobalStyle />
+        <GlobalStyle timeFontPath={timeFontPath} />
         {children}
       </Style>
     </Provider>
   );
 };
 Page.propTypes = {
+  timeFontPath: Types.string.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   children: Types.any,
 };
