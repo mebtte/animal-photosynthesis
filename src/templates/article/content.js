@@ -52,9 +52,11 @@ export default styled.article`
   pre {
     margin: 20px 0;
     border-radius: var(--border-radius);
-    font-size: 14px;
     overflow: auto;
-    font-family: fira_code;
+    > code {
+      font-family: fira_code !important;
+      font-size: 14px;
+    }
   }
 
   a {
