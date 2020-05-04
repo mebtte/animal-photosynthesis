@@ -36,6 +36,6 @@ npm run serve
 
 ## 问题
 
-### `npm run dev` / `npm run build` 出错
+### 执行 `npm run dev` / `npm run build` 出错
 
-> 尝试删除 `.cache` / `public` 目录重新运行
+> 尝试执行 `npm run clean` 或者删除 `.cache` / `public` 目录后重新执行

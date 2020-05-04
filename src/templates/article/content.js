@@ -46,6 +46,8 @@ export default styled.article`
       border-radius: var(--border-radius);
       background: rgba(237, 106, 94, 0.3);
       color: inherit;
+      font-family: fira_code;
+      text-shadow: none !important;
     }
   }
 
@@ -56,6 +58,7 @@ export default styled.article`
     > code {
       font-family: fira_code !important;
       font-size: 14px;
+      text-shadow: none !important;
     }
   }
 
@@ -91,6 +94,12 @@ export default styled.article`
       max-width: 100%;
       cursor: pointer;
     }
+    > iframe {
+      width: 100%;
+      min-height: 500px;
+      border: none;
+      border-radius: var(--border-radius);
+    }
     > figcaption {
       font-size: 12px;
       color: var(--secondary-color);
@@ -101,14 +110,6 @@ export default styled.article`
   ul,
   ol {
     margin: 20px 0;
-  }
-
-  iframe {
-    margin: 20px 0;
-    width: 100%;
-    min-height: 500px;
-    border: none;
-    border-radius: var(--border-radius);
   }
 
   blockquote {

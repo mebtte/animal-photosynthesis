@@ -1,6 +1,6 @@
 import { createElement } from 'react';
 
-function astRenderer(ast, key) {
+function astRenderer(ast, key = Math.random().toString()) {
   const { type, value, tagName, properties, children } = ast;
   if (type === 'root') {
     return children.map((child, index) => astRenderer(child, index));
@@ -18,6 +18,16 @@ function astRenderer(ast, key) {
       properties.loading = 'lazy';
     }
 
+    if (tagName === 'iframe') {
+      return createElement('figure', { key }, [
+        createElement('iframe', { ...properties, key: 'iframe' }, null),
+        createElement(
+          'figcaption',
+          { key: 'description' },
+          properties.title || '',
+        ),
+      ]);
+    }
     if (
       tagName === 'div' &&
       children &&
@@ -49,7 +59,7 @@ function astRenderer(ast, key) {
       );
     }
     if (tagName === 'img') {
-      return createElement('figure', { key: Math.random().toString() }, [
+      return createElement('figure', { key }, [
         createElement('img', {
           ...properties,
           title: properties.alt || '',
