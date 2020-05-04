@@ -2,6 +2,7 @@ import React from 'react';
 import Types from 'prop-types';
 import styled from 'styled-components';
 import { Helmet } from 'react-helmet';
+import 'prismjs/themes/prism-okaidia.css';
 
 import config from '../../../config';
 import { TIME_FONT_FAMILY } from '../../constants';

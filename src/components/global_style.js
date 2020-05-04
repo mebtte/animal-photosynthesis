@@ -22,7 +22,7 @@ export default createGlobalStyle`
     --normal-color: #333;
     --secondary-color: #888;
     --tertiary-color: #ddd;
-    --backgroud: #eee;
+    --backgroud: rgb(250, 250, 250);
     background-color: var(--backgroud);
     transition: background-color var(--transition-duration);
 

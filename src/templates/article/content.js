@@ -45,19 +45,15 @@ export default styled.article`
       padding: 0 4px;
       border-radius: var(--border-radius);
       background: rgba(237, 106, 94, 0.3);
+      color: inherit;
     }
   }
 
   pre {
     margin: 20px 0;
-    padding: 20px;
     border-radius: var(--border-radius);
-    background: var(--tertiary-color);
     font-size: 14px;
     overflow: auto;
-  }
-
-  code {
     font-family: fira_code;
   }
 

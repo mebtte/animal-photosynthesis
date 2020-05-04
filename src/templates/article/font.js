@@ -19,15 +19,15 @@ const Font = ({ id, articleFontPath }) => {
       />
       <style>
         {`
-            @font-face {
-              font-family: ${id}_font;
-              src: url('${articleFontPath}');
-            }
-            @font-face {
-              font-family: fira_code;
-              src: url('/font/fira_code.woff2');
-            }
-          `}
+          @font-face {
+            font-family: ${id}_font;
+            src: url('${articleFontPath}');
+          }
+          @font-face {
+            font-family: fira_code;
+            src: url('/font/fira_code.woff2');
+          }
+        `}
       </style>
     </Helmet>
   );

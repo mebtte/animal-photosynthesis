@@ -9,11 +9,23 @@ function astRenderer(ast, key) {
     delete properties.style;
     delete properties.dataLanguage;
 
+    if (properties.className && Array.isArray(properties.className)) {
+      properties.className = properties.className.join(' ');
+    }
+
     // lazy loading iframe/img
     if (tagName === 'iframe' || tagName === 'img') {
       properties.loading = 'lazy';
     }
 
+    if (
+      tagName === 'div' &&
+      children &&
+      children.length === 1 &&
+      children[0].tagName === 'pre'
+    ) {
+      return astRenderer(children[0]);
+    }
     if (
       tagName === 'p' &&
       children &&
