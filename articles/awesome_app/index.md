@@ -2,7 +2,6 @@
 title: 'Awesome APP'
 create: '0000-00-00'
 updates:
-outdated: ''
 hidden: true
 ---
 

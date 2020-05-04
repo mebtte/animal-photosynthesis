@@ -3,8 +3,7 @@ title: '基于 Node.js 的 WebFont 解决方案'
 create: '2019-03-10'
 updates:
   - time: '2020-05-01'
-    description: '移除PS'
-outdated: 'fontmin项目疑似已停止维护, 请采用其他方案'
+    description: 'fontmin项目疑似已停止维护, 请采用其他方案'
 hidden: false
 ---
 

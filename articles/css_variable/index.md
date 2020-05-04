@@ -2,7 +2,6 @@
 title: 'CSS 变量'
 create: '2019-10-23'
 updates:
-outdated: ''
 hidden: false
 ---
 

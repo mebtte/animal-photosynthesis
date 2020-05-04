@@ -8,7 +8,7 @@ const md5 = require('md5');
 
 const fontmin = require('./node/utils/fontmin');
 const config = require('./config');
-const { INTERACTION_TEXT } = require('./src/templates/article/constants');
+const { TEXT } = require('./src/templates/article/constants');
 const transformImg = require('./node/utils/transform_img');
 
 const readFile = util.promisify(fs.readFile);
@@ -61,7 +61,6 @@ exports.createPages = async ({ actions: { createPage }, graphql }) => {
             fileAbsolutePath
             frontmatter {
               create
-              outdated
               title
               updates {
                 time
@@ -108,7 +107,7 @@ exports.createPages = async ({ actions: { createPage }, graphql }) => {
         './node/assets/font/ping_fang_chang_gui_ti.ttf',
       ),
       targetFilename: path.join(__dirname, 'public', articleFontPath),
-      text: textData.toString() + Object.values(INTERACTION_TEXT).join(''),
+      text: textData.toString() + Object.values(TEXT).join(''),
     });
 
     await createPage({

@@ -2,7 +2,6 @@
 title: '我是如何维权失败的'
 create: '2020-01-18'
 updates:
-outdated: ''
 hidden: true
 ---
 

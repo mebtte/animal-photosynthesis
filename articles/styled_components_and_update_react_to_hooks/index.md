@@ -4,7 +4,6 @@ create: '2020-03-28'
 updates:
   - time: '2020-03-31'
     description: '移除部分 styled-components 高级 api 的内容'
-outdated: ''
 hidden: false
 ---
 

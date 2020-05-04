@@ -3,7 +3,7 @@ import Types from 'prop-types';
 import styled from 'styled-components';
 
 import config from '../../../config';
-import { INTERACTION_TEXT } from './constants';
+import { TEXT } from './constants';
 
 const Style = styled.p`
   font-size: 12px !important;
@@ -21,7 +21,7 @@ const Interaction = ({ id, title }) => (
       <a
         href={`https://github.com/mebtte/article/edit/master/articles/${id}/index.md`}
       >
-        {INTERACTION_TEXT.EDIT_IN_GITHUB}
+        {TEXT.EDIT_IN_GITHUB}
       </a>
     </span>
     <span className="link-wrapper">
@@ -30,7 +30,7 @@ const Interaction = ({ id, title }) => (
           `${title} - ${config.title}`,
         )}&url=${encodeURIComponent(`${config.site}/${id}`)}`}
       >
-        {INTERACTION_TEXT.SHARE_TO_TWITTER}
+        {TEXT.SHARE_TO_TWITTER}
       </a>
     </span>
     <span className="link-wrapper">
@@ -39,7 +39,7 @@ const Interaction = ({ id, title }) => (
           `${config.site}/${id}`,
         )}&title=${`${title} - ${config.title}`}`}
       >
-        {INTERACTION_TEXT.SHARE_TO_WEIBO}
+        {TEXT.SHARE_TO_WEIBO}
       </a>
     </span>
   </Style>

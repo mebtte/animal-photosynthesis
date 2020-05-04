@@ -2,7 +2,6 @@
 title: '在 React 中使用事件分离状态'
 create: '2020-01-15'
 updates:
-outdated: ''
 hidden: false
 ---
 
@@ -51,7 +50,10 @@ import React from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
 
 const LoginDialog = () => {
-  const visible = useSelector((state) => state.loginDialogVisible, shallowEqual);
+  const visible = useSelector(
+    (state) => state.loginDialogVisible,
+    shallowEqual,
+  );
   // ...
 
   return visible && <div>...</div>;
@@ -104,7 +106,9 @@ import { showLoginDialog } from 'path/reducer';
 
 export default () => {
   const dispatch = useDispatch();
-  const onShowLoginDialog = useCallback(() => dispatch(showLoginDialog()), [dispatch]);
+  const onShowLoginDialog = useCallback(() => dispatch(showLoginDialog()), [
+    dispatch,
+  ]);
   return onShowLoginDialog;
 };
 ```
@@ -194,7 +198,10 @@ import React, { useCallback } from 'react';
 import eventemitter, { TYPE } from 'path/eventemitter';
 
 const Component = () => {
-  const onShowLoginDialog = useCallback(() => eventemitter.emit(TYPE.SHOW_LOGIN_DIALOG), []);
+  const onShowLoginDialog = useCallback(
+    () => eventemitter.emit(TYPE.SHOW_LOGIN_DIALOG),
+    [],
+  );
 
   return (
     <button type="button" onClick={onShowLoginDialog}>

@@ -4,7 +4,6 @@ create: '0000-00-00'
 updates:
   - time: '0000-00-00'
     description: '增加HTTP CAT'
-outdated: ''
 hidden: true
 ---
 

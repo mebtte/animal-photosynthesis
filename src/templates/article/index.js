@@ -45,7 +45,7 @@ const Time = styled.time`
 
 const Wrapper = ({ pageContext }) => {
   const { id, htmlAst, frontmatter, font } = pageContext;
-  const { create, outdated, title, updates } = frontmatter;
+  const { create, title, updates } = frontmatter;
   const img = findFirstImgFromAst(htmlAst);
   return (
     <Page timeFontPath={font.time}>

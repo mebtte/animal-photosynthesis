@@ -4,7 +4,6 @@ create: '2019-05-01'
 updates:
   - time: '2020-05-02'
     description: '自定义AST Render'
-outdated: ''
 hidden: true
 ---
 

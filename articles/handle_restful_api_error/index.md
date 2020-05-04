@@ -2,7 +2,6 @@
 title: '如何处理 RESTFUL 数据异常导致的前端错误'
 create: '2019-05-30'
 updates:
-outdated: ''
 hidden: false
 ---
 
@@ -92,7 +91,11 @@ import axios from 'axios'; // 或 window.fetch
 
 const request = async (options) => {
   const response = await axios(options);
-  const { error_code: errorCode, error_message: errorMessage, data } = response.data;
+  const {
+    error_code: errorCode,
+    error_message: errorMessage,
+    data,
+  } = response.data;
   if (errorCode !== 0) {
     throw new Error(`${errorCode}:${errorMessage}`);
   }
