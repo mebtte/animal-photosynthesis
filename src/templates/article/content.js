@@ -44,8 +44,8 @@ export default styled.article`
     code {
       padding: 0 4px;
       border-radius: var(--border-radius);
-      background: rgba(237, 106, 94, 0.3);
-      color: inherit;
+      background: rgba(237, 106, 94, 0.3) !important;
+      color: inherit !important;
       font-family: fira_code;
       text-shadow: none !important;
     }
