@@ -1,6 +1,7 @@
 import React from 'react';
 import Types from 'prop-types';
 import styled from 'styled-components';
+import { Link } from 'gatsby';
 
 import { TIME_FONT_FAMILY } from '../../constants';
 import { TITLE_FONT_FAMILY } from './constants';
@@ -34,7 +35,7 @@ const Style = styled.li`
 const ArticleItem = ({ id, title, createTime }) => (
   <Style>
     <h2 className="title">
-      <a href={`/${id}`}>{title}</a>
+      <Link to={`/${id}`}>{title}</Link>
     </h2>
     <span className="time">{createTime}</span>
   </Style>

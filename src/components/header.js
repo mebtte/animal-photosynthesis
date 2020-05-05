@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import Types from 'prop-types';
 import styled, { keyframes } from 'styled-components';
+import { Link } from 'gatsby';
 
 import Title from './title';
 import DarkModeContext from '../context/dark_mode_context';
@@ -39,7 +40,11 @@ const Style = styled.header`
     font-size: 0;
   }
   > .mode {
-    animation: ${fadeIn} 1s;
+    opacity: 0;
+    animation-name: ${fadeIn};
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-delay: 1s;
   }
 `;
 const IconWrapper = styled.span`
@@ -53,15 +58,15 @@ const Header = ({ main, titleFontPath }) => {
     <Style>
       {main ? (
         <h1>
-          <a href="/">
+          <Link to="/">
             <Title fontPath={titleFontPath} />
-          </a>
+          </Link>
         </h1>
       ) : (
         <h3>
-          <a href="/">
+          <Link to="/">
             <Title fontPath={titleFontPath} />
-          </a>
+          </Link>
         </h3>
       )}
       {darkMode ? (
