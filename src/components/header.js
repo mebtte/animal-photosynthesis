@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import Types from 'prop-types';
 import styled, { keyframes } from 'styled-components';
 
@@ -49,17 +49,6 @@ const IconWrapper = styled.span`
 
 const Header = ({ main, titleFontPath }) => {
   const { darkMode, setDarkMode } = useContext(DarkModeContext);
-
-  /**
-   * 由于暗黑模式保存在浏览器, 所以暗黑模式在react初始化之前都是false
-   * 在暗黑模式下, 打开页面就会导致 月亮->太阳 的闪屏过程
-   * 通过延时渲染+渐入动画解决这个问题
-   */
-  const [modeVisible, setModeVisible] = useState(false);
-  useEffect(() => {
-    setTimeout(() => setModeVisible(true), 0);
-  }, []);
-
   return (
     <Style>
       {main ? (
@@ -75,18 +64,15 @@ const Header = ({ main, titleFontPath }) => {
           </a>
         </h3>
       )}
-      {/* eslint-disable-next-line no-nested-ternary */}
-      {modeVisible ? (
-        darkMode ? (
-          <IconWrapper className="mode">
-            <Sun onClick={() => setDarkMode(false)} />
-          </IconWrapper>
-        ) : (
-          <IconWrapper className="mode">
-            <Moon onClick={() => setDarkMode(true)} />
-          </IconWrapper>
-        )
-      ) : null}
+      {darkMode ? (
+        <IconWrapper className="mode">
+          <Sun onClick={() => setDarkMode(false)} />
+        </IconWrapper>
+      ) : (
+        <IconWrapper className="mode">
+          <Moon onClick={() => setDarkMode(true)} />
+        </IconWrapper>
+      )}
       <IconWrapper>
         <a href="/rss.xml" title="RSS">
           <Rss />
