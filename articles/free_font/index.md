@@ -20,9 +20,9 @@ hidden: true
 ### Fira Code
 
 ![ruby](./fira_code_ruby.png)
-![ruby](./fira_code_js.png)
-![ruby](./fira_code_go.png)
-![ruby](./fira_code_swift.png)
+![js](./fira_code_js.png)
+![go](./fira_code_go.png)
+![swift](./fira_code_swift.png)
 
 | 作者                                | 下载                                         | 备注 |
 | ----------------------------------- | -------------------------------------------- | ---- |
