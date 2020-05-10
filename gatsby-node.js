@@ -9,7 +9,7 @@ const md5 = require('md5');
 const fontmin = require('./node/utils/fontmin');
 const config = require('./config');
 const { TEXT } = require('./src/templates/article/constants');
-const transformImg = require('./node/utils/transform_img');
+const transformAsset = require('./node/utils/transform_asset');
 
 const readFile = util.promisify(fs.readFile);
 
@@ -89,11 +89,11 @@ exports.createPages = async ({ actions: { createPage }, graphql }) => {
     }
 
     /**
-     * 处理文章的图片
+     * 处理文章的静态资源
      * 1. 同步处理产生md5
      * 2. 复制到public目录
      */
-    const newHtmlAst = await transformImg({ id, ast: htmlAst });
+    const newHtmlAst = await transformAsset({ id, ast: htmlAst });
 
     // 生成文章的字体
     const textData = await readFile(
