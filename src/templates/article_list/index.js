@@ -23,7 +23,7 @@ const Wrapper = ({ pageContext }) => {
     <Page timeFontPath={font.time}>
       <Helmet>
         <title>{siteTitle}</title>
-        <meta name="description" content="Mebtte's writting." />
+        <meta name="description" content="Mebtte写的那些东西" />
         <meta property="og:title" content={siteTitle} />
         <meta property="og:type" content="article" />
         <meta property="og:url" content={config.site} />
