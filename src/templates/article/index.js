@@ -76,7 +76,7 @@ const Wrapper = ({ pageContext }) => {
         </header>
         {astRenderer(htmlAst)}
         {updates ? <Updates updates={updates} /> : null}
-        <Interaction id={id} title={title} />
+        <Interaction id={id} />
       </Content>
       <Footer fontPath={font.footer} />
     </Page>

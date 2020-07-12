@@ -7,7 +7,7 @@ export default styled.article`
   margin: 40px 20px;
 
   color: var(--normal-color);
-  line-height: 1.5;
+  line-height: 1.8;
 
   header {
     margin-bottom: 40px;
@@ -22,19 +22,19 @@ export default styled.article`
     margin: 20px 0;
   }
   h1 {
-    font-size: 36px;
+    font-size: 31px;
   }
   h2 {
-    font-size: 32px;
-  }
-  h3 {
     font-size: 28px;
   }
+  h3 {
+    font-size: 25px;
+  }
   h4 {
-    font-size: 24px;
+    font-size: 22px;
   }
   h5 {
-    font-size: 20px;
+    font-size: 19px;
   }
   h6 {
     font-size: 16px;
@@ -105,7 +105,7 @@ export default styled.article`
     > figcaption {
       font-size: 12px;
       color: var(--secondary-color);
-      line-height: 1.8;
+      margin-bottom: 30px;
     }
   }
 
@@ -133,5 +133,11 @@ export default styled.article`
       height: 100%;
       background-color: var(--primary-color);
     }
+  }
+
+  hr {
+    margin: 40px 0;
+    border-width: 1px 0 0 0;
+    border-color: var(--normal-color);
   }
 `;
