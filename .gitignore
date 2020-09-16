@@ -1,5 +1,5 @@
 # node & npm
-node_modules
+node_modules/
 package-lock.json
 yarn.lock
 
@@ -9,7 +9,3 @@ public/*
 
 # macOS
 .DS_Store
-
-# release script
-release_production.sh
-release_test.sh
