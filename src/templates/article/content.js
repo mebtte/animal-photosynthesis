@@ -91,7 +91,6 @@ export default styled.article`
     display: block;
     margin: 20px 0;
     text-align: center;
-    line-height: 0;
     > img {
       max-width: 100%;
       cursor: pointer;
@@ -105,7 +104,8 @@ export default styled.article`
     > figcaption {
       font-size: 12px;
       color: var(--secondary-color);
-      margin: 10px 0 30px 0;
+      margin: 0 0 30px 0;
+      line-height: 1.1;
     }
   }
 
