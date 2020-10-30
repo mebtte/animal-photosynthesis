@@ -105,7 +105,7 @@ export default styled.article`
     > figcaption {
       font-size: 12px;
       color: var(--secondary-color);
-      margin-bottom: 30px;
+      margin: 10px 0 30px 0;
     }
   }
 
