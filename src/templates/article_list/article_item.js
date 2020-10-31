@@ -3,7 +3,7 @@ import Types from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'gatsby';
 
-import { TIME_FONT_FAMILY } from '../../constants';
+import { COMPONENT_FONT_FAMILY } from '../../constants';
 import { TITLE_FONT_FAMILY } from './constants';
 
 const Style = styled.li`
@@ -25,7 +25,7 @@ const Style = styled.li`
     }
   }
   > .time {
-    font-family: ${TIME_FONT_FAMILY};
+    font-family: ${COMPONENT_FONT_FAMILY};
     font-size: 12px;
     color: var(--secondary-color);
     white-space: nowrap;

@@ -169,7 +169,7 @@ CSS 变量适用场景远远不止这些，限制你的永远是想象力。
 
 ![](./css_variable_compatibility.png)
 
-## 参考资料
+#### 参考
 
 - [使用 CSS 变量 - MDN](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Using_CSS_custom_properties)
 - [CSS 变量教程 - 阮一峰的网络日志](https://www.ruanyifeng.com/blog/2017/05/css-variables.html)

@@ -12,11 +12,11 @@ const { Provider } = DarkModeContext;
 
 const Style = styled.div`
   width: 100%;
-  max-width: 960px;
+  max-width: 840px;
   margin: 0 auto;
 `;
 
-const Page = ({ timeFontPath, children, ...props }) => {
+const Page = ({ componentFontPath, children, ...props }) => {
   const [darkMode, setDarkMode] = useState(false);
   const setDarkModeWrapper = useCallback((m) => {
     if (m) {
@@ -52,24 +52,20 @@ const Page = ({ timeFontPath, children, ...props }) => {
         <Helmet>
           <link
             rel="preload"
-            href={timeFontPath}
+            href={componentFontPath}
             as="font"
             crossOrigin="anonymous"
           />
         </Helmet>
-        <GlobalStyle timeFontPath={timeFontPath} />
+        <GlobalStyle componentFontPath={componentFontPath} />
         {children}
       </Style>
     </Provider>
   );
 };
 Page.propTypes = {
-  timeFontPath: Types.string.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
-  children: Types.any,
-};
-Page.defaultProps = {
-  children: null,
+  componentFontPath: Types.string.isRequired,
+  children: Types.node.isRequired,
 };
 
 export default Page;

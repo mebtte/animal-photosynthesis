@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet';
 import 'prismjs/themes/prism-okaidia.css';
 
 import config from '../../../config';
-import { TIME_FONT_FAMILY } from '../../constants';
+import { COMPONENT_FONT_FAMILY } from '../../constants';
 import astRenderer from './ast_renderer';
 
 import Page from '../../components/page';
@@ -14,7 +14,7 @@ import Footer from '../../components/footer';
 import Font from './font';
 import Content from './content';
 import Updates from './updates';
-import Interaction from './interaction';
+import EditInGithub from '../../components/edit_in_github';
 
 function findFirstImgFromAst(ast) {
   const { tagName, properties, children } = ast;
@@ -39,7 +39,7 @@ function findFirstImgFromAst(ast) {
 }
 
 const Time = styled.time`
-  font-family: ${TIME_FONT_FAMILY};
+  font-family: ${COMPONENT_FONT_FAMILY};
   font-size: 14px;
   color: var(--secondary-color);
 `;
@@ -49,7 +49,7 @@ const Wrapper = ({ pageContext }) => {
   const { create, title, updates } = frontmatter;
   const img = findFirstImgFromAst(htmlAst);
   return (
-    <Page timeFontPath={font.time}>
+    <Page componentFontPath={font.component}>
       <Helmet>
         <meta name="description" content={title} />
         <meta property="og:title" content={`${title} - ${config.title}`} />
@@ -76,9 +76,9 @@ const Wrapper = ({ pageContext }) => {
         </header>
         {astRenderer(htmlAst)}
         {updates ? <Updates updates={updates} /> : null}
-        <Interaction id={id} />
+        <EditInGithub id={id} />
       </Content>
-      <Footer fontPath={font.footer} />
+      <Footer fontPath={font.compone} />
     </Page>
   );
 };

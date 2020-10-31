@@ -1,12 +1,12 @@
 import { createGlobalStyle, css } from 'styled-components';
 
-import { TIME_FONT_FAMILY } from '../constants';
+import { COMPONENT_FONT_FAMILY } from '../constants';
 
 export default createGlobalStyle`
-  ${({ timeFontPath }) => css`
+  ${({ componentFontPath }) => css`
     @font-face {
-      font-family: ${TIME_FONT_FAMILY};
-      src: url('${timeFontPath}');
+      font-family: ${COMPONENT_FONT_FAMILY};
+      src: url('${componentFontPath}');
     }
   `}
 

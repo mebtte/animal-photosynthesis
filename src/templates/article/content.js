@@ -13,36 +13,35 @@ export default styled.article`
     margin-bottom: 40px;
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    margin: 20px 0;
-  }
   h1 {
-    font-size: 31px;
+    font-size: 32px;
+    margin: 0;
   }
+
   h2 {
     font-size: 28px;
+    margin: 28px 0 0 0;
   }
   h3 {
     font-size: 25px;
+    margin: 26px 0 0 0;
   }
   h4 {
     font-size: 22px;
+    margin: 24px 0 0 0;
   }
   h5 {
     font-size: 19px;
+    margin: 22px 0 0 0;
   }
   h6 {
     font-size: 16px;
+    margin: 20px 0 0 0;
   }
 
   p {
     font-size: 16px;
-    margin: 20px 0;
+    margin: 10px 0;
     code {
       padding: 0 4px;
       border-radius: var(--border-radius);
@@ -54,7 +53,7 @@ export default styled.article`
   }
 
   pre {
-    margin: 20px 0;
+    margin: 10px 0;
     border-radius: var(--border-radius);
     overflow: auto;
     > code {
@@ -71,7 +70,7 @@ export default styled.article`
   }
 
   table {
-    margin: 20px 0;
+    margin: 10px 0;
     border-collapse: collapse;
     th,
     td {
@@ -89,7 +88,7 @@ export default styled.article`
 
   figure {
     display: block;
-    margin: 20px 0;
+    margin: 10px 0;
     text-align: center;
     > img {
       max-width: 100%;
@@ -104,19 +103,36 @@ export default styled.article`
     > figcaption {
       font-size: 12px;
       color: var(--secondary-color);
-      margin: 0 0 30px 0;
+      margin: 0 0 10px 0;
       line-height: 1.1;
     }
   }
 
   ul,
   ol {
-    margin: 20px 0;
+    margin: 10px 0;
+    padding: 0;
+    > li {
+      display: block;
+      margin: 5px 0;
+      position: relative;
+      &::before {
+        content: '';
+        display: block;
+        position: absolute;
+        top: calc(50% - 2px);
+        left: -15px;
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background-color: var(--normal-color);
+      }
+    }
   }
 
   blockquote {
     position: relative;
-    margin: 20px 0;
+    margin: 10px 0;
     padding: 0 20px;
     font-style: italic;
     font-size: 14px;
@@ -136,7 +152,7 @@ export default styled.article`
   }
 
   hr {
-    margin: 40px 0;
+    margin: 20px 0;
     border-width: 1px 0 0 0;
     border-color: var(--normal-color);
   }

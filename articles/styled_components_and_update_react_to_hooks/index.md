@@ -434,7 +434,7 @@ const Component = () => {
 
 除了上面这些以外, react 还有其他 6 个基础 hook, 比如 `useReducer` 可以用来实现 redux, 完整 hook 教程建议看[官方文档](https://reactjs.org/docs/hooks-intro.html), 文档写的非常不错.
 
-## 参考
+#### 参考
 
 - [Hooks API Reference](https://reactjs.org/docs/hooks-reference.html)
 - [React Hooks 入门教程](https://www.ruanyifeng.com/blog/2019/09/react-hooks.html)

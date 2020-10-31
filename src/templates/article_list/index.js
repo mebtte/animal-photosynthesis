@@ -20,7 +20,7 @@ const Wrapper = ({ pageContext }) => {
   const { font, articleList } = pageContext;
   const siteTitle = `${config.title} - ${config.description}`;
   return (
-    <Page timeFontPath={font.time}>
+    <Page componentFontPath={font.component}>
       <Helmet>
         <title>{siteTitle}</title>
         <meta name="description" content="Mebtte写的那些东西" />

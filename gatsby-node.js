@@ -8,49 +8,44 @@ const md5 = require('md5');
 
 const fontmin = require('./node/utils/fontmin');
 const config = require('./config');
-const { TEXT } = require('./src/templates/article/constants');
 const transformAsset = require('./node/utils/transform_asset');
 
-const readFile = util.promisify(fs.readFile);
+const readFileAsync = util.promisify(fs.readFile);
 
-const FONT_PATH = path.join(__dirname, './public/font');
-if (!fs.existsSync(FONT_PATH)) {
-  mkdir.sync(FONT_PATH);
+const FONT_DIR = path.join(__dirname, './node/font');
+const FONT_OUTPUT_DIR = path.join(__dirname, './public/font');
+const COMPONENT_DIR = path.join(__dirname, './src/components');
+const HAS_TEXT_COMPONENTS = [
+  `${COMPONENT_DIR}/edit_in_github.js`,
+  `${COMPONENT_DIR}/footer.js`,
+];
+
+if (!fs.existsSync(FONT_OUTPUT_DIR)) {
+  mkdir.sync(FONT_OUTPUT_DIR);
 }
 
 exports.createPages = async ({ actions: { createPage }, graphql }) => {
-  // 生成时间字体
-  const timeString = '0123456789-';
-  const timeStringMd5 = md5(timeString);
-  const timeFontPath = `/font/${timeStringMd5}.ttf`;
+  // 生成组件字体
+  let componentText = '0123456789-';
+  for (const component of HAS_TEXT_COMPONENTS) {
+    componentText += (await readFileAsync(component)).toString();
+  }
+  componentText = Array.from(new Set(Array.from(componentText))).join('');
+  const componentTextMd5 = md5(componentText);
+  const componentFontPath = `/font/${componentTextMd5}.ttf`;
   await fontmin({
-    fontPath: path.join(__dirname, './node/assets/font/xin_yi_guan_hei_ti.ttf'),
-    targetFilename: path.join(__dirname, 'public', timeFontPath),
-    text: timeString,
+    fontPath: `${FONT_DIR}/component_font.ttf`,
+    targetFilename: path.join(__dirname, 'public', componentFontPath),
+    text: componentText,
   });
 
   // 生成title字体
   const titleMd5 = md5(config.title);
   const titleFontPath = `/font/${titleMd5}.ttf`;
   await fontmin({
-    fontPath: path.join(
-      __dirname,
-      './node/assets/font/you_she_biao_ti_hei.ttf',
-    ),
+    fontPath: `${FONT_DIR}/title_font.ttf`,
     targetFilename: path.join(__dirname, 'public', titleFontPath),
     text: config.title,
-  });
-
-  // 生成footer字体
-  const footerString = (
-    await readFile(path.join(__dirname, 'src/components/footer.js'))
-  ).toString();
-  const footerMd5 = md5(footerString);
-  const footerFontPath = `/font/${footerMd5}.ttf`;
-  await fontmin({
-    fontPath: path.join(__dirname, './node/assets/font/xin_yi_guan_hei_ti.ttf'),
-    targetFilename: path.join(__dirname, 'public', footerFontPath),
-    text: footerString,
   });
 
   const allArticleData = await graphql(`
@@ -96,18 +91,15 @@ exports.createPages = async ({ actions: { createPage }, graphql }) => {
     const newHtmlAst = await transformAsset({ id, ast: htmlAst });
 
     // 生成文章的字体
-    const textData = await readFile(
+    const textData = await readFileAsync(
       path.join(__dirname, `./articles/${id}/index.md`),
     );
     const textMd5 = md5(textData);
     const articleFontPath = `/font/${textMd5}.ttf`;
     await fontmin({
-      fontPath: path.join(
-        __dirname,
-        './node/assets/font/ping_fang_chang_gui_ti.ttf',
-      ),
+      fontPath: `${FONT_DIR}/content_font.ttf`,
       targetFilename: path.join(__dirname, 'public', articleFontPath),
-      text: textData.toString() + Object.values(TEXT).join(''),
+      text: textData.toString(),
     });
 
     await createPage({
@@ -119,9 +111,8 @@ exports.createPages = async ({ actions: { createPage }, graphql }) => {
         htmlAst: newHtmlAst,
         font: {
           article: articleFontPath,
-          time: timeFontPath,
           title: titleFontPath,
-          footer: footerFontPath,
+          component: componentFontPath,
         },
       },
     });
@@ -133,10 +124,7 @@ exports.createPages = async ({ actions: { createPage }, graphql }) => {
   const allArticleTitleMd5 = md5(allArticleTitle);
   const allArticleTitleFontPath = `/font/${allArticleTitleMd5}.ttf`;
   await fontmin({
-    fontPath: path.join(
-      __dirname,
-      './node/assets/font/ping_fang_chang_gui_ti.ttf',
-    ),
+    fontPath: `${FONT_DIR}/content_font.ttf`,
     targetFilename: path.join(__dirname, 'public', allArticleTitleFontPath),
     text: allArticleTitle,
   });
@@ -149,10 +137,9 @@ exports.createPages = async ({ actions: { createPage }, graphql }) => {
         ({ node }) => node,
       ),
       font: {
-        time: timeFontPath,
         title: titleFontPath,
         articleTitle: allArticleTitleFontPath,
-        footer: footerFontPath,
+        component: componentFontPath,
       },
     },
   });

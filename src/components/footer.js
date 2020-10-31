@@ -1,19 +1,10 @@
 import React from 'react';
-import Types from 'prop-types';
-import styled, { css } from 'styled-components';
-import { Helmet } from 'react-helmet';
+import styled from 'styled-components';
 
-const FONT_FAMILY = 'footer_font';
+import { COMPONENT_FONT_FAMILY } from '../constants';
 
 const Style = styled.footer`
-  ${({ fontPath }) => css`
-    @font-face {
-      font-family: ${FONT_FAMILY};
-      src: url('${fontPath}');
-    }
-  `}
-
-  font-family: ${FONT_FAMILY};
+  font-family: ${COMPONENT_FONT_FAMILY};
   margin: 40px 20px;
   font-size: 12px;
   color: var(--secondary-color);
@@ -22,11 +13,8 @@ const Style = styled.footer`
   }
 `;
 
-const Footer = ({ fontPath }) => (
-  <Style fontPath={fontPath}>
-    <Helmet>
-      <link rel="preload" href={fontPath} as="font" crossOrigin="anonymous" />
-    </Helmet>
+const Footer = () => (
+  <Style>
     ©&nbsp;2020&nbsp;
     <a
       href="https://mebtte.com"
@@ -38,8 +26,5 @@ const Footer = ({ fontPath }) => (
     </a>
   </Style>
 );
-Footer.propTypes = {
-  fontPath: Types.string.isRequired,
-};
 
 export default Footer;
