@@ -43,7 +43,7 @@ exports.createPages = async ({ actions: { createPage }, graphql }) => {
   const titleMd5 = md5(config.title);
   const titleFontPath = `/font/${titleMd5}.ttf`;
   await fontmin({
-    fontPath: `${FONT_DIR}/title_font.ttf`,
+    fontPath: `${FONT_DIR}/title_font.otf`,
     targetFilename: path.join(__dirname, 'public', titleFontPath),
     text: config.title,
   });
