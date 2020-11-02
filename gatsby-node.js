@@ -18,7 +18,6 @@ const SRC_DIR = path.join(__dirname, './src');
 const HAS_TEXT_COMPONENTS = [
   `${SRC_DIR}/components/edit_in_github.js`,
   `${SRC_DIR}/components/footer.js`,
-  `${SRC_DIR}/templates/article/updates.js`,
 ];
 
 if (!fs.existsSync(FONT_OUTPUT_DIR)) {
@@ -72,6 +71,9 @@ exports.createPages = async ({ actions: { createPage }, graphql }) => {
   `);
 
   let allArticleTitle = '';
+  const extraText = (
+    await readFileAsync(`${SRC_DIR}/templates/article/updates.js`)
+  ).toString();
   // eslint-disable-next-line no-restricted-syntax
   for (const edge of allArticleData.data.allMarkdownRemark.edges) {
     const { fileAbsolutePath, frontmatter, htmlAst } = edge.node;
@@ -100,7 +102,7 @@ exports.createPages = async ({ actions: { createPage }, graphql }) => {
     await fontmin({
       fontPath: `${FONT_DIR}/content_font.ttf`,
       targetFilename: path.join(__dirname, 'public', articleFontPath),
-      text: textData.toString(),
+      text: textData.toString() + extraText,
     });
 
     await createPage({
