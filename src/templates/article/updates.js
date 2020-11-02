@@ -3,7 +3,7 @@ import Types from 'prop-types';
 
 const Updates = ({ updates }) => (
   <>
-    <h2>更新</h2>
+    <h2>修改记录</h2>
     <table>
       <tbody>
         {updates.map(({ description, time }, index) => (
