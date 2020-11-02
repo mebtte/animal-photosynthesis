@@ -2,6 +2,8 @@
 title: 'useCallback 的误区'
 create: '2020-10-30'
 updates:
+  - time: '2020-11-02'
+    description: '增加 useMemo'
 hidden: false
 ---
 
@@ -126,6 +128,14 @@ const App = () => {
 ></iframe>
 
 所以, `useCallback` 不是 `React` 性能优化的银弹, 相反, 错误的用法反而会导致负优化.
+
+## useMemo
+
+事实上, `useCallback` 是 `useMemo` 的一个语法糖, `useCallback(fn, dependencies)` 等同于 `useMemo(() => fn, dependencies)`. 和 `useCallback` 一样, `useMemo` 也不是用的越多越好, 那什么时候应该使用 `useMemo` 呢?
+
+第一种情况和 `useCallback` 一样, 当子组件使用了 `shouldComponentUpdate` 或者 `React.memo`, `useMemo` 计算后的值能够保证 `props` 不变, 从而避免子组件的重复渲染.
+
+第二种情况是值计算的性能消耗超过调用 `useMemo` 的性能消耗. 和上面 `useCallback` 的分解同理, 使用 `useMemo` 会增加一个计算函数 `fn` 的生成, 一个依赖数组 `dependencies` 的生成和一次 `useMemo` 的调用, 如果值的计算需要的性能大于 `useMemo` 的调用, 那么使用 `useMemo` 就能够达到优化效果.
 
 #### 参考
 

@@ -16,12 +16,7 @@ const Style = styled.footer`
 const Footer = () => (
   <Style>
     ©&nbsp;2020&nbsp;
-    <a
-      href="https://mebtte.com"
-      target="_blank"
-      rel="noopener noreferrer"
-      title="Mebtte Pan"
-    >
+    <a href="https://mebtte.com" title="Mebtte Pan">
       MEBTTE
     </a>
   </Style>

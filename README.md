@@ -1,6 +1,6 @@
 # 答案
 
-mebtte's writing. [https://article.mebtte.com](https://article.mebtte.com)
+MEBTTE's writing. [https://article.mebtte.com](https://article.mebtte.com)
 
 ## 开发
 
