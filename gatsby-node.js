@@ -14,10 +14,11 @@ const readFileAsync = util.promisify(fs.readFile);
 
 const FONT_DIR = path.join(__dirname, './node/font');
 const FONT_OUTPUT_DIR = path.join(__dirname, './public/font');
-const COMPONENT_DIR = path.join(__dirname, './src/components');
+const SRC_DIR = path.join(__dirname, './src');
 const HAS_TEXT_COMPONENTS = [
-  `${COMPONENT_DIR}/edit_in_github.js`,
-  `${COMPONENT_DIR}/footer.js`,
+  `${SRC_DIR}/components/edit_in_github.js`,
+  `${SRC_DIR}/components/footer.js`,
+  `${SRC_DIR}/templates/article/updates.js`,
 ];
 
 if (!fs.existsSync(FONT_OUTPUT_DIR)) {
