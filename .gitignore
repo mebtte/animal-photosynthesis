@@ -3,9 +3,8 @@ node_modules/
 package-lock.json
 yarn.lock
 
-# gatsby
-.cache
-public/*
+# build
+build/
 
 # macOS
 .DS_Store

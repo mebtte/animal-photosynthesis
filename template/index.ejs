@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+  <%- include('common/head.ejs', {
+    title: config.title,
+    description: config.description,
+  }) %>
+
+  <title><%= config.title %> - <%= config.description %></title>
+</head>
+
+<body>
+  <%- include('common/header.ejs', { reverse: false, config }) %>
+  <ul>
+    <% articleList.forEach(article => { %>
+    <li>
+      <a href="/<%= article.id %>">
+        <h2><%= article.title %></h2>
+        <time><%= article.createTime %></time>
+      </a>
+    </li>
+    <% }) %>
+  </ul>
+  <%- include('common/footer.ejs') %>
+</body>
+
+</html>
