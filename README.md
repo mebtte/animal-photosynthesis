@@ -16,7 +16,7 @@ MEBTTE's Writing. [https://article.mebtte.com](https://article.mebtte.com)
 
 ### 运行环境
 
-- Node.js / NPM
+- Node.js >= 14.12.0
 
 ### 开发
 
@@ -33,9 +33,3 @@ npm run build
 npm run serve
 # http://localhost:9000
 ```
-
-## 问题
-
-### 执行 `npm run dev` / `npm run build` 出错
-
-> 尝试执行 `npm run clean` 或者删除 `.cache` / `public` 目录后重新执行
