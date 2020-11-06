@@ -3,12 +3,10 @@ import * as path from 'path';
 import showdown from 'showdown';
 import frontMatter from 'front-matter';
 import cheerio from 'cheerio';
-import md5 from 'md5';
 
-import fs from '../utils/fs.js';
-import directory from '../utils/directory.js';
-import getResource from '../utils/get_resource.js';
-import event, { EventType } from '../utils/event.js';
+import fs from './fs.js';
+import directory from './directory.js';
+import toBuild from './to_build.js';
 
 export default async (id) => {
   const articleDir = `${directory.ARTICLES}/${id}`;
@@ -33,17 +31,7 @@ export default async (id) => {
       continue;
     }
     const localPath = path.join(articleDir, resourcePath);
-    let filename = getResource(localPath);
-    if (!filename) {
-      const data = await fs.readFile(localPath);
-      const dataMd5 = md5(data);
-      filename = `${dataMd5}${path.parse(localPath).ext}`;
-      await fs.writeFile(`${directory.BUILD}/${filename}`, data);
-      event.emit(EventType.RESOURCE_BUILT, {
-        originalPath: localPath,
-        newFilename: filename,
-      });
-    }
+    const filename = await toBuild(localPath);
     $(resourceNode).attr('src', `/${filename}`);
   }
   return {

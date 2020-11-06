@@ -1,12 +1,8 @@
-const fs = require('fs');
-const util = require('util');
+import Fontmin from 'fontmin';
 
-// eslint-disable-next-line import/no-extraneous-dependencies
-const Fontmin = require('fontmin');
+import fs from './fs.js';
 
-const writeFile = util.promisify(fs.writeFile);
-
-module.exports = async ({ fontPath, targetFilename, text }) => {
+export default async ({ fontPath, text, generateFilename }) => {
   text = Array.from(new Set(text))
     .sort()
     .join('')
@@ -22,5 +18,7 @@ module.exports = async ({ fontPath, targetFilename, text }) => {
       return resolve(files[0].contents);
     });
   });
-  await writeFile(targetFilename, data);
+  const filename = generateFilename(data);
+  await fs.writeFile(filename, data);
+  return filename;
 };

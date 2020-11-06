@@ -1,0 +1,101 @@
+<style>
+  @font-face {
+    font-family: title_font;
+    src: url(<%= titleFontPath %>);
+  }
+
+  .page-header {
+    max-width: 840px;
+    margin: 40px auto;
+    padding: 0 30px;
+    display: flex;
+    align-items: center;
+  }
+
+  .page-header_title {
+    flex: 1;
+    min-width: 0;
+    font-size: 56px;
+    font-family: title_font;
+    margin: 0;
+  }
+
+  h1.page-header_title  {
+    color: var(--normal-color);
+  }
+
+  h2.page-header_title {
+    color: var(--primary-color);
+  }
+
+  .page-header_title > a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .theme-changer {
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+    outline: none;
+    border: none;
+  }
+
+  .page-header_icon {
+    display: block;
+    margin-left: 16px;
+    user-select: none;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+  }
+
+  .dark-theme .page-header_icon__light-theme {
+    display: none;
+  }
+
+  .light-theme .page-header_icon__dark-theme {
+    display: none;
+  }
+</style>
+
+<header class="page-header">
+  <% if (reverse) { %>
+    <h2 class="page-header_title">
+      <a href="/"><%= config.title %></a>
+    </h2>
+  <% } else { %>
+    <h1 class="page-header_title">
+      <a href="/"><%= config.title %></a>
+    </h1>
+  <% } %>
+  <button class="theme-changer" type="button">
+    <img class="page-header_icon page-header_icon__dark-theme" src="/sun.png" alt="light theme" />
+    <img class="page-header_icon page-header_icon__light-theme" src="/moon.png" alt="dark theme" />
+  </button>
+  <a href="/sitemap.xml">
+    <img class="page-header_icon page-header_icon__dark-theme" src="/rss_dark.png" alt="rss" />
+    <img class="page-header_icon page-header_icon__light-theme" src="/rss_light.png" alt="rss" />
+  </a>
+  <a href="https://github.com/mebtte/article">
+    <img class="page-header_icon page-header_icon__dark-theme" src="/github_dark.png" alt="github" />
+    <img class="page-header_icon page-header_icon__light-theme" src="/github_light.png" alt="github" />
+  </a>
+</header>
+
+<script>
+  (() => {
+    const themeChanger = document.querySelector('.theme-changer');
+    themeChanger.addEventListener('click', () => {
+      if (document.body.classList.contains('dark-theme')) {
+        document.body.classList.remove('dark-theme');
+        document.body.classList.add('light-theme');
+        window.localStorage.removeItem('dark_theme');
+      } else {
+        document.body.classList.remove('light-theme');
+        document.body.classList.add('dark-theme');
+        window.localStorage.setItem('dark_theme', '1');
+      }
+    });
+  })()
+</script>
