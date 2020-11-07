@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "node scripts/build.js",
-    "github-page": "cross-env PUBLIC_PATH=/article SITE=\"https://mebtte.github.io\" node scripts/build.js",
+    "gh-pages": "cross-env PUBLIC_PATH=/article SITE=\"https://mebtte.github.io\" node scripts/build.js",
     "serve": "http-server build -p 9000 -c=0"
   },
   "devDependencies": {
