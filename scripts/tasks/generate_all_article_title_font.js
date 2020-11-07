@@ -19,5 +19,5 @@ export default async (articleList) => {
     },
   });
   spinner.succeed('All article font generated');
-  return filename.replace(directory.BUILD, '');
+  return filename.replace(`${directory.BUILD}/`, '');
 };

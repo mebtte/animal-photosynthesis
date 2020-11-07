@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/"
+  xmlns:atom="http://www.w3.org/2005/Atom"
+  version="2.0"
+>
+  <channel>
+    <title>
+      <![CDATA[<%= config.title %>]]>
+    </title>
+    <description>
+      <![CDATA[<%= config.description %>]]>
+    </description>
+    <link><%= config.site %><%= config.publicPath %></link>
+    <lastBuildDate><%= new Date().toISOString() %></lastBuildDate>
+    <% articleList.forEach(({ id, title, createTime }) => { %>
+      <item>
+        <title>
+          <![CDATA[<%= title %>]]>
+        </title>
+        <link><%= config.site %><%= config.publicPath %>/<%= id %></link>
+        <guid isPermaLink="false"><%= id %></guid>
+        <pubDate><%= new Date(createTime).toISOString() %></pubDate>
+      </item>
+    <% }) %>
+  </channel>
+</rss>

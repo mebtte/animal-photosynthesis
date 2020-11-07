@@ -7,6 +7,7 @@ import cheerio from 'cheerio';
 import fs from './fs.js';
 import directory from './directory.js';
 import toBuild from './to_build.js';
+import config from '../config.js';
 
 export default async (id) => {
   const articleDir = `${directory.ARTICLES}/${id}`;
@@ -23,6 +24,7 @@ export default async (id) => {
   const mdParser = new showdown.Converter();
   const html = mdParser.makeHtml(body);
   const $ = cheerio.load(html);
+
   const resourceNodeList = $('[src]').toArray();
   for (const resourceNode of resourceNodeList) {
     const node = $(resourceNode);
@@ -32,8 +34,39 @@ export default async (id) => {
     }
     const localPath = path.join(articleDir, resourcePath);
     const filename = await toBuild(localPath);
-    $(resourceNode).attr('src', `/${filename}`);
+    $(resourceNode).attr('src', `${config.publicPath}/${filename}`);
   }
+
+  // img
+  const imgNodeList = $('img').toArray();
+  for (const imgNode of imgNodeList) {
+    const node = $(imgNode);
+    const src = node.attr('src');
+    const alt = node.attr('alt');
+    node.parent().replaceWith(`
+      <figure class="figure-img">
+        <a href="${src}" target="_blank">
+          <img src="${src}" alt="${alt}" title="${alt}" loading="lazy" />
+        </a>
+        ${alt ? `<figcaption>${alt}</figcaption>` : ''}
+      </figure>
+    `);
+  }
+
+  // iframe
+  const iframeNodeList = $('iframe').toArray();
+  for (const iframeNode of iframeNodeList) {
+    const node = $(iframeNode);
+    const nodeTitle = node.attr('title');
+    const src = node.attr('src');
+    node.replaceWith(`
+      <figure class="figure-iframe">
+        <iframe src="${src}" title="${nodeTitle}" loading="lazy"></iframe>
+        ${nodeTitle ? `<figcaption>${nodeTitle}</figcaption>` : ''}
+      </figure>
+    `);
+  }
+
   return {
     id,
     title: attributes.title || '',
@@ -41,5 +74,6 @@ export default async (id) => {
     updates: attributes.updates || [],
     hidden: attributes.hidden || false,
     content: $.html(),
+    mdText,
   };
 };

@@ -5,6 +5,7 @@ import cheerio from 'cheerio';
 import directory from './directory.js';
 import fs from './fs.js';
 import toBuild from './to_build.js';
+import config from '../config.js';
 
 const RESOURCE_TYPE = {
   CONTENT: 'content',
@@ -33,11 +34,7 @@ export default async (html) => {
       resource = $resourceNode.attr(RESOURCE_TYPE.SRC);
       type = RESOURCE_TYPE.SRC;
     }
-    if (
-      resource[0] !== '/' ||
-      !path.parse(resource).ext ||
-      resource === '/sitemap.xml'
-    ) {
+    if (resource[0] !== '/' || !path.parse(resource).ext) {
       continue;
     }
     const aPath = `${directory.STATIC}${resource}`;
@@ -46,7 +43,7 @@ export default async (html) => {
       continue;
     }
     const filename = await toBuild(aPath);
-    $resourceNode.attr(type, `/${filename}`);
+    $resourceNode.attr(type, `${config.publicPath}/${filename}`);
   }
   return $.html();
 };

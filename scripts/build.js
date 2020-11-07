@@ -1,5 +1,8 @@
 #!/usr/bin/env node
+import * as path from 'path';
+
 import ejs from 'ejs';
+import md5 from 'md5';
 
 import initial from './tasks/initial.js';
 import generateTitleFont from './tasks/generate_title_font.js';
@@ -13,9 +16,10 @@ import ora from './utils/ora.js';
 import fs from './utils/fs.js';
 import directory from './utils/directory.js';
 import parseHtmlResource from './utils/parse_html_resource.js';
+import fontmin from './utils/fontmin.js';
 import config from './config.js';
 
-const articleTemplate = `${directory.TEMPLATE}/article.ejs`;
+const articleTemplate = `${directory.TEMPLATE}/article/index.ejs`;
 const indexTemplate = `${directory.TEMPLATE}/index.ejs`;
 
 await initial();
@@ -37,12 +41,30 @@ for (let i = 0, { length } = articleIdList; i < length; i += 1) {
     innerSpinner.fail('fail: article is empty');
     continue;
   }
-  const html = await ejs.renderFile(articleTemplate, {
+  const articleFontPath = `${directory.STATIC}/content_font.ttf`;
+  const articleContentFontPath = await fontmin({
+    fontPath: articleFontPath,
+    text:
+      data.mdText +
+      (
+        await fs.readFile(`${directory.TEMPLATE}/article/article_updates.ejs`)
+      ).toString(),
+    generateFilename: (d) => {
+      const dMd5 = md5(d);
+      return `${directory.BUILD}/${dMd5}${path.parse(articleFontPath).ext}`;
+    },
+  });
+  let html = await ejs.renderFile(articleTemplate, {
     ...data,
     config,
     titleFontPath,
     commonFontPath,
+    articleContentFontPath: articleContentFontPath.replace(
+      `${directory.BUILD}/`,
+      '',
+    ),
   });
+  html = await parseHtmlResource(html);
   await fs.writeFile(`${directory.BUILD}/${articleId}.html`, html);
   if (data.hidden) {
     innerSpinner.info(createLog('built, but this article is hidden'));

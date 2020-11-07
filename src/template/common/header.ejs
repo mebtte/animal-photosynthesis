@@ -1,7 +1,7 @@
 <style>
   @font-face {
     font-family: title_font;
-    src: url(<%= titleFontPath %>);
+    src: url(<%= config.publicPath %>/<%= titleFontPath %>);
   }
 
   .page-header {
@@ -15,7 +15,7 @@
   .page-header_title {
     flex: 1;
     min-width: 0;
-    font-size: 56px;
+    font-size: 64px;
     font-family: title_font;
     margin: 0;
   }
@@ -62,18 +62,18 @@
 <header class="page-header">
   <% if (reverse) { %>
     <h2 class="page-header_title">
-      <a href="/"><%= config.title %></a>
+      <a href="<%= config.publicPath %>/"><%= config.title %></a>
     </h2>
   <% } else { %>
     <h1 class="page-header_title">
-      <a href="/"><%= config.title %></a>
+      <a href="<%= config.publicPath %>/"><%= config.title %></a>
     </h1>
   <% } %>
   <button class="theme-changer" type="button">
     <img class="page-header_icon page-header_icon__dark-theme" src="/sun.png" alt="light theme" />
     <img class="page-header_icon page-header_icon__light-theme" src="/moon.png" alt="dark theme" />
   </button>
-  <a href="/sitemap.xml">
+  <a href="<%= config.publicPath %>/rss.xml">
     <img class="page-header_icon page-header_icon__dark-theme" src="/rss_dark.png" alt="rss" />
     <img class="page-header_icon page-header_icon__light-theme" src="/rss_light.png" alt="rss" />
   </a>
