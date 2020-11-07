@@ -1,7 +1,12 @@
 <style>
   @font-face {
     font-family: common_font;
-    src: url(<%= commonFontPath %>);
+    src: url(<%= config.publicPath %>/<%= commonFontPath %>);
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
   }
 
   body {

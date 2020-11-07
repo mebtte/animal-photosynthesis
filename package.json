@@ -9,12 +9,13 @@
   },
   "scripts": {
     "build": "node scripts/build.js",
+    "github-page": "cross-env PUBLIC_PATH=/article SITE=\"https://mebtte.github.io\" node scripts/build.js",
     "serve": "http-server build -p 9000 -c=0"
   },
   "devDependencies": {
     "cheerio": "^1.0.0-rc.3",
+    "cross-env": "^7.0.2",
     "ejs": "^3.1.5",
-    "eventemitter3": "^4.0.7",
     "fontmin": "^0.9.8",
     "front-matter": "^4.0.2",
     "fs-extra": "^9.0.1",

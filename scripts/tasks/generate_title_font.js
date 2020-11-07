@@ -19,5 +19,5 @@ export default async () => {
     },
   });
   spinner.succeed('Title font generated');
-  return filename.replace(directory.BUILD, '');
+  return filename.replace(`${directory.BUILD}/`, '');
 };

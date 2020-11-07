@@ -1,0 +1,33 @@
+<style>
+.article-header {
+  max-width: 840px;
+  margin: 40px auto;
+  padding: 0 30px;
+}
+
+.article-title {
+  color: var(--normal-color);
+  font-size: 32px;
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+}
+
+.article-title a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.article-create-time {
+  color: var(--secondary-color);
+  font-size: 14px;
+  font-family: common_font;
+}
+</style>
+
+<section class="article-header">
+  <h1 class="article-title">
+    <a href="<%= config.publicPath %>/<%= id %>"><%= title %></a>
+  </h1>
+  <time class="article-create-time"><%= createTime %></time>
+</section>

@@ -13,7 +13,7 @@ Uncaught TypeError: Cannot read property 'xxx' of null
 
 经过排查后发现基本都是因为接口数据错误的导致，比如
 
-```json5
+```js
 // 正常数据
 {
   "data": {

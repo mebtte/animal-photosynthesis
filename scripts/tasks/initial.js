@@ -8,8 +8,5 @@ export default async () => {
   await fs.ensureDir(directory.BUILD);
   await fs.emtpyDir(directory.BUILD);
 
-  await fs.ensureDir(directory.TMP);
-  await fs.emtpyDir(directory.TMP);
-
   spinner.succeed('Build directory is ready');
 };

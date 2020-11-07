@@ -7,12 +7,17 @@ import fs from '../utils/fs.js';
 import directory from '../utils/directory.js';
 import fontmin from '../utils/fontmin.js';
 
+const FILE_LIST = [
+  `${directory.TEMPLATE}/common/footer.ejs`,
+  `${directory.TEMPLATE}/article/edit_in_github.ejs`,
+];
+
 export default async () => {
   const spinner = ora.createSpinner('Generating common font...');
   let text = '0123456789-';
-  text += (
-    await fs.readFile(`${directory.TEMPLATE}/common/footer.ejs`)
-  ).toString();
+  for (const file of FILE_LIST) {
+    text += (await fs.readFile(file)).toString();
+  }
   const fontPath = `${directory.STATIC}/common_font.ttf`;
   const filename = await fontmin({
     fontPath,
@@ -23,5 +28,5 @@ export default async () => {
     },
   });
   spinner.succeed('Common font generated');
-  return filename.replace(directory.BUILD, '');
+  return filename.replace(`${directory.BUILD}/`, '');
 };
