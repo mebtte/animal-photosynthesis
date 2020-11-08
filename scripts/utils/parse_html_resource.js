@@ -14,7 +14,7 @@ const RESOURCE_TYPE = {
 };
 
 export default async (html) => {
-  const $ = cheerio.load(html);
+  const $ = cheerio.load(html, { decodeEntities: false });
   const resourceNodeList = $(
     `${Object.values(RESOURCE_TYPE)
       .map((r) => `[${r}]`)

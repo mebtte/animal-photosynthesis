@@ -57,9 +57,7 @@
     <% articleList.forEach(article => { %>
       <li class="article-item">
         <h2 class="article-title">
-          <a href="<%= config.publicPath %>/<%= article.id %>">
-            <%= article.title %>
-          </a>
+          <a href="<%= config.publicPath %>/<%= article.id %>"><%= article.title %></a>
         </h2>
         <time class="article-time"><%= article.createTime %></time>
       </li>

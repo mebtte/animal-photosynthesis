@@ -23,7 +23,7 @@ export default async (id) => {
   const { attributes, body } = frontMatter(mdText);
   const mdParser = new showdown.Converter();
   const html = mdParser.makeHtml(body);
-  const $ = cheerio.load(html);
+  const $ = cheerio.load(html, { decodeEntities: false });
 
   const resourceNodeList = $('[src]').toArray();
   for (const resourceNode of resourceNodeList) {
