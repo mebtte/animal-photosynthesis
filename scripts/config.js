@@ -1,5 +1,6 @@
 export default {
   author: 'mebtte',
+  authorSite: 'https://mebtte.com',
   keywords: ['HTML', 'CSS', 'JavaScript', 'Web'],
   title: 'Answer',
   description: "MEBTTE's Writing",

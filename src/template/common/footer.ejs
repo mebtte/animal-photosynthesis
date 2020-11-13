@@ -17,7 +17,8 @@
   color: var(--primary-color);
 }
 </style>
+
 <footer class="page-footer">
-  &copy; <%= new Date().getFullYear() %>
-  <a href="https://mebtte.com">MEBTTE</a>
+  <a href="<%= config.githubRepository %>/blob/master/LICENSE">&copy;</a> <%= new Date().getFullYear() %>
+  <a href="<%= config.authorSite %>"><%= config.author.toUpperCase() %></a>
 </footer>

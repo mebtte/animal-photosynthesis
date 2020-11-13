@@ -96,7 +96,7 @@ npm run serve # http://localhost:9000
 
 ### GitHub Pages
 
-当前项目支持自动部署到 `Github Pages`, 需要 [Developer settings](https://github.com/settings/tokens) 生成项目的 `access token`, 并在项目的 `Settings -> Secrets` 添加且命名为 `TOKEN`, 当 `master` 分支发生变更后会自动构建并推送到 `gh-pages` 分支, 将项目的 `Github Pages` 设置为 `gh-pages` 分支即可.
+当前项目支持自动部署到 `Github Pages`, 需要 [Developer settings](https://github.com/settings/tokens) 生成项目的 `access token`, 并在项目的 `Settings -> Secrets` 添加且命名为 `TOKEN`, 以及把构建脚本 `.github/workflows/gh_pages.yml` 中的 `user` 和 `email` 更换成自己的账号和邮箱, 当 `master` 分支发生变更后会自动构建并推送到 `gh-pages` 分支, 将项目的 `Github Pages` 设置为 `gh-pages` 分支即可.
 
 如果不希望在 `Github Pages` 部署, 删除项目下的 `.github` 目录即可.
 
