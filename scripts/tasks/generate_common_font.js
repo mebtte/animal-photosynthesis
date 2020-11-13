@@ -15,7 +15,7 @@ const FILE_LIST = [
 
 export default async () => {
   const spinner = ora.createSpinner('正在生成通用字体...');
-  let text = '0123456789-';
+  let text = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-';
   for (const key in config) {
     text += config[key];
   }
