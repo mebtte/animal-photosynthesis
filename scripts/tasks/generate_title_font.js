@@ -8,7 +8,7 @@ import ora from '../utils/ora.js';
 import config from '../config.js';
 
 export default async () => {
-  const spinner = ora.createSpinner('Generate title font...');
+  const spinner = ora.createSpinner('正在生成标题字体...');
   const fontPath = `${directory.STATIC}/title_font.ttf`;
   const filename = await fontmin({
     fontPath,
@@ -18,6 +18,6 @@ export default async () => {
       return `${directory.BUILD}/${dataMd5}${path.parse(fontPath).ext}`;
     },
   });
-  spinner.succeed('Title font generated');
+  spinner.succeed('标题字体已生成');
   return filename.replace(`${directory.BUILD}/`, '');
 };

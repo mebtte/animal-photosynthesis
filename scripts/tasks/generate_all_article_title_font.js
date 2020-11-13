@@ -7,7 +7,7 @@ import directory from '../utils/directory.js';
 import fontmin from '../utils/fontmin.js';
 
 export default async (articleList) => {
-  const spinner = ora.createSpinner('Generating all article title font...');
+  const spinner = ora.createSpinner('正在生成文章所有标题字体...');
   const text = articleList.reduce((t, a) => t + a.title, '');
   const fontPath = `${directory.STATIC}/content_font.ttf`;
   const filename = await fontmin({
@@ -18,6 +18,6 @@ export default async (articleList) => {
       return `${directory.BUILD}/${dataMd5}${path.parse(fontPath).ext}`;
     },
   });
-  spinner.succeed('All article font generated');
+  spinner.succeed('文章所有标题字体已生成');
   return filename.replace(`${directory.BUILD}/`, '');
 };

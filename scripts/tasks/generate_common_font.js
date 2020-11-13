@@ -13,7 +13,7 @@ const FILE_LIST = [
 ];
 
 export default async () => {
-  const spinner = ora.createSpinner('Generating common font...');
+  const spinner = ora.createSpinner('正在生成通用字体...');
   let text = '0123456789-';
   for (const file of FILE_LIST) {
     text += (await fs.readFile(file)).toString();
@@ -27,6 +27,6 @@ export default async () => {
       return `${directory.BUILD}/${dataMd5}${path.parse(fontPath).ext}`;
     },
   });
-  spinner.succeed('Common font generated');
+  spinner.succeed('通用字体已生成');
   return filename.replace(`${directory.BUILD}/`, '');
 };

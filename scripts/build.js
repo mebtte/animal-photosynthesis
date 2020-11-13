@@ -26,19 +26,19 @@ await initial();
 const titleFontPath = await generateTitleFont();
 const commonFontPath = await generateCommonFont();
 
-let spinner = ora.createSpinner('Finding article list...');
+let spinner = ora.createSpinner('正在查找文章列表...');
 const articleIdList = await fs.readdir(directory.ARTICLES);
-spinner.succeed(`${articleIdList.length} articles`);
+spinner.succeed(`共有 ${articleIdList.length} 篇文章`);
 
 const articleList = [];
 
 for (let i = 0, { length } = articleIdList; i < length; i += 1) {
   const articleId = articleIdList[i];
   const createLog = (text) => `(${i + 1}/${length}) ${articleId} ${text}`;
-  const innerSpinner = ora.createSpinner(createLog('building...'));
+  const innerSpinner = ora.createSpinner(createLog('正在构建...'));
   const data = await parseArticle(articleId);
   if (!data) {
-    innerSpinner.fail('fail: article is empty');
+    innerSpinner.fail('文章为空');
     continue;
   }
   const articleFontPath = `${directory.STATIC}/content_font.ttf`;
@@ -67,9 +67,9 @@ for (let i = 0, { length } = articleIdList; i < length; i += 1) {
   html = await parseHtmlResource(html);
   await fs.writeFile(`${directory.BUILD}/${articleId}.html`, html);
   if (data.hidden) {
-    innerSpinner.info(createLog('built, but this article is hidden'));
+    innerSpinner.info(createLog('已构建, 属于隐藏文章'));
   } else {
-    innerSpinner.succeed(createLog('built'));
+    innerSpinner.succeed(createLog('已构建'));
     articleList.push({
       id: articleId,
       title: data.title,
@@ -78,7 +78,7 @@ for (let i = 0, { length } = articleIdList; i < length; i += 1) {
   }
 }
 
-spinner = ora.createSpinner('Building index...');
+spinner = ora.createSpinner('正在构建首页...');
 const allArticleTitleFontPath = await generateAllArticleTitleFont(articleList);
 let indexHtml = await ejs.renderFile(indexTemplate, {
   articleList: articleList.sort(
@@ -91,7 +91,7 @@ let indexHtml = await ejs.renderFile(indexTemplate, {
 });
 indexHtml = await parseHtmlResource(indexHtml);
 await fs.writeFile(`${directory.BUILD}/index.html`, indexHtml);
-spinner.succeed('index built');
+spinner.succeed('首页已构建');
 
 await generateRobots();
 await generateSitemap(articleList);

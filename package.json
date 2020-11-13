@@ -9,8 +9,12 @@
   },
   "scripts": {
     "build": "node scripts/build.js",
-    "gh-pages": "cross-env PUBLIC_PATH=/article SITE=\"https://mebtte.github.io\" node scripts/build.js",
-    "serve": "http-server build -p 9000 -c=0"
+    "serve": "cross-env PUBLIC_PATH=\"\" node scripts/build.js && http-server build -p 9000 -c=0",
+    "gh-pages": "cross-env PUBLIC_PATH=/article SITE=\"https://mebtte.github.io\" node scripts/build.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mebtte/article.git"
   },
   "devDependencies": {
     "cheerio": "^1.0.0-rc.3",
