@@ -15,9 +15,12 @@ jobs:
           node-version: 14.12.x
 
       - name: build gh-pages
+        env:
+          SITE: https://mebtte.github.io
+          PUBLIC_PATH: /article
         run: |
           npm install
-          npm run gh-pages
+          npm run build
       - name: deploy gh-pages
         env:
           TOKEN: ${{secrets.TOKEN}}

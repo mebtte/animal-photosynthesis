@@ -1,11 +1,13 @@
 <section>
   <h2>更新记录</h2>
-  <table>
-    <% updates.forEach(u => { %>
-      <tr>
-        <td><%= u.time %></td>
-        <td><%= u.description %></td>
-      </tr>
-    <% }) %> 
-  </table>
+  <div class="table-container">
+    <table>
+      <% updates.forEach(u => { %>
+        <tr>
+          <td><%= u.time %></td>
+          <td><%= u.description %></td>
+        </tr>
+      <% }) %> 
+    </table>
+  </div>
 </section>

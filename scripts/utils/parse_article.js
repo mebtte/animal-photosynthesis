@@ -3,11 +3,14 @@ import * as path from 'path';
 import showdown from 'showdown';
 import frontMatter from 'front-matter';
 import cheerio from 'cheerio';
+import { XmlEntities } from 'html-entities';
 
 import fs from './fs.js';
 import directory from './directory.js';
 import toBuild from './to_build.js';
 import config from '../config.js';
+
+const entities = new XmlEntities();
 
 export default async (id) => {
   const articleDir = `${directory.ARTICLES}/${id}`;
@@ -23,7 +26,7 @@ export default async (id) => {
   const { attributes, body } = frontMatter(mdText);
   const mdParser = new showdown.Converter();
   const html = mdParser.makeHtml(body);
-  const $ = cheerio.load(html, { decodeEntities: false });
+  const $ = cheerio.load(html);
 
   const resourceNodeList = $('[src]').toArray();
   for (const resourceNode of resourceNodeList) {
@@ -65,6 +68,25 @@ export default async (id) => {
         ${nodeTitle ? `<figcaption>${nodeTitle}</figcaption>` : ''}
       </figure>
     `);
+  }
+
+  // table
+  const tableNodeList = $('table').toArray();
+  for (const tableNode of tableNodeList) {
+    const node = $(tableNode);
+    const nodeHtml = node.html();
+    node.replaceWith(`
+      <div class="table-container">
+        ${nodeHtml}
+      </div>
+    `);
+  }
+
+  // code
+  const codeNodeList = $('code').toArray();
+  for (const codeNode of codeNodeList) {
+    const node = $(codeNode);
+    node.html(entities.encode(node.html()));
   }
 
   return {
