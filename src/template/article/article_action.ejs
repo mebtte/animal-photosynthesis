@@ -1,0 +1,22 @@
+
+<style>
+  .article-action {
+    max-width: 840px;
+    margin: 40px auto;
+    padding: 0 30px;
+    font-family: common_font;
+    color: var(--normal-color);
+  }
+  .article-action > a {
+    color: inherit;
+    text-decoration-color: var(--primary-color);
+  }
+</style>
+
+<p class="article-action">
+  本文使用
+  <a href="<%= config.githubRepository %>/issues">Issues</a>
+  讨论或直接在
+  <a href="<%= config.githubRepository %>/edit/master/articles/<%= id %>/index.md">Github</a>
+  编辑.
+</p>

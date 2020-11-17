@@ -10,7 +10,7 @@ import config from '../config.js';
 
 const FILE_LIST = [
   `${directory.TEMPLATE}/common/footer.ejs`,
-  `${directory.TEMPLATE}/article/edit_in_github.ejs`,
+  `${directory.TEMPLATE}/article/article_action.ejs`,
 ];
 
 export default async () => {
