@@ -7,7 +7,7 @@ hidden: false
 
 最近一段时间监控平台收集了很多 JS 错误，大部分都是`TypeError`
 
-```
+```txt
 Uncaught TypeError: Cannot read property 'xxx' of null
 ```
 
