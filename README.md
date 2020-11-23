@@ -1,6 +1,6 @@
 # Answer
 
-MEBTTE's Writing. [https://article.mebtte.com](https://article.mebtte.com)
+MEBTTE's Writing. ~~[https://article.mebtte.com](https://article.mebtte.com)~~ [https://mebtte.github.com/article](https://mebtte.github.com/article)
 
 ## 模板
 
