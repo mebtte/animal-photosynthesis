@@ -29,8 +29,7 @@ jobs:
           git init
           git config --local user.name WilliamsZhang
           git config --local user.email williams_z@yeah.net
-          # git remote add origin https://$TOKEN@github.com/$GITHUB_REPOSITORY.git
-          git remote add origin https://github.com/WilliamsZhang/article.git
+          git remote add origin https://$TOKEN@github.com/$GITHUB_REPOSITORY.git
           git checkout -b gh-pages
           git add --all
           git commit -m "deploy gh-pages"
