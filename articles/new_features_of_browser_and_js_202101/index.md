@@ -7,7 +7,7 @@ hidden: false
 
 ## MediaSession
 
-`MediaSession API` 兼容性: [Can I use 传送门](https://caniuse.com/?search=mediaSession)
+兼容性: [Can I use 传送门](https://caniuse.com/?search=mediaSession)
 
 ## CookieStore
 
@@ -41,7 +41,12 @@ if (getCookie('name')) {
 ```js
 /** 获取一个 cookie */
 try {
+  // 根据 name 获取
   const cookie = await window.cookieStore.get('name');
+  // 获取根据条件获取
+  const cookie = await window.cookieStore.get({
+    value: 'xxx',
+  });
   if (cookie === null) {
     console.log('name is a emtpy cookie');
   } else {
@@ -83,7 +88,25 @@ try {
 }
 ```
 
-以前想要监听 cookie 变化, 只能通过定时器定时 cookie, 而 `cookieStore` 直接提供了监听 cookie 变化的能力.
+同时, cookieStore 还提供了 `getAll` 的方法, 用于获取 cookie 列表.
+
+```js
+try {
+  // 根据 name 获取, 因为 cookie 可以存在同名的 cookie
+  const cookieList = await window.cookieStore.getAll('name');
+  // 或者根据条件获取
+  const cookieList = await window.cookieStore.getAll({
+    value: 'xxx',
+  });
+  // 如果没有条件, 则返回所有 cookie
+  const cookieList = await window.cookieStore.getAll();
+  // ...
+} catch (error) {
+  // do with error
+}
+```
+
+以前想要监听 cookie 变化, 只能通过定时器定时检查 cookie, 而 `cookieStore` 直接提供了监听 cookie 变化的能力.
 
 ```js
 cookieStore.addEventlistener('change', (event) => {
@@ -95,12 +118,46 @@ cookieStore.addEventlistener('change', (event) => {
 });
 ```
 
-`CookieStore API` 兼容性: [Can I use 传送门](https://caniuse.com/?search=cookieStore)
+兼容性: [Can I use 传送门](https://caniuse.com/?search=cookieStore)
 
 #### 参考
 
 - [Introducing: The Async Cookie Store API](https://medium.com/nmc-techblog/introducing-the-async-cookie-store-api-89cbecf401f)
 - [Cookie Store API](https://wicg.github.io/cookie-store)
+
+## CSS 颜色方法新的语法
+
+CSS 中提供了 4 个`颜色方法`, 分别是 `rgb` / `rgba` / `hsl` / `hsla`. 以前每个方法的参数都需要用`逗号`分隔, 现在 `rgb` / `hsl` 新的语法可以省略参数中的`逗号`而直接使用`空格`分隔.
+
+```css
+color: rgb(1, 2, 3);
+/* 等同于 */
+color: rgb(1 2 3);
+
+color: hsl(1, 2%, 3%);
+/* 等同于 */
+color: hsl(1 2% 3%);
+```
+
+省略逗号的同时, `rgb` / `hsl` 都支持第 4 个参数, 表示透明度, 从而替换 `rgba` 和 `hsla`.
+
+```css
+color: rgba(1, 2, 3, 0.4);
+/* 等同于 */
+color: rgb(1 2 3 / 0.4);
+
+color: hsla(1, 2%, 3%, 0.4);
+/* 等同于 */
+color: hsl(1 2% 3% / 0.4);
+```
+
+其中, `/` 左右两边的空格可有可无.
+
+兼容性: [Can I use 传送门](https://caniuse.com/mdn-css_types_color_space_separated_functional_notation)
+
+#### 参考
+
+- [No-Comma Color Functions in CSS](https://css-tricks.com/no-comma-color-functions-in-css)
 
 ## Top level await
 
