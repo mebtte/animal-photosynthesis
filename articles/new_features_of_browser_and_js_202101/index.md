@@ -7,7 +7,9 @@ hidden: false
 
 ## MediaSession
 
-兼容性: [Can I use 传送门](https://caniuse.com/?search=mediaSession)
+#### 兼容性及参考
+
+- [Can I use 传送门](https://caniuse.com/?search=mediaSession)
 
 ## CookieStore
 
@@ -118,12 +120,18 @@ cookieStore.addEventlistener('change', (event) => {
 });
 ```
 
-兼容性: [Can I use 传送门](https://caniuse.com/?search=cookieStore)
+#### 兼容性及参考
 
-#### 参考
-
+- [Can I use 传送门](https://caniuse.com/?search=cookieStore)
 - [Introducing: The Async Cookie Store API](https://medium.com/nmc-techblog/introducing-the-async-cookie-store-api-89cbecf401f)
 - [Cookie Store API](https://wicg.github.io/cookie-store)
+
+## Shape Detection
+
+#### 兼容性及参考
+
+- [Can I use 传送门](https://caniuse.com/?search=barcodedetector)
+- [Accelerated Shape Detection in Images](https://wicg.github.io/shape-detection-api)
 
 ## CSS 颜色方法新的语法
 
@@ -151,12 +159,11 @@ color: hsla(1, 2%, 3%, 0.4);
 color: hsl(1 2% 3% / 0.4);
 ```
 
-其中, `/` 左右两边的空格可有可无.
+其中, `/` 两侧的空格可有可无.
 
-兼容性: [Can I use 传送门](https://caniuse.com/mdn-css_types_color_space_separated_functional_notation)
+#### 兼容性及参考
 
-#### 参考
-
+- [Can I use 传送门](https://caniuse.com/mdn-css_types_color_space_separated_functional_notation)
 - [No-Comma Color Functions in CSS](https://css-tricks.com/no-comma-color-functions-in-css)
 
 ## Top level await
