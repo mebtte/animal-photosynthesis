@@ -3,14 +3,11 @@ import * as path from 'path';
 import showdown from 'showdown';
 import frontMatter from 'front-matter';
 import cheerio from 'cheerio';
-import htmlEntities from 'html-entities';
 
 import fs from './fs.js';
 import directory from './directory.js';
 import toBuild from './to_build.js';
 import config from '../config.js';
-
-const entities = new htmlEntities.XmlEntities();
 
 export default async (id) => {
   const articleDir = `${directory.ARTICLES}/${id}`;
@@ -86,7 +83,7 @@ export default async (id) => {
   const codeNodeList = $('code').toArray();
   for (const codeNode of codeNodeList) {
     const node = $(codeNode);
-    node.html(entities.encode(node.html()));
+    node.html(node.html());
   }
 
   return {
