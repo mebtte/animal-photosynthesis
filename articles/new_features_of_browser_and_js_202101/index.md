@@ -5,15 +5,34 @@ updates:
 hidden: false
 ---
 
-## MediaSession
+## Media Session API
+
+`Media Session API`
+
+<iframe
+  title="media_session"
+  src="https://codesandbox.io/embed/mediasession-888j0?fontsize=14&hidenavigation=1&theme=dark"
+></iframe>
+
+如果正在使用 Chrome 浏览器并且版本大于 73 的话, 点击上面的`播放按钮`, Chrome 将会出现一个控制面板用于控制媒体.
+
+![](./chrome_media_session.png)
+
+如果是 Windows 或者 Android 系统的话, 可以直接通过系统媒体中心控制页面的音乐.
+
+![](./android_media_session.png)
 
 #### 兼容性及参考
 
 - [Can I use 传送门](https://caniuse.com/?search=mediaSession)
+- [Media Session API](https://developer.mozilla.org/docs/Web/API/Media_Session_API)
+- [Media Session Standard](https://w3c.github.io/mediasession/#the-mediasession-interface)
 
-## CookieStore
+---
 
-回想一下, 平时我们都是怎么操作 cookie 的. 比如想要获取某个 cookie, 因为 `document.cookie` 返回所有 cookie 联合的字符串, 所以必须要手动解析才能获取到某个 cookie 的值.
+## CookieStore API
+
+目前, 浏览器可用的存储方式有 `cookie`/`sessionStorage`/`localStorage`/`IndexedDB`, 后三者都暴露了十分友好的 API 供开发者访问, 只有 cookie 例外. 回想一下, 平时我们都是怎么操作 cookie 的. 比如想要获取某个 cookie, 因为 `document.cookie` 返回所有 cookie 联合的字符串, 所以必须要手动解析才能获取到某个 cookie 的值.
 
 ![from https://medium.com/nmc-techblog/introducing-the-async-cookie-store-api-89cbecf401f](./get_cookie.png)
 
@@ -126,12 +145,16 @@ cookieStore.addEventlistener('change', (event) => {
 - [Introducing: The Async Cookie Store API](https://medium.com/nmc-techblog/introducing-the-async-cookie-store-api-89cbecf401f)
 - [Cookie Store API](https://wicg.github.io/cookie-store)
 
-## Shape Detection
+---
+
+## Shape Detection API
 
 #### 兼容性及参考
 
 - [Can I use 传送门](https://caniuse.com/?search=barcodedetector)
 - [Accelerated Shape Detection in Images](https://wicg.github.io/shape-detection-api)
+
+---
 
 ## CSS 颜色方法新的语法
 
@@ -165,6 +188,8 @@ color: hsl(1 2% 3% / 0.4);
 
 - [Can I use 传送门](https://caniuse.com/mdn-css_types_color_space_separated_functional_notation)
 - [No-Comma Color Functions in CSS](https://css-tricks.com/no-comma-color-functions-in-css)
+
+---
 
 ## Top-level await
 
@@ -321,6 +346,8 @@ export default ws;
 
 - [Can I use 传送门](https://caniuse.com/?search=top-level%20await)
 - [tc39/proposal-top-level-await](https://github.com/tc39/proposal-top-level-await)
+
+---
 
 ## BigInt
 
