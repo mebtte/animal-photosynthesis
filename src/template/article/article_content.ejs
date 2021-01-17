@@ -3,13 +3,17 @@
     font-family: 'Fira Code' !important;
   }
 
+  article {
+    --article-space: 30px;
+  }
+
   article a {
     color: var(--normal-color);
     text-decoration-color: var(--primary-color);
   }
 
   article h2, article h3, article h4, article h5, article h6 {
-    max-width: 840px;
+    max-width: var(--content-max-width);
     padding: 0 30px;
     margin: 0 auto;
     line-height: 1.5;
@@ -42,7 +46,7 @@
   }
 
   article p {
-    max-width: 840px;
+    max-width: var(--content-max-width);
     padding: 0 30px;
     font-size: 16px;
     margin: 15px auto;
@@ -57,7 +61,7 @@
   }
 
   article pre {
-    max-width: 840px !important;
+    max-width: var(--content-max-width) !important;
     margin: 15px auto !important;
     font-size: 14px !important;
     box-sizing: border-box;
@@ -74,14 +78,22 @@
   }
 
   article hr {
-    max-width: 840px;
+    max-width: var(--content-max-width);
     margin: 40px auto;
-    border-color: var(--tertiary-color);
+    padding: 0 var(--article-space);
+    border: none;
+  }
+
+  article hr::after{
+    content: '';
+    display: block;
+    height: 1px;
+    background-color:var(--tertiary-color);
   }
 
   article blockquote {
-    max-width: 840px;
-    padding: 0 30px;
+    max-width: var(--content-max-width);
+    padding: 0 var(--article-space);
     margin: 15px auto;
     position: relative;
     font-style: italic;
@@ -90,7 +102,7 @@
   }
 
   .table-container {
-    max-width: 840px;
+    max-width: var(--content-max-width);
     padding: 0 30px;
     margin: 15px auto;
   }
@@ -126,7 +138,7 @@
 
   article ul,
   article ol {
-    max-width: 840px;
+    max-width: var(--content-max-width);
     padding: 0 30px;
     margin: 15px auto;
     color: var(--normal-color);
@@ -159,7 +171,7 @@
   }
 
   .figure-img {
-    max-width: 840px;
+    max-width: var(--content-max-width);
     padding: 0 30px;
     margin: 15px auto;
   }
@@ -179,7 +191,7 @@
   .figure-iframe iframe {
     display: block;
     width: 100%;
-    max-width: 840px;
+    max-width: var(--content-max-width);
     margin: 0 auto;
     height: 640px;
     border: none;
