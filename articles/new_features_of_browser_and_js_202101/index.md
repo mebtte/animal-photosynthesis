@@ -166,6 +166,165 @@ color: hsl(1 2% 3% / 0.4);
 - [Can I use 传送门](https://caniuse.com/mdn-css_types_color_space_separated_functional_notation)
 - [No-Comma Color Functions in CSS](https://css-tricks.com/no-comma-color-functions-in-css)
 
-## Top level await
+## Top-level await
+
+以前 `await` 关键字只允许在 `async function` 的内部使用, `top-level await` 可以让我们直接在 `async function` 外使用 `await` 关键字.
+
+```js
+// module-a.js
+(async function() {
+  const { default: axios } = await import('axios');
+  const response = await axios.request('https://registry.npm.taobao.org/react');
+  console.log(response.data.name); // react
+})();
+```
+
+使用 `top-level await` 上面的脚本可以直接移除 `async function`.
+
+```js
+// module-a.js
+const { default: axios } = await import('axios');
+const response = await axios.request('https://registry.npm.taobao.org/react');
+console.log(response.data.name); // react
+```
+
+如果一个模块使用了 `top-level await`, 那么引用这个模块的其他模块将会等待这个模块 `resolve`.
+
+```js
+// a.js
+console.log(1);
+const { default: axios } = await import('axios');
+const response = await axios.request('https://registry.npm.taobao.org/react');
+console.log(2);
+
+export default response.data.name;
+
+// b.js
+import name from './a.js';
+
+console.log(name); // react
+```
+
+上面的代码, 输出顺序是 `1 2 react`, 也就是说, b 模块将会等待 a 模块 `resolve` 才会继续执行. 同理, 当 a 模块 `reject`, b 模块也会无法正常工作. 要想 b 模块正常工作, 那么需要对 a 模块添加错误处理.
+
+```js
+// a.js
+let name = 'default name';
+
+try {
+  const { default: axios } = await import('axios');
+  const response = await axios.request('https://registry.npm.taobao.org/react');
+} catch (error) {
+  // do with error
+}
+
+export default name;
+
+// b.js
+import name from './a.js';
+
+console.log(name); // 没有发生错误输出 react, 发生错误输出 default name
+```
+
+`top-level await` 非常适合某些场景.
+
+### 条件引入模块
+
+我们知道 `static import` 是无法实现根据条件引入, 比如下面的代码是不合法的.
+
+```js
+if (process.env.NODE_ENV === 'production') {
+  import a from 'a.js';
+} else {
+  import a from 'a_development.js';
+}
+```
+
+通过 `top-level await` 配合 `dynamic import` 可以模拟条件静态引入.
+
+```js
+let a;
+
+if (process.env.NODE_ENV === 'production') {
+  a = await import('a.js');
+} else {
+  a = await import('a_development.js');
+}
+```
+
+### 依赖回退
+
+当我们引入一个静态模块时, 如果模块加载失败, 那么引用这个模块的其他模块都无法正常工作.
+
+```js
+import $ from 'https://cdn.example.com/jquery.js';
+
+// 如果 https://cdn.example.com/jquery.js 加载失败, 那么下面的代码都无法正常工作
+// do with $
+```
+
+通过 `top-level await` 配合 `dynamic import` 可以实现依赖的回退操作.
+
+```js
+// jquery_wrapper.js
+let $;
+try {
+  $ = await import('https://cdn_a.example_a.com/jquery.js');
+} catch (error) {
+  $ = await import('https://cdn_b.example_b.com/jquery.js');
+}
+
+export default $;
+
+// example.js
+import $ from 'path_to/jquery_wrapper.js';
+
+// do with $
+```
+
+### 资源初始化
+
+以前, 当一个资源需要异步操作才能初始化时, 通常会有以下写法.
+
+```js
+// ws.js
+let ws;
+
+async function getWs() {
+  if (!ws) {
+    const url = await getUrl();
+    ws = new Websocket(url);
+  }
+  return ws;
+}
+
+export default {
+  sendMessage: async (message) => {
+    const ws = await getWs();
+    return ws.sendMessage(message);
+  },
+};
+```
+
+> 注意, 上面的代码只是实例, 实际应用中还需要大量的错误处理
+
+上面的代码中, 同步的 `sendMessage` 方法因为异步的 `getWs` 方法被迫变成异步方法, 使用 `top-level await` 可以避免这种问题.
+
+```js
+const url = await getUrl();
+const ws = new Websocket(url);
+
+export default ws;
+```
+
+#### 兼容性及参考
+
+- [Can I use 传送门](https://caniuse.com/?search=top-level%20await)
+- [tc39/proposal-top-level-await](https://github.com/tc39/proposal-top-level-await)
 
 ## BigInt
+
+#### 兼容性及参考
+
+- [Can I use 传送门](https://caniuse.com/?search=bigint)
+- [BigInt - JavaScript | MDN](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/BigInt)
