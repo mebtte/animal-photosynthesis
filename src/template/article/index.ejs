@@ -7,11 +7,11 @@
 
   <title><%= title %> - <%= config.title %></title>
 
-  <link rel="preload" href="<%= config.publicPath %>/<%= articleContentFontPath %>" as="font" crossOrigin="anonymous" />
+  <link rel="preload" href="<%= config.public_path %>/<%= articleContentFontPath %>" as="font" crossOrigin="anonymous" />
   <style>
     @font-face {
       font-family: article_font_<%= id %>;
-      src: url(<%= config.publicPath %>/<%= articleContentFontPath %>);
+      src: url(<%= config.public_path %>/<%= articleContentFontPath %>);
     }
     article {
       font-family: article_font_<%= id %>;

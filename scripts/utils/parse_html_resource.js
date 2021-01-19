@@ -43,7 +43,7 @@ export default async (html) => {
       continue;
     }
     const filename = await toBuild(aPath);
-    $resourceNode.attr(type, `${config.publicPath}/${filename}`);
+    $resourceNode.attr(type, `${config.public_path}/${filename}`);
   }
   return $.html();
 };
