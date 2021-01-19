@@ -7,20 +7,28 @@ hidden: false
 
 ## Media Session API
 
-`Media Session API`
+如果想要控制页面上的 `audio`/`video`, 只能通过浏览器自带控制组件或者由开发者自己实现控制组件, 而且当页面处于无法点击状态时(比如切换到其他 Tab 或最小化浏览器窗口), 那么将无法实现控制 `audio`/`video`.
+
+`Media Session API` 可以暴露页面 `audio`/`video` 的控制, 实现系统媒体中心控制页面的 `audio`/`video`, 包括正在播放媒体的基本信息(标题/作者/封面)以及操作(播放/暂停/快进/快退/下一个媒体/上一个媒体).
 
 <iframe
   title="media_session"
   src="https://codesandbox.io/embed/mediasession-888j0?fontsize=14&hidenavigation=1&theme=dark"
 ></iframe>
 
-如果正在使用 Chrome 浏览器并且版本大于 73 的话, 点击上面的`播放按钮`, Chrome 将会出现一个控制面板用于控制媒体.
+上面的例子实现了一个基本的 `MediaSession`. 基本信息通过全局对象 `MediaMetadata` 实例化, 其中 `artwork` 可以设置多个值, 浏览器根据出现的场景自动选择最优尺寸, 然后赋值给 `navigator.mediaSession.metadata` 实现设置. 媒体的控制通过 `navigator.mediaSession.setActionHandler` 方法设置, `play`/`pause`/`seekbackward`/`seekforward`/`previoustrack`/`nexttrack` 分别对应 `播放`/`暂停`/`快退`/`快进`/`上一个媒体`/`下一个媒体` 操作. 当媒体播放后, 浏览器会将基本信息和操作与系统映射.
 
-![](./chrome_media_session.png)
+比如在 Windows10 下, 音量控制附近会出现媒体控制面板.
 
-如果是 Windows 或者 Android 系统的话, 可以直接通过系统媒体中心控制页面的音乐.
+![mediaSession on Windows10](./media_session_windows.png)
 
-![](./android_media_session.png)
+在 Android 系统下, 状态栏将会出现媒体控制面板.
+
+![mediaSession on Android, picture from https://github.com/mebtte/react-media-session](./media_session_android.png)
+
+某些浏览器头部也会出现媒体控制面板.
+
+![mediaSession on Chrome](./media_session_chrome.png)
 
 #### 兼容性及参考
 
