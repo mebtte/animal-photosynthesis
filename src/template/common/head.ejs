@@ -3,12 +3,24 @@
 <meta name="author" content="<%= config.author %>" />
 <meta name="keywords" content="<%= config.keywords.join(',') %>" />
 
+<% if (config.ga_measurement_id) { %>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=<%= config.ga_measurement_id %>"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', '<%= config.ga_measurement_id %>');
+  </script>
+<% } %>
+
 <!-- open graph -->
 <meta property="og:type" content="website" />
 <meta property="og:image" content="/logo.png" />
 
 <link rel="shortcut icon" type="image/png" href="/logo.png" />
-<link rel="sitemap" type="application/xml" href="<%= config.publicPath %>/sitemap.xml" />
+<link rel="sitemap" type="application/xml" href="<%= config.public_path %>/sitemap.xml" />
 
-<link rel="preload" href="<%= config.publicPath %>/<%= titleFontPath %>" as="font" crossOrigin="anonymous" />
-<link rel="preload" href="<%= config.publicPath %>/<%= commonFontPath %>" as="font" crossOrigin="anonymous" />
+<link rel="preload" href="<%= config.public_path %>/<%= titleFontPath %>" as="font" crossOrigin="anonymous" />
+<link rel="preload" href="<%= config.public_path %>/<%= commonFontPath %>" as="font" crossOrigin="anonymous" />

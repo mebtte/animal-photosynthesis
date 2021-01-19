@@ -12,14 +12,14 @@
     <description>
       <![CDATA[<%= config.description %>]]>
     </description>
-    <link><%= config.site %><%= config.publicPath %></link>
+    <link><%= config.site %><%= config.public_path %></link>
     <lastBuildDate><%= new Date().toISOString() %></lastBuildDate>
     <% articleList.forEach(({ id, title, createTime }) => { %>
       <item>
         <title>
           <![CDATA[<%= title %>]]>
         </title>
-        <link><%= config.site %><%= config.publicPath %>/<%= id %></link>
+        <link><%= config.site %><%= config.public_path %>/<%= id %></link>
         <guid isPermaLink="false"><%= id %></guid>
         <pubDate><%= new Date(createTime).toISOString() %></pubDate>
       </item>

@@ -34,7 +34,7 @@ export default async (id) => {
     }
     const localPath = path.join(articleDir, resourcePath);
     const filename = await toBuild(localPath);
-    $(resourceNode).attr('src', `${config.publicPath}/${filename}`);
+    $(resourceNode).attr('src', `${config.public_path}/${filename}`);
   }
 
   // img

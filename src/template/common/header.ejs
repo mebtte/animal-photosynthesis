@@ -1,7 +1,7 @@
 <style>
   @font-face {
     font-family: title_font;
-    src: url(<%= config.publicPath %>/<%= titleFontPath %>);
+    src: url(<%= config.public_path %>/<%= titleFontPath %>);
   }
 
   .page-header {
@@ -62,22 +62,22 @@
 <header class="page-header">
   <% if (reverse) { %>
     <h2 class="page-header_title">
-      <a href="<%= config.publicPath %>/"><%= config.title %></a>
+      <a href="<%= config.public_path %>/"><%= config.title %></a>
     </h2>
   <% } else { %>
     <h1 class="page-header_title">
-      <a href="<%= config.publicPath %>/"><%= config.title %></a>
+      <a href="<%= config.public_path %>/"><%= config.title %></a>
     </h1>
   <% } %>
   <button class="theme-changer" type="button">
     <img class="page-header_icon page-header_icon__dark-theme" src="/sun.png" alt="light theme" />
     <img class="page-header_icon page-header_icon__light-theme" src="/moon.png" alt="dark theme" />
   </button>
-  <a href="<%= config.publicPath %>/rss.xml">
+  <a href="<%= config.public_path %>/rss.xml">
     <img class="page-header_icon page-header_icon__dark-theme" src="/rss_dark.png" alt="rss" />
     <img class="page-header_icon page-header_icon__light-theme" src="/rss_light.png" alt="rss" />
   </a>
-  <a href="<%= config.githubRepository %>">
+  <a href="<%= config.github_repository %>">
     <img class="page-header_icon page-header_icon__dark-theme" src="/github_dark.png" alt="github" />
     <img class="page-header_icon page-header_icon__light-theme" src="/github_light.png" alt="github" />
   </a>

@@ -38,7 +38,7 @@ for (let i = 0, { length } = articleIdList; i < length; i += 1) {
   const innerSpinner = ora.createSpinner(createLog('正在构建...'));
   const data = await parseArticle(articleId);
   if (!data) {
-    innerSpinner.fail('文章为空');
+    innerSpinner.fail(createLog('文章为空'));
     continue;
   }
   const articleFontPath = `${directory.STATIC}/content_font.ttf`;
