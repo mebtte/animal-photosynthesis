@@ -359,7 +359,83 @@ export default ws;
 
 ## BigInt
 
+在 JavaScript 中, 整数的范围是 `[Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER]`, 也就是负 2 的 53 次方减 1 到 2 的 53 次方减 1, 如果超出这个范围将不能保证其精度, 比如:
+
+![out of max safe integer](./out_of_max_safe_integer.png)
+
+如果想要精确地表示超出安全整数, 通常做法是转换成字符串, 然后实现各种字符串运算的方法(相信不少人都做过数字字符串相加的一道算法题, 比如 `'123' + '789' = '912'`).
+
+`BigInt` 可以表示任意大的整数, 即使超出 `SAFE_INTEGER` 的范围依然能够保证精度. 声明一个 `BigInt` 可以在 number 后面添加 `n` 或者通过 `BigInt` 方法:
+
+```js
+const a = 123n;
+const b = BigInt(123);
+const c = BigInt('123');
+```
+
+上面的 `a` / `b` / `c` 都表示 `123n`. `BigInt` 支持 `+` / `-` / `*` / `/` / `**` / `%` 运算符, 但是不能与其他类型混合运算:
+
+```js
+const a = 1n + 2n; // 3n
+const b = 2n - 1n; // 1n
+const c = 3n * 3n; // 9n
+const d = 4n / 2n; // 2n
+const e = 2n ** 2n; // 4n
+const f = 5n % 3n; // 2n
+
+/** 除数不能为 0n */
+const g = 2n / 0n; // Uncaught RangeError: Division by zero
+
+/** 不能与其他类型运算 */
+const h = 2n + 1; // Uncaught TypeError: Cannot mix BigInt and other types
+
+/** 运算结果将会忽略小数 */
+const i = 3n / 2n; // 1n
+const k = -3n / 2n; // -1n
+```
+
+`BigInt` 可以与 number 进行转换, 如果 `BigInt` 超过 `SAFE_INTER` 的范围, 那么转换后的 number 将会丢失精度:
+
+```js
+const a = BigInt(Number.MAX_SAFE_INTEGER);
+const b = a + a;
+const c = Number(b); // c 不能保证准确
+```
+
+`BigInt` 同样支持比较操作, 并且能够与 number 进行比较:
+
+```js
+/** 与 number 不严格相等 */
+1n == 1; // true
+1n === 1; // false
+
+2n > 1; // true
+2 > 1n; // true
+2n >= 2; // true
+```
+
+`BigInt` 也有一些局限性, 首先不支持调用 `Math` 对象上的方法, 其次不支持 `JSON.stringify`, 如果想要序列化, 可以实现 `BigInt` 的 `toJSON` 方法:
+
+```js
+BigInt.prototype.toJSON = function() {
+  // BigInt toString 不会带上 n, 例如 2n.toString() === '2'
+  return this.toString();
+};
+
+JSON.stringify({ value: 2n }); // { "value": "2" }
+```
+
+需要注意的是, `BigInt` 和 `Symbol` 一样是个普通方法, 不是一个构造方法, 所以无法通过 `new` 实例化:
+
+```js
+const a = new BigInt(1); // Uncaught TypeError: BigInt is not a constructor
+```
+
+> JavaScript 一共有 7 种数据类型 `undefined` / `null` / `boolean` / `number` / `string` / `symbol` / `object`, `BigInt` 是第 8 种数据类型, `typeof 1n` 的值是 `bigint`, 而且属于基本类型.
+
 #### 兼容性及参考
 
 - [Can I use 传送门](https://caniuse.com/?search=bigint)
 - [BigInt - JavaScript | MDN](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/BigInt)
+
+## Underscore number
