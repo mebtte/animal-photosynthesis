@@ -164,41 +164,6 @@ cookieStore.addEventlistener('change', (event) => {
 
 ---
 
-## CSS 颜色方法新的语法
-
-CSS 中提供了 4 个`颜色方法`, 分别是 `rgb` / `rgba` / `hsl` / `hsla`. 以前每个方法的参数都需要用`逗号`分隔, 现在 `rgb` / `hsl` 新的语法可以省略参数中的`逗号`而直接使用`空格`分隔.
-
-```css
-color: rgb(1, 2, 3);
-/* 等同于 */
-color: rgb(1 2 3);
-
-color: hsl(1, 2%, 3%);
-/* 等同于 */
-color: hsl(1 2% 3%);
-```
-
-省略逗号的同时, `rgb` / `hsl` 都支持第 4 个参数, 表示透明度, 从而替换 `rgba` 和 `hsla`.
-
-```css
-color: rgba(1, 2, 3, 0.4);
-/* 等同于 */
-color: rgb(1 2 3 / 0.4);
-
-color: hsla(1, 2%, 3%, 0.4);
-/* 等同于 */
-color: hsl(1 2% 3% / 0.4);
-```
-
-其中, `/` 两侧的空格可有可无.
-
-#### 兼容性及参考
-
-- [Can I use 传送门](https://caniuse.com/mdn-css_types_color_space_separated_functional_notation)
-- [No-Comma Color Functions in CSS](https://css-tricks.com/no-comma-color-functions-in-css)
-
----
-
 ## Top-level await
 
 以前 `await` 关键字只允许在 `async function` 的内部使用, `top-level await` 可以让我们直接在 `async function` 外使用 `await` 关键字.
@@ -438,4 +403,96 @@ const a = new BigInt(1); // Uncaught TypeError: BigInt is not a constructor
 - [Can I use 传送门](https://caniuse.com/?search=bigint)
 - [BigInt - JavaScript | MDN](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/BigInt)
 
-## Underscore number
+## Numeric separators
+
+通常情况下, 如果一个数字特别大, 我们会在显示界面添加分隔符显得更有可读性:
+
+![number on Google Sheets](./google_sheets.png)
+
+> 现在通常是千位分隔符, 应该是源于英语中的 thousond/million/billion/trillion/..., 每增加 3 位都有一个专有名词(https://en.wikipedia.org/wiki/Names_of_large_numbers). 对于我来说更偏向于万位分隔符, 可能是小学数学课养成的习惯.
+
+但是在 JavaScript 层面, 无论一个数多大我们都只能连写, 比如 `1032467823482.32134324`, 需要认真数的情况下才能得知准确的值.
+
+现在, `Numeric separators` 特性允许在数字字面量之前插入 `_` 分隔符, 使数字字面量更具可读性.
+
+```js
+const a = 123_456;
+const b = 123.345_789;
+```
+
+`_` 分隔符可以出现在整数部分, 也可以出现在小数部分. 除了十进制, 分隔符同样可以出现在其他进制:
+
+```js
+const a = 0b101_101; // 二进制
+const b = 0o765_432; // 八进制
+const c = 0xfed_dba_987; // 十六进制
+```
+
+上面的代码是每隔 3 位添加分隔符, 其实分隔符是可以随意添加的, 但是需要注意的是, 分隔符只能在`数字之间`添加, 不能在数字开头/结尾/进制标志/小数点/科学计数法符号两边添加, 也不能连续两个分隔符, 下面分隔符的位置都是`错误`的:
+
+```js
+_123; // 开头, 这其实是一个合法的变量名
+123_; // 结尾
+
+/** 进制标志 */
+0_b101; // 进制中间
+0x_fd9; // 进制后面
+
+/** 科学计数法 */
+1.23_e14; // 科学计数法前面
+1.23e_14; // 科学计数法后面
+
+123__456; // 连续两个分隔符
+```
+
+数字分隔符只是为了提高代码可读性, 带有分隔符的数字在转换成字符串的时候不会带上分隔符, 同样地, 带有 `_` 字符串也不能正确地转换成数字:
+
+```js
+(123_456.123_456).toString(); // 123456.123456
+Number('123_456.123_456'); // NaN
+Number.parseInt('123_456', 10); // 123
+Number.parseFloat('123_456.123_456', 10); // 123
+```
+
+还有一点, `Numeric separators` 同样适用于 `BigInt`.
+
+#### 兼容性及参考
+
+- [Can I use 传送门](https://caniuse.com/?search=Numeric%20separators)
+- [Numeric separators](https://tc39.es/proposal-numeric-separator/)
+- [ECMAScript feature: numeric separators](https://2ality.com/2018/02/numeric-separators.html)
+
+---
+
+## CSS 颜色方法新的语法
+
+CSS 中提供了 4 个`颜色方法`, 分别是 `rgb` / `rgba` / `hsl` / `hsla`. 以前每个方法的参数都需要用`逗号`分隔, 现在 `rgb` / `hsl` 新的语法可以省略参数中的`逗号`而直接使用`空格`分隔.
+
+```css
+color: rgb(1, 2, 3);
+/* 等同于 */
+color: rgb(1 2 3);
+
+color: hsl(1, 2%, 3%);
+/* 等同于 */
+color: hsl(1 2% 3%);
+```
+
+省略逗号的同时, `rgb` / `hsl` 都支持第 4 个参数, 表示透明度, 从而替换 `rgba` 和 `hsla`.
+
+```css
+color: rgba(1, 2, 3, 0.4);
+/* 等同于 */
+color: rgb(1 2 3 / 0.4);
+
+color: hsla(1, 2%, 3%, 0.4);
+/* 等同于 */
+color: hsl(1 2% 3% / 0.4);
+```
+
+其中, `/` 两侧的空格可有可无.
+
+#### 兼容性及参考
+
+- [Can I use 传送门](https://caniuse.com/mdn-css_types_color_space_separated_functional_notation)
+- [No-Comma Color Functions in CSS](https://css-tricks.com/no-comma-color-functions-in-css)
