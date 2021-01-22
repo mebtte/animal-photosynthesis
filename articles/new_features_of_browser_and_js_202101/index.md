@@ -157,10 +157,37 @@ cookieStore.addEventlistener('change', (event) => {
 
 ## Shape Detection API
 
+现在随处可见二维码, 但是在网页上识别二维码不是一件容易的事, 要么上传到后端解析, 要么使用复杂的 [JS 库](https://github.com/cozmo/jsQR). 新的 `BarcodeDetector` 特性提供了友好的 API, 能够脱离后端在本地识别二维码.
+
+使用 `BarcodeDetector` 首先需要实例化, 然后将图片数据传给实例的 `detect` 方法, `detect` 方法是个异步操作, 所以返回值是一个 `Promise`. 同时, 一张图片可能包含多个二维码, 所以识别结果是个数组.
+
+<iframe 
+  title="barcode_detector"
+  src="https://codesandbox.io/embed/barcodedetector-h2ngg?fontsize=14&hidenavigation=1&theme=dark"
+></iframe>
+
+`BarcodeDetector` 不仅能够识别二维码, 还支持各种格式的条形码, 支持的格式包括 `aztec` / `code_128` / `code_39` / `code_93` / `codabar` / `data_matrix` / `ean_13` / `ean_8` / `itf` / `pdf417` / `qr_code` / `upc_a` / `upc_e`. `BarcodeDetector` 默认识别所有格式的条形码, 如果你只想识别其中的某几种格式, 可以在实例化的时候指定:
+
+```js
+const detector = new BarcodeDetector({
+  formats: ['qr_code', 'codabar'], // 只识别图片中的 qr_code 和 codebar
+});
+```
+
+`BarcodeDetector` 属于 `Shape Detection API` 的一部分, 除此之外, `Shape Detection API` 还有 `TextDetector` 和 `FaceDetector`, 分别对应文本识别和人脸识别, 以下是一个文本识别的例子:
+
+> `TextDetector` 目前尚未稳定, 所以不一定能够识别画布上的文字, 上传的图片识别结果也可能不准确.
+
+<iframe
+  title="text_detector"
+  src="https://codesandbox.io/embed/textdetector-3ilx8?fontsize=14&hidenavigation=1&theme=dark"
+></iframe>
+
 #### 兼容性及参考
 
 - [Can I use 传送门](https://caniuse.com/?search=barcodedetector)
 - [Accelerated Shape Detection in Images](https://wicg.github.io/shape-detection-api)
+- [The Shape Detection API: a picture is worth a thousand words, faces, and barcodes](https://web.dev/shape-detection)
 
 ---
 
@@ -402,6 +429,8 @@ const a = new BigInt(1); // Uncaught TypeError: BigInt is not a constructor
 
 - [Can I use 传送门](https://caniuse.com/?search=bigint)
 - [BigInt - JavaScript | MDN](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/BigInt)
+
+---
 
 ## Numeric separators
 
