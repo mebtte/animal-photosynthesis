@@ -432,7 +432,7 @@ const a = new BigInt(1); // Uncaught TypeError: BigInt is not a constructor
 
 ---
 
-## Numeric separators
+## 数字分隔符
 
 通常情况下, 如果一个数字特别大, 我们会在显示界面添加分隔符显得更有可读性:
 
@@ -525,3 +525,61 @@ color: hsl(1 2% 3% / 0.4);
 
 - [Can I use 传送门](https://caniuse.com/mdn-css_types_color_space_separated_functional_notation)
 - [No-Comma Color Functions in CSS](https://css-tricks.com/no-comma-color-functions-in-css)
+
+---
+
+## gap
+
+#### 兼容性及参考
+
+- [Can I use 传送门](https://caniuse.com/?search=gap)
+
+---
+
+## aspect-ratio
+
+如果想要实现一个指定比例的矩形, 通常使用 `padding`, 利用其百分比根据父元素宽度计算的特点, 但是真正的内容往往需要放在一个额外的子元素, 并且需要设置绝对定位:
+
+```html
+<!-- 4 / 1 的矩形 -->
+<style>
+  .container {
+    padding-bottom: 25%;
+    background-color: pink;
+    position: relative;
+  }
+  .content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+</style>
+
+<div class="container">
+  <div class="content">内容内容内容</div>
+</div>
+```
+
+`aspect-ratio` 属性可以让我们直接设置元素的宽高比. 上面的例子使用 `aspect-ratio` 可以写成这样:
+
+```html
+<style>
+  .content {
+    background-color: pink;
+    aspect-ratio: 4 / 1;
+  }
+</style>
+
+<div class="content">内容内容内容</div>
+```
+
+#### 兼容性及参考
+
+- [Can I use 传送门](https://caniuse.com/?search=aspect-ratio)
+- [aspect-ratio - CSS | MDN](https://developer.mozilla.org/zh-CN/docs/Web/CSS/aspect-ratio)
+
+---
+
+## min max clamp
