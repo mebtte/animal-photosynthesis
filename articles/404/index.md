@@ -1,6 +1,6 @@
 ---
 title: 'HTTP 404: Not Found'
-create: '0000-00-00'
+publish_time: '0000-00-00'
 updates:
   - time: '0000-00-00'
     description: '增加HTTP CAT'

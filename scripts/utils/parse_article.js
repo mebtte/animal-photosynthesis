@@ -89,7 +89,7 @@ export default async (id) => {
   return {
     id,
     title: attributes.title || '',
-    createTime: attributes.create || '0000-00-00',
+    publishTime: attributes.publish_time || '0000-00-00',
     updates: attributes.updates || [],
     hidden: attributes.hidden || false,
     content: $.html(),
