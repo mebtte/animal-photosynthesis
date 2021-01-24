@@ -73,7 +73,7 @@ for (let i = 0, { length } = articleIdList; i < length; i += 1) {
     articleList.push({
       id: articleId,
       title: data.title,
-      createTime: data.createTime,
+      publishTime: data.publishTime,
     });
   }
 }
@@ -82,7 +82,7 @@ spinner = ora.createSpinner('正在构建首页...');
 const allArticleTitleFontPath = await generateAllArticleTitleFont(articleList);
 let indexHtml = await ejs.renderFile(indexTemplate, {
   articleList: articleList.sort(
-    (a, b) => new Date(b.createTime) - new Date(a.createTime),
+    (a, b) => new Date(b.publishTime) - new Date(a.publishTime),
   ),
   config,
   titleFontPath,

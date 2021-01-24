@@ -1,6 +1,6 @@
 ---
 title: '浏览器和 JavaScript 的一些新特性'
-create: '2021-01-03'
+publish_time: '2021-01-03'
 updates:
 hidden: false
 ---
@@ -578,32 +578,10 @@ color: hsl(1 2% 3% / 0.4);
 
 在 `grid` 布局中, 可以用 `grid-gap` 属性来设置行与行和列与列之间的间隙, 现在可以直接使用 `gap` 属性替代 `grid-gap`, 而且 `gap` 属性增加了 `flex` 和 `column-count` 的支持.
 
-```html
-<style>
-  .container {
-    background: pink;
-    width: 300px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px 10px;
-  }
-  .item {
-    background: green;
-    width: 145px;
-    height: 20px;
-  }
-</style>
-
-<div class="container">
-  <div class="item"></div>
-  <div class="item"></div>
-  <div class="item"></div>
-  <div class="item"></div>
-  <div class="item"></div>
-  <div class="item"></div>
-  <div class="item"></div>
-</div>
-```
+<iframe
+  title="gap"
+  src="https://codesandbox.io/embed/gap-qbvxy?fontsize=14&hidenavigation=1&theme=dark"
+></iframe>
 
 #### 兼容性及参考
 

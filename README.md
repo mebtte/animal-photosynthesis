@@ -47,7 +47,7 @@ MEBTTE's Writing. [https://article.mebtte.com](https://article.mebtte.com)
 ```ts
 interface Frontmatter {
   title: string; // 文章标题
-  create: string; // 创建日期, 遵循格式 YYYY-MM-DD
+  publish_time: string; // 发布日期, 遵循格式 YYYY-MM-DD
   updates?: {
     // 更新记录
     time: string; // 更新时间, 遵循格式 YYYY-MM-DD
@@ -60,7 +60,7 @@ interface Frontmatter {
 ```md
 ---
 title: '文章标题'
-create: '2020-10-01'
+publish_time: '2020-10-01'
 updates:
   - time: '2020-10-02'
     description: '更新说明'

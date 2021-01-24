@@ -1,6 +1,6 @@
 ---
 title: 'CSS 变量'
-create: '2019-10-23'
+publish_time: '2019-10-23'
 updates:
 hidden: false
 ---
