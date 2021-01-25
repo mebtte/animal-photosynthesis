@@ -133,7 +133,7 @@ cookieStore.addEventlistener('change', (event) => {
   src="https://codesandbox.io/embed/mediasession-888j0?fontsize=14&hidenavigation=1&theme=dark"
 ></iframe>
 
-上面的例子实现了一个基本的 `MediaSession`. 基本信息通过全局对象 `MediaMetadata` 实例化, 其中 `artwork` 可以设置多个值, 浏览器根据出现的场景自动选择最优尺寸, 然后赋值给 `navigator.mediaSession.metadata` 实现设置. 媒体的控制通过 `navigator.mediaSession.setActionHandler` 方法设置, `play`/`pause`/`seekbackward`/`seekforward`/`previoustrack`/`nexttrack` 分别对应 `播放`/`暂停`/`快退`/`快进`/`上一个媒体`/`下一个媒体` 操作. 当媒体播放后, 浏览器会将基本信息和操作与系统映射.
+上面的例子实现了一个基本的 `MediaSession`. 基本信息通过全局对象 `MediaMetadata` 实例化, 其中 `artwork` 可以设置多个值, 浏览器根据出现的场景自动选择最优尺寸, 然后赋值给 `navigator.mediaSession.metadata` 实现设置. 媒体的控制通过 `navigator.mediaSession.setActionHandler` 方法设置, `play`/`pause`/`seekbackward`/`seekforward`/`previoustrack`/`nexttrack` 分别对应 `播放`/`暂停`/`快退`/`快进`/`上一个媒体`/`下一个媒体` 操作. 当媒体播放后, 浏览器会将基本信息和操作与系统映射, 并在系统提供对应的操作菜单.
 
 比如在 Windows10 下, 音量控制附近会出现媒体控制面板.
 
@@ -442,7 +442,7 @@ const a = new BigInt(1); // Uncaught TypeError: BigInt is not a constructor
 
 但是在 JavaScript 层面, 无论一个数多大我们都只能连写, 比如 `1032467823482.32134324`, 需要认真数的情况下才能得知准确的值.
 
-现在, `Numeric separators` 特性允许在数字字面量之前插入 `_` 分隔符, 使数字字面量更具可读性.
+现在, `Numeric separators` 特性允许在数字字面量之间插入 `_` 分隔符, 使数字字面量更具可读性.
 
 ```js
 const a = 123_456;
@@ -474,7 +474,7 @@ _123; // 开头, 这其实是一个合法的变量名
 123__456; // 连续两个分隔符
 ```
 
-数字分隔符只是为了提高代码可读性, 带有分隔符的数字在转换成字符串的时候不会带上分隔符, 同样地, 带有 `_` 字符串也不能正确地转换成数字:
+数字分隔符只是为了提高代码可读性, 并没有实际意义, 带有分隔符的数字在转换成字符串的时候不会带上分隔符. 同样地, 带有 `_` 字符串也不能正确地转换成数字:
 
 ```js
 (123_456.123_456).toString(); // 123456.123456
@@ -483,7 +483,7 @@ Number.parseInt('123_456', 10); // 123
 Number.parseFloat('123_456.123_456', 10); // 123
 ```
 
-还有一点, `Numeric separators` 同样适用于 `BigInt`.
+此外, 数字分隔符同样适用于上面提到的 `BigInt`.
 
 #### 兼容性及参考
 
@@ -594,11 +594,11 @@ color: hsl(1 2% 3% / 0.4);
 
 在 CSS 中可以使用 `calc` 方法进行数学计算, 现在新增了三个新的方法 `min` / `max` / `clamp`.
 
-`min` 方法接受一个或多个值, 返回其中最小值, 比如 `width: min(1vw, 4rem, 80px);`, 如果 `viewport` 的宽度等于 `800px`, 则 `1vw === 8px`, `4rem === 64px`, 所以结果是 `width: 1vew;`.
+`min` 方法接受一个或多个值, 返回其中最小值, 比如 `width: min(1vw, 4rem, 80px);`, 如果 `viewport` 的宽度等于 `800px`, 则 `1vw === 8px`, `4rem === 64px`, 所以结果是 `width: 1vw;`.
 
 `max` 方法接受一个或多个值, 返回其中最大值, 上面例子中, 结果是 `width: 80px;`.
 
-`clamp` 方法接受 3 个参数 `clamp(MIN, VAL, MAX)`, 从左到右分别是最小值/首选值/最大值, 如果首选值小于最小值则返回最小值, 如果大于最大值则返回最大值, 如果首选值介于最小值和最大值之间则返回首选值, 具体逻辑可以这样用 JS 表示:
+`clamp` 方法接受 3 个值 `clamp(MIN, VAL, MAX)`, 从左到右分别是最小值/首选值/最大值, 如果首选值小于最小值则返回最小值, 如果大于最大值则返回最大值, 如果首选值介于最小值和最大值之间则返回首选值, 具体逻辑可以这样用 JS 表示:
 
 ```js
 function clamp(min, val, max) {
