@@ -1,6 +1,6 @@
 ---
 title: '浏览器和 JavaScript 的一些新特性'
-publish_time: '2021-01-03'
+publish_time: '2021-01-25'
 updates:
 hidden: false
 ---
@@ -576,7 +576,7 @@ color: hsl(1 2% 3% / 0.4);
 
 ## gap
 
-在 `grid` 布局中, 可以用 `grid-gap` 属性来设置行与行和列与列之间的间隙, 现在可以直接使用 `gap` 属性替代 `grid-gap`, 而且 `gap` 属性增加了 `flex` 和 `column-count` 的支持.
+在 `grid` 布局中, 可以用 `grid-gap` 属性来设置行与行和列与列之间的间隙, 现在可以直接使用 `gap` 属性替代 `grid-gap`, 而且 `gap` 属性增加了对 `flex` 和 `column-count` 的支持.
 
 <iframe
   title="gap"
@@ -590,8 +590,38 @@ color: hsl(1 2% 3% / 0.4);
 
 ---
 
-## min max clamp
+## CSS math functions
+
+在 CSS 中可以使用 `calc` 方法进行数学计算, 现在新增了三个新的方法 `min` / `max` / `clamp`.
+
+`min` 方法接受一个或多个值, 返回其中最小值, 比如 `width: min(1vw, 4rem, 80px);`, 如果 `viewport` 的宽度等于 `800px`, 则 `1vw === 8px`, `4rem === 64px`, 所以结果是 `width: 1vew;`.
+
+`max` 方法接受一个或多个值, 返回其中最大值, 上面例子中, 结果是 `width: 80px;`.
+
+`clamp` 方法接受 3 个参数 `clamp(MIN, VAL, MAX)`, 从左到右分别是最小值/首选值/最大值, 如果首选值小于最小值则返回最小值, 如果大于最大值则返回最大值, 如果首选值介于最小值和最大值之间则返回首选值, 具体逻辑可以这样用 JS 表示:
+
+```js
+function clamp(min, val, max) {
+  // 小于最小值的话返回最小值
+  if (val < min) {
+    return min;
+  }
+  // 大于最大值的话返回最大值
+  if (val > max) {
+    return max;
+  }
+  // 介于最小值和最大值, 返回首选值
+  return val;
+}
+```
+
+也就是说, `clamp` 限定了 `VAL` 的取值范围, 比如 `width: clamp(1rem, 10vw, 2rem);` 在 `viewport` 的宽度等于 `800px` 的情况下, 结果是 `width: 2rem;`, 因为 `(10vw = 80px) > (2rem = 32px)`.
+
+有趣的是, `min` / `max` / `clamp` 还可以与其他方法嵌套, 比如 `clamp(1rem, calc(10vw - 5px), min(2rem, 20vw))`, 所以 `clamp` 可以写成 `max(MIN, min(VAL, MAX))` 或 `min(MAX, max(VAL, MIN))`.
 
 #### 兼容性及参考
 
-- [Can I use 传送门](https://caniuse.com/?search=min%20max%20clamp)
+- [Can I use 传送门](https://caniuse.com/?search=CSS%20math%20functions)
+- [min() - CSS | MDN](<https://developer.mozilla.org/zh-CN/docs/Web/CSS/min()>)
+- [max() - CSS | MDN](<https://developer.mozilla.org/zh-CN/docs/Web/CSS/max()>)
+- [clamp() - CSS | MDN](<https://developer.mozilla.org/zh-CN/docs/Web/CSS/clamp()>)
