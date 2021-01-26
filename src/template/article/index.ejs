@@ -6,6 +6,8 @@
   <%- include('../common/global_style.ejs') %>
 
   <title><%= title %> - <%= config.title %></title>
+  <meta name="description" content="<%= description %>..." />
+  <meta property="og:description" content="<%= description %>..." />
 
   <link rel="preload" href="<%= config.public_path %>/<%= articleContentFontPath %>" as="font" crossOrigin="anonymous" />
   <style>

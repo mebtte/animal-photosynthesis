@@ -73,6 +73,7 @@ for (let i = 0, { length } = articleIdList; i < length; i += 1) {
     articleList.push({
       id: articleId,
       title: data.title,
+      description: data.description,
       publishTime: data.publishTime,
     });
   }

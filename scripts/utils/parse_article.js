@@ -20,9 +20,9 @@ export default async (id) => {
   if (!mdText) {
     return null;
   }
-  const { attributes, body } = frontMatter(mdText);
+  const { attributes, body: mdBody } = frontMatter(mdText);
   const mdParser = new showdown.Converter();
-  const html = mdParser.makeHtml(body);
+  const html = mdParser.makeHtml(mdBody);
   const $ = cheerio.load(html);
 
   const resourceNodeList = $('[src]').toArray();
@@ -89,6 +89,8 @@ export default async (id) => {
   return {
     id,
     title: attributes.title || '',
+    // 取 markdown 内容的前 150 个字符作为页面的 description
+    description: mdBody.substring(0, 150).replace(/\s/gm, ' ') + '...',
     publishTime: attributes.publish_time || '0000-00-00',
     updates: attributes.updates || [],
     hidden: attributes.hidden || false,

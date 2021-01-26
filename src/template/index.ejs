@@ -6,6 +6,7 @@
   <%- include('common/global_style.ejs') %>
 
   <title><%= config.title %> - <%= config.description %></title>
+  <meta name="description" content="<%= config.description %>" />
 
   <link rel="preload" href="<%= config.public_path %>/<%= allArticleTitleFontPath %>" as="font" crossOrigin="anonymous" />
   <style>
