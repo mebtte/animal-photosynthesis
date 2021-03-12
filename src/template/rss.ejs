@@ -12,7 +12,7 @@
     <description>
       <![CDATA[<%= config.description %>]]>
     </description>
-    <link><%= config.site %><%= config.public_path %></link>
+    <link><%= config.origin %><%= config.public_path %></link>
     <lastBuildDate><%= new Date().toISOString() %></lastBuildDate>
     <% articleList.forEach(({ id, title, description, publishTime }) => { %>
       <item>
@@ -22,7 +22,7 @@
         <description>
           <![CDATA[<%= description %>]]>
         </description>
-        <link><%= config.site %><%= config.public_path %>/<%= id %></link>
+        <link><%= config.origin %><%= config.public_path %>/<%= id %></link>
         <guid isPermaLink="false"><%= id %></guid>
         <pubDate><%= new Date(publishTime).toISOString() %></pubDate>
       </item>
