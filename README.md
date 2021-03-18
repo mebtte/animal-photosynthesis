@@ -58,13 +58,13 @@ You need to fill metadata on `index.md`, for example:
 
 ```md
 ---
-title: "Hello world!"
-publish_time: "2020-10-01"
+title: 'Hello world!'
+publish_time: '2020-10-01'
 updates:
-  - time: "2020-10-02"
-    description: "update description"
-  - time: "2020-10-03"
-    description: "update description"
+  - time: '2020-10-02'
+    description: 'update description'
+  - time: '2020-10-03'
+    description: 'update description'
 hidden: false
 ---
 
