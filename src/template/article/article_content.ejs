@@ -111,11 +111,17 @@
     border-collapse: collapse;
   }
 
-  .table-container td {
+  .table-container th, .table-container td {
     font-size: 14px;
     color: var(--normal-color);
     border: 1px solid var(--tertiary-color);
     padding: 10px;
+    text-align: left;
+  }
+
+  .table-container th {
+    font-size: 16px;
+    text-align: left;
   }
 
   article blockquote::before {
