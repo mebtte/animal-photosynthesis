@@ -15,22 +15,17 @@ jobs:
           node-version: 14.12.x
 
       - name: build gh-pages
-        env:
-          ORIGIN: https://mebtte.github.io
-          PUBLIC_PATH: /article
         run: |
           npm install
           npm run build
       - name: deploy gh-pages
         env:
           TOKEN: ${{secrets.TOKEN}}
-          EMAIL: ${{secrets.EMAIL}}
-          USERNAME: ${{secrets.USERANME}}
         run: |
           cd build
           git init
-          git config --local user.name $USERANME
-          git config --local user.email $EMAIL
+          git config --local user.name mebtte
+          git config --local user.email hi@mebtte.com
           git remote add origin https://$TOKEN@github.com/$GITHUB_REPOSITORY.git
           git checkout -b gh-pages
           git add --all

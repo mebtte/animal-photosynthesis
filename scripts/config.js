@@ -1,11 +1,19 @@
 export default {
+  /** site author */
   author: 'mebtte',
+  /** author personal site */
   author_site: 'https://mebtte.com',
+  /** site keywords */
   keywords: ['HTML', 'CSS', 'JavaScript', 'Web'],
+  /** site title */
   title: 'Answer',
+  /** site description */
   description: "MEBTTE's Writing",
-  origin: process.env.ORIGIN ?? 'https://article.mebtte.com',
-  public_path: process.env.PUBLIC_PATH ?? '',
+  /** site origin */
+  origin: 'https://article.mebtte.com',
+  /** site public path, like `/article` or `/blog` */
+  public_path: '',
   github_repository: 'https://github.com/mebtte/article',
-  ga_measurement_id: 'G-SR7NFX6EK6', // https://analytics.google.com, if empty
+  /** https://analytics.google.com, allow empty */
+  ga_measurement_id: 'G-SR7NFX6EK6',
 };

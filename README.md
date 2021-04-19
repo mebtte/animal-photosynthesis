@@ -4,9 +4,9 @@ MEBTTE's Writing. [https://article.mebtte.com](https://article.mebtte.com)
 
 ## Template
 
-This project can be used as template to create article site. Articles written by [Markdown](https://zh.wikipedia.org/wiki/Markdown) on `articles` directory. You can insert any media tag like `audio`/`video`/`iframe` to Markdown and it will parse correctly.
+This project can be used as template to create article site. Articles written by [Markdown](https://zh.wikipedia.org/wiki/Markdown) on `/articles` directory. You can insert any media tag like `audio`/`video`/`iframe` to Markdown and it will parse correctly.
 
-If want to create a article site like this, you can `fork` this project. After this, you should remove all articles and change `scripts/config.js` to fit your mind.
+If want to create a article site like this, you can `fork` the repository. After this, you should remove all articles and change `scripts/config.js` to fit your mind.
 
 ### Requirement
 
@@ -108,32 +108,13 @@ npm run build
 # the build directory is the output
 ```
 
-You can set environment variable to change behavior:
+### Configure
 
-| variable    | description   | example                             |
-| ----------- | ------------- | ----------------------------------- |
-| ORIGIN      | public origin | ORIGIN="https://article.mebtte.com" |
-| PUBLIC_PATH | public path   | PUBLIC_PATH="/my_article"           |
-
-Also, you can update `scripts/config.js` to do the same thing. If you set environment variable and update `scripts/config.js` both, the environment variable will **cover** `scripts/config.js`'s property.
+You can change configure in `scripts/config.js` to fit your mind.
 
 ### GitHub Pages
 
-This project can deploy to `Github Pages` automatically. You should go to `Your repository --> Settings --> Secrets` and add secrets `TOEKN` / `EMAIL` / `USERNAME`.
-
-| Secret   | Descritpion                                                                                |
-| -------- | ------------------------------------------------------------------------------------------ |
-| TOKEN    | github token, you can generate on [Developer settings](https://github.com/settings/tokens) |
-| EMAIL    | git user.email, allow different with github email                                          |
-| USERNAME | git user.name, allow different with github name                                            |
-
-![](./docs/secrets.png)
-
-The last step, you need to set `gh-pages` branch as `GitHub Pages` on `Your repository --> Settings --> GitHub Pages`.
-
-![](./docs/gh_pages.png)
-
-If you do not want it, just remove `.github` directory.
+This project will deploy to `Github Pages` automatically and use custom domain, so you probably need to remove `.github` directory.
 
 ## License
 
