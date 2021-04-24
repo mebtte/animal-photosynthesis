@@ -17,7 +17,7 @@ hive的元数据信息存储在远程的 mysql 数据库中，元数据包括：
 
 ## Hive 的内部表、外部表、分区表、分桶表
 
-### 什么是 hive 的内部表：
+#### 什么是 hive 的内部表：
 
 每一张 Table 在 hive 中都有一个相对应的目录存储数据，所有的 Table 数据（不包括 External table ）都保存在这个目录中，删除表时，元数据和表数据都会被删除。
 
@@ -30,7 +30,7 @@ deptno int
 ```
 
 
-### 将数据导入内部表：
+#### 将数据导入内部表：
 
 - 标准insert语句，用于从textfile类型临时表导数到orc压缩格式的表中
 
@@ -38,8 +38,7 @@ deptno int
   insert into emp values(列值,列值,列值)
   ```
 
-- load 语句
-
+- load 语句：
   导入 HDFS 的数据：
 
   ```sql
@@ -66,7 +65,7 @@ deptno int
 
 
 
-### 什么是 hive 的外部表
+#### 什么是 hive 的外部表
 
 外部表只是表与外部数据做一个链接，链接指明数据存在HDFS的什么地方，数据不存储在表所对应的目录下。当删除一个外部表时，仅删除该链接和元数据，不删除外部数据。
 
@@ -83,7 +82,7 @@ location '/emp';
 
 
 
-### 外部表和内部表的互换：
+#### 外部表和内部表的互换：
 
 - 修改内部表 student 为外部表
 
@@ -100,7 +99,7 @@ location '/emp';
   
 
 
-### 什么是 hive 的分区表：
+#### 什么是 hive 的分区表：
 
 在 Hive 中，表中的一个 partition 对应表下的一个目录，所有的 partition 数据都存储在对应的目录中。
 
@@ -145,7 +144,7 @@ insert into table emp_part partition(deptno=30) select empno,ename,job,mgr,hired
 
 
 
-### 什么是 hive 的分桶表？
+#### 什么是 hive 的分桶表？
 
 桶表是对数据进行哈希取值，然后放到不同文件中存储
 
@@ -167,7 +166,7 @@ row format delimited fields terminated by ',';
 
 
 
-### STORED AS 为 hive 表指定存储文件类型 
+#### STORED AS 为 hive 表指定存储文件类型 
 
 常用的存储文件类型：SEQUENCEFILE（二进制序列文件）、TEXTFILE（文本）、ORC（列
 
@@ -278,7 +277,7 @@ public class CheckSalaryGrade extends UDF{
 
 
 
-### ETL_TIME 时差差8小时:
+#### ETL_TIME 时差差8小时:
 
 ```sql
 date_format(from_utc_timestamp(current_timestamp(), 'PRC'), 'yyyy-MM-dd HH:mm:ss')
@@ -288,7 +287,7 @@ select date_format(from_utc_timestamp(current_timestamp(), 'PRC'), 'yyyy-MM-dd H
 
 
 
-### HIVE 里创建临时表产出大量的小文件：
+#### HIVE 里创建临时表产出大量的小文件：
 
 里创建临时表，默认是事务表，事务表的小文件会很大。所以需要将事务表删除重建改成非事务表
 
@@ -350,7 +349,7 @@ create table dwd.t_coupon_use tblproperties ('transactional' = 'false')
 
 
 
-### 解析json：get_json_object(string json_string,string path)
+#### 解析json：get_json_object(string json_string,string path)
 
 ```json
 data =
