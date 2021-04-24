@@ -195,7 +195,7 @@ call insert_phone;
 select * from phone;
 ```
 
-![1](F:\article\articles\存储过程和游标\1.png)
+![1](https://github.com/WilliamsZhang/article/blob/master/articles/stored_procedure/1.png)
 
 ## 什么是游标？
 
@@ -334,7 +334,7 @@ call insert_phoneNum();
 select * from numtable;
 ```
 
-![2](F:\article\articles\存储过程和游标\2.png)
+![2](https://github.com/WilliamsZhang/article/blob/master/articles/stored_procedure/2.png)
 
 可以看出和上面的 phone 表是对应的，随机数也插入了。
 
@@ -565,9 +565,9 @@ call insert_mbi();
 
 最终生成了270多万条数据，耗时39分钟23秒
 
-![3](F:\article\articles\存储过程和游标\3.png)
+![3](https://github.com/WilliamsZhang/article/blob/master/articles/stored_procedure/3.png)
 
-![4](F:\article\articles\存储过程和游标\4.png)
+![4](https://github.com/WilliamsZhang/article/blob/master/articles/stored_procedure/4.png)
 
 但这个耗时却不是十分令人满意，因为游标是一条一条处理，在使用游标的过程中会对数据进行加锁，这样在业务并发量大的情况下，会出现性能问题。
 
@@ -662,6 +662,6 @@ INSERT INTO mbi_sale_analysis_by_category_daily(sale_amount_no_tax_d,-- 插入�
 
 实测插入耗时2分14秒：
 
-![5](F:\article\articles\存储过程和游标\5.png)
+![5](https://github.com/WilliamsZhang/article/blob/master/articles/stored_procedure/5.png)
 
 本周着重理解了MySQL的存储过程和游标，最终实现向测试环境中批量插入270万测试数据，下面是本周总结：
