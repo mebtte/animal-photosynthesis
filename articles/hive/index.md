@@ -34,7 +34,7 @@ deptno int
 
 - 标准insert语句，用于从textfile类型临时表导数到orc压缩格式的表中
 
-  ```
+  ```sql
   insert into emp values(列值,列值,列值)
   ```
 
@@ -42,25 +42,25 @@ deptno int
 
   导入 HDFS 的数据：
 
-  ```
+  ```sql
   load data inpath '/scott/emp.csv' into table emp;
   ```
 
   导入本地数据文件，多一个 local 关键字：
 
-  ```
+  ```sql
   load data local inpath '/root/temp/emp.csv' into table emp;
   ```
 
   覆盖数据，overwrite 关键字：
 
-  ```
+  ```sql
   load data inpath '/scott/emp.csv' overwrite into table emp;
   ```
 
   加载数据到分区，partition 指定分区：
 
-  ```
+  ```sql
   load data local inpath '/opt/module/hive/datas/dept_20200401.log' into table dept_partition partition(day='20200401');
   ```
 
@@ -72,7 +72,7 @@ deptno int
 
 external 关键字可以让用户创建一个外部表，location 关键字指向实际路径
 
-```
+```sql
 create external table emp (
 empid int, 
 ename string,  
@@ -87,13 +87,13 @@ location '/emp';
 
 - 修改内部表 student 为外部表
 
-  ```
+  ```sql
   alter table student set tblproperties('EXTERNAL'='TRUE');  
   ```
 
 - 修改外部表 student 为内部表
 
-  ```
+  ```sql
   alter table student set tblproperties('EXTERNAL'='FALSE');  
   ```
 
@@ -106,7 +106,7 @@ location '/emp';
 
 partitioned by 创建分区表 :
 
-```
+```sql
 create table emp_part (
 empno int,
 ename string, 
@@ -120,13 +120,13 @@ row format delimited fields terminated by ',';
 
 通过 explain 语句，可以查看 SQL 的执行计划。从而可以判断建立分区后，是否可以提高查询到的效率：
 
-```
+```sql
 explain select * from emp where deptno = 10;
 ```
 
 往分区表中插入数据：指明分区：
 
-```
+```sql
 insert into table emp_part partition(deptno=10) select empno,ename,job,mgr,hiredate,sal,comm from emp1 where deptno=10;
 insert into table emp_part partition(deptno=20) select empno,ename,job,mgr,hiredate,sal,comm from emp1 where deptno=20;
 insert into table emp_part partition(deptno=30) select empno,ename,job,mgr,hiredate,sal,comm from emp1 where deptno=30;
@@ -134,7 +134,7 @@ insert into table emp_part partition(deptno=30) select empno,ename,job,mgr,hired
 
 创建二级分区表：
 
-```
+```sql
  create table dept_partition2(
  deptno int, 
  dname string, 
@@ -151,7 +151,7 @@ insert into table emp_part partition(deptno=30) select empno,ename,job,mgr,hired
 
 clustered by 创建分桶表
 
-```
+```sql
 create table emp_bucket 
 (empno int, 
 ename string, 
@@ -181,39 +181,39 @@ AS ORC
 
 1.重命名表：
 
-```
+```sql
 ALTER TABLE table_name RENAME TO new_table_name; 
 ```
 
 2.添加列：
 
-```
+```sql
  alter table tableName add columns (deptdesc string);  
 ```
 
 3.更新列：
 
-```
+```sql
  alter table tableName change column column_name new_name string;  
 ```
 
 4.增加分区：
 
-```
+```sql
 alter table dept_partition add partition(day='20200404');  
 alter table dept_partition add partition(day='20200405') partition(day='20200406');  
 ```
 
 5.删除分区：
 
-```
+```sql
 alter table dept_partition drop partition (day='20200406'); 
 alter table dept_partition drop partition (day='20200404'), partition(day='20200405'); 
 ```
 
 6.查看分区表有多少个分区：
 
-```
+```sql
 show partitions dept_partition;  
 ```
 
@@ -223,13 +223,13 @@ show partitions dept_partition;
 
 1.“-e" 不进入hive的交互窗口就能执行 SQL 语句
 
-```
+```shell
 $ bin/hive -e "select id from student;" 
 ```
 
 2.“-f”执行脚本中 sql 语句 
 
-```
+```shell
 （1）在/opt/module/hive/下创建 datas 目录并在 datas 目录下创建 hivef.sql 文件 
 [atguigu@hadoop102 datas]$ touch hivef.sql  
 
@@ -249,7 +249,7 @@ $ bin/hive -e "select id from student;"
 
 自定义UDF需要继承UDF类： org.apache.hadoop.hive.ql.UDF，并且重写 evaluate 方法。
 
-```
+```sql
 import org.apache.hadoop.hive.ql.exec.UDF;
 
 public class MyConcatString extends UDF{
@@ -259,7 +259,7 @@ public class MyConcatString extends UDF{
 }
 ```
 
-```
+```sql
 import org.apache.hadoop.hive.ql.exec.UDF;
 
 public class CheckSalaryGrade extends UDF{
@@ -280,7 +280,7 @@ public class CheckSalaryGrade extends UDF{
 
 ### ETL_TIME 时差差8小时:
 
-```
+```sql
 date_format(from_utc_timestamp(current_timestamp(), 'PRC'), 'yyyy-MM-dd HH:mm:ss')
 
 select date_format(from_utc_timestamp(current_timestamp(), 'PRC'), 'yyyy-MM-dd HH:mm:ss') as etl_time
@@ -296,7 +296,7 @@ select date_format(from_utc_timestamp(current_timestamp(), 'PRC'), 'yyyy-MM-dd H
 
 'transactional'='true', 'transactional_properties'='default',
 
-```
+```sql
 CREATE TABLE `dw.tmp_12_gxt`(
     `sp_id` string,
     `avg_xscb` double,
@@ -320,7 +320,7 @@ TBLPROPERTIES (
 
 去掉这两行就是非事务表：
 
-```
+```sql
 CREATE TABLE `dw.tmp_12_gxt`(
     `sp_id` string,
     `avg_xscb` double,
@@ -342,7 +342,7 @@ TBLPROPERTIES (
 
 所以我们创建临时表的时候可以指定 tblproperties ('transactional' = 'false')：
 
-```
+```sql
 create table dwd.t_coupon_use tblproperties ('transactional' = 'false')
   as
     select * from dw.tmp_12_gxt
@@ -352,7 +352,7 @@ create table dwd.t_coupon_use tblproperties ('transactional' = 'false')
 
 ### 解析json：get_json_object(string json_string,string path)
 
-```
+```json
 data =
 {
  "store":
@@ -367,21 +367,21 @@ data =
 
 - get单层值
 
-  ```
+  ```sql
   hive> select  get_json_object(data, '$.owner') from test;
   结果：amy
   ```
 
 - get多层值
 
-  ```
+  ```sql
   hive> select  get_json_object(data, '$.store.bicycle.price') from test;
   结果：19.95
   ```
 
 - get数组值
 
-  ```
+  ```sql
   hive> select  get_json_object(data, '$.store.fruit[0]') from test;
   结果：{"weight":8,"type":"apple"}
   ```
