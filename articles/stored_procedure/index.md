@@ -1,3 +1,11 @@
+---
+title: '存储过程和游标'
+create: '2020-10-24'
+updates:
+hidden: false
+---
+
+
 ## 什么是存储过程？
 
 存储过程是程序化的SQL，它可以直接操作底层数据表，用函数的思想处理一些更复杂的数据处理。存储过程由SQL语句和流程控制语句共同组成，它类似于函数可以接收输入参数，也可以返回输出给调用者。
@@ -70,13 +78,15 @@ DELIMITER
 
 下面我们来解释一下这个存储过程中的语句：
 
+
+
 - 存储过程的三种参数类型：IN,OUT,INOUT
 
-  | 参数类型 | 是否返回 | 作用                                                         |
-  | -------- | -------- | ------------------------------------------------------------ |
-  | IN       | 否       | 向存储过程传入参数，不能被返回                               |
-  | OUT      | 是       | 把存储过程的计算结果放到该参数中，调用者可以得到返回值       |
-  | INOUT    | 是       | IN 和 OUT 的结合，既可以用于存储过程的传入参数，同事又可以把计算结果放到参数中，调用者可以得到返回值 |
+  参数类型：IN；        是否返回：否；作用：向存储过程传入参数，不能被返回
+
+  参数类型：OUT；    是否返回：是；作用：把存储过程的计算结果放到该参数中，调用者可以得到返回值
+
+  参数类型：INOUT；是否返回：是；作用：IN 和 OUT 的结合，既可以用于存储过程的传入参数，同事又可以把计算结果放到参数中，调用者可以得到返回值
 
 - DECLARE 是声明的意思，用来声明变量及其类型，位于BEGIN和END之间，且需要在其他语句使用之前进行变量的声明。
 
@@ -195,7 +205,7 @@ call insert_phone;
 select * from phone;
 ```
 
-![1](https://github.com/WilliamsZhang/article/blob/master/articles/stored_procedure/1.png)
+![1](./1.png)
 
 ## 什么是游标？
 
@@ -334,7 +344,7 @@ call insert_phoneNum();
 select * from numtable;
 ```
 
-![2](https://github.com/WilliamsZhang/article/blob/master/articles/stored_procedure/2.png)
+![2](./2.png)
 
 可以看出和上面的 phone 表是对应的，随机数也插入了。
 
@@ -565,9 +575,9 @@ call insert_mbi();
 
 最终生成了270多万条数据，耗时39分钟23秒
 
-![3](https://github.com/WilliamsZhang/article/blob/master/articles/stored_procedure/3.png)
+![3](./3.png)
 
-![4](https://github.com/WilliamsZhang/article/blob/master/articles/stored_procedure/4.png)
+![4](./4.png)
 
 但这个耗时却不是十分令人满意，因为游标是一条一条处理，在使用游标的过程中会对数据进行加锁，这样在业务并发量大的情况下，会出现性能问题。
 
@@ -662,6 +672,6 @@ INSERT INTO mbi_sale_analysis_by_category_daily(sale_amount_no_tax_d,-- 插入�
 
 实测插入耗时2分14秒：
 
-![5](https://github.com/WilliamsZhang/article/blob/master/articles/stored_procedure/5.png)
+![5](./5.png)
 
-本周着重理解了MySQL的存储过程和游标，最终实现向测试环境中批量插入270万测试数据，下面是本周总结：
+本周着重理解了MySQL的存储过程和游标，最终实现向测试环境中批量插入270万测试数据。
