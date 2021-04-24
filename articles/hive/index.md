@@ -1,6 +1,6 @@
 ---
 title: 'Hive 知识点总结'
-create: '2020-10-23'
+create: '2020-10-24'
 updates:
 hidden: false
 ---
@@ -145,7 +145,7 @@ insert into table emp_part partition(deptno=30) select empno,ename,job,mgr,hired
 
 
 
-### 什么是 hive 的桶表？
+### 什么是 hive 的分桶表？
 
 桶表是对数据进行哈希取值，然后放到不同文件中存储
 
