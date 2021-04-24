@@ -4,7 +4,7 @@ export default {
   keywords: ['大数据', 'Java'],
   title: 'Answer',
   description: "WilliamsZhang's Writing",
-  site: process.env.SITE || '',
-  publicPath: process.env.PUBLIC_PATH || '',
+  // site: process.env.SITE || '',
+  // publicPath: process.env.PUBLIC_PATH || '',
   githubRepository: 'https://github.com/WilliamsZhang/article',
 };
