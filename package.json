@@ -9,8 +9,8 @@
   },
   "scripts": {
     "build": "node scripts/build.js",
-    "serve": "cross-env PUBLIC_PATH=\"\" node scripts/build.js && npm run http-server",
-    "http-server": "http-server build -p 9000 -c=0"
+    "http-server": "http-server build -p 9000 -c=0",
+    "preview": "npm run build && npm run http-server"
   },
   "repository": {
     "type": "git",
