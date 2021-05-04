@@ -93,19 +93,18 @@ interface Metadata {
 }
 ```
 
-### Preview
-
-```bash
-npm install
-npm run serve # http://localhost:9000
-```
-
 ### Build
 
 ```bash
 npm install
-npm run build
-# the build directory is the output
+npm run build # the build directory is the output
+```
+
+### Preview
+
+```bash
+npm install
+npm run preview # http://localhost:9000
 ```
 
 ### Configure
