@@ -8,6 +8,7 @@
     "url": "https://mebtte.com"
   },
   "scripts": {
+    "watch": "node scripts/watch.js",
     "build": "node scripts/build.js",
     "http-server": "http-server build -p 9000 -c=0",
     "preview": "npm run build && npm run http-server"
@@ -17,16 +18,16 @@
     "url": "git+https://github.com/mebtte/article.git"
   },
   "devDependencies": {
-    "cheerio": "^1.0.0-rc.3",
-    "cross-env": "^7.0.2",
-    "ejs": "^3.1.5",
+    "cheerio": "^1.0.0-rc.6",
+    "ejs": "^3.1.6",
     "fontmin": "^0.9.8",
     "front-matter": "^4.0.2",
-    "fs-extra": "^9.0.1",
+    "fs-extra": "^10.0.0",
     "http-server": "^0.12.3",
     "md5": "^2.3.0",
     "ora": "^5.1.0",
     "prettier": "^2.2.1",
-    "showdown": "^1.9.1"
+    "showdown": "^1.9.1",
+    "yargs": "^17.0.1"
   }
 }
