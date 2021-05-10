@@ -93,6 +93,13 @@ interface Metadata {
 }
 ```
 
+### Watch single article
+
+```bash
+npm install
+npm run watch -- --id ":id" # http://localhost:9000/:id
+```
+
 ### Build
 
 ```bash
