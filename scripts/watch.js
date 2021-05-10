@@ -46,36 +46,42 @@ async function build() {
   }
 
   const spinner = ora.createSpinner('Building...');
-  const data = await parseArticle(id);
+  try {
+    const data = await parseArticle(id);
 
-  const articleFontPath = `${directory.STATIC}/content_font.ttf`;
-  const articleContentFontPath = await fontmin({
-    fontPath: articleFontPath,
-    text:
-      data.mdText +
-      (
-        await fs.readFile(`${directory.TEMPLATE}/article/article_updates.ejs`)
-      ).toString(),
-    generateFilename: (d) => {
-      const dMd5 = md5(d);
-      return `${directory.BUILD}/${dMd5}${path.parse(articleFontPath).ext}`;
-    },
-  });
+    const articleFontPath = `${directory.STATIC}/content_font.ttf`;
+    const articleContentFontPath = await fontmin({
+      fontPath: articleFontPath,
+      text:
+        data.mdText +
+        (
+          await fs.readFile(`${directory.TEMPLATE}/article/article_updates.ejs`)
+        ).toString(),
+      generateFilename: (d) => {
+        const dMd5 = md5(d);
+        return `${directory.BUILD}/${dMd5}${path.parse(articleFontPath).ext}`;
+      },
+    });
 
-  let html = await ejs.renderFile(`${directory.TEMPLATE}/article/index.ejs`, {
-    ...data,
-    config,
-    titleFontPath,
-    commonFontPath,
-    articleContentFontPath: articleContentFontPath.replace(
-      `${directory.BUILD}/`,
-      '',
-    ),
-  });
-  html = await parseHtmlResource(html);
-  await fs.writeFile(`${directory.BUILD}/${id}.html`, html);
+    let html = await ejs.renderFile(`${directory.TEMPLATE}/article/index.ejs`, {
+      ...data,
+      config,
+      titleFontPath,
+      commonFontPath,
+      articleContentFontPath: articleContentFontPath.replace(
+        `${directory.BUILD}/`,
+        '',
+      ),
+    });
+    html = await parseHtmlResource(html);
+    await fs.writeFile(`${directory.BUILD}/${id}.html`, html);
 
-  spinner.succeed('Built.');
+    spinner.succeed('Built.');
+  } catch (error) {
+    console.error(error);
+    spinner.fail('Build failed.');
+  }
+
   building = false;
   if (changedButNotBuild) {
     build();
