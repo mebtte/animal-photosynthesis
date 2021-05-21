@@ -2,7 +2,7 @@
 title: '从蚂蚁森林说起'
 publish_time: '2020-07-12'
 updates:
-hidden: false
+hidden: true
 ---
 
 假如你是一个支付宝的开发, 一天产品提出了一个叫做`蚂蚁果园`功能需求

@@ -2,7 +2,7 @@
 title: 'LRC 格式以及如何使用 TypeScript 解析'
 publish_time: '2021-03-23'
 updates:
-hidden: false
+hidden: true
 ---
 
 ## LRC 格式

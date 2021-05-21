@@ -2,7 +2,7 @@
 title: 'CSS 变量'
 publish_time: '2019-10-23'
 updates:
-hidden: false
+hidden: true
 ---
 
 基本所有的 CSS 预处理器都支持变量的特性，比如 SASS：
@@ -72,9 +72,7 @@ div {
 </style>
 
 <div class="a">
-  <div class="b">
-    text
-  </div>
+  <div class="b">text</div>
 </div>
 ```
 
