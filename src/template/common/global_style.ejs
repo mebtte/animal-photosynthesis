@@ -12,12 +12,12 @@
   body {
     --content-max-width: 840px;
 
-    --primary-color: rgb(237, 106, 94);
+    --primary-color: rgb(237 106 94);
 
     --normal-color: #333;
     --secondary-color: #888;
     --tertiary-color: #ddd;
-    --backgroud: rgb(244, 244, 244);
+    --backgroud: rgb(255 255 255);
 
     --border-radius: 2px;
     --transition-duration: 0.3s;
@@ -25,20 +25,4 @@
     background-color: var(--backgroud);
     transition: background-color var(--transition-duration);
   }
-
-  body.dark-theme {
-    --normal-color: #eee;
-    --secondary-color: #888;
-    --tertiary-color: #444;
-    --backgroud: #333;
-  }
 </style>
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const darkTheme = window.localStorage.getItem('dark_theme');
-    if (darkTheme) {
-      document.body.classList.remove('light-theme');
-      document.body.classList.add('dark-theme');
-    }
-  })
-</script>
