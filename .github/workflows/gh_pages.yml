@@ -9,10 +9,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@main
-      - name: use node.js@14.12.x
+      - name: use node.js@14
         uses: actions/setup-node@main
         with:
-          node-version: 14.12.x
+          node-version: 14
 
       - name: build gh-pages
         run: |
