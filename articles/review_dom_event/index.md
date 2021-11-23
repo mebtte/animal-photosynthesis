@@ -2,6 +2,8 @@
 title: '复习 DOM 事件'
 publish_time: '2021-11-19'
 updates:
+  - time: '2021-11-23'
+    description: '增加 event.cancelable'
 hidden: false
 ---
 
@@ -323,11 +325,6 @@ console.log('123');
 
 现在会先输出 `123` 后输出 `data-from-event`.
 
-## 进一步阅读
-
-- [React 合成事件](https://reactjs.org/docs/events.html)
-- [Vue 事件处理](https://v3.cn.vuejs.org/guide/events.html)
-
 ## 禁用整个页面的点击事件
 
 <iframe height="300" style="width: 100%;" scrolling="no" title="forbid_click_globally" src="https://codepen.io/mebtte/embed/xxLyWGR?default-tab=html%2Cresult" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
@@ -336,8 +333,24 @@ console.log('123');
   on <a href="https://codepen.io">CodePen</a>.
 </iframe>
 
-## 特殊的 scroll
+## 事件是否可以取消
 
-禁用整个页面的点击事件是通过在 `window` 上添加一个捕获阶段点击处理函数, 通过调用 `event.stopPropagation` 阻止事件向下捕获, 从而阻止了页面上元素点击事件的触发. 然而在测试 `scroll` 事件时发现这种做法并不能实现阻止滚动, 查阅了一些资料也没有找到具体的原因.
+禁用整个页面的点击事件是通过在 `window` 上添加一个捕获阶段点击处理函数, 通过调用 `event.stopPropagation` 阻止事件向下捕获, 从而阻止了页面上元素点击事件的触发. 然而对于 `scroll` 事件, 这种方式却不生效. 通过下面的例子, 可以发现 `event.stopPropagation` 确实阻止了滚动事件的向下捕获 (body 在捕获阶段的 scroll 处理函数没有触发), 但是滚动行为并没有被阻止.
 
-此外, 还发现当文档发生滚动时 `scroll` 会冒泡到 `window`, 而当文档内元素发生滚动时则不会. 所以 `scroll` 事件可能需要特殊对待.
+<iframe
+  src="https://codesandbox.io/embed/exciting-tamas-orwf0?fontsize=14&hidenavigation=1&theme=dark"
+  title="scroll_capture_stop_propagation"
+></iframe>
+
+这是因为 `scroll` 属于不可取消事件, 不可取消事件是无法阻止实际行为发生的, 即使通过 `event.preventDefault` 也是无法阻止的. 我们可以通过事件对象的 [cancelable](https://developer.mozilla.org/docs/Web/API/Event/cancelable) 属性判断当前事件是否可以被取消.
+
+此外 `scroll` 还有特殊的表现, 文档滚动时会冒泡, 而文档内元素滚动时则不会.
+
+![文档滚动事件会冒泡](./document_scroll_event.png)
+
+![普通元素滚动事件不会冒泡](./element_scroll_event.png)
+
+## 进一步阅读
+
+- [React 合成事件](https://reactjs.org/docs/events.html)
+- [Vue 事件处理](https://v3.cn.vuejs.org/guide/events.html)
