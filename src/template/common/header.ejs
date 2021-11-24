@@ -6,7 +6,7 @@
 
   .page-header {
     max-width: var(--content-max-width);
-    margin: 40px auto;
+    margin: 50px auto 40px auto;
     padding: 0 30px;
     display: flex;
     align-items: center;
@@ -15,12 +15,9 @@
   .page-header_title {
     flex: 1;
     min-width: 0;
-    font-size: min(9vw, 56px);
+    font-size: min(8vw, 56px);
     font-family: title_font;
     margin: 0;
-  }
-
-  .page-header_title  {
     color: var(--normal-color);
   }
 
@@ -29,13 +26,18 @@
     text-decoration: none;
   }
 
+  .page-header_title > a:hover{
+    color: var(--primary-color);
+  }
+
   .page-header_icon {
-    display: block;
     margin-left: 16px;
+  }
+
+  .page-header_icon > img {
     user-select: none;
     width: 20px;
     height: 20px;
-    cursor: pointer;
   }
 </style>
 
@@ -49,10 +51,10 @@
       <a href="<%= config.public_path %>/"><%= config.title %></a>
     </h1>
   <% } %>
-  <a href="<%= config.public_path %>/rss.xml">
-    <img class="page-header_icon" src="/rss.png" alt="rss" />
+  <a class="page-header_icon" href="<%= config.public_path %>/rss.xml">
+    <img src="/rss.png" alt="rss" />
   </a>
-  <a href="<%= config.github_repository %>">
-    <img class="page-header_icon" src="/github.png" alt="github" />
+  <a class="page-header_icon" href="<%= config.github_repository %>">
+    <img src="/github.png" alt="github" />
   </a>
 </header>
