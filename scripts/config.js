@@ -6,5 +6,6 @@ export default {
   description: 'MEBTTE 的个人写作.',
   origin: 'https://mebtte.com',
   public_path: '',
-  github_repository: 'https://github.com/mebtte/article',
+  github_repository:
+    'https://github.com/mebtte/animal_photosynthesis',
 };

@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mebtte/article.git"
+    "url": "git+https://github.com/mebtte/animal_photosynthesis.git"
   },
   "devDependencies": {
     "cheerio": "^1.0.0-rc.6",

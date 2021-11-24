@@ -2,6 +2,8 @@
 title: '我的博客架构变迁之路'
 publish_time: '2021-05-10'
 updates:
+  - time: '2021-11-24'
+    description: '调整域名'
 hidden: false
 ---
 
@@ -41,9 +43,9 @@ Express 是当时 Node.js 下最热门的 Web 应用框架, EJS 是一门语法�
 
 调整架构后, 原来的 Express 移除了 EJS 模板渲染的功能变成了纯粹的 JSON API 服务. 新增了一个前端项目负责前端页面的渲染, 使用 React + Webpack 的方式, 通过暴露构建后的静态资源提供给用户, 同时也提供 CMS 页面.
 
-这个架构下会产生两个域名, 一个是 API 服务 `api.mebtte.com`, 一个是前端静态资源服务 `article.mebtte.com`, 但两个服务依然运行在同一个云服务器上, 所以需要增加一层 [NGINX](https://www.nginx.com) 服务, 根据域名反向代理到对应服务.
+这个架构下会产生两个域名, 一个是 API 服务 `api.mebtte.com`, 一个是前端静态资源服务 `mebtte.com`, 但两个服务依然运行在同一个云服务器上, 所以需要增加一层 [NGINX](https://www.nginx.com) 服务, 根据域名反向代理到对应服务.
 
-实际上 API 服务和前端资源服务可以做到只需一个域名从而移除 NGINX 服务的, 比如 API 服务可以使用 `article.mebtte.com/api`, 同时前端资源服务由 Express 提供. 但是 API 服务除了提供博客相关的 API 外还有其他项目的 API, 所以我不想挂载在 `article.mebtte.com` 这个域名上, 所以分成了两个域名.
+实际上 API 服务和前端资源服务可以做到只需一个域名从而移除 NGINX 服务的, 比如 API 服务可以使用 `mebtte.com/api`, 同时前端资源服务由 Express 提供. 但是 API 服务除了提供博客相关的 API 外还有其他项目的 API, 所以我不想挂载在 `mebtte.com` 这个域名上, 所以分成了两个域名.
 
 这套系统跟之前一样, 发布文章只需要在 CMS 编辑并提交就可以了. 部署方面, API 服务和前端资源服务都需要登录到云服务器拉取代码进行重启或者构建, 依旧很麻烦.
 
@@ -125,7 +127,7 @@ Express 是当时 Node.js 下最热门的 Web 应用框架, EJS 是一门语法�
 
 > 之前想偷懒才迁移到 React, 后面发现文章页面非常简单, JS 本身就很少用到, React 用到的地方就更少了.
 
-于是我打算移除 Gatsby 回到最基础的模板渲染, 具体就是自己写一个 [构建脚本](https://github.com/mebtte/article/blob/master/scripts/build.js), 通过 EJS 模板渲染文章数据产生文章页面.
+于是我打算移除 Gatsby 回到最基础的模板渲染, 具体就是自己写一个 [构建脚本](https://github.com/mebtte/animal_photosynthesis/blob/master/scripts/build.js), 通过 EJS 模板渲染文章数据产生文章页面.
 
 ![模板预渲染, 跟静态博客生成器的逻辑是一样的](./template_pre_render.png)
 
