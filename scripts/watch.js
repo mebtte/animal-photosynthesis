@@ -19,12 +19,16 @@ import config from './config.js';
 const { id } = yargs(process.argv).argv;
 
 if (!id) {
-  console.error('Please specify the article id by `--id "article_id"`.');
+  console.error(
+    'Please specify the article id by `--id "article_id"`.',
+  );
   process.exit(1);
 }
 
 if (!fs.statSync(`${directory.ARTICLES}/${id}`).isDirectory()) {
-  console.error(`"${directory.ARTICLES}/${id}" is not a directory.`);
+  console.error(
+    `"${directory.ARTICLES}/${id}" is not a directory.`,
+  );
   process.exit(1);
 }
 
@@ -42,7 +46,9 @@ async function build() {
   const markdownFilename = `${directory.ARTICLES}/${id}/index.md`;
   const markdownExist = await fs.pathExists(markdownFilename);
   if (!markdownExist) {
-    return console.log(`Please create "${markdownFilename}" and go on.`);
+    return console.log(
+      `Please create "${markdownFilename}" and go on.`,
+    );
   }
 
   const spinner = ora.createSpinner('Building...');
@@ -55,24 +61,31 @@ async function build() {
       text:
         data.mdText +
         (
-          await fs.readFile(`${directory.TEMPLATE}/article/article_updates.ejs`)
+          await fs.readFile(
+            `${directory.TEMPLATE}/article/article_updates.ejs`,
+          )
         ).toString(),
       generateFilename: (d) => {
         const dMd5 = md5(d);
-        return `${directory.BUILD}/${dMd5}${path.parse(articleFontPath).ext}`;
+        return `${directory.BUILD}/${dMd5}${
+          path.parse(articleFontPath).ext
+        }`;
       },
     });
 
-    let html = await ejs.renderFile(`${directory.TEMPLATE}/article/index.ejs`, {
-      ...data,
-      config,
-      titleFontPath,
-      commonFontPath,
-      articleContentFontPath: articleContentFontPath.replace(
-        `${directory.BUILD}/`,
-        '',
-      ),
-    });
+    let html = await ejs.renderFile(
+      `${directory.TEMPLATE}/article/index.ejs`,
+      {
+        ...data,
+        config,
+        titleFontPath,
+        commonFontPath,
+        articleContentFontPath: articleContentFontPath.replace(
+          `${directory.BUILD}/`,
+          '',
+        ),
+      },
+    );
     html = await parseHtmlResource(html);
     await fs.writeFile(`${directory.BUILD}/${id}.html`, html);
 
@@ -98,7 +111,12 @@ function onChange(type, filename) {
   }
 }
 
-fs.watch(`${directory.ARTICLES}/${id}`, onChange);
+fs.watch(
+  `${directory.ARTICLES}/${id}`,
+  { recursive: true },
+  onChange,
+);
+fs.watch(directory.SRC, { recursive: true }, onChange);
 
 await build();
 cp.exec('npm run http-server', {

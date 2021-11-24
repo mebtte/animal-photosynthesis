@@ -1,22 +1,51 @@
 
 <style>
-  .article-action {
+  .article-actions {
     max-width: var(--content-max-width);
+
+    display: flex;
+    align-items: center;
+
     margin: 40px auto;
     padding: 0 30px;
+
     font-family: common_font;
     color: var(--normal-color);
   }
-  .article-action > a {
+
+  .article-actions_action:not(:last-child)::after {
+    content: '·\00a0';
+  }
+
+  .article-actions_action > a {
     color: inherit;
     text-decoration-color: var(--primary-color);
   }
+
+  @media (max-width: 520px) {
+    .article-actions {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .article-actions_action::before {
+      content: '·';
+    }
+
+    .article-actions_action:not(:last-child)::after {
+      content: '';
+    }
+  }
 </style>
 
-<p class="article-action">
-  使用
-  <a href="<%= config.github_repository %>/discussions">Discussions</a>
-  讨论或在
-  <a href="<%= config.github_repository %>/edit/master/articles/<%= id %>/index.md">Github</a>
-  编辑.
-</p>
+<div class="article-actions">
+  <span class="article-actions_action">
+    使用 <a href="<%= config.github_repository %>/discussions">Discussions</a> 讨论
+  </span>
+  <span class="article-actions_action">
+    在 <a href="<%= config.github_repository %>/edit/master/articles/<%= id %>/index.md">Github</a> 上编辑
+  </span>
+  <span class="article-actions_action">
+    分享到 <a href="https://www.twitter.com/share?text=<%= encodeURIComponent(title) %>&url=<%= encodeURIComponent(`${config.origin}/${id}`) %>">Twitter</a>
+  </span>
+</div>
