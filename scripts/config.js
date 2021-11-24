@@ -1,19 +1,10 @@
 export default {
-  /** site author */
   author: 'mebtte',
-  /** author personal site */
   author_site: 'https://i.mebtte.com',
-  /** site keywords */
   keywords: ['HTML', 'CSS', 'JavaScript', 'Web'],
-  /** site title */
-  title: 'Answer',
-  /** site description */
-  description: "MEBTTE's Writing",
-  /** site origin */
+  title: '动物的光合作用',
+  description: 'MEBTTE 的个人写作.',
   origin: 'https://mebtte.com',
-  /** site public path, like `/article` or `/blog` */
   public_path: '',
   github_repository: 'https://github.com/mebtte/article',
-  /** https://analytics.google.com, allow empty */
-  ga_measurement_id: 'G-CESZTRKM96',
 };
