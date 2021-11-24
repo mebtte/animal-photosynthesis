@@ -15,5 +15,5 @@ export default {
   public_path: '',
   github_repository: 'https://github.com/mebtte/article',
   /** https://analytics.google.com, allow empty */
-  ga_measurement_id: 'G-SR7NFX6EK6',
+  ga_measurement_id: 'G-CESZTRKM96',
 };
