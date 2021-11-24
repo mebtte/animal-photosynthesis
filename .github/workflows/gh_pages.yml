@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@main
+
       - name: use node.js@14
         uses: actions/setup-node@main
         with:
@@ -18,9 +19,11 @@ jobs:
         run: |
           npm install
           npm run build
+
       - name: create cname file
         run: |
-          echo article.mebtte.com > build/CNAME
+          echo 'mebtte.com' > build/CNAME
+
       - name: deploy gh-pages
         env:
           TOKEN: ${{secrets.TOKEN}}
