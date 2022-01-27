@@ -6,5 +6,5 @@ export default {
   description: "WilliamsZhang's Writing",
   site: process.env.SITE || '',
   publicPath: process.env.PUBLIC_PATH || '',
-  githubRepository: 'https://github.com/WilliamsZhang/article',
+  githubRepository: 'https://github.com/YiAnCN/article',
 };
