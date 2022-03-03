@@ -32,7 +32,6 @@ if (!fs.statSync(`${directory.ARTICLES}/${id}`).isDirectory()) {
   process.exit(1);
 }
 
-await fs.emptyDir(directory.BUILD); // empty build dir
 const titleFontPath = await generateTitleFont();
 const commonFontPath = await generateCommonFont();
 
