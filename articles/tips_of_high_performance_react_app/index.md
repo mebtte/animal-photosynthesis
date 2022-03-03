@@ -134,7 +134,7 @@ const InputField = () => (
 
 ![React Component Tree](./react_component_tree.png)
 
-一个组件表示为上图的树形结构, 假设有一个 `state` 被 `A`/`B`/`C` 所使用的, 因为 React 遵循自上到下的单项数据流, 为了保证 `A`/`B`/`C` 都能拿到 `state`, 那么 `state` 只能定义在 `Root`, 当 `state` 发生变化时整个组件树都会重新渲染. 不过仔细观察可以发现, 除了 A/B/C 外其他组件的重新渲染都是没有必要的.
+一个组件表示为上图的树形结构, 假设有一个 `state` 被 `A`/`B`/`C` 所使用的, 因为 React 遵循自上到下的单向数据流, 为了保证 `A`/`B`/`C` 都能拿到 `state`, 那么 `state` 只能定义在 `Root`, 当 `state` 发生变化时整个组件树都会重新渲染. 不过仔细观察可以发现, 除了 A/B/C 外其他组件的重新渲染都是没有必要的.
 
 那有没有办法避免这些不必要的渲染?
 
@@ -356,9 +356,6 @@ return (
 因为每次渲染 `style` 的值是不变的, 像这种不变的 `props` 可以提升为常量从而实现优化.
 
 ```jsx
-/** input.jsx */
-import { useState } from 'react';
-
 const Label = memo(({ style }) => {
   console.count('label render');
 
@@ -380,6 +377,4 @@ const Input = () => {
     </div>
   );
 };
-
-export default Input;
 ```
