@@ -52,7 +52,7 @@ const Input = () => {
 
 <iframe
   src="https://codesandbox.io/embed/use-state-is-a-function-all-pyvnen?fontsize=14&hidenavigation=1&theme=dark"
-  title="use_state_is_a_function_all"
+  title="use_state_is_a_function_call"
   allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
   sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
 ></iframe>
@@ -236,6 +236,57 @@ const Caculagraph = () => {
 };
 ```
 
+## 不变的 props 可以提升为常量
+
+<iframe
+  src="https://codesandbox.io/embed/red-bush-p3ue5n?fontsize=14&hidenavigation=1&theme=dark"
+  title="anonymous_object_as_props"
+  allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+  sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+></iframe>
+
+上面的例子中, 使用 `React.memo` 对 `Label` 进行了优化, 在 `Input` 中因为 `Label` 的渲染跟 `value` 没有关系, 所以 `value` 变化不会导致 `Label` 重新渲染. 不过实际情况是 `value` 变化会导致 `Label` 重新渲染.
+
+分析这个问题我们对 `Input` 组件进行分解:
+
+```jsx
+const style = { color: 'red' };
+return (
+  <div>
+    <Label style={style} />
+    <input type="text" value={value} onChange={onChange} />
+  </div>
+);
+```
+
+可以发现每次渲染都会生成一个新的 `style` 对象, 前后两个 `style` 不相等导致 `React.memo` 失效.
+
+因为每次渲染 `style` 的值是不变的, 像这种不变的 `props` 可以提升为常量从而实现优化.
+
+```jsx
+const Label = memo(({ style }) => {
+  console.count('label render');
+
+  return <div style={style}>label</div>;
+});
+
+const labelStyle = { color: 'red' };
+
+const Input = () => {
+  const [value, setValue] = useState('');
+  const onChange = (event) => setValue(event.target.value);
+
+  console.count('input render');
+
+  return (
+    <div>
+      <Label style={labelStyle} />
+      <input type="text" value={value} onChange={onChange} />
+    </div>
+  );
+};
+```
+
 ## 合并相关联 state 减少渲染次数
 
 <iframe
@@ -245,7 +296,7 @@ const Caculagraph = () => {
   sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
 ></iframe>
 
-上面的例子模拟从接口获取数据然后展示, 请求中/请求成功/请求失败都有对应的 UI, 可以看到, 无论请求成功还是请求失败都会产生 3 次渲染, 第一次渲染是组件初始化, 第二次渲染是请求成功的 `setData` 或者请求失败的 `setError`, 第三次渲染是最后的 `loading` 状态重置 `setLoading(false)`.
+上面的例子模拟从接口获取数据然后展示, 请求中/请求成功/请求失败都有对应的 UI, 然后可以通过 `reload` 按钮重新发起请求. 可以看到, 无论请求成功还是请求失败都会产生 3 次渲染, 后续每次重新请求也是 3 次渲染, 组件初始化导致第一次渲染, 然后是 `setError(null)` 和 `setLoading(true)` 因为和初始值一致跳过渲染, 请求成功的 `setData` 或者请求失败的 `setError` 导致第二次渲染, `setLoading(false)` 导致第三次渲染, 后续重新请求也是同理.
 
 仔细分析可以发现, `setData`/`setError` 后面始终跟着 `setLoading(false)`, 如果把 `data`/`error` 和 `loading` 合并成一个 `state` 的话那就可以减少一次渲染.
 
@@ -326,55 +377,25 @@ const App = () => {
 };
 ```
 
-相比之前, 合并相关联 `state` 后减少了一次渲染.
+改造之后发现, 每次重新请求的渲染次数从 3 降到 2, 但是初始化依然是 3 次, 这是因为设置 loading 状态是生成一个新的对象 `{ loading: true, error: null, value: 0 }` 与初始值不相等导致的, 而 loading 状态的值其实是一致的, 所以可以把 loading 状态保存为一个常量进行优化.
 
-## 不变的 props 可以提升为常量
+```tsx
+const loadingState = { loading: true, error: null, value: 0 };
+
+const useData = () => {
+  const [data, setData] = useState(loadingState);
+  const getData = useCallback(async () => {
+    setData(loadingState);
+    // ...
+  }, []);
+
+  // ...
+};
+```
 
 <iframe
-  src="https://codesandbox.io/embed/red-bush-p3ue5n?fontsize=14&hidenavigation=1&theme=dark"
-  title="anonymous_object_as_props"
+  src="https://codesandbox.io/embed/unite-state-4gpdnb?fontsize=14&hidenavigation=1&theme=dark"
+  title="unite_state"
   allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
   sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
 ></iframe>
-
-上面的例子中, 使用 `React.memo` 对 `Label` 进行了优化, 在 `Input` 中因为 `Label` 的渲染跟 `value` 没有关系, 所以 `value` 变化不会导致 `Label` 重新渲染. 不过实际情况是 `value` 变化会导致 `Label` 重新渲染.
-
-分析这个问题我们对 `Input` 组件进行分解:
-
-```jsx
-const style = { color: 'red' };
-return (
-  <div>
-    <Label style={style} />
-    <input type="text" value={value} onChange={onChange} />
-  </div>
-);
-```
-
-可以发现每次渲染都会生成一个新的 `style` 对象, 前后两个 `style` 不相等导致 `React.memo` 失效.
-
-因为每次渲染 `style` 的值是不变的, 像这种不变的 `props` 可以提升为常量从而实现优化.
-
-```jsx
-const Label = memo(({ style }) => {
-  console.count('label render');
-
-  return <div style={style}>label</div>;
-});
-
-const labelStyle = { color: 'red' };
-
-const Input = () => {
-  const [value, setValue] = useState('');
-  const onChange = (event) => setValue(event.target.value);
-
-  console.count('input render');
-
-  return (
-    <div>
-      <Label style={labelStyle} />
-      <input type="text" value={value} onChange={onChange} />
-    </div>
-  );
-};
-```
