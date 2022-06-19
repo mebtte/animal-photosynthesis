@@ -25,17 +25,24 @@ export default async (id) => {
   const html = mdParser.makeHtml(mdBody);
   const $ = cheerio.load(html);
 
-  const resourceNodeList = $('[src]').toArray();
-  for (const resourceNode of resourceNodeList) {
-    const node = $(resourceNode);
-    const resourcePath = node.attr('src');
-    if (resourcePath[0] !== '.') {
-      continue;
+  const buildLocalResource = async (type) => {
+    const resourceNodeList = $(`[${type}]`).toArray();
+    for (const resourceNode of resourceNodeList) {
+      const node = $(resourceNode);
+      const resourcePath = node.attr(type);
+      if (resourcePath[0] !== '.') {
+        continue;
+      }
+      const localPath = path.join(articleDir, resourcePath);
+      const filename = await toBuild(localPath);
+      $(resourceNode).attr(
+        type,
+        `${config.public_path}/${filename}`,
+      );
     }
-    const localPath = path.join(articleDir, resourcePath);
-    const filename = await toBuild(localPath);
-    $(resourceNode).attr('src', `${config.public_path}/${filename}`);
-  }
+  };
+  await buildLocalResource('src');
+  await buildLocalResource('href');
 
   // img
   const imgNodeList = $('img').toArray();
@@ -62,7 +69,11 @@ export default async (id) => {
     node.replaceWith(`
       <figure class="figure-iframe">
         <iframe src="${src}" title="${nodeTitle}" loading="lazy"></iframe>
-        ${nodeTitle ? `<figcaption>${nodeTitle}</figcaption>` : ''}
+        ${
+          nodeTitle
+            ? `<figcaption>${nodeTitle}</figcaption>`
+            : ''
+        }
       </figure>
     `);
   }
@@ -92,7 +103,8 @@ export default async (id) => {
     id,
     title: attributes.title || '',
     // 取 markdown 内容的前 150 个字符作为页面的 description
-    description: mdBody.substring(0, 150).replace(/\s/gm, ' ') + '...',
+    description:
+      mdBody.substring(0, 150).replace(/\s/gm, ' ') + '...',
     publishTime: attributes.publish_time || '2000-01-01',
     updates: attributes.updates || [],
     hidden: attributes.hidden || false,
