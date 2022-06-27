@@ -112,7 +112,25 @@ React 仓库有一个讨论以上情况的 [issue](https://github.com/facebook/r
 
 ## 封装组件
 
-React Fragment 是 [16.2](https://reactjs.org/blog/2017/11/28/react-v16.2.0-fragment-support.html) 推出的, 在这之前, 我一直用 [react-aux](https://github.com/gajus/react-aux) 实现 `Fragment` 的功能, 它的原理很简单:
+React Fragment 是 [16.2](https://reactjs.org/blog/2017/11/28/react-v16.2.0-fragment-support.html) 推出的, 在这之前, 我一直用 [react-aux](https://github.com/gajus/react-aux) 实现 `Fragment` 的功能:
+
+```jsx
+<div>
+  <Aux>
+    <div>a</div>
+    <span>b</span>
+  </Aux>
+</div>
+/**
+ * 输出真实 DOM
+ * <div>
+ *   <div>a</div>
+ *   <span>b</span>
+ * </div>
+ */
+```
+
+它的原理很简单, 利用 React 自身对 children 合并的处理:
 
 ```jsx
 // https://github.com/gajus/react-aux/blob/master/src/ReactAux.js
