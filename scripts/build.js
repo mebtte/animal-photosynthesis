@@ -1,9 +1,7 @@
 #!/usr/bin/env node
 import * as path from 'path';
-
 import ejs from 'ejs';
 import md5 from 'md5';
-
 import initial from './tasks/initial.js';
 import generateTitleFont from './tasks/generate_title_font.js';
 import generateAllArticleTitleFont from './tasks/generate_all_article_title_font.js';
@@ -32,10 +30,17 @@ spinner.succeed(`共有 ${articleIdList.length} 篇文章`);
 
 const articleList = [];
 
-for (let i = 0, { length } = articleIdList; i < length; i += 1) {
+for (
+  let i = 0, { length } = articleIdList;
+  i < length;
+  i += 1
+) {
   const articleId = articleIdList[i];
-  const createLog = (text) => `(${i + 1}/${length}) ${articleId} ${text}`;
-  const innerSpinner = ora.createSpinner(createLog('正在构建...'));
+  const createLog = (text) =>
+    `(${i + 1}/${length}) ${articleId} ${text}`;
+  const innerSpinner = ora.createSpinner(
+    createLog('正在构建...'),
+  );
   const data = await parseArticle(articleId);
   if (!data) {
     innerSpinner.fail(createLog('文章为空'));
@@ -47,11 +52,15 @@ for (let i = 0, { length } = articleIdList; i < length; i += 1) {
     text:
       data.mdText +
       (
-        await fs.readFile(`${directory.TEMPLATE}/article/article_updates.ejs`)
+        await fs.readFile(
+          `${directory.TEMPLATE}/article/article_updates.ejs`,
+        )
       ).toString(),
     generateFilename: (d) => {
       const dMd5 = md5(d);
-      return `${directory.BUILD}/${dMd5}${path.parse(articleFontPath).ext}`;
+      return `${directory.BUILD}/${dMd5}${
+        path.parse(articleFontPath).ext
+      }`;
     },
   });
   let html = await ejs.renderFile(articleTemplate, {
@@ -65,7 +74,10 @@ for (let i = 0, { length } = articleIdList; i < length; i += 1) {
     ),
   });
   html = await parseHtmlResource(html);
-  await fs.writeFile(`${directory.BUILD}/${articleId}.html`, html);
+  await fs.writeFile(
+    `${directory.BUILD}/${articleId}.html`,
+    html,
+  );
   if (data.hidden) {
     innerSpinner.info(createLog('已构建, 属于隐藏文章'));
   } else {
@@ -80,7 +92,8 @@ for (let i = 0, { length } = articleIdList; i < length; i += 1) {
 }
 
 spinner = ora.createSpinner('正在构建首页...');
-const allArticleTitleFontPath = await generateAllArticleTitleFont(articleList);
+const allArticleTitleFontPath =
+  await generateAllArticleTitleFont(articleList);
 let indexHtml = await ejs.renderFile(indexTemplate, {
   articleList: articleList.sort(
     (a, b) => new Date(b.publishTime) - new Date(a.publishTime),
