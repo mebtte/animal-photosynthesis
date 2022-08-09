@@ -99,6 +99,12 @@ export default async (id) => {
     node.html(node.html());
   }
 
+  // a
+  const aNodeList = $('a').toArray();
+  for (const aNode of aNodeList) {
+    $(aNode).attr('target', '__blank');
+  }
+
   return {
     id,
     title: attributes.title || '',

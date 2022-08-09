@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notification</title>
+  </head>
+  <body>
+    <button id="request" type="button">请求通知权限</button>
+    <button id="notice" type="button">发起通知</button>
+
+    <script>
+      document.querySelector("#request").addEventListener("click", () => {
+        if (Notification.permission === "granted") {
+          return window.alert("已获取通知权限, 无需再次获取");
+        }
+
+        if (Notification.permission === "denied") {
+          return window.alert("已拒绝通知权限, 需要重置请求权限再获取");
+        }
+
+        window.Notification.requestPermission()
+          .then((result) => {
+            if (result === "denied") {
+              return window.alert("已拒绝通知权限");
+            }
+
+            if (result === "default") {
+              return window.alert("已忽略通知权限申请");
+            }
+            window.alert("已获取通知权限");
+          })
+          .catch((error) => {
+            console.error(error);
+            window.alert("无法获取通知权限, 通过控制台查看更多信息");
+          });
+      });
+
+      document.querySelector("#notice").addEventListener("click", () => {
+        if (Notification.permission !== "granted") {
+          return window.alert("请获取通知权限再发起通知");
+        }
+
+        const notification = new Notification("标题", {
+          icon: "https://picsum.photos/100/100",
+          body: "内容内容内容",
+        });
+        notification.addEventListener("click", () => {
+          window.alert("通知被点击");
+          notification.close();
+        });
+      });
+    </script>
+  </body>
+</html>
