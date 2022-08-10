@@ -2,6 +2,8 @@
 title: 'Mac mini 搭建外网可访问的简易 NAS'
 publish_time: '2022-08-08'
 updates:
+  - time: '2022-08-10'
+    description: 'macOS 文件共享服务'
 hidden: false
 ---
 
@@ -31,9 +33,7 @@ hidden: false
 
 ![双盘位硬盘柜](./drive_house.jpeg)
 
-上面说到 NAS 是通过网络协议给其他设备提供服务的, NAS 有很多种网络协议, 比如 [FTP](https://zh.wikipedia.org/wiki/%E6%96%87%E4%BB%B6%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE)/[NFS](https://zh.wikipedia.org/wiki/%E7%BD%91%E7%BB%9C%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F)/[SMB](https://zh.wikipedia.org/wiki/%E4%BC%BA%E6%9C%8D%E5%99%A8%E8%A8%8A%E6%81%AF%E5%8D%80%E5%A1%8A) 等等. 作为 Web 开发人员, 我对这些协议不太熟悉, 所以我选用的是 [WebDAV](https://zh.wikipedia.org/wiki/%E5%9F%BA%E4%BA%8EWeb%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E7%BC%96%E5%86%99%E5%92%8C%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6) 协议.
-
-> SMB 最开始是由微软开发并在 Windows 上使用的, 后来由 [Andrew Tridgell](https://zh.wikipedia.org/wiki/%E5%AE%89%E5%BE%B7%E9%AD%AF%C2%B7%E5%9E%82%E9%B3%A9) 通过逆向工程移植到了 \*nix 平台下, 实现了跨操作系统的文件共享, 这就是著名的 [Samba](https://zh.wikipedia.org/wiki/Samba). 说到 AT, 就不得不说他和 [git](https://zh.wikipedia.org/wiki/Git) 的故事. 在 git 之前, Linux 内核通过一款名为 [BitKeeper](http://www.bitkeeper.org) 的商业版本控制系统进行维护, BitKeeper 的公司 BitMover 为 Linux 社区提供免费授权. 在 2005 年的时候 AT 对 BitKeeper 进行反编译并写了一个小程序连接 BitKeeper 的仓库, 此行为被 BitMover 发现并撤回了对 Linux 社区的免费授权, Linux 内核开发团队和 BitMover 磋商无果, 于是就有了 Linus 十天开发出 git 的故事. 此外, AT 也是 [rsync](https://zh.wikipedia.org/wiki/Rsync) 的作者之一.
+上面说到 NAS 是通过网络协议给其他设备提供服务的, NAS 有很多种网络协议, 比如 [FTP](https://zh.wikipedia.org/wiki/%E6%96%87%E4%BB%B6%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE)/[NFS](https://zh.wikipedia.org/wiki/%E7%BD%91%E7%BB%9C%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F)/[SMB](https://zh.wikipedia.org/wiki/%E4%BC%BA%E6%9C%8D%E5%99%A8%E8%A8%8A%E6%81%AF%E5%8D%80%E5%A1%8A) 等等, 我这里选用的是 [WebDAV](https://zh.wikipedia.org/wiki/%E5%9F%BA%E4%BA%8EWeb%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E7%BC%96%E5%86%99%E5%92%8C%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6) 协议.
 
 WebDAV 是在 HTTP 协议的基础上添加了额外的方法进行文件操作, 比如 COPY 方法进行文件复制 / MOVE 方法进行文件移动等等, 因为是基于 HTTP 协议, 所以 WebDAV 也可以通过 HTTPS 进行通信, 在公网情况下能够保证传输安全.
 
@@ -65,7 +65,7 @@ WebDAV 是在 HTTP 协议的基础上添加了额外的方法进行文件操作,
 
 所以我这里用的方式是定时备份.
 
-![macOS 磁盘工具可以通过软件的形式组建 RAID](./raid.png)
+![macOS 磁盘工具的 RAID 助理可以实现软件形式的 RAID](./raid.png)
 
 定时备份的话需要借助 [cron](https://zh.wikipedia.org/zh-cn/Cron), macOS 自带了 crontab 和 cron 管理定时任务, 不需要额外安装, 需要注意的是要赋予 cron 完全磁盘访问权限, 具体操作是将 cron 程序拖入到「完全磁盘访问权限」列表中, 不然 cron 执行备份任务会报没有权限的错误:
 
@@ -151,7 +151,7 @@ vim webdav.ini
 
 实际上, 更多的人的网络拓扑结构和我的一样, 运营商分配的是一个局域网 IP, 在这之上的小区路由才有公网 IP, 甚至有的小区路由也有可能是个局域网 IP.
 
-![](./network_structure.png)
+![我的网络拓扑结构](./network_structure.png)
 
 这种网络结构下就需要通过[内网穿透](https://zh.wikipedia.org/zh-cn/NAT%E7%A9%BF%E9%80%8F)的技术了. 内网穿透的原理是借助一台有公网 IP 的机器, 内网机器与之建立隧道, 按照一定的规则访问公网 IP 的机器, 这台机器会自动转发给内网机器从而实现网络穿透.
 
@@ -161,9 +161,9 @@ vim webdav.ini
 
 不过内网穿透我没有选择自己搭建一套, 而是选择了 [cpolar](https://www.cpolar.com) 这个现成的服务, cpolar 提供了免费套餐.
 
-和 webdav 一样, 我们需要把 cpolar [下载](https://www.cpolar.com/download)解压后放到 `/usr/local/bin` 目录, 按照文档配置 `token` 后, 执行命令 `cpolar http 9000` 暴露 webdav 服务, 通过控制台输出的信息找到域名, 在访达对这个域名进行连接:
+和 webdav 一样, 我们需要把 cpolar [下载](https://www.cpolar.com/download)解压后放到 `/usr/local/bin` 目录, 按照文档配置 `token` 后, 执行命令 `cpolar http 9000` 暴露 webdav 服务, 通过控制台输出的信息找到域名, 通过访达进行连接:
 
-![cpolar 状态面板](./cpolar_status.png)
+![cpolar 状态面板, 可以选择通过 HTTP 还是 HTTPS 域名进行连接](./cpolar_status.png)
 
 ![访达通过公网访问 webdav 服务](./remote_access.png)
 
@@ -188,6 +188,8 @@ vim cpolar.ini
 
 如果不想每次启动都随机域名的话, 可以选择 cpolar 的付费套餐支持固定域名.
 
+![cpolar 付费套餐](./cpolar_price.png)
+
 > 访问内网服务还可以通过 VPN 的方式, 不过这种方式工程量和成本都很高, 一般情况下只有企业采用.
 
 公网访问的情况下速度会比本地访问差很多, 所以一般我不用访达连接 webdav 服务, 因为访达需要将文件完整下载后才能打开, 大文件容易造成访达卡死, 这里的话桌面设备推荐使用 [Cyberduck](https://cyberduck.io), 移动设备使用 [nPlayer](https://nplayer.com) 进行访问.
@@ -200,4 +202,14 @@ vim cpolar.ini
 
 ![iPad 通过 nPlayer 访问 webdav](./ipad.jpeg)
 
-NAS 除了提供文件存储服务以外, 基本任何服务都能以内网穿透的方式暴露出去, github 上有个 [awesome-selfhosted](https://github.com/awesome-selfhosted/awesome-selfhosted#readme) 的项目记录了大量可自主部署的服务, 比如下载服务/照片自动备份服务, 有时间可以慢慢折腾.
+之所以选用 WebDAV 是因为相比其他协议有更多的软件支持以及更适合在公网上传输(HTTP 协议), 如果不想折腾 WebDAV 服务的话, macOS 提供了更简单的方法, 在「系统偏好设置」→「共享」中, 勾选「文件共享」, macOS 会帮我们启动一个 SMB 服务, 跟 WebDAV 服务类似, 局域网内的其他设备都可以访问或者通过访达挂载成远程硬盘.
+
+![文件共享, 右侧可以自定义共享文件夹和用户](./file_sharing.png)
+
+借助内网穿透, SMB 服务也可以暴露在公网上. SMB 是通过 TCP 协议以及使用 445 端口, 还是以 cpolar 为例, 通过命令 `cpolar tcp 445` 暴露服务, 根据控制台输出的信息我们就可以远程连接了.
+
+![使用 cpolar 暴露 SMB 服务](./cpolar_smb.png)
+
+> SMB 最开始是由微软开发并在 Windows 上使用的, 后来由 [Andrew Tridgell](https://zh.wikipedia.org/wiki/%E5%AE%89%E5%BE%B7%E9%AD%AF%C2%B7%E5%9E%82%E9%B3%A9) 通过逆向工程移植到了 \*nix 平台下, 实现了跨操作系统的文件共享, 这就是著名的 [Samba](https://zh.wikipedia.org/wiki/Samba). 说到 AT, 就不得不说他和 [git](https://zh.wikipedia.org/wiki/Git) 的故事. 在 git 之前, Linux 内核通过一款名为 [BitKeeper](http://www.bitkeeper.org) 的商业版本控制系统进行维护, BitKeeper 的公司 BitMover 为 Linux 社区提供免费授权. 在 2005 年的时候 AT 对 BitKeeper 进行反编译并写了一个小程序连接 BitKeeper 的仓库, 此行为被 BitMover 发现并撤回了对 Linux 社区的免费授权, Linux 内核开发团队和 BitMover 磋商无果, 于是就有了 Linus 十天开发出 git 的故事. 此外, AT 也是 rsync 的作者之一.
+
+Mac mini 除了提供存储服务以外, 基本任何服务都能以内网穿透的方式暴露出去, github 上有个 [awesome-selfhosted](https://github.com/awesome-selfhosted/awesome-selfhosted#readme) 的项目记录了大量可自主部署的服务, 比如下载服务/照片自动备份服务, 有时间可以慢慢折腾.
