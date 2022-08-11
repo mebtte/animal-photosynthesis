@@ -134,21 +134,19 @@ document.querySelector('button').onclick = null;
 
 同样地, 当 `a` 被点击时, 事件对象是这样传递的 `window -> document -> html -> body -> div -> p -> a -> p -> div -> body -> html -> document -> window`.
 
-<iframe height="300" style="width: 100%;" scrolling="no" title="event_listener_default_phase" src="https://codepen.io/mebtte/embed/abyYMbQ?default-tab=html%2Cresult" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href="https://codepen.io/mebtte/pen/abyYMbQ">
-  event_listener_default_phase</a> by Mebtte Pan (<a href="https://codepen.io/mebtte">@mebtte</a>)
-  on <a href="https://codepen.io">CodePen</a>.
-</iframe>
+<iframe
+  title="event_listener_default_phase"
+  src="https://codepen.io/mebtte/embed/abyYMbQ?default-tab=html%2Cresult"
+></iframe>
 
 我们来看一下上面的例子, 给 `div` 添加一个 `click` 事件监听, 按照事件传递的特性, 当点击 `button` 时事件对象 `event` 会在捕获和冒泡两个阶段各经过一次 `div`, 也就是说点击 `button` , `div` 的 `click` 监听函数会触发两次, 上面的例子会弹出两次 `alert`. 实际上面的例子只弹出了一次 `alert`, 这是因为默认情况下, 目标元素以外的事件监听函数只作用于**冒泡阶段**.
 
 如果想在**捕获阶段**触发, 元素的 `on*` 属性是无法做到的, 只能通过 `addEventListener` 方法, 当第三个参数为 `true` 或 `{ capture: true }` 时, 事件监听函数就会作用在**捕获阶段**.
 
-<iframe height="300" style="width: 100%;" scrolling="no" title="event_listener_at_capture" src="https://codepen.io/mebtte/embed/NWvYJRg?default-tab=html%2Cresult" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href="https://codepen.io/mebtte/pen/NWvYJRg">
-  event_listener_at_capture</a> by Mebtte Pan (<a href="https://codepen.io/mebtte">@mebtte</a>)
-  on <a href="https://codepen.io">CodePen</a>.
-</iframe>
+<iframe
+  title="event_listener_at_capture"
+  src="https://codepen.io/mebtte/embed/NWvYJRg?default-tab=html%2Cresult"
+></iframe>
 
 如果想知道事件目前处于哪个阶段, 可以通过事件对象 `event` 的 `eventPhase` 属性:
 
@@ -161,11 +159,11 @@ document.querySelector('button').onclick = null;
 
 通过 `eventPhase`, 我们可以判断某个事件是自身触发的还是子节点触发的:
 
-<iframe height="300" style="width: 100%;" scrolling="no" title="event_phase" src="https://codepen.io/mebtte/embed/ExvEMQz?default-tab=html%2Cresult" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href="https://codepen.io/mebtte/pen/ExvEMQz">
-  event_phase</a> by Mebtte Pan (<a href="https://codepen.io/mebtte">@mebtte</a>)
-  on <a href="https://codepen.io">CodePen</a>.
-</iframe>
+<iframe
+  title="event_phase"
+  src="https://codepen.io/mebtte/embed/ExvEMQz?default-tab=html%2Cresult"
+></iframe>
+
 除了 `eventPhase`, `event` 对象还有一些常用的属性:
 
 - `target`, 触发事件的元素.
@@ -178,32 +176,30 @@ document.querySelector('button').onclick = null;
 
 利用事件冒泡的特性, 所有列表项 `li` 的点击事件都会冒泡到父元素 `ul`, 我们只需要给 `ul` 添加一个点击事件监听, 通过 `event.target` 判断是哪个列表项, 可以达到节省内存的目的, 这种做法称为**事件代理**或者**事件委托**.
 
-<iframe height="300" style="width: 100%;" scrolling="no" title="event_delegation" src="https://codepen.io/mebtte/embed/jOLeZLv?default-tab=html%2Cresult" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href="https://codepen.io/mebtte/pen/jOLeZLv">
-  event_delegation</a> by Mebtte Pan (<a href="https://codepen.io/mebtte">@mebtte</a>)
-  on <a href="https://codepen.io">CodePen</a>.
-</iframe>
+<iframe
+  title="event_delegation"
+  src="https://codepen.io/mebtte/embed/jOLeZLv?default-tab=html%2Cresult"
+></iframe>
 
 ## 阻止默认行为
 
 某些事件会触发浏览器的默认行为, 比如点击 `a` 会发生跳转, 键盘按下 `cmd + f` 会打开浏览器的搜索功能等等. 但在一些特殊情况下, 我们并不想触发浏览器的默认行为, 可以通过事件对象的 `preventDefault` 方法阻止默认行为. 比如点击 `a` 不发生跳转:
 
-<iframe height="300" style="width: 100%;" scrolling="no" title="prevent_default" src="https://codepen.io/mebtte/embed/eYEPyPj?default-tab=html%2Cresult" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href="https://codepen.io/mebtte/pen/eYEPyPj">
-  preventDefault</a> by Mebtte Pan (<a href="https://codepen.io/mebtte">@mebtte</a>)
-  on <a href="https://codepen.io">CodePen</a>.
-</iframe>
+<iframe
+  title="prevent_default"
+  src="https://codepen.io/mebtte/embed/eYEPyPj?default-tab=html%2Cresult"
+></iframe>
+
 `addEventListener` 可以指定第三个参数的 `passive` 属性, 表示事件处理函数不会调用 `event.preventDefault` ( 即使调用了也会被忽略 ), 在[某些情况](https://developer.mozilla.org/docs/Web/API/EventTarget/addEventListener#%E4%BD%BF%E7%94%A8_passive_%E6%94%B9%E5%96%84%E7%9A%84%E6%BB%9A%E5%B1%8F%E6%80%A7%E8%83%BD)下可以优化浏览器的性能.
 
 ## 阻止事件的传递
 
 有一个卡片 `div`, 当点击时会跳转到卡片详情, 所以我们给卡片 `div` 添加了一个 `click` 的跳转处理, 同时卡片 `div` 内部有个收藏按钮 `button`, 当点击 `button` 会触发收藏的逻辑. 实际上, 由于事件传递的特性, `button` 的点击事件会冒泡的 `div`, 导致收藏的同时跳转到卡片详情. 这种情况下我们就需要阻止事件的传递, 通过事件对象的 `stopPropagation` 方法, 可以阻止事件冒泡:
 
-<iframe height="300" style="width: 100%;" scrolling="no" title="stop_propagation" src="https://codepen.io/mebtte/embed/mdMzXYp?default-tab=html%2Cresult" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href="https://codepen.io/mebtte/pen/mdMzXYp">
-  stop_propagation</a> by Mebtte Pan (<a href="https://codepen.io/mebtte">@mebtte</a>)
-  on <a href="https://codepen.io">CodePen</a>.
-</iframe>
+<iframe 
+  title="stop_propagation"
+  src="https://codepen.io/mebtte/embed/mdMzXYp?default-tab=html%2Cresult"
+></iframe>
 
 上面的例子中, 在 `button` 的点击处理函数中调用 `event.stopPropagation` 阻止了事件的冒泡, 从而避免触发 `div` 的点击处理函数.
 
@@ -236,21 +232,19 @@ document.querySelector('button').onclick = null;
 
 事件对象还提供了 `stopImmediatePropagation` 方法, 用来阻止剩余事件处理函数的调用. 比如我们给 `button` 依次添加 `click` 事件监听函数 `fn1` `fn2` `fn3` `fn4`, 当 `click` 事件发生时会依次调用 `fn1` `fn2` `fn3` `fn4`, 如果我们在 `fn2` 中调用 `stopImmediatePropagation`, 那么剩余的事件处理函数不会被调用, 也就是说 `fn3` `fn4` 不会被调用.
 
- <iframe height="300" style="width: 100%;" scrolling="no" title="stop_immediate_propagation" src="https://codepen.io/mebtte/embed/ZEJwKMR?default-tab=html%2Cresult" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href="https://codepen.io/mebtte/pen/ZEJwKMR">
-  stop_immerdiate_propagation</a> by Mebtte Pan (<a href="https://codepen.io/mebtte">@mebtte</a>)
-  on <a href="https://codepen.io">CodePen</a>.
-</iframe>
+<iframe 
+  title="stop_immediate_propagation"
+  src="https://codepen.io/mebtte/embed/ZEJwKMR?default-tab=html%2Cresult"
+></iframe>
 
 ## 主动触发事件
 
 通过实例化 `Event` 对象以及元素的 `dispatchEvent` 方法我们可以主动触发元素相应的事件处理函数:
 
-<iframe height="300" style="width: 100%;" scrolling="no" title="dispatch_event" src="https://codepen.io/mebtte/embed/PoKVjOO?default-tab=html%2Cresult" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href="https://codepen.io/mebtte/pen/PoKVjOO">
-  dispatch_event</a> by Mebtte Pan (<a href="https://codepen.io/mebtte">@mebtte</a>)
-  on <a href="https://codepen.io">CodePen</a>.
-</iframe>
+<iframe
+  title="dispatch_event"
+  src="https://codepen.io/mebtte/embed/PoKVjOO?default-tab=html%2Cresult"
+></iframe>
 
 上面的例子中, 当点击按钮时通过实例化一个 `click` 的 `Event` 对象, 然后调用 `a.dispatchEvent` 方法实现了触发 `a` 的点击事件. 需要注意的是, `dispatchEvent` 触发的事件是不被浏览器信任的, 不受信任的事件不会触发浏览器的默认行为, 上面的例子就是 `a` 的 `click` 处理函数被触发, 但是浏览器没有发生跳转. 我们可以通过事件对象的 [isTrusted](https://developer.mozilla.org/docs/Web/API/Event/isTrusted) 属性判断事件是用户还是脚本触发的.
 
@@ -327,11 +321,10 @@ console.log('123');
 
 ## 禁用整个页面的点击事件
 
-<iframe height="300" style="width: 100%;" scrolling="no" title="forbid_click_globally" src="https://codepen.io/mebtte/embed/xxLyWGR?default-tab=html%2Cresult" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href="https://codepen.io/mebtte/pen/xxLyWGR">
-  forbid_click_globally</a> by Mebtte Pan (<a href="https://codepen.io/mebtte">@mebtte</a>)
-  on <a href="https://codepen.io">CodePen</a>.
-</iframe>
+<iframe 
+  title="forbid_click_globally"
+  src="https://codepen.io/mebtte/embed/xxLyWGR?default-tab=html%2Cresult"
+></iframe>
 
 ## 事件是否可以取消
 
