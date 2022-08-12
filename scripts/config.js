@@ -7,5 +7,5 @@ export default {
   origin: 'https://mebtte.com',
   public_path: '',
   github_repository:
-    'https://github.com/mebtte/animal_photosynthesis',
+    'https://github.com/mebtte/animal-photosynthesis',
 };
