@@ -60,6 +60,20 @@ export default async (id) => {
     `);
   }
 
+  // video
+  const videoNodeList = $('video').toArray();
+  for (const videoNode of videoNodeList) {
+    const node = $(videoNode);
+    const src = node.attr('src');
+    const alt = node.attr('alt') || '';
+    node.replaceWith(`
+      <figure class="figure-video">
+        <video src="${src}" loading="lazy" controls></video>
+        ${alt ? `<figcaption>${alt}</figcaption>` : ''}
+      </figure>
+    `);
+  }
+
   // iframe
   const iframeNodeList = $('iframe').toArray();
   for (const iframeNode of iframeNodeList) {
