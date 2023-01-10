@@ -1,33 +1,25 @@
-name: build and deploy gh-pages
+name: build and deploy to gh-pages
 on:
   push:
     branches:
       - master
 jobs:
-  build_and_deploy:
-    name: build and deploy gh-pages
+  build_and_deploy_to_gh_pages:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@main
 
-      - name: use node.js@14
-        uses: actions/setup-node@main
+      - uses: actions/setup-node@main
         with:
           node-version: 14
 
-      - name: build gh-pages
-        run: |
+      - run: |
           npm install
           npm run build
 
-      - name: create cname file
-        run: |
-          echo 'mebtte.com' > build/CNAME
-          echo 'www.mebtte.com' >> build/CNAME
-          echo 'blog.mebtte.com' >> build/CNAME
+      - run: echo 'mebtte.com' > build/CNAME
 
-      - name: deploy gh-pages
-        env:
+      - env:
           TOKEN: ${{secrets.TOKEN}}
         run: |
           cd build
