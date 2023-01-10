@@ -23,6 +23,8 @@ jobs:
       - name: create cname file
         run: |
           echo 'mebtte.com' > build/CNAME
+          echo 'www.mebtte.com' >> build/CNAME
+          echo 'blog.mebtte.com' >> build/CNAME
 
       - name: deploy gh-pages
         env:
