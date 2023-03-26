@@ -13,43 +13,44 @@
   }
 
   article h2, article h3, article h4, article h5, article h6 {
-    max-width: var(--content-max-width);
-    padding: 0 30px;
-    margin: 0 auto;
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-inline: auto;
     line-height: 1.5;
     color: var(--normal-color);
   }
 
   article h2 {
-    margin-top: 28px;
+    margin-block-start: 28px;
     font-size: 28px;
   }
 
   article h3 {
-    margin-top: 26px;
+    margin-block-start: 26px;
     font-size: 25px;
   }
 
   article h4 {
-    margin-top: 24px;
+    margin-block-start: 24px;
     font-size: 22px;
   }
 
   article h5 {
-    margin-top: 22px;
+    margin-block-start: 22px;
     font-size: 19px;
   }
 
   article h6 {
-    margin-top: 20px;
+    margin-block-start: 20px;
     font-size: 16px;
   }
 
   article p {
-    max-width: var(--content-max-width);
+    max-inline-size: var(--content-max-width);
 
-    margin: 15px auto;
-    padding: 0 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+    padding-inline: 30px;
 
     font-size: 16px;
     line-height: 1.8;
@@ -58,14 +59,15 @@
   }
 
   article p code, article ul code {
-    padding: 0 4px;
+    padding-inline: 4px;
     border-radius: var(--border-radius);
     background: rgba(237, 106, 94, 0.3);
   }
 
   article pre {
-    max-width: var(--content-max-width) !important;
-    margin: 15px auto !important;
+    max-inline-size: var(--content-max-width) !important;
+    margin-block: 15px !important;
+    margin-inline: auto !important;
     font-size: 14px !important;
     box-sizing: border-box;
     border-radius: var(--border-radius) !important;
@@ -75,29 +77,32 @@
 
   article pre code {
     display: block;
-    margin: 20px 30px !important;
+    margin-block: 20px !important;
+    margin-inline: 30px !important;
     overflow: auto !important;
     font-size: inherit !important;
   }
 
   article hr {
-    max-width: var(--content-max-width);
-    margin: 40px auto;
-    padding: 0 var(--article-space);
+    max-inline-size: var(--content-max-width);
+    margin-block: 40px;
+    margin-inline: auto;
+    padding-inline: var(--article-space);
     border: none;
   }
 
   article hr::after{
     content: '';
     display: block;
-    height: 1px;
+    block-size: 1px;
     background-color:var(--tertiary-color);
   }
 
   article blockquote {
-    max-width: var(--content-max-width);
-    padding: 0 var(--article-space);
-    margin: 15px auto;
+    max-inline-size: var(--content-max-width);
+    padding-inline: var(--article-space);
+    margin-block: 15px;
+    margin-inline: auto;
     position: relative;
     font-style: italic;
     font-size: 16px;
@@ -105,9 +110,10 @@
   }
 
   .table-container {
-    max-width: var(--content-max-width);
-    padding: 0 30px;
-    margin: 15px auto;
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
   }
 
   .table-container table {
@@ -130,26 +136,27 @@
   article blockquote::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 30px;
-    width: 3px;
-    height: 100%;
+    inset-block-start: 0;
+    inset-inline-start: 30px;
+    inline-size: 3px;
+    block-size: 100%;
     background-color: var(--primary-color);
   }
 
   article blockquote p {
     font-size: 16px;
     color: inherit;
-    max-width: unset;
+    max-inline-size: unset;
     padding: 0;
-    margin: 0 0 0 30px;
+    margin-inline-start: 30px;
   }
 
   article ul,
   article ol {
-    max-width: var(--content-max-width);
-    padding: 0 30px;
-    margin: 15px auto;
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
     color: var(--normal-color);
     line-height: 1.5;
   }
@@ -160,7 +167,7 @@
   
   article ul li, article ol li {
     display: block;
-    margin: 5px 0;
+    margin-block: 5px;
     position: relative;
   }
 
@@ -171,10 +178,10 @@
   article ul li::before {
     content: '';
     display: inline-block;
-    width: 6px;
-    height: 6px;
+    inline-size: 6px;
+    block-size: 6px;
 
-    margin-right: 10px;
+    margin-inline-end: 10px;
 
     vertical-align: middle;
     border-radius: 50%;
@@ -190,45 +197,47 @@
     font-size: 12px;
     color: var(--secondary-color);
     text-align: center;
-    margin-top: 5px;
+    margin-block-start: 5px;
   }
 
   .figure-img {
-    max-width: var(--content-max-width);
-    padding: 0 30px;
-    margin: 15px auto;
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
   }
 
   .figure-img img {
     display: block;
-    max-width: 100%;
-    margin: 0 auto;
+    max-inline-size: 100%;
+    margin-inline: auto;
     border-radius: var(--border-radius);
   }
   
   .figure-video {
-    max-width: var(--content-max-width);
-    padding: 0 30px;
-    margin: 15px auto;
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
   }
 
   .figure-video video {
     display: block;
-    max-width: 100%;
-    margin: 0 auto;
+    max-inline-size: 100%;
+    margin-inline: auto;
   }
 
   .figure-iframe {
-    width: 100%;
-    margin: 15px 0;
+    inline-size: 100%;
+    margin-block: 15px;
   }
 
   .figure-iframe iframe {
     display: block;
-    width: 100%;
-    max-width: var(--content-max-width);
-    margin: 0 auto;
-    height: 640px;
+    inline-size: 100%;
+    max-inline-size: var(--content-max-width);
+    margin-inline: auto;
+    block-size: 640px;
     border: 1px solid var(--tertiary-color);
     border-radius: var(--border-radius);
   }
