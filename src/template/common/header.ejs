@@ -5,16 +5,17 @@
   }
 
   .page-header {
-    max-width: var(--content-max-width);
-    margin: 50px auto 40px auto;
-    padding: 0 30px;
+    max-inline-size: var(--content-max-width);
+    margin-block: 50px 40px;
+    margin-inline: auto;
+    padding-inline: 30px;
     display: flex;
     align-items: center;
   }
 
   .page-header_title {
     flex: 1;
-    min-width: 0;
+    min-inline-size: 0;
     font-size: min(8vw, 56px);
     font-family: title_font;
     margin: 0;
@@ -27,13 +28,13 @@
   }
 
   .page-header_icon {
-    margin-left: 16px;
+    margin-inline-start: 16px;
   }
 
   .page-header_icon > img {
     user-select: none;
-    width: 20px;
-    height: 20px;
+    inline-size: 20px;
+    block-size: 20px;
   }
 </style>
 
