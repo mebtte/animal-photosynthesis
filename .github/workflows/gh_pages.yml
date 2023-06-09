@@ -14,7 +14,7 @@ jobs:
           node-version: 14
 
       - run: |
-          npm install
+          npm ci
           npm run build
 
       - run: echo 'mebtte.com' > build/CNAME
