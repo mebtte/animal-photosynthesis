@@ -11,5 +11,6 @@ export default {
   ARTICLES: path.join(CURRENT_DIR, '../../articles'),
   SRC: path.join(CURRENT_DIR, '../../src'),
   TEMPLATE: path.join(CURRENT_DIR, '../../src/template'),
+  ASSET: path.join(CURRENT_DIR, '../../src/assets'),
   STATIC: path.join(CURRENT_DIR, '../../src/static'),
 };

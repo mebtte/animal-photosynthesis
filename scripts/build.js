@@ -16,11 +16,13 @@ import directory from './utils/directory.js';
 import parseHtmlResource from './utils/parse_html_resource.js';
 import fontmin from './utils/fontmin.js';
 import config from './config.js';
+import copyStatic from './tasks/copy_static.js';
 
 const articleTemplate = `${directory.TEMPLATE}/article/index.ejs`;
 const indexTemplate = `${directory.TEMPLATE}/index.ejs`;
 
 await initial();
+await copyStatic();
 const titleFontPath = await generateTitleFont();
 const commonFontPath = await generateCommonFont();
 
@@ -46,7 +48,7 @@ for (
     innerSpinner.fail(createLog('文章为空'));
     continue;
   }
-  const articleFontPath = `${directory.STATIC}/content_font.ttf`;
+  const articleFontPath = `${directory.ASSET}/content_font.ttf`;
   const articleContentFontPath = await fontmin({
     fontPath: articleFontPath,
     text:

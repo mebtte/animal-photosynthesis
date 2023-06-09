@@ -15,20 +15,23 @@ const FILE_LIST = [
 
 export default async () => {
   const spinner = ora.createSpinner('正在生成通用字体...');
-  let text = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-';
+  let text =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-';
   for (const key in config) {
     text += config[key];
   }
   for (const file of FILE_LIST) {
     text += (await fs.readFile(file)).toString();
   }
-  const fontPath = `${directory.STATIC}/common_font.ttf`;
+  const fontPath = `${directory.ASSET}/common_font.ttf`;
   const filename = await fontmin({
     fontPath,
     text,
     generateFilename: (data) => {
       const dataMd5 = md5(data);
-      return `${directory.BUILD}/${dataMd5}${path.parse(fontPath).ext}`;
+      return `${directory.BUILD}/${dataMd5}${
+        path.parse(fontPath).ext
+      }`;
     },
   });
   spinner.succeed('通用字体已生成');

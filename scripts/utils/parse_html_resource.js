@@ -37,13 +37,16 @@ export default async (html) => {
     if (resource[0] !== '/' || !path.parse(resource).ext) {
       continue;
     }
-    const aPath = `${directory.STATIC}${resource}`;
+    const aPath = `${directory.ASSET}${resource}`;
     const exist = await fs.exist(aPath);
     if (!exist) {
       continue;
     }
     const filename = await toBuild(aPath);
-    $resourceNode.attr(type, `${config.public_path}/${filename}`);
+    $resourceNode.attr(
+      type,
+      `${config.public_path}/${filename}`,
+    );
   }
   return $.html();
 };

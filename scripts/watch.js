@@ -1,12 +1,10 @@
 #!/usr/bin/env node
 import * as path from 'path';
 import * as cp from 'child_process';
-
 import fs from 'fs-extra';
 import yargs from 'yargs';
 import ejs from 'ejs';
 import md5 from 'md5';
-
 import directory from './utils/directory.js';
 import ora from './utils/ora.js';
 import fontmin from './utils/fontmin.js';
@@ -54,7 +52,7 @@ async function build() {
   try {
     const data = await parseArticle(id);
 
-    const articleFontPath = `${directory.STATIC}/content_font.ttf`;
+    const articleFontPath = `${directory.ASSET}/content_font.ttf`;
     const articleContentFontPath = await fontmin({
       fontPath: articleFontPath,
       text:
