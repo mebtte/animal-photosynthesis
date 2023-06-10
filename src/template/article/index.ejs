@@ -22,6 +22,7 @@
   
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/firacode@5.2.0/distr/fira_code.min.css" />
   <link rel="stylesheet" href="/prism.css" />
+  <script async defer src="/prism.js"></script>
 </head>
 
 <body>
@@ -31,12 +32,18 @@
     <%- include('./article_content.ejs') %>
     <%- updates.length ? include('./article_updates.ejs') : null %>
   </article>
+  <%- include('./article_action.ejs') %>
 
   <script
     async
     src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8404651063516637"
     crossorigin="anonymous"
   ></script>
+  <style>
+    ins {
+      text-align: center;
+    }
+  </style>
   <ins
     class="adsbygoogle"
     style="display:block"
@@ -49,10 +56,7 @@
     (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
 
-  <%- include('./article_action.ejs') %>
   <%- include('../common/footer.ejs') %>
-
-  <script src="/prism.js"></script>
 </body>
 
 </html>
