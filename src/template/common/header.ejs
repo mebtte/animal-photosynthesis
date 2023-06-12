@@ -28,7 +28,7 @@
   }
 
   .page-header_icon {
-    margin-inline-start: 16px;
+    margin-inline-start: 10px;
   }
 
   .page-header_icon > img {
@@ -48,10 +48,13 @@
       <a href="<%= config.public_path %>/"><%= config.title %></a>
     </h1>
   <% } %>
-  <a class="page-header_icon" href="<%= config.public_path %>/rss.xml">
+  <a class="page-header_icon" href="<%= config.public_path %>/rss.xml" target="_blank">
     <img src="/rss.png" alt="rss" />
   </a>
-  <a class="page-header_icon" href="<%= config.github_repository %>">
+  <a class="page-header_icon" href="<%= config.github_repository %>" target="_blank">
     <img src="/github.png" alt="github" />
+  </a>
+  <a class="page-header_icon" href="//i.mebtte.com" target="_blank">
+    <img src="/author.png" alt="author" />
   </a>
 </header>
