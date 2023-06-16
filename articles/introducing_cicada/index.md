@@ -2,7 +2,7 @@
 title: '介绍一下自己写的开源音乐服务「知了」'
 publish_time: '2022-12-22'
 updates:
-hidden: false
+hidden: true
 ---
 
 「[知了](https://github.com/mebtte/cicada)」是一个开源的音乐服务, 可以部署在任何 Linux/Windows/macOS 设备上, 主要有以下特点:
