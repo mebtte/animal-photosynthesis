@@ -14,19 +14,21 @@
   color: inherit;
 }
 
-.page-footer > .author {
-  text-decoration: underline;
-}
-
 .page-footer > a:hover {
   color: var(--primary-color);
+}
+
+.page-footer > .underline {
+  text-decoration: underline;
 }
 </style>
 
 <footer class="page-footer">
   <a href="<%= config.github_repository %>/blob/master/LICENSE">&copy;</a>
   <%= new Date().getFullYear() %>
-  <a class="author" href="<%= config.author_site %>"><%= config.author.toUpperCase() %></a>
-  ,&nbsp;
-  <a class="author" href="https://stats.uptimerobot.com/4nO5RUYB60">UPTIME</a>
+  <a class="underline" href="<%= config.author_site %>"><%= config.author.toUpperCase() %></a>
+  &nbsp;|&nbsp;
+  <a class="underline" href="https://stats.uptimerobot.com/4nO5RUYB60">UPTIME</a>
+  &nbsp;|&nbsp;
+  <a class="underline" href="/support">支持我</a>
 </footer>
