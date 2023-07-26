@@ -1,6 +1,6 @@
 ---
 title: 'HTTP 404: Not Found'
-publish_time: '2000-01-01'
+publish_time:
 updates:
 hidden: true
 ---

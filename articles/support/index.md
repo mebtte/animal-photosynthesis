@@ -1,6 +1,6 @@
 ---
 title: '支持我'
-publish_time: '2000-01-01'
+publish_time:
 updates:
 hidden: true
 ---

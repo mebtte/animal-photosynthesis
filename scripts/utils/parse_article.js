@@ -1,9 +1,7 @@
 import * as path from 'path';
-
 import showdown from 'showdown';
 import frontMatter from 'front-matter';
 import cheerio from 'cheerio';
-
 import fs from './fs.js';
 import directory from './directory.js';
 import toBuild from './to_build.js';
@@ -113,16 +111,18 @@ export default async (id) => {
     node.html(node.html());
   }
 
-  return {
+  const article = {
     id,
     title: attributes.title || '',
     // 取 markdown 内容的前 150 个字符作为页面的 description
     description:
       mdBody.substring(0, 150).replace(/\s/gm, ' ') + '...',
-    publishTime: attributes.publish_time || '2000-01-01',
+    publishTime: attributes.publish_time,
     updates: attributes.updates || [],
-    hidden: attributes.hidden || false,
+    hidden:
+      !attributes.publish_time || attributes.hidden || false,
     content: $.html(),
     mdText,
   };
+  return article;
 };

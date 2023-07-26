@@ -30,7 +30,9 @@
     <%- include('./article_content.ejs') %>
     <%- updates.length ? include('./article_updates.ejs') : null %>
   </article>
-  <%- include('./article_action.ejs') %>
+  <% if (!hidden) { %>
+    <%- include('./article_action.ejs') %>
+  <% } %>
   <%- include('./article_ads.ejs') %>
   <%- include('../common/footer.ejs') %>
   <script src="/prism.js"></script>
