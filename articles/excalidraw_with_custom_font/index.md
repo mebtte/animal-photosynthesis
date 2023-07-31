@@ -1,11 +1,11 @@
 ---
-title: "Excalidraw 支持自定义字体"
-publish_time: "2023-07-24"
+title: 'Excalidraw 支持自定义字体'
+publish_time: '2023-07-24'
 updates:
 hidden: false
 ---
 
-![Excalidraw](./excalidraw.png)
+![](./excalidraw.png)
 
 [Excalidraw](https://excalidraw.com) 是一款开源的画板工具, 可以用来绘制带有手写风格的图. 虽然 Excalidraw 本身支持多语言, 但是其手写风格的字体只支持英文, 其他语言会回退到普通字体.
 
