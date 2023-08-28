@@ -108,6 +108,5 @@ indexHtml = await parseHtmlResource(indexHtml);
 await fs.writeFile(`${directory.BUILD}/index.html`, indexHtml);
 spinner.succeed('首页已构建');
 
-await generateRobots();
 await generateSitemap(articleList);
 await generateRss(articleList);
