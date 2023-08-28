@@ -1,0 +1,7 @@
+! https://nutch.apache.org
+User-agent: CCBot
+Disallow: /
+
+! https://openai.com
+User-agent: GPTBot
+Disallow: /

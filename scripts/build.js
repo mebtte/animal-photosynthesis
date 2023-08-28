@@ -6,7 +6,6 @@ import initial from './tasks/initial.js';
 import generateTitleFont from './tasks/generate_title_font.js';
 import generateAllArticleTitleFont from './tasks/generate_all_article_title_font.js';
 import generateCommonFont from './tasks/generate_common_font.js';
-import generateRobots from './tasks/generate_robots.js';
 import generateSitemap from './tasks/generate_sitemap.js';
 import generateRss from './tasks/generate_rss.js';
 import parseArticle from './utils/parse_article.js';
