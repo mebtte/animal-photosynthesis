@@ -19,7 +19,10 @@ export default async (id) => {
     return null;
   }
   const { attributes, body: mdBody } = frontMatter(mdText);
-  const mdParser = new showdown.Converter({ tables: true });
+  const mdParser = new showdown.Converter({
+    tables: true,
+    strikethrough: true,
+  });
   const html = mdParser.makeHtml(mdBody);
   const $ = cheerio.load(html);
 
