@@ -2,6 +2,8 @@
 title: 'CSS 书写模式和逻辑属性'
 publish_time: '2023-03-31'
 updates:
+  - time: '2023-09-01'
+    description: '增加 vb 和 vi 内容'
 hidden: false
 ---
 
@@ -223,6 +225,8 @@ div {
   block-size: 200px;
 }
 ```
+
+尺寸单位也提供了 `vb` 和 `vi`, 分别表示视窗块级方向和内联方向上的 `1%` 长度, 对应已有的 `vh` 和 `vw`.
 
 还有一些 CSS 属性名没有改变, 但是增加了属性值, 比如 `resize` 增加了值 `block` 和 `inline`, 表示块级方向上和内联方向上可以改变大小.
 
