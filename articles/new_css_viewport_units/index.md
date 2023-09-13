@@ -21,7 +21,7 @@ CSS 中的像素 `px` 我们称为逻辑像素, 它并不总是和物理像素�
 
 > 显示器有个指标 [PPI](https://zh.wikipedia.org/wiki/PPI), 越大表示同等尺寸下像素点越多
 
-除了显示尺寸的问题外, 一个物理像素对应一个逻辑像素的显示效果是比较差的, 容易产生锯齿感. 所以现代操作系统都会提供缩放功能, 以适应不同分辨率的显示器. 比如 macOS:
+除了显示尺寸的问题外, 一个物理像素对应一个逻辑像素的显示效果是比较差的, 容易产生锯齿感. 所以现代操作系统都会提供缩放功能, 多个物理像素对应一个逻辑像素, 这样的话显示效果会比较细腻, 比如 macOS:
 
 ![macOS 调整屏幕缩放](./macos_display_scale.png)
 
@@ -83,7 +83,7 @@ Viewport 的大小和浏览器窗口相关, 所以以上单位会随着浏览器
 
 ![Viewport 被遮挡或者移位, 图源自 https://web.dev/viewport-units](./covered_viewport_on_mobile.png)
 
-然后往下滚动的过程中地址栏/工具栏等元素会逐渐消失或者隐藏, Viewport 也逐渐**完全**展示. 这就导致了相对于 Viewport 的单位在移动端表现是不符合预期的.
+然后往下滚动的过程中地址栏/工具栏等元素会逐渐消失或者隐藏, Viewport 也逐渐**完全**展示, 可以使用移动设备访问这个[例子](./viewport_units.html). 这就导致了相对于 Viewport 的单位在移动端表现是不符合预期的.
 
 ![Viewport 完全展示, 图源自 https://web.dev/viewport-units](./entire_viewport_on_mobile.png)
 
