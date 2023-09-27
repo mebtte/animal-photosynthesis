@@ -2,7 +2,7 @@
 title: 'JuHost 踩坑记录'
 publish_time: '2023-07-23'
 updates:
-hidden: false
+hidden: true
 ---
 
 这两周用于内网穿透的腾讯云新加坡的小主机开始变得不稳定, 带宽和丢包率一会高一会低, 所以想换个机器.
