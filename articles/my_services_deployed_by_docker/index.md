@@ -1,7 +1,9 @@
 ---
-title: "我用 Docker 部署的一些服务"
-publish_time: "2023-07-05"
+title: '我用 Docker 部署的一些服务'
+publish_time: '2023-07-05'
 updates:
+  - time: '2023-12-06'
+    description: '修改错别字'
 hidden: false
 ---
 
@@ -41,7 +43,7 @@ Nextcloud 有丰富的插件系统, 比如 File sharing 可以让我们分享文
 
 ## MySQL/MongoDB
 
-作为一个开发者, 很多项目需要用到数据库, 在 Home server 跑数据库的话就不需要在本机启动了, 切换设备的话也可以访问同一个数据库实例.
+作为一个开发者, 很多项目需要用到数据库, 在 Home server 跑数据库的话就不需要在本机启动了, 而且切换不同的开发设备或者多人开发也能访问同一数据库实例, 不需要考虑数据同步的问题.
 
 ## qBittorrent
 
@@ -77,7 +79,7 @@ Nextcloud 有丰富的插件系统, 比如 File sharing 可以让我们分享文
 
 frp 虽然有官方的 Docker 镜像, 不过却没有使用文档, 所以就利用 Github Action 自己封装了[一个](https://github.com/mebtte/docker/blob/master/frp/readme.md).
 
-## Watchertower
+## Watchtower
 
 通常情况下更新容器, 我们需要以下操作:
 
