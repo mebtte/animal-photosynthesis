@@ -49,7 +49,7 @@ chmod +x index.js
 
 这是因为直接执行脚本文件默认调用的是当前 Shell, 而 JS 不是合法的 Shell 语法. 不过在类 Unix 系统中, 存在一种称为 Shebang 的语法, 在脚本文件开头以 `#!` 开头加上解释器指令, 当前脚本将会以指定的解释器执行, 例如下面的例子, 将会调用 `zsh` 执行, 当然也可以修改成其他的 Shell 程序, 比如 `#!/bin/sh`/`#!/bin/bash`.
 
-> Shebang 由 Sharp 和 Bang 两部分组成, 在 Unix 中 `#` 常常被称为 Sharp, 比如微软推出的编程语言 `C#` 读作 `C Sharp`, 而 `!` 被称为 Bang. 此外 Shebang 也被称为 Hashbang, 因为 `#` 也被称为 Hash.
+> Shebang 由 Sharp 和 Bang 两部分组成, `#` 常常被称为 Sharp, 比如微软推出的编程语言 `C#` 读作 `C Sharp`, 而 `!` 被称为 Bang. 此外 Shebang 也被称为 Hashbang, 因为 `#` 也被称为 Hash.
 
 ```sh
 #!/bin/zsh
