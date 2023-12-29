@@ -36,10 +36,7 @@ export default async (id) => {
       }
       const localPath = path.join(articleDir, resourcePath);
       const filename = await toBuild(localPath);
-      $(resourceNode).attr(
-        type,
-        `${config.public_path}/${filename}`,
-      );
+      $(resourceNode).attr(type, `/${filename}`);
     }
   };
   await buildLocalResource('src');

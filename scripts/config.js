@@ -1,5 +1,4 @@
 export default {
-  keywords: ['HTML', 'CSS', 'JavaScript', 'Web'],
   title: '动物的光合作用',
   description: 'MEBTTE 的个人博客.',
   origin: 'https://mebtte.com',

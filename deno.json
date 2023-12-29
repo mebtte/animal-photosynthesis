@@ -1,0 +1,13 @@
+{
+  "tasks": {
+    "generate-readme": "deno run --allow-read --allow-write scripts/generate_readme.ts"
+  },
+  "imports": {
+    "std/": "https://deno.land/std@0.210.0/"
+  },
+  "fmt": {
+    "lineWidth": 80,
+    "useTabs": false,
+    "indentWidth": 2
+  }
+}

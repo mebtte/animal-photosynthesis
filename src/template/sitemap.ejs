@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc><%= config.origin %><%= config.public_path %></loc>
+    <loc><%= config.origin %></loc>
   </url>
   <% articleList.forEach(({ id }) => { %>
     <url>
-      <loc><%= config.origin %><%= config.public_path %>/<%= id %></loc>
+      <loc><%= config.origin %>/<%= id %></loc>
     </url>
   <% }) %>
 </urlset>

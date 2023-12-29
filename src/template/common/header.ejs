@@ -1,7 +1,7 @@
 <style>
   @font-face {
     font-family: title_font;
-    src: url(<%= config.public_path %>/<%= titleFontPath %>);
+    src: url(/<%= titleFontPath %>);
   }
 
   .page-header {
@@ -41,14 +41,14 @@
 <header class="page-header">
   <% if (reverse) { %>
     <h2 class="page-header_title">
-      <a href="<%= config.public_path %>/"><%= config.title %></a>
+      <a href="/"><%= config.title %></a>
     </h2>
   <% } else { %>
     <h1 class="page-header_title">
-      <a href="<%= config.public_path %>/"><%= config.title %></a>
+      <a href="/"><%= config.title %></a>
     </h1>
   <% } %>
-  <a class="page-header_icon" href="<%= config.public_path %>/rss.xml" target="_blank">
+  <a class="page-header_icon" href="/rss.xml" target="_blank">
     <img src="/rss.png" alt="rss" />
   </a>
   <a class="page-header_icon" href="<%= config.github_repository %>" target="_blank">

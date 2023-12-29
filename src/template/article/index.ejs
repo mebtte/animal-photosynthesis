@@ -9,11 +9,11 @@
   <meta name="description" content="<%= description %>..." />
   <meta property="og:description" content="<%= description %>..." />
 
-  <link rel="preload" href="<%= config.public_path %>/<%= articleContentFontPath %>" as="font" crossOrigin="anonymous" />
+  <link rel="preload" href="/<%= articleContentFontPath %>" as="font" crossOrigin="anonymous" />
   <style>
     @font-face {
       font-family: article_font_<%= id %>;
-      src: url(<%= config.public_path %>/<%= articleContentFontPath %>);
+      src: url(/<%= articleContentFontPath %>);
     }
     article {
       font-family: article_font_<%= id %>;

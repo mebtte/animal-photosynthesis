@@ -8,11 +8,11 @@
   <title><%= config.title %></title>
   <meta name="description" content="<%= config.description %>" />
 
-  <link rel="preload" href="<%= config.public_path %>/<%= allArticleTitleFontPath %>" as="font" crossOrigin="anonymous" />
+  <link rel="preload" href="/<%= allArticleTitleFontPath %>" as="font" crossOrigin="anonymous" />
   <style>
     @font-face {
       font-family: article_title;
-      src: url(<%= config.public_path %>/<%= allArticleTitleFontPath %>);
+      src: url(/<%= allArticleTitleFontPath %>);
     }
 
     .article-list {
@@ -57,7 +57,7 @@
     <% articleList.forEach(article => { %>
       <li class="article-item">
         <h2 class="article-title">
-          <a href="<%= config.public_path %>/<%= article.id %>"><%= article.title %></a>
+          <a href="/<%= article.id %>"><%= article.title %></a>
         </h2>
         <% if (article.publishTime) { %>
           <time class="article-time"><%= article.publishTime %></time>
