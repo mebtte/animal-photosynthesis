@@ -42,7 +42,10 @@ for (const article of articles) {
   articleMdList.push(
     `- [${article.title}](${config.origin}/${
       article.id
-    }) [${datetime.format(article.publishTime, 'yyyy-MM-dd')}]`,
+    }) <small>${datetime.format(
+      article.publishTime,
+      'yyyy-MM-dd',
+    )}</small>`,
   );
 }
 
