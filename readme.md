@@ -22,6 +22,14 @@
 - [如何处理 RESTFUL 数据异常导致的前端错误](https://mebtte.com/handle_restful_api_error) <sup><sub>2019-05-30</sub></sup>
 - [基于 Node.js 的 WebFont 解决方案](https://mebtte.com/web_font_solution_by_node) <sup><sub>2019-03-10</sub></sup>
 
+## 依赖 & 初始化
+
+- [Deno](https://deno.com)
+
+```sh
+git config --local core.hooksPath .githooks
+```
+
 ## License
 
 本作品采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议进行许可. 要查看该许可协议, 可访问 [https://creativecommons.org/licenses/by/4.0](https://creativecommons.org/licenses/by/4.0)

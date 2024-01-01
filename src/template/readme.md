@@ -2,6 +2,14 @@
 
 <!-- article-list -->
 
+## 依赖 & 初始化
+
+- [Deno](https://deno.com)
+
+```sh
+git config --local core.hooksPath .githooks
+```
+
 ## License
 
 本作品采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议进行许可. 要查看该许可协议, 可访问 [https://creativecommons.org/licenses/by/4.0](https://creativecommons.org/licenses/by/4.0)
