@@ -1,0 +1,3 @@
+#!/bin/bash
+deno task generate-readme
+git add readme.md
