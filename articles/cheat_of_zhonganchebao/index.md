@@ -79,6 +79,12 @@ publish_time: "2025-02-06"
 
 ![微信上的投诉](./complain_on_wechat.jpg)
 
+## 02-08 进展
+
+邯郸市 **12315** 给了回复, 但都是一些空话, 没有任何实际进展.
+
+![12315 回复](./response_of_12315.png)
+
 ### 相关报道
 
 - [警惕“众安车服”车险骗局！后果不堪设想：商业险呈脱保状态而车主自不知](https://www.thepaper.cn/newsDetail_forward_29986917)
