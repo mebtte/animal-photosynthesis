@@ -85,6 +85,12 @@ publish_time: "2025-02-06"
 
 ![12315 回复](./response_of_12315.png)
 
+## 02-09 进展
+
+重新在 **12315** 小程序上提交了举报, 正在等待处理.
+
+![](./report_on_mini_program.jpg)
+
 ### 相关报道
 
 - [警惕“众安车服”车险骗局！后果不堪设想：商业险呈脱保状态而车主自不知](https://www.thepaper.cn/newsDetail_forward_29986917)
