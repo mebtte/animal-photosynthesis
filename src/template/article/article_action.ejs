@@ -1,4 +1,3 @@
-
 <style>
   .article-actions {
     max-inline-size: var(--content-max-width);
@@ -15,7 +14,7 @@
   }
 
   .article-actions_action:not(:last-child)::after {
-    content: '·\00a0';
+    content: "·\00a0";
   }
 
   .article-actions_action > a {
@@ -30,23 +29,33 @@
     }
 
     .article-actions_action::before {
-      content: '·';
+      content: "·";
     }
 
     .article-actions_action:not(:last-child)::after {
-      content: '';
+      content: "";
     }
   }
 </style>
 
 <div class="article-actions">
   <span class="article-actions_action">
-    使用 <a href="<%= config.github_repository %>/discussions">Discussions</a> 讨论
+    使用
+    <a href="<%= config.github_repository %>/discussions">Discussions</a> 讨论
   </span>
   <span class="article-actions_action">
-    在 <a href="<%= config.github_repository %>/edit/master/articles/<%= id %>/index.md">Github</a> 上编辑
+    在
+    <a
+      href="<%= config.github_repository %>/edit/master/articles/<%= id %>/index.md"
+      >Github</a
+    >
+    上编辑
   </span>
   <span class="article-actions_action">
-    分享到 <a href="https://www.twitter.com/share?text=<%= encodeURIComponent(title) %>&url=<%= encodeURIComponent(`${config.origin}/${id}`) %>">Twitter</a>
+    分享到
+    <a
+      href="https://www.x.com/share?text=<%= encodeURIComponent(title) %>&url=<%= encodeURIComponent(`${config.origin}/${id}`) %>"
+      >X</a
+    >
   </span>
 </div>
