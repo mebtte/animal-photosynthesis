@@ -100,6 +100,10 @@ publish_time: "2025-02-06"
 
 ![](./report_on_mini_program.jpg)
 
+## 02-18 进展
+
+邯郸市市场监督管理局打电话过去询问了情况, 并表示他们会督促该企业退款.
+
 ### 相关报道
 
 - [警惕“众安车服”车险骗局！后果不堪设想：商业险呈脱保状态而车主自不知](https://www.thepaper.cn/newsDetail_forward_29986917)
