@@ -8,7 +8,11 @@
     text-decoration-color: var(--primary-color);
   }
 
-  article h2, article h3, article h4, article h5, article h6 {
+  article h2,
+  article h3,
+  article h4,
+  article h5,
+  article h6 {
     max-inline-size: var(--content-max-width);
     padding-inline: 30px;
     margin-inline: auto;
@@ -54,7 +58,10 @@
     word-break: break-word;
   }
 
-  article p code, article ul code, article ol code, article table code {
+  article p code,
+  article ul code,
+  article ol code,
+  article table code {
     padding-inline: 4px;
     border-radius: var(--border-radius);
     background: rgba(237, 106, 94, 0.3);
@@ -87,11 +94,11 @@
     border: none;
   }
 
-  article hr::after{
-    content: '';
+  article hr::after {
+    content: "";
     display: block;
     block-size: 1px;
-    background-color:var(--tertiary-color);
+    background-color: var(--tertiary-color);
   }
 
   article blockquote {
@@ -116,7 +123,8 @@
     border-collapse: collapse;
   }
 
-  .table-container th, .table-container td {
+  .table-container th,
+  .table-container td {
     font-size: 14px;
     color: var(--normal-color);
     border: 1px solid var(--tertiary-color);
@@ -130,7 +138,7 @@
   }
 
   article blockquote::before {
-    content: '';
+    content: "";
     position: absolute;
     inset-block-start: 0;
     inset-inline-start: 30px;
@@ -160,8 +168,9 @@
   article ol {
     counter-reset: li-count;
   }
-  
-  article ul li, article ol li {
+
+  article ul li,
+  article ol li {
     display: block;
     margin-block: 5px;
     position: relative;
@@ -172,7 +181,7 @@
   }
 
   article ul li::before {
-    content: '';
+    content: "";
     display: inline-block;
     inline-size: 6px;
     block-size: 6px;
@@ -185,7 +194,7 @@
   }
 
   article ol li::before {
-    content: counter( li-count) '. ';
+    content: counter(li-count) ". ";
     color: var(--primary-color);
   }
 
@@ -209,15 +218,15 @@
     margin-inline: auto;
     border-radius: var(--border-radius);
   }
-  
-  .figure-video {
+
+  .figure-media {
     max-inline-size: var(--content-max-width);
     padding-inline: 30px;
     margin-block: 15px;
     margin-inline: auto;
   }
 
-  .figure-video video {
+  .figure-media .media {
     display: block;
     max-inline-size: 100%;
     margin-inline: auto;
@@ -244,6 +253,4 @@
   }
 </style>
 
-<section>
-  <%- content %>
-</section>
+<section><%- content %></section>
