@@ -1,5 +1,6 @@
 # 动物的光合作用
 
+- [内网穿透下 NAS 使用 DNS 轮循作为负载均衡](https://mebtte.com/using_round-robin_dns_as_load_blancing_under_nat_traversal_on_nas) <sup><sub>2025-03-02</sub></sup>
 - [<众安车保>上当指南](https://mebtte.com/cheat_of_zhonganchebao) <sup><sub>2025-02-06</sub></sup>
 - [JS 中的 Shebang/Hashbang](https://mebtte.com/shebang_in_js) <sup><sub>2023-12-13</sub></sup>
 - [我的自建 NAS](https://mebtte.com/my_nas) <sup><sub>2023-12-12</sub></sup>

@@ -1,8 +1,8 @@
 ---
 title: "内网穿透下 NAS 使用 DNS 轮循作为负载均衡"
-publish_time: "2025-02-19"
+publish_time: "2025-03-02"
 updates:
-hidden: true
+hidden: false
 ---
 
 > 注意是**轮循**而不是**轮询**, 前者对应的英文是 round-robin, 后者对应 polling.
