@@ -101,17 +101,6 @@
     background-color: var(--tertiary-color);
   }
 
-  article blockquote {
-    max-inline-size: var(--content-max-width);
-    padding-inline: var(--article-space);
-    margin-block: 15px;
-    margin-inline: auto;
-    position: relative;
-    font-style: italic;
-    font-size: 16px;
-    color: var(--secondary-color);
-  }
-
   .table-container {
     max-inline-size: var(--content-max-width);
     padding-inline: 30px;
@@ -137,6 +126,16 @@
     text-align: left;
   }
 
+  article blockquote {
+    max-inline-size: var(--content-max-width);
+    padding-inline: var(--article-space);
+    margin-block: 15px;
+    margin-inline: auto;
+    position: relative;
+    font-style: italic;
+    color: var(--secondary-color);
+  }
+
   article blockquote::before {
     content: "";
     position: absolute;
@@ -148,7 +147,7 @@
   }
 
   article blockquote p {
-    font-size: 16px;
+    font-size: 14px;
     color: inherit;
     max-inline-size: unset;
     padding: 0;
