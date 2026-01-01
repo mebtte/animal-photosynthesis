@@ -1,0 +1,876 @@
+<!DOCTYPE html><html lang="zh-cn"><head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="mebtte">
+<meta name="keywords" content="HTML, CSS, JavaScript, Web, Front-End">
+
+<!-- Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-CESZTRKM96"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CESZTRKM96');
+</script>
+
+<!-- open graph -->
+<meta property="og:type" content="website">
+<meta property="og:image" content="/6ed5faa0573b2a5a9d47232c9a71fb88.png">
+
+<link rel="shortcut icon" type="image/png" href="/6ed5faa0573b2a5a9d47232c9a71fb88.png">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+
+<link rel="preload" href="/e0e440b1ae0a9ba21fb3feb4cff12d11.ttf" as="font" crossorigin="anonymous">
+<link rel="preload" href="/53d99659dc34209657d05bb2a7fc5de4.ttf" as="font" crossorigin="anonymous">
+
+  <style>
+  @font-face {
+    font-family: common_font;
+    src: url(/53d99659dc34209657d05bb2a7fc5de4.ttf);
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    --content-max-width: 840px;
+
+    --primary-color: rgb(237 106 94);
+
+    --normal-color: #333;
+    --secondary-color: #888;
+    --tertiary-color: #ddd;
+    --backgroud: rgb(255 255 255);
+
+    --border-radius: 2px;
+    --transition-duration: 0.3s;
+
+    background-color: var(--backgroud);
+    transition: background-color var(--transition-duration);
+  }
+
+  figure {
+    margin-inline: 0;
+  }
+</style>
+
+
+  <title>styled-components 与 React Hooks 升级指北 - 动物的光合作用</title>
+  <meta name="description" content="## styled-components  在 react 应用中样式使用 css 文件存在几个痛点:  1. 需要额外的样式文件, 比如一个 A 组件往往附带了一个 A.(css|less|scss|styl) 的样式文件, 而且样式与结构和逻辑分离不符合组件化的思想 2. 为了防止样式互相污染,......">
+  <meta property="og:description" content="## styled-components  在 react 应用中样式使用 css 文件存在几个痛点:  1. 需要额外的样式文件, 比如一个 A 组件往往附带了一个 A.(css|less|scss|styl) 的样式文件, 而且样式与结构和逻辑分离不符合组件化的思想 2. 为了防止样式互相污染,......">
+
+  <link rel="preload" href="/879b70539efa05be3b27e24048af997d.ttf" as="font" crossorigin="anonymous">
+  <style>
+    @font-face {
+      font-family: article_font_styled_components_and_update_react_to_hooks;
+      src: url(/879b70539efa05be3b27e24048af997d.ttf);
+    }
+    article {
+      font-family: article_font_styled_components_and_update_react_to_hooks;
+    }
+  </style>
+  
+  <link rel="stylesheet" href="/ece570de77ba673c17121d06fc929bd9.css">
+</head>
+
+<body>
+  <style>
+  @font-face {
+    font-family: title_font;
+    src: url(/e0e440b1ae0a9ba21fb3feb4cff12d11.ttf);
+  }
+
+  .page-header {
+    max-inline-size: var(--content-max-width);
+    margin-block: 50px 40px;
+    margin-inline: auto;
+    padding-inline: 30px;
+    display: flex;
+    align-items: center;
+  }
+
+  .page-header_title {
+    flex: 1;
+    min-inline-size: 0;
+    font-size: min(8vw, 56px);
+    font-family: title_font;
+    margin: 0;
+    color: var(--normal-color);
+  }
+
+  .page-header_title > a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .page-header_icon {
+    margin-inline-start: 10px;
+  }
+
+  .page-header_icon > img {
+    user-select: none;
+    inline-size: 20px;
+    block-size: 20px;
+  }
+</style>
+
+<header class="page-header">
+  
+    <h2 class="page-header_title">
+      <a href="/">动物的光合作用</a>
+    </h2>
+  
+  <a class="page-header_icon" href="/rss.xml" target="_blank">
+    <img src="/e31ad23031e5bcb34e8d4a424ba0c100.png" alt="rss">
+  </a>
+  <a class="page-header_icon" href="https://github.com/mebtte/animal-photosynthesis" target="_blank">
+    <img src="/184c800e11079b13904f308161071b62.png" alt="github">
+  </a>
+  <a class="page-header_icon" href="//i.mebtte.com" target="_blank">
+    <img src="/2cd3760ad10a38f8a9ed6ea3993fa472.png" alt="author">
+  </a>
+</header>
+
+  <article>
+    <style>
+.article-header {
+  max-inline-size: var(--content-max-width);
+  margin-block: 40px;
+  margin-inline: auto;
+  padding-inline: 30px;
+}
+
+.article-title {
+  color: var(--primary-color);
+  font-size: 32px;
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+}
+
+.article-title a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.article-publish-time {
+  color: var(--secondary-color);
+  font-size: 14px;
+  font-family: common_font;
+}
+</style>
+
+<section class="article-header">
+  <h1 class="article-title">
+    <a href="/styled_components_and_update_react_to_hooks">styled-components 与 React Hooks 升级指北</a>
+  </h1>
+  <time class="article-publish-time">2020-03-28</time>
+</section>
+
+    <style>
+  article {
+    --article-space: 30px;
+  }
+
+  article a {
+    color: var(--normal-color);
+    text-decoration-color: var(--primary-color);
+  }
+
+  article h2,
+  article h3,
+  article h4,
+  article h5,
+  article h6 {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-inline: auto;
+    line-height: 1.5;
+    color: var(--normal-color);
+  }
+
+  article h2 {
+    margin-block-start: 28px;
+    font-size: 28px;
+  }
+
+  article h3 {
+    margin-block-start: 26px;
+    font-size: 25px;
+  }
+
+  article h4 {
+    margin-block-start: 24px;
+    font-size: 22px;
+  }
+
+  article h5 {
+    margin-block-start: 22px;
+    font-size: 19px;
+  }
+
+  article h6 {
+    margin-block-start: 20px;
+    font-size: 16px;
+  }
+
+  article p {
+    max-inline-size: var(--content-max-width);
+
+    margin-block: 15px;
+    margin-inline: auto;
+    padding-inline: 30px;
+
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--normal-color);
+    word-break: break-word;
+  }
+
+  article p code,
+  article ul code,
+  article ol code,
+  article table code {
+    padding-inline: 4px;
+    border-radius: var(--border-radius);
+    background: rgba(237, 106, 94, 0.3);
+  }
+
+  article pre {
+    max-inline-size: var(--content-max-width) !important;
+    margin-block: 15px !important;
+    margin-inline: auto !important;
+    font-size: 14px !important;
+    box-sizing: border-box;
+    border-radius: var(--border-radius) !important;
+    tab-size: 2 !important;
+    padding: 0 !important;
+  }
+
+  article pre code {
+    display: block;
+    margin-block: 20px !important;
+    margin-inline: 30px !important;
+    overflow: auto !important;
+    font-size: inherit !important;
+  }
+
+  article hr {
+    max-inline-size: var(--content-max-width);
+    margin-block: 40px;
+    margin-inline: auto;
+    padding-inline: var(--article-space);
+    border: none;
+  }
+
+  article hr::after {
+    content: "";
+    display: block;
+    block-size: 1px;
+    background-color: var(--tertiary-color);
+  }
+
+  .table-container {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .table-container table {
+    border-collapse: collapse;
+  }
+
+  .table-container th,
+  .table-container td {
+    font-size: 14px;
+    color: var(--normal-color);
+    border: 1px solid var(--tertiary-color);
+    padding: 10px;
+    text-align: left;
+  }
+
+  .table-container th {
+    font-size: 16px;
+    text-align: left;
+  }
+
+  article blockquote {
+    max-inline-size: var(--content-max-width);
+    padding-inline: var(--article-space);
+    margin-block: 15px;
+    margin-inline: auto;
+    position: relative;
+    font-style: italic;
+    color: var(--secondary-color);
+  }
+
+  article blockquote::before {
+    content: "";
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 30px;
+    inline-size: 3px;
+    block-size: 100%;
+    background-color: var(--primary-color);
+  }
+
+  article blockquote p {
+    font-size: 14px;
+    color: inherit;
+    max-inline-size: unset;
+    padding: 0;
+    margin-inline-start: 30px;
+  }
+
+  article ul,
+  article ol {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+    color: var(--normal-color);
+    line-height: 1.5;
+  }
+
+  article ol {
+    counter-reset: li-count;
+  }
+
+  article ul li,
+  article ol li {
+    display: block;
+    margin-block: 5px;
+    position: relative;
+  }
+
+  article ol li {
+    counter-increment: li-count;
+  }
+
+  article ul li::before {
+    content: "";
+    display: inline-block;
+    inline-size: 6px;
+    block-size: 6px;
+
+    margin-inline-end: 10px;
+
+    vertical-align: middle;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+  }
+
+  article ol li::before {
+    content: counter(li-count) ". ";
+    color: var(--primary-color);
+  }
+
+  article figcaption {
+    font-size: 12px;
+    color: var(--secondary-color);
+    text-align: center;
+    margin-block-start: 5px;
+  }
+
+  .figure-img {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .figure-img img {
+    display: block;
+    max-inline-size: 100%;
+    margin-inline: auto;
+    border-radius: var(--border-radius);
+  }
+
+  .figure-media {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .figure-media .media {
+    display: block;
+    max-inline-size: 100%;
+    margin-inline: auto;
+  }
+
+  .figure-iframe {
+    inline-size: 100%;
+    margin-block: 15px;
+  }
+
+  .figure-iframe iframe {
+    display: block;
+    inline-size: 100%;
+    max-inline-size: var(--content-max-width);
+    margin-inline: auto;
+    block-size: 640px;
+    border: 1px solid var(--tertiary-color);
+    border-radius: var(--border-radius);
+  }
+
+  strong {
+    font-weight: normal;
+    text-decoration: underline;
+  }
+</style>
+
+<section><h2 id="styledcomponents">styled-components</h2>
+<p>在 react 应用中样式使用 css 文件存在几个痛点:</p>
+<ol>
+<li>需要额外的样式文件, 比如一个 A 组件往往附带了一个 A.(css|less|scss|styl) 的样式文件, 而且样式与结构和逻辑分离不符合组件化的思想</li>
+<li>为了防止样式互相污染, 类似于 BEM 规范命名的 classname 非常冗长, 而且增加打包体积</li>
+<li>JavaScript 只能通过 classname 或者 style 属性修改样式</li>
+<li>样式难以复用</li>
+<li>当一个组件被删除时, 它的样式文件不一定同时删除从而成为遗留垃圾文件</li>
+</ol>
+<p>css-in-js 可以解决上面这些问题, 在众多的 css-in-js 的方案中这里推荐的是 <a href="https://styled-components.com">styled-components</a>.</p>
+<blockquote>
+  <p>之所以采用 styled-components 是因为它是 css-in-js 里面用的最多的. 我个人的理解是选用一门技术不是要看这门技术有多高深, 而是看它是不是用的最广泛. 用的最广泛也就是说基本上你遇到过的坑, 别人已经帮你踩过了.</p>
+</blockquote>
+<p>styled-components 有三个常用的 API, <code>styled</code>, <code>css</code> 和 <code>keyframes</code>.</p>
+<p>首先是 styled 用于创建标签</p>
+<pre><code class="jsx language-jsx">import React from 'react';
+
+// 引入styled-components
+import styled from 'styled-components';
+
+// 比如我们需要一个 div
+const Container = styled.div`
+  // 样式写在这里, 支持 scss 语法
+  font-size: 16px;
+  color: red;
+`;
+// 这里我们可以把 Container 当做普通 div 去使用
+const Component = () =&gt; (
+  &lt;Container
+    onClick={() =&gt; alert('hello styled!')} // 添加事件
+    data-balloon="styled-components" // 添加 dom 属性
+  &gt;
+    hello styled!
+  &lt;/Container&gt;
+);
+</code></pre>
+<p>跟上面一样, 当我们需要 span/button/a/… 这些标签的时候, 也是通过 styled.[tagName]`样式` 这种写法.</p>
+<pre><code class="jsx language-jsx">// span
+styled.span`
+  // 样式
+`;
+
+// button
+styled.button`
+  // 样式
+`;
+
+// a
+styled.a`
+  // 样式
+`;
+
+// ...
+</code></pre>
+<p>和 css 文件相比, styled-components 可以让样式写在组件里面, 不需要我们额外创建一个样式文件以及写非常冗长的 className, 所以不需要担心 className 相同导致样式污染的问题. 不同于 css 文件方式只能通过修改 className 和 style 属性的方式修改样式, styled-components 可以直接通过 props 修改样式.</p>
+<p>比如下面这个例子, 我们可以传递 props 给 styled-components, 然后可以在样式里面插入一个 props 处理方法然后返回需要的样式</p>
+
+      <figure class="figure-iframe">
+        <iframe src="https://codesandbox.io/embed/hopeful-meitner-5lbw5?fontsize=14&amp;hidenavigation=1&amp;theme=dark" title="styled_components_with_props" loading="lazy"></iframe>
+        <figcaption>styled_components_with_props</figcaption>
+      </figure>
+    
+<p>题外话, 上面 styled.[tagName]`样式` 写法其实是模板字符串一种叫做 <code>tagged template</code> 的用法, 比如</p>
+<pre><code class="js language-js">const name = 'xxx';
+
+console.log`hello ${name}`;
+// 相当于
+console.log(['hello', ''], name);
+</code></pre>
+<p>所以 styled-components 能够提取里面变量或者方法执行, 对模板字符串这种用法感兴趣的可以了解下.</p>
+<p>然后是 <code>css</code> 和 <code>keyframes</code> , css 用于创建样式片段, keyframes 用于创建动画, 比如</p>
+<pre><code class="jsx language-jsx">import React from 'react';
+import Types from 'prop-types';
+import styled, { css, keyframes } from 'styled-components';
+
+// 透明度从0到1的动画
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+  } 100% {
+    opacity: 1;
+  }
+`;
+
+// 文本溢出展示...
+const ellipsis = css`
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: ${({ color }) =&gt; color};
+`;
+
+// 这时可以将 fadeIn 和 ellipsis 像普通变量一样插入到样式中
+const Container = styled.div`
+  color: red;
+  font-size: 16px;
+  animation: ${fadeIn} 1s linear;
+  ${ellipsis}
+`;
+</code></pre>
+<p>通过 css 和 keyframes 可以提取常用的样式片段和动画进行复用.</p>
+<p>下面是使用 styled-components 实现一个进度条组件的例子(提示: 这个组件虽然能够正常工作, 但存在隐藏的性能问题, 查看完整的 styled-components <a href="https://styled-components.com">官方文档</a>应该能找出问题所在)</p>
+
+      <figure class="figure-iframe">
+        <iframe src="https://codesandbox.io/embed/infinite-class-name-yd3w1?fontsize=14&amp;hidenavigation=1&amp;theme=dark" title="infinite-class-name" loading="lazy"></iframe>
+        <figcaption>infinite-class-name</figcaption>
+      </figure>
+    
+<p>styled-components 还可用来修改已有组件的样式, 比如需要在一些公用组件的基础上修改样式或者第三方组件库, 通过 styled-components 我们不需要插入 className 或者 style 属性的方式可以对样式进行修改, 以 antd 作为例子</p>
+
+      <figure class="figure-iframe">
+        <iframe src="https://codesandbox.io/embed/silly-davinci-9qke3?fontsize=14&amp;hidenavigation=1&amp;theme=dark" title="styled-other-component" loading="lazy"></iframe>
+        <figcaption>styled-other-component</figcaption>
+      </figure>
+    
+<p>因为 styled-components 是通过模板字符串创建样式, 所以编辑器会把样式当做普通字符串处理. 这时需要安装额外的插件, 比如在 vscode 中 <a href="https://github.com/styled-components/vscode-styled-components">vscode-styled-components</a> 插件可以高亮 styled-components 中的样式以及支持输入提示, 配合 <a href="https://prettier.io/">prettier</a> 可以做到自动格式化.</p>
+
+      <figure class="figure-img">
+        <a href="/b49bc3737b4b461b8f80a502e5a887f5.gif" target="_blank">
+          <img src="/b49bc3737b4b461b8f80a502e5a887f5.gif" alt="" title="" loading="lazy">
+        </a>
+        
+      </figure>
+    
+<p>其他编辑器的高亮和格式化可以参考<a href="https://styled-components.com/docs/tooling#syntax-highlighting">官方文档</a>.</p>
+<h2 id="react">react 即将废弃以及新的生命周期方法</h2>
+<p>在大于 react@16.4 的版本中新增了 <code>getDerivedStateFromProps</code> 和 <code>getSnapshotBeforeUpdate</code> 两个新的生命周期方法, 同时给出了 <code>componentWillMount</code>, <code>componentWillReceiveProps</code> 和 <code>componentWillUpdate</code> 这三个生命周期方法将被弃用的警告, 以及在 react@17 的版本中这三个生命周期方法将会替换成 <code>UNSAFE_componentWillMount</code>, <code>UNSAFE_componentWillReceiveProps</code> 和 <code>UNSAFE_componentWillUpdate</code>, 在更往后的版本这些生命周期方法还会被删除.</p>
+<p>react 的目的是让我们不要再用这三个生命周期方法, 如果需要用到这三个生命周期方法的话, 应该用新的生命周期方法替代, 同时旧代码也应当及时替换掉这三个即将废弃的生命周期方法, 这样做的目的是为了实现 react 的<a href="http://react.html.cn/blog/2018/03/27/update-on-async-rendering.html">异步渲染</a>, 至于如何用新的生命周期方法替换这三个即将废弃的生命周期方法, 可以参看<a href="http://react.html.cn/blog/2018/03/27/update-on-async-rendering.html#examples">官方例子</a>.</p>
+<p>除了用新的生命周期方法替换这些即将被废弃的方法, 你还可以尝试用 react hook.</p>
+<h2 id="reacthook">react hook</h2>
+<p>在 react@16.8 的版本中推出了 hook, hook 能够使 <code>function component</code> 拥有状态和模拟生命周期方法的特性.</p>
+<p>在 hook 之前, 先看一下目前 class component 存在的一些问题:</p>
+<blockquote>
+  <p>相关逻辑分散在不同的生命周期方法, 比如在 componentDidMount 里面设置订阅, 然后在 componentWillUnmount 取消订阅, 当产生修改的时候很容易只修改了一处而忘了另一处的修改, 从而容易产生 bug</p>
+  <p>class 中的 this 难以理解, 这也容易导致 bug. 大部分人应该都遇到过忘记将类方法绑定 this 产生的 bug.</p>
+  <p>难以复用状态和逻辑. 许多组件包含相同的状态的逻辑, 但是却拥有多份代码, 当发生修改时容易产生遗漏. 高阶组件能在一定程度上解决这个问题, 但是会导致 render tree 嵌套过深, 例如下图</p>
+</blockquote>
+
+      <figure class="figure-img">
+        <a href="/afa5e1f94624dc520320e74c786331cc.png" target="_blank">
+          <img src="/afa5e1f94624dc520320e74c786331cc.png" alt="" title="" loading="lazy">
+        </a>
+        
+      </figure>
+    
+<p>基于上面这些问题 react 推出了 hook.</p>
+<p>hook 包含了 <code>useState</code>, <code>useEffect</code>, <code>useContext</code>, <code>useReducer</code>, <code>useCallback</code>, <code>useMemo</code>, <code>useRef</code>, <code>useImperativeHandle</code>, <code>useLayoutEffect</code>, <code>useDebugValue</code> 这十个基础 hook 以及由这些基础 hook 组成的自定义 hook. 这里需要注意的是, hook 只能在 function component 里面使用, 不能在 class component 或者普通函数中使用. 下面只介绍几个常用的 hook, 完整 api 可以参考<a href="https://reactjs.org/docs/hooks-intro.html">官方文档</a>.</p>
+<h3 id="usestate">useState</h3>
+<p><code>useState</code> 可以让 function component 拥有状态的特性, useState 接受一个初始值的参数(如果初始值需要计算的话, 可以传入一个初始化方法), 然后返会状态以及变更状态的一个数组, 然后就可以使用这个状态以及更新这个状态.</p>
+
+      <figure class="figure-iframe">
+        <iframe src="https://codesandbox.io/embed/dry-shape-ymg5s?fontsize=14&amp;hidenavigation=1&amp;theme=dark" title="use_state" loading="lazy"></iframe>
+        <figcaption>use_state</figcaption>
+      </figure>
+    
+<p>可以思考下<a href="https://reactjs.org/docs/hooks-state.html#tip-what-do-square-brackets-mean">为什么 useState 返回一个数组</a>?</p>
+<h3 id="useeffect">useEffect</h3>
+<p><code>useEffect</code> 用于引入含有副作用的操作, 副作用比较难理解, 如果换成可以模拟生命周期方法就容易理解多了.</p>
+<p>useEffect 有两个参数, 第一个参数是一个方法, 第二个可选参数是一个可选的依赖项数组, 当数组里面的依赖项发生变化的时候, 第一个方法参数就会被执行. 当不指定依赖项数组时, 则表示每次更新都需要执行第一个方法参数.</p>
+<pre><code class="jsx language-jsx">import React, { useEffect } from 'react';
+
+const Component = ({ count }) =&gt; {
+  // 模拟 componentDidMount
+  useEffect(() =&gt; {
+    console.log('component did mount');
+  }, []); // 不指定依赖项
+
+  // 模拟 componentWillReceiveProps
+  useEffect(() =&gt; {
+    console.log('component will receive props');
+  }, [count]); // 依赖 count props
+
+  // 模拟 componentDidUpdate
+  useEffect(() =&gt; {
+    console.log('component did update');
+  }); // 没有依赖项
+
+  return &lt;div&gt;...&lt;/div&gt;;
+};
+</code></pre>
+<p><code>useEffect</code> 可以模拟除 <code>componentDidCatch</code>, <code>getSnapshotBeforeUpdate</code> 和 <code>getDerivedStateFromError</code> 以外的所有 class component 生命周期方法.</p>
+<p>与生命周期方法不同的是, <code>useEffect</code> 可以更方便地检查 props 的变更以及可以将相关逻辑写在一起. 以聊天室作为例子, 当用户进入不同的聊天室的时候, 需要监听不同的聊天服务器, 当退出聊天室的时候需要取消监听聊天服务器, 用 class component 需要这样写</p>
+<pre><code class="jsx language-jsx">import React from 'react';
+import Types from 'prop-types';
+
+import chatServer from 'path/chat_server'; // 表示聊天服务
+
+// 聊天室组件
+class ChatRoom extends React.PureComponent {
+  static propTypes = {
+    roomId: Types.number.isRequired, // 聊天室ID
+    // other props
+  };
+
+  componendDidMount() {
+    const { roomId } = this.props;
+    chatServer.listen(roomId); // 监听指定房间的聊天服务
+  }
+
+  componendDidUpdate(prevProps) {
+    const { prevRoomId } = prevProps;
+    const { roomId } = this.props;
+    // 当切换房间时需要取消监听旧房间的聊天服务, 监听新房间的聊天服务
+    if (prevRoomId !== roomId) {
+      chatServer.unlisten(prevRoomId);
+      chatServer.listen(roomId);
+    }
+  }
+
+  componentWillUnmount() {
+    const { roomId } = this.props;
+    chatServer.unlisten(roomId); // 取消监听指定房间的聊天服务
+  }
+
+  render() {
+    return &lt;div&gt;...&lt;/div&gt;;
+  }
+}
+</code></pre>
+<p>在 class 组件中, 我们需要在 <code>componentDidMount</code> 监听聊天服务, <code>componentWillUnmount</code> 取消监听聊天服务, 同时还需要在 <code>componentDidUpdate</code> 检查聊天室 ID 的变化重新设置聊天服务的监听. 通过 <code>useEffect</code>, 我们可以省略很多逻辑</p>
+<pre><code class="jsx language-jsx">import React from 'react';
+import Types from 'prop-types';
+
+import chatServer from 'path/chat_server'; // 表示聊天服务
+
+// 聊天室组件
+const ChatRoom = ({ roomId }) =&gt; {
+  useEffect(() =&gt; {
+    chatServer.listen(roomId);
+    return () =&gt; chatServer.unlisten(roomId);
+  }, [roomId]); // 当 roomId 发生变更的时候自动执行里面的方法
+
+  return &lt;div&gt;...&lt;/div&gt;;
+};
+</code></pre>
+<p>需要注意的是, useEffect 里面的方法返回了一个取消监听的方法, 表示 roomId 发生变更之后先执行这个取消监听的方法, 然后再执行新 roomId 的聊天服务监听, 这样做的好处的是能够把订阅和取消订阅两个相关的逻辑写在一起, 不必分散在不同生命周期方法. 同时, 当 ChatRoom 组件被卸载的时候, 取消订阅的方法同样也会被执行, 我们不需要用额外的代码去干预.</p>
+<h3 id="usememousecallback">useMemo 和 useCallback</h3>
+<p><code>useMemo</code> 和 <code>useCallback</code> 用于缓存, useMemo 用于缓存变量, useCallback 用于缓存方法, 这两个方法和 useEffect 一样需要指明依赖项, 当依赖项发生变更的时候, 它们的缓存才会更新</p>
+<pre><code class="jsx language-jsx">import React, { useMemo, useCallback } from 'react';
+
+const Component = ({ a, b, c }) =&gt; {
+  // a 发生变更的时候才会重新计算 double 的值
+  const double = useMemo(() =&gt; a * 2, [a]);
+
+  // b 发生变更的时候才会生成新的 logB 方法
+  const logB = useCallback(() =&gt; console.log(b), [b]);
+
+  return &lt;div&gt;...&lt;/div&gt;;
+};
+</code></pre>
+<p>useMemo 和 useCallback 对于一些高频率更新的组件有很好的性能优化效果. 以上面这个组件为例, double 和 logB 都不依赖 c, 所以 c 无论如何变化, double 和 logB 都只会使用缓存.</p>
+<h3 id="hook">自定义 hook</h3>
+<p>通过 useState, useEffect 这些基础 hook 的组合可以实现自定义 hook, 这能够抽离一些通用逻辑进行复用. 这里有一个约定, 自定义 hook 需要用 <code>use</code> 前缀命名, 这样 eslint 的 <a href="https://www.npmjs.com/package/eslint-plugin-react-hooks">hook 插件</a>才会去检查里面的语法和依赖.</p>
+<p>我们先来看一个例子</p>
+<pre><code class="jsx language-jsx">import React, { useState, useEffect, useEffect } from 'react';
+
+import logger from 'path/logger'; // 日志记录
+
+const Popup = () =&gt; {
+  // 控制 popup 是否打开
+  const [open, setOpen] = useState(false);
+  const onOpen = useCallback(() =&gt; setOpen(true), []);
+  const onClose = useCallback(() =&gt; setOpen(false), []);
+
+  useEffect(() =&gt; {
+    logger.log(`popup ${open ? 'open' : 'close'}`); // 记录 popup 打开/关闭日志
+  }, [open]);
+
+  // do popup thing
+
+  return &lt;div&gt;popup&lt;/div&gt;;
+};
+
+const Dialog = () =&gt; {
+  // 控制 dialog 是否打开
+  const [open, setOpen] = useState(false);
+  const onOpen = useCallback(() =&gt; setOpen(true), []);
+  const onClose = useCallback(() =&gt; setOpen(false), []);
+
+  useEffect(() =&gt; {
+    logger.log(`dialog ${open ? 'open' : 'close'}`); // 记录 dialog 打开/关闭日志
+  }, [open]);
+
+  // do dialog thing
+
+  return &lt;div&gt;dialog&lt;/div&gt;;
+};
+</code></pre>
+<p>上面 popup 和 dialog 组件都有一部分相似的逻辑, 包含了 open 的状态, onOpen 和 onClose 的方法以及记录打开和关闭的日志, 这种情况下就可以把这部分逻辑抽离成一个自定义 hook 进行复用, 假设我们把这个自定义 hook 叫做 <code>useSwitch</code>.</p>
+<pre><code class="jsx language-jsx">// use_switch.js
+import { useState, useCallback, useEffect } from 'react';
+
+import logger from 'path/logger'; // 日志记录
+
+/**
+ * type 表示 popup 还是 dialog
+ * 因为需要区别日志记录
+ */
+export default (type) =&gt; {
+  const [open, setOpen] = useState(false);
+  const onOpen = useCallback(() =&gt; setOpen(true), []);
+  const onClose = useCallback(() =&gt; setOpen(false), []);
+
+  useEffect(() =&gt; {
+    logger.log(`${type} ${open ? 'open' : 'close'}`); // 记录打开/关闭日志
+  }, [open, type]); // 这里需要将 type 添加到依赖项
+
+  return {
+    open,
+    onOpen,
+    onClose,
+  };
+};
+</code></pre>
+<p>这样就完成了一个自定义 hook, 可以像其他基础 hook 一样在组件里面使用</p>
+<pre><code class="jsx language-jsx">import React from 'react';
+
+import useSwitch from 'path/use_switch';
+
+const Popup = () =&gt; {
+  const { open, onOpen, onClose } = useSwitch('popup'); // type = popup
+  // do popup thing
+  return &lt;div&gt;popup&lt;/div&gt;;
+};
+
+const Dialog = () =&gt; {
+  const { open, onOpen, onClose } = useSwitch('dialog'); // type = dialog
+  // do dialog thing
+  return &lt;div&gt;dialog&lt;/div&gt;;
+};
+</code></pre>
+<p>通过自定义 hook, 达到了公共逻辑复用的效果. 如果一个很复杂的 function component 里面包含很多 hook 的话, 同样也可以将相关的部分提取成自定义 hook</p>
+<pre><code class="jsx language-jsx">const Component = () =&gt; {
+  useA(); // a 相关 hook
+  useB('xxx'); // b 相关 hook
+  useC(); // c 相关 hook
+
+  return &lt;div&gt;...&lt;/div&gt;;
+};
+</code></pre>
+<p>目前很多 react 第三方库推出了自定义 hook 的 api, 例如 <code>react-redux</code> 新增了 <code>useSelector</code> 和 <code>useDispatch</code>, 组件不需要通过 <code>connect</code> 也能够使用 redux state</p>
+<pre><code class="jsx language-jsx">import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
+const Component = () =&gt; {
+  const user = useSelector((state) =&gt; state.user); // 返回 redux 里面的 user
+  const dispatch = useDispatch();
+
+  return &lt;div&gt;...&lt;/div&gt;;
+};
+
+// ...
+</code></pre>
+<p><code>react-router-dom</code> 也提供了 <code>useLocation</code>, <code>useHistory</code> 等多个 api</p>
+<pre><code class="jsx language-jsx">import React from 'react';
+import { useLocation, useHistory } from 'react-router-dom';
+
+const Component = () =&gt; {
+  const history = useHistory();
+  const location = useLocation();
+
+  // do something
+
+  return &lt;div&gt;...&lt;/div&gt;;
+};
+
+// ...
+</code></pre>
+<p>除了上面这些以外, react 还有其他 6 个基础 hook, 比如 <code>useReducer</code> 可以用来实现 redux, 完整 hook 教程建议看<a href="https://reactjs.org/docs/hooks-intro.html">官方文档</a>, 文档写的非常不错.</p>
+<h4 id="">参考</h4>
+<ul>
+<li><a href="https://reactjs.org/docs/hooks-reference.html">Hooks API Reference</a></li>
+<li><a href="https://www.ruanyifeng.com/blog/2019/09/react-hooks.html">React Hooks 入门教程</a></li>
+</ul></section>
+
+    <section>
+  <h2>更新记录</h2>
+  <div class="table-container">
+    <table>
+      
+        <tbody><tr>
+          <td>2020-03-31</td>
+          <td>移除部分 styled-components 高级 api 的内容</td>
+        </tr>
+       
+    </tbody></table>
+  </div>
+</section>
+
+  </article>
+  
+  <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8404651063516637" crossorigin="anonymous"></script>
+<style>
+  .adsbygoogle {
+    max-width: 100%;
+    margin-block: 40px;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .adsbygoogle:empty {
+    display: none;
+  }
+</style>
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8404651063516637" data-ad-slot="7746538242" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  <style>
+.page-footer {
+  font-size: 12px;
+  max-inline-size: var(--content-max-width);
+  margin-block: 40px;
+  margin-inline: auto;
+  padding-inline: 30px;
+  font-family: common_font;
+  color: var(--secondary-color);
+}
+
+.page-footer > a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.page-footer > a:hover {
+  color: var(--primary-color);
+}
+
+.page-footer > .underline {
+  text-decoration: underline;
+}
+</style>
+
+<footer class="page-footer">
+  <a href="https://github.com/mebtte/animal-photosynthesis/blob/master/license">©</a>
+  2026
+  &nbsp;
+  <a class="underline" href="https://i.mebtte.com">MEBTTE</a>
+  &nbsp;|&nbsp;
+  <a class="underline" href="https://stats.uptimerobot.com/4nO5RUYB60">UPTIME</a>
+  &nbsp;|&nbsp;
+  <a class="underline" href="/support">支持我</a>
+</footer>
+
+  <script src="/39c97c2884c3a2b5e64c8f085b843d4e.js"></script>
+  <script src="/0ec215ad131a36856d3d20423b9aca26.js" async="" defer=""></script>
+
+
+
+</body></html>

@@ -1,0 +1,613 @@
+<!DOCTYPE html><html lang="zh-cn"><head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="mebtte">
+<meta name="keywords" content="HTML, CSS, JavaScript, Web, Front-End">
+
+<!-- Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-CESZTRKM96"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CESZTRKM96');
+</script>
+
+<!-- open graph -->
+<meta property="og:type" content="website">
+<meta property="og:image" content="/6ed5faa0573b2a5a9d47232c9a71fb88.png">
+
+<link rel="shortcut icon" type="image/png" href="/6ed5faa0573b2a5a9d47232c9a71fb88.png">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+
+<link rel="preload" href="/e0e440b1ae0a9ba21fb3feb4cff12d11.ttf" as="font" crossorigin="anonymous">
+<link rel="preload" href="/53d99659dc34209657d05bb2a7fc5de4.ttf" as="font" crossorigin="anonymous">
+
+  <style>
+  @font-face {
+    font-family: common_font;
+    src: url(/53d99659dc34209657d05bb2a7fc5de4.ttf);
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    --content-max-width: 840px;
+
+    --primary-color: rgb(237 106 94);
+
+    --normal-color: #333;
+    --secondary-color: #888;
+    --tertiary-color: #ddd;
+    --backgroud: rgb(255 255 255);
+
+    --border-radius: 2px;
+    --transition-duration: 0.3s;
+
+    background-color: var(--backgroud);
+    transition: background-color var(--transition-duration);
+  }
+
+  figure {
+    margin-inline: 0;
+  }
+</style>
+
+
+  <title>我的自建 NAS - 动物的光合作用</title>
+  <meta name="description" content="折腾 NAS 也差不多两年的时间了, 一开始的 [Mac Mini + 硬盘柜的方案](/remote_accessible_nas_by_mac_mini), 到后来直接购买成品 NAS, 再到现在的小主机 + 外接硬盘的方案. 小主机 + 外接硬盘的方案已经稳定运行半年多了, 目前体验还可以. ......">
+  <meta property="og:description" content="折腾 NAS 也差不多两年的时间了, 一开始的 [Mac Mini + 硬盘柜的方案](/remote_accessible_nas_by_mac_mini), 到后来直接购买成品 NAS, 再到现在的小主机 + 外接硬盘的方案. 小主机 + 外接硬盘的方案已经稳定运行半年多了, 目前体验还可以. ......">
+
+  <link rel="preload" href="/df24458ebfbe95951cc54096352d6bdc.ttf" as="font" crossorigin="anonymous">
+  <style>
+    @font-face {
+      font-family: article_font_my_nas;
+      src: url(/df24458ebfbe95951cc54096352d6bdc.ttf);
+    }
+    article {
+      font-family: article_font_my_nas;
+    }
+  </style>
+  
+  <link rel="stylesheet" href="/ece570de77ba673c17121d06fc929bd9.css">
+</head>
+
+<body>
+  <style>
+  @font-face {
+    font-family: title_font;
+    src: url(/e0e440b1ae0a9ba21fb3feb4cff12d11.ttf);
+  }
+
+  .page-header {
+    max-inline-size: var(--content-max-width);
+    margin-block: 50px 40px;
+    margin-inline: auto;
+    padding-inline: 30px;
+    display: flex;
+    align-items: center;
+  }
+
+  .page-header_title {
+    flex: 1;
+    min-inline-size: 0;
+    font-size: min(8vw, 56px);
+    font-family: title_font;
+    margin: 0;
+    color: var(--normal-color);
+  }
+
+  .page-header_title > a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .page-header_icon {
+    margin-inline-start: 10px;
+  }
+
+  .page-header_icon > img {
+    user-select: none;
+    inline-size: 20px;
+    block-size: 20px;
+  }
+</style>
+
+<header class="page-header">
+  
+    <h2 class="page-header_title">
+      <a href="/">动物的光合作用</a>
+    </h2>
+  
+  <a class="page-header_icon" href="/rss.xml" target="_blank">
+    <img src="/e31ad23031e5bcb34e8d4a424ba0c100.png" alt="rss">
+  </a>
+  <a class="page-header_icon" href="https://github.com/mebtte/animal-photosynthesis" target="_blank">
+    <img src="/184c800e11079b13904f308161071b62.png" alt="github">
+  </a>
+  <a class="page-header_icon" href="//i.mebtte.com" target="_blank">
+    <img src="/2cd3760ad10a38f8a9ed6ea3993fa472.png" alt="author">
+  </a>
+</header>
+
+  <article>
+    <style>
+.article-header {
+  max-inline-size: var(--content-max-width);
+  margin-block: 40px;
+  margin-inline: auto;
+  padding-inline: 30px;
+}
+
+.article-title {
+  color: var(--primary-color);
+  font-size: 32px;
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+}
+
+.article-title a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.article-publish-time {
+  color: var(--secondary-color);
+  font-size: 14px;
+  font-family: common_font;
+}
+</style>
+
+<section class="article-header">
+  <h1 class="article-title">
+    <a href="/my_nas">我的自建 NAS</a>
+  </h1>
+  <time class="article-publish-time">2023-12-12</time>
+</section>
+
+    <style>
+  article {
+    --article-space: 30px;
+  }
+
+  article a {
+    color: var(--normal-color);
+    text-decoration-color: var(--primary-color);
+  }
+
+  article h2,
+  article h3,
+  article h4,
+  article h5,
+  article h6 {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-inline: auto;
+    line-height: 1.5;
+    color: var(--normal-color);
+  }
+
+  article h2 {
+    margin-block-start: 28px;
+    font-size: 28px;
+  }
+
+  article h3 {
+    margin-block-start: 26px;
+    font-size: 25px;
+  }
+
+  article h4 {
+    margin-block-start: 24px;
+    font-size: 22px;
+  }
+
+  article h5 {
+    margin-block-start: 22px;
+    font-size: 19px;
+  }
+
+  article h6 {
+    margin-block-start: 20px;
+    font-size: 16px;
+  }
+
+  article p {
+    max-inline-size: var(--content-max-width);
+
+    margin-block: 15px;
+    margin-inline: auto;
+    padding-inline: 30px;
+
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--normal-color);
+    word-break: break-word;
+  }
+
+  article p code,
+  article ul code,
+  article ol code,
+  article table code {
+    padding-inline: 4px;
+    border-radius: var(--border-radius);
+    background: rgba(237, 106, 94, 0.3);
+  }
+
+  article pre {
+    max-inline-size: var(--content-max-width) !important;
+    margin-block: 15px !important;
+    margin-inline: auto !important;
+    font-size: 14px !important;
+    box-sizing: border-box;
+    border-radius: var(--border-radius) !important;
+    tab-size: 2 !important;
+    padding: 0 !important;
+  }
+
+  article pre code {
+    display: block;
+    margin-block: 20px !important;
+    margin-inline: 30px !important;
+    overflow: auto !important;
+    font-size: inherit !important;
+  }
+
+  article hr {
+    max-inline-size: var(--content-max-width);
+    margin-block: 40px;
+    margin-inline: auto;
+    padding-inline: var(--article-space);
+    border: none;
+  }
+
+  article hr::after {
+    content: "";
+    display: block;
+    block-size: 1px;
+    background-color: var(--tertiary-color);
+  }
+
+  .table-container {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .table-container table {
+    border-collapse: collapse;
+  }
+
+  .table-container th,
+  .table-container td {
+    font-size: 14px;
+    color: var(--normal-color);
+    border: 1px solid var(--tertiary-color);
+    padding: 10px;
+    text-align: left;
+  }
+
+  .table-container th {
+    font-size: 16px;
+    text-align: left;
+  }
+
+  article blockquote {
+    max-inline-size: var(--content-max-width);
+    padding-inline: var(--article-space);
+    margin-block: 15px;
+    margin-inline: auto;
+    position: relative;
+    font-style: italic;
+    color: var(--secondary-color);
+  }
+
+  article blockquote::before {
+    content: "";
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 30px;
+    inline-size: 3px;
+    block-size: 100%;
+    background-color: var(--primary-color);
+  }
+
+  article blockquote p {
+    font-size: 14px;
+    color: inherit;
+    max-inline-size: unset;
+    padding: 0;
+    margin-inline-start: 30px;
+  }
+
+  article ul,
+  article ol {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+    color: var(--normal-color);
+    line-height: 1.5;
+  }
+
+  article ol {
+    counter-reset: li-count;
+  }
+
+  article ul li,
+  article ol li {
+    display: block;
+    margin-block: 5px;
+    position: relative;
+  }
+
+  article ol li {
+    counter-increment: li-count;
+  }
+
+  article ul li::before {
+    content: "";
+    display: inline-block;
+    inline-size: 6px;
+    block-size: 6px;
+
+    margin-inline-end: 10px;
+
+    vertical-align: middle;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+  }
+
+  article ol li::before {
+    content: counter(li-count) ". ";
+    color: var(--primary-color);
+  }
+
+  article figcaption {
+    font-size: 12px;
+    color: var(--secondary-color);
+    text-align: center;
+    margin-block-start: 5px;
+  }
+
+  .figure-img {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .figure-img img {
+    display: block;
+    max-inline-size: 100%;
+    margin-inline: auto;
+    border-radius: var(--border-radius);
+  }
+
+  .figure-media {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .figure-media .media {
+    display: block;
+    max-inline-size: 100%;
+    margin-inline: auto;
+  }
+
+  .figure-iframe {
+    inline-size: 100%;
+    margin-block: 15px;
+  }
+
+  .figure-iframe iframe {
+    display: block;
+    inline-size: 100%;
+    max-inline-size: var(--content-max-width);
+    margin-inline: auto;
+    block-size: 640px;
+    border: 1px solid var(--tertiary-color);
+    border-radius: var(--border-radius);
+  }
+
+  strong {
+    font-weight: normal;
+    text-decoration: underline;
+  }
+</style>
+
+<section><p>折腾 NAS 也差不多两年的时间了, 一开始的 <a href="/remote_accessible_nas_by_mac_mini">Mac Mini + 硬盘柜的方案</a>, 到后来直接购买成品 NAS, 再到现在的小主机 + 外接硬盘的方案. 小主机 + 外接硬盘的方案已经稳定运行半年多了, 目前体验还可以.</p>
+<p>首先说下我的需求, 主要是影音 + 数据备份, 对容量和性能的要求不高, 所以这套方案所有硬件以及组合如下:</p>
+<ul>
+<li>一台 n5105 的小主机</li>
+<li>一条 M.2 SATA 512G 固态</li>
+<li>一块 2.5 寸 SATA 4T 固态</li>
+<li>一条 M.2 NVMe 4T 固态</li>
+<li>一个 M.2 NVMe 硬盘盒</li>
+<li>一个散热风扇</li>
+</ul>
+
+      <figure class="figure-img">
+        <a href="/c9838b81e72e667c06aa165c7ba1172f.png" target="_blank">
+          <img src="/c9838b81e72e667c06aa165c7ba1172f.png" alt="硬件组合" title="硬件组合" loading="lazy">
+        </a>
+        <figcaption>硬件组合</figcaption>
+      </figure>
+    
+
+      <figure class="figure-img">
+        <a href="/bc69155ede1d690d0e2721ad08d766e8.jpeg" target="_blank">
+          <img src="/bc69155ede1d690d0e2721ad08d766e8.jpeg" alt="正面和 Switch 对比大小" title="正面和 Switch 对比大小" loading="lazy">
+        </a>
+        <figcaption>正面和 Switch 对比大小</figcaption>
+      </figure>
+    
+
+      <figure class="figure-img">
+        <a href="/4a9f3bda226c6e4cfe99572559b4c20b.jpeg" target="_blank">
+          <img src="/4a9f3bda226c6e4cfe99572559b4c20b.jpeg" alt="侧背面" title="侧背面" loading="lazy">
+        </a>
+        <figcaption>侧背面</figcaption>
+      </figure>
+    
+<p>一般来说 M.2 NVMe 的固态才是潮流, 不过在购买小主机的时候没注意参数, 后面才发现只支持 SATA 固态. 小主机本身有内置风扇, 不过转码的时候机身还是会发烫, 所以额外搞了个外置风扇, 同时还能给外置的 M.2 NVMe 固态硬盘散热.</p>
+<p>这套方案只有三个硬盘, 512g 的作为系统盘, 两条 4T 一条作为数据盘另一条作为数据盘的备份, 所以实际可用空间是 4T. 虽然有点少, 不过对于我这种轻 NAS 用户来说足够了.</p>
+<p>用功率计测过, 待机时整体功耗不超过 8w, 满载 20w 出头, 加上全固态和静音风扇, 完全没有噪音污染, 只不过稍微有点灯光污染(主机+硬盘盒+网线).</p>
+<p>软件方面, 操作系统选择了 Ubuntu Server, 盘位太少就没必要搞什么 trueNAS/Unraid, 而且 Ubuntu 用起来也顺手. 服务全部使用 Docker 托管, 配合 Portainer 可以很方便地在浏览器进行管理.</p>
+<p>其他的话, 影视服务选择的是 <a href="https://jellyfin.org">Jellyfin</a>, 音乐服务是自己开发的方案<a href="https://github.com/mebtte/cicada">知了</a>, 备份服务选择的是 <a href="https://syncthing.net">Syncthing</a></p>
+
+      <figure class="figure-img">
+        <a href="/494064f4b0ba3c1e46e67a7498b754a6.png" target="_blank">
+          <img src="/494064f4b0ba3c1e46e67a7498b754a6.png" alt="知了" title="知了" loading="lazy">
+        </a>
+        <figcaption>知了</figcaption>
+      </figure>
+    
+<p>不像成品 NAS 自带远程访问, 自建 NAS 往往需要自己解决远程访问的问题. 我这里采用的是 frp + vps 的方案, 通过 frp 将需要公网访问的服务反向代理到具有公网 IP 的 VPS, 加上域名解析就可以通过域名访问对应的服务.</p>
+<blockquote>
+  <p>暴露服务到公网总是有风险的!!!</p>
+</blockquote>
+
+      <figure class="figure-img">
+        <a href="/4e3a96f070d78395a21eda78e80cbd61.png" target="_blank">
+          <img src="/4e3a96f070d78395a21eda78e80cbd61.png" alt="frp 示意图" title="frp 示意图" loading="lazy">
+        </a>
+        <figcaption>frp 示意图</figcaption>
+      </figure>
+    
+<p>为什么我会抛弃成品 NAS 选择纯固态的方案, 首先大多数成品 NAS 都使用机械硬盘, 因为我的网口在房间里, 机械硬盘的噪音足以影响休息. 其实这台小主机是支持 wifi 的, 最开始的方案是外接机械硬盘柜, 然后放到阳台避免噪音污染的. 但是 wifi 体验下来有两个问题, 第一是速度太慢了, 第二总是断流, 莫名其妙地断开连接导致服务不可用, 需要等待 wifi 自动重连才恢复正常. 所以后面才换到目前这种全固态方案, 放在房间内使用网线连接, 没有噪音污染.</p>
+<blockquote>
+  <p>现在陆陆续续有成品纯固态 NAS 推出, 不过现阶段的性价比还是太低了.</p>
+</blockquote>
+<p>其次, 机械硬盘实在是太笨重了, 加上成品 NAS 动则四盘位六盘位的体积, 实在不好摆放, 目前这套方案体积非常小巧, 完全不占用地方.</p>
+<p>说一下容量的问题, 目前 4T 的容量确实是捉襟见肘. 不过小主机有多个 USB 的接口, 电源功率也还足够, 后续插多几个外接固态问题也不是很大.</p>
+<p>然后是备份的问题, 虽然我做了本地备份, 如果数据特别重要的话, 本地备份总是不够的. 之前看到过一个案例, 某位博主的家里被水淹了导致 NAS 完全报废, 幸运的是他有一份异地备份从而能够完整地恢复数据. 我们可能也会遇到同样的问题, 一堆鸡蛋放在同一个篮子里总是不安全的, 所以我目前的方案是把重要的数据通过 <a href="https://www.duplicati.com">duplicati</a> 加密分片后上传到网盘. 当然, 网盘作为异地备份也不是一个安全的选项, 如果后面有时间的话, 可以考虑维护两个 NAS, 分放两地互为备份.</p>
+<p>不同于大多数方案选用的 RAID, 本地备份我用的是 cron + rsync 的方式. 首先我的盘位不多, 无论哪种 RAID 方案都不太合适. 其次, RAID 有可能将一份数据分散在多盘, 这对于数据恢复来说是非常有难度的.</p></section>
+
+    
+  </article>
+  
+    <style>
+  .article-actions {
+    max-inline-size: var(--content-max-width);
+
+    display: flex;
+    align-items: center;
+
+    margin-block: 40px;
+    margin-inline: auto;
+    padding-inline: 30px;
+
+    font-family: common_font;
+    color: var(--normal-color);
+  }
+
+  .article-actions_action:not(:last-child)::after {
+    content: "·\00a0";
+  }
+
+  .article-actions_action > a {
+    color: inherit;
+    text-decoration-color: var(--primary-color);
+  }
+
+  @media (max-width: 520px) {
+    .article-actions {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .article-actions_action::before {
+      content: "·";
+    }
+
+    .article-actions_action:not(:last-child)::after {
+      content: "";
+    }
+  }
+</style>
+
+<div class="article-actions">
+  <span class="article-actions_action">
+    使用
+    <a href="https://github.com/mebtte/animal-photosynthesis/discussions">Discussions</a> 讨论
+  </span>
+  <span class="article-actions_action">
+    在
+    <a href="https://github.com/mebtte/animal-photosynthesis/edit/master/articles/my_nas/index.md">Github</a>
+    上编辑
+  </span>
+  <span class="article-actions_action">
+    分享到
+    <a href="https://www.x.com/share?text=%E6%88%91%E7%9A%84%E8%87%AA%E5%BB%BA%20NAS&amp;url=https%3A%2F%2Fmebtte.com%2Fmy_nas">X</a>
+  </span>
+</div>
+
+  
+  <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8404651063516637" crossorigin="anonymous"></script>
+<style>
+  .adsbygoogle {
+    max-width: 100%;
+    margin-block: 40px;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .adsbygoogle:empty {
+    display: none;
+  }
+</style>
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8404651063516637" data-ad-slot="7746538242" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  <style>
+.page-footer {
+  font-size: 12px;
+  max-inline-size: var(--content-max-width);
+  margin-block: 40px;
+  margin-inline: auto;
+  padding-inline: 30px;
+  font-family: common_font;
+  color: var(--secondary-color);
+}
+
+.page-footer > a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.page-footer > a:hover {
+  color: var(--primary-color);
+}
+
+.page-footer > .underline {
+  text-decoration: underline;
+}
+</style>
+
+<footer class="page-footer">
+  <a href="https://github.com/mebtte/animal-photosynthesis/blob/master/license">©</a>
+  2026
+  &nbsp;
+  <a class="underline" href="https://i.mebtte.com">MEBTTE</a>
+  &nbsp;|&nbsp;
+  <a class="underline" href="https://stats.uptimerobot.com/4nO5RUYB60">UPTIME</a>
+  &nbsp;|&nbsp;
+  <a class="underline" href="/support">支持我</a>
+</footer>
+
+  <script src="/39c97c2884c3a2b5e64c8f085b843d4e.js"></script>
+  <script src="/0ec215ad131a36856d3d20423b9aca26.js" async="" defer=""></script>
+
+
+
+</body></html>

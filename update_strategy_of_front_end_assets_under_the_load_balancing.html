@@ -1,0 +1,646 @@
+<!DOCTYPE html><html lang="zh-cn"><head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="mebtte">
+<meta name="keywords" content="HTML, CSS, JavaScript, Web, Front-End">
+
+<!-- Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-CESZTRKM96"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CESZTRKM96');
+</script>
+
+<!-- open graph -->
+<meta property="og:type" content="website">
+<meta property="og:image" content="/6ed5faa0573b2a5a9d47232c9a71fb88.png">
+
+<link rel="shortcut icon" type="image/png" href="/6ed5faa0573b2a5a9d47232c9a71fb88.png">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+
+<link rel="preload" href="/e0e440b1ae0a9ba21fb3feb4cff12d11.ttf" as="font" crossorigin="anonymous">
+<link rel="preload" href="/53d99659dc34209657d05bb2a7fc5de4.ttf" as="font" crossorigin="anonymous">
+
+  <style>
+  @font-face {
+    font-family: common_font;
+    src: url(/53d99659dc34209657d05bb2a7fc5de4.ttf);
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    --content-max-width: 840px;
+
+    --primary-color: rgb(237 106 94);
+
+    --normal-color: #333;
+    --secondary-color: #888;
+    --tertiary-color: #ddd;
+    --backgroud: rgb(255 255 255);
+
+    --border-radius: 2px;
+    --transition-duration: 0.3s;
+
+    background-color: var(--backgroud);
+    transition: background-color var(--transition-duration);
+  }
+
+  figure {
+    margin-inline: 0;
+  }
+</style>
+
+
+  <title>负载均衡下的前端资源更新策略 - 动物的光合作用</title>
+  <meta name="description" content="我们的一些前端页面偶尔会有用户反馈页面空白, 稍等一会刷新就正常了. 奇怪的是我们在日志系统并没有发现可能导致页面空白的报错, 所以我们一度以为是用户的网络问题.  直到有一次我们内部人员也遇到了这个问题, 我们马上封锁现场进行排查, 结果发现是某个 JS 文件 `404`, 导致页面初始化失败从而......">
+  <meta property="og:description" content="我们的一些前端页面偶尔会有用户反馈页面空白, 稍等一会刷新就正常了. 奇怪的是我们在日志系统并没有发现可能导致页面空白的报错, 所以我们一度以为是用户的网络问题.  直到有一次我们内部人员也遇到了这个问题, 我们马上封锁现场进行排查, 结果发现是某个 JS 文件 `404`, 导致页面初始化失败从而......">
+
+  <link rel="preload" href="/0f8204b44ab363f43bd68cb43ddf3aa1.ttf" as="font" crossorigin="anonymous">
+  <style>
+    @font-face {
+      font-family: article_font_update_strategy_of_front_end_assets_under_the_load_balancing;
+      src: url(/0f8204b44ab363f43bd68cb43ddf3aa1.ttf);
+    }
+    article {
+      font-family: article_font_update_strategy_of_front_end_assets_under_the_load_balancing;
+    }
+  </style>
+  
+  <link rel="stylesheet" href="/ece570de77ba673c17121d06fc929bd9.css">
+</head>
+
+<body>
+  <style>
+  @font-face {
+    font-family: title_font;
+    src: url(/e0e440b1ae0a9ba21fb3feb4cff12d11.ttf);
+  }
+
+  .page-header {
+    max-inline-size: var(--content-max-width);
+    margin-block: 50px 40px;
+    margin-inline: auto;
+    padding-inline: 30px;
+    display: flex;
+    align-items: center;
+  }
+
+  .page-header_title {
+    flex: 1;
+    min-inline-size: 0;
+    font-size: min(8vw, 56px);
+    font-family: title_font;
+    margin: 0;
+    color: var(--normal-color);
+  }
+
+  .page-header_title > a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .page-header_icon {
+    margin-inline-start: 10px;
+  }
+
+  .page-header_icon > img {
+    user-select: none;
+    inline-size: 20px;
+    block-size: 20px;
+  }
+</style>
+
+<header class="page-header">
+  
+    <h2 class="page-header_title">
+      <a href="/">动物的光合作用</a>
+    </h2>
+  
+  <a class="page-header_icon" href="/rss.xml" target="_blank">
+    <img src="/e31ad23031e5bcb34e8d4a424ba0c100.png" alt="rss">
+  </a>
+  <a class="page-header_icon" href="https://github.com/mebtte/animal-photosynthesis" target="_blank">
+    <img src="/184c800e11079b13904f308161071b62.png" alt="github">
+  </a>
+  <a class="page-header_icon" href="//i.mebtte.com" target="_blank">
+    <img src="/2cd3760ad10a38f8a9ed6ea3993fa472.png" alt="author">
+  </a>
+</header>
+
+  <article>
+    <style>
+.article-header {
+  max-inline-size: var(--content-max-width);
+  margin-block: 40px;
+  margin-inline: auto;
+  padding-inline: 30px;
+}
+
+.article-title {
+  color: var(--primary-color);
+  font-size: 32px;
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+}
+
+.article-title a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.article-publish-time {
+  color: var(--secondary-color);
+  font-size: 14px;
+  font-family: common_font;
+}
+</style>
+
+<section class="article-header">
+  <h1 class="article-title">
+    <a href="/update_strategy_of_front_end_assets_under_the_load_balancing">负载均衡下的前端资源更新策略</a>
+  </h1>
+  <time class="article-publish-time">2023-09-20</time>
+</section>
+
+    <style>
+  article {
+    --article-space: 30px;
+  }
+
+  article a {
+    color: var(--normal-color);
+    text-decoration-color: var(--primary-color);
+  }
+
+  article h2,
+  article h3,
+  article h4,
+  article h5,
+  article h6 {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-inline: auto;
+    line-height: 1.5;
+    color: var(--normal-color);
+  }
+
+  article h2 {
+    margin-block-start: 28px;
+    font-size: 28px;
+  }
+
+  article h3 {
+    margin-block-start: 26px;
+    font-size: 25px;
+  }
+
+  article h4 {
+    margin-block-start: 24px;
+    font-size: 22px;
+  }
+
+  article h5 {
+    margin-block-start: 22px;
+    font-size: 19px;
+  }
+
+  article h6 {
+    margin-block-start: 20px;
+    font-size: 16px;
+  }
+
+  article p {
+    max-inline-size: var(--content-max-width);
+
+    margin-block: 15px;
+    margin-inline: auto;
+    padding-inline: 30px;
+
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--normal-color);
+    word-break: break-word;
+  }
+
+  article p code,
+  article ul code,
+  article ol code,
+  article table code {
+    padding-inline: 4px;
+    border-radius: var(--border-radius);
+    background: rgba(237, 106, 94, 0.3);
+  }
+
+  article pre {
+    max-inline-size: var(--content-max-width) !important;
+    margin-block: 15px !important;
+    margin-inline: auto !important;
+    font-size: 14px !important;
+    box-sizing: border-box;
+    border-radius: var(--border-radius) !important;
+    tab-size: 2 !important;
+    padding: 0 !important;
+  }
+
+  article pre code {
+    display: block;
+    margin-block: 20px !important;
+    margin-inline: 30px !important;
+    overflow: auto !important;
+    font-size: inherit !important;
+  }
+
+  article hr {
+    max-inline-size: var(--content-max-width);
+    margin-block: 40px;
+    margin-inline: auto;
+    padding-inline: var(--article-space);
+    border: none;
+  }
+
+  article hr::after {
+    content: "";
+    display: block;
+    block-size: 1px;
+    background-color: var(--tertiary-color);
+  }
+
+  .table-container {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .table-container table {
+    border-collapse: collapse;
+  }
+
+  .table-container th,
+  .table-container td {
+    font-size: 14px;
+    color: var(--normal-color);
+    border: 1px solid var(--tertiary-color);
+    padding: 10px;
+    text-align: left;
+  }
+
+  .table-container th {
+    font-size: 16px;
+    text-align: left;
+  }
+
+  article blockquote {
+    max-inline-size: var(--content-max-width);
+    padding-inline: var(--article-space);
+    margin-block: 15px;
+    margin-inline: auto;
+    position: relative;
+    font-style: italic;
+    color: var(--secondary-color);
+  }
+
+  article blockquote::before {
+    content: "";
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 30px;
+    inline-size: 3px;
+    block-size: 100%;
+    background-color: var(--primary-color);
+  }
+
+  article blockquote p {
+    font-size: 14px;
+    color: inherit;
+    max-inline-size: unset;
+    padding: 0;
+    margin-inline-start: 30px;
+  }
+
+  article ul,
+  article ol {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+    color: var(--normal-color);
+    line-height: 1.5;
+  }
+
+  article ol {
+    counter-reset: li-count;
+  }
+
+  article ul li,
+  article ol li {
+    display: block;
+    margin-block: 5px;
+    position: relative;
+  }
+
+  article ol li {
+    counter-increment: li-count;
+  }
+
+  article ul li::before {
+    content: "";
+    display: inline-block;
+    inline-size: 6px;
+    block-size: 6px;
+
+    margin-inline-end: 10px;
+
+    vertical-align: middle;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+  }
+
+  article ol li::before {
+    content: counter(li-count) ". ";
+    color: var(--primary-color);
+  }
+
+  article figcaption {
+    font-size: 12px;
+    color: var(--secondary-color);
+    text-align: center;
+    margin-block-start: 5px;
+  }
+
+  .figure-img {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .figure-img img {
+    display: block;
+    max-inline-size: 100%;
+    margin-inline: auto;
+    border-radius: var(--border-radius);
+  }
+
+  .figure-media {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .figure-media .media {
+    display: block;
+    max-inline-size: 100%;
+    margin-inline: auto;
+  }
+
+  .figure-iframe {
+    inline-size: 100%;
+    margin-block: 15px;
+  }
+
+  .figure-iframe iframe {
+    display: block;
+    inline-size: 100%;
+    max-inline-size: var(--content-max-width);
+    margin-inline: auto;
+    block-size: 640px;
+    border: 1px solid var(--tertiary-color);
+    border-radius: var(--border-radius);
+  }
+
+  strong {
+    font-weight: normal;
+    text-decoration: underline;
+  }
+</style>
+
+<section><p>我们的一些前端页面偶尔会有用户反馈页面空白, 稍等一会刷新就正常了.
+奇怪的是我们在日志系统并没有发现可能导致页面空白的报错, 所以我们一度以为是用户的网络问题.</p>
+<p>直到有一次我们内部人员也遇到了这个问题, 我们马上封锁现场进行排查, 结果发现是某个 JS 文件 <code>404</code>, 导致页面初始化失败从而页面空白.
+这也解释了为什么日志系统没有相关日志, 因为初始化失败导致了日志库并未被加载.</p>
+<p>因为前端资源是由负载均衡后的多台服务器提供的, 所以我们马上登录到服务器一台一台地进行检查, 结果发现每台机器都存在该 JS 文件, 我们刷新空白页面后发现该 JS 文件请求也不再 <code>404</code>, 页面恢复正常.</p>
+<p>毫无头绪下, 我们对前端项目的服务架构以及发版流程进行了整理, 示意图如下:</p>
+
+      <figure class="figure-img">
+        <a href="/425c7e8be946a59db2f629a3e6f706fd.png" target="_blank">
+          <img src="/425c7e8be946a59db2f629a3e6f706fd.png" alt="前端项目的服务架构以及发版流程" title="前端项目的服务架构以及发版流程" loading="lazy">
+        </a>
+        <figcaption>前端项目的服务架构以及发版流程</figcaption>
+      </figure>
+    
+<p>和运维一起进行多次排查后终于发现了问题所在, 问题出在第三步部署系统上传构建产物到静态资源服务器集群.</p>
+<p>我们前端项目使用 Webpack 进行构建, 构建产物简化一下可以这样表示:</p>
+<pre><code>|- index.html(script --&gt; main.[contenthash].js)
+|- main.[contenthash].js
+</code></pre>
+<p><code>[contenthash]</code> 表示文件内容的哈希值, 内容发生变化哈希值也会发生变化, <code>index.html</code> 中有个 <code>script</code> 标签指向 <code>main.[contenthash].js</code>, 同样地我们简化一下服务器集群为两台:</p>
+
+      <figure class="figure-img">
+        <a href="/8dc3e1b750eb2731824e9b69dd56b0c0.png" target="_blank">
+          <img src="/8dc3e1b750eb2731824e9b69dd56b0c0.png" alt="简化后的架构" title="简化后的架构" loading="lazy">
+        </a>
+        <figcaption>简化后的架构</figcaption>
+      </figure>
+    
+<p>首先, 部署系统是覆盖上传资源的, 也就是说现有资源是不会被删除的, 只有遇到同名资源才会覆盖.
+其次, 上传资源是逐台服务器进行的, 也就是上面的 <code>服务器1</code> 上传完成后再到 <code>服务器2</code>.</p>
+<p>假设我们现在要发布新的版本, 构建产物为:</p>
+<pre><code>|- index.html(script --&gt; main.bb.js)
+|- main.bb.js
+</code></pre>
+<p>上一个版本的构建产物为:</p>
+<pre><code>|- index.html(script --&gt; main.aa.js)
+|- main.aa.js
+</code></pre>
+<p>因为部署系统是逐台服务器上传的, 所以必定存在 <code>服务器1</code> 已上传完成而 <code>服务器2</code> 未上传的过渡状态:</p>
+
+      <figure class="figure-img">
+        <a href="/1c0649571edd52bed49e311ecbf66322.png" target="_blank">
+          <img src="/1c0649571edd52bed49e311ecbf66322.png" alt="部分上传完成的状态" title="部分上传完成的状态" loading="lazy">
+        </a>
+        <figcaption>部分上传完成的状态</figcaption>
+      </figure>
+    
+<p>当处于这种状态下, 用户访问就存在以下情况:</p>
+<ol>
+<li>用户访问页面, 由负载均衡分配 <code>服务器1</code> 返回 <code>index.html</code>, 此时 html 中的 script 指向 <code>main.bb.js</code></li>
+<li>浏览器解析 html, 发起 <code>main.bb.js</code> 请求</li>
+<li><code>main.bb.js</code> 请求由负载均衡分配 <code>服务器2</code> 返回, 此时 <code>服务器2</code> 不存在资源 <code>main.bb.js</code>, 响应 <code>404</code></li>
+</ol>
+<p>这就是造成页面空白的原因.</p>
+<hr>
+<p>找到问题所在后, 我们也提出了一些解决方案, 比如部分停止服务进行更新:</p>
+<ol>
+<li>将一半的机器停止服务</li>
+<li>对停止服务这一半的机器进行更新</li>
+<li>更新完毕后重新启动服务, 同时停止另一半机器的服务</li>
+<li>对这剩下的一半机器进行更新, 更新完毕后重启服务</li>
+</ol>
+<p>这个方案被否决了, 因为第三步存在两种情况:</p>
+<ol>
+<li>更新完的一半服务还没有启动, 另一半已经停止服务了, 会存在一段时间完全没有服务</li>
+<li>更新完的一半服务已经启动, 另一半还没有停止服务, 依然会出现上面 <code>404</code> 的情况</li>
+</ol>
+<p>我们再归纳一下 <code>404</code> 出现的原因, 因为资源 <code>main.bb.js</code> 还未上传就已经存在资源的入口 <code>index.html --&gt; main.bb.js</code>, 如果等资源上传完成后再有入口就不会这样的问题了, 所以我们的解决方案是这样的:</p>
+<ol>
+<li>部署系统将打包产物剔除所有的 <code>html</code> 文件, 然后逐台上传到服务器</li>
+<li>将剔除的 <code>html</code> 文件逐台上传到服务器</li>
+</ol>
+<p>从上面的分析可知, 上传过程中存在过渡状态, 而 <code>404</code> 问题就出在过渡状态上, 而解决方案将一次上传分成了两次上传, 所以存在两个过渡状态, 以及第一步和第二步之间的过渡状态, 三个过渡状态我们逐个分析一下.</p>
+
+      <figure class="figure-img">
+        <a href="/16c1513ad4d6cd52e11c828d472b4208.png" target="_blank">
+          <img src="/16c1513ad4d6cd52e11c828d472b4208.png" alt="第一步的过渡状态" title="第一步的过渡状态" loading="lazy">
+        </a>
+        <figcaption>第一步的过渡状态</figcaption>
+      </figure>
+    
+<p>第一步的过渡状态中, 只是部分服务器多了一些没有被使用的资源文件, 没有负面影响.</p>
+
+      <figure class="figure-img">
+        <a href="/bd50ba26fb1b64ad772de4d5a2b8bcd8.png" target="_blank">
+          <img src="/bd50ba26fb1b64ad772de4d5a2b8bcd8.png" alt="第一步与第二步之间的过渡状态" title="第一步与第二步之间的过渡状态" loading="lazy">
+        </a>
+        <figcaption>第一步与第二步之间的过渡状态</figcaption>
+      </figure>
+    
+<p>和第一步的过渡状态一样, 第一步与第二步之间的过渡状态也是服务器多了一些未被使用的资源文件, 不会产生负面影响.</p>
+
+      <figure class="figure-img">
+        <a href="/9744561e52865eb1a8c11779bd430d7b.png" target="_blank">
+          <img src="/9744561e52865eb1a8c11779bd430d7b.png" alt="第二步的过渡状态" title="第二步的过渡状态" loading="lazy">
+        </a>
+        <figcaption>第二步的过渡状态</figcaption>
+      </figure>
+    
+<p>在第二步的过渡状态中, 会存在两个版本的 <code>html</code> 文件, 一个指向新版的资源, 一个指向旧版的资源, 但无论指向新版还是旧版, 所有服务器都存在相应的资源, 不会存在 <code>404</code> 问题.</p></section>
+
+    
+  </article>
+  
+    <style>
+  .article-actions {
+    max-inline-size: var(--content-max-width);
+
+    display: flex;
+    align-items: center;
+
+    margin-block: 40px;
+    margin-inline: auto;
+    padding-inline: 30px;
+
+    font-family: common_font;
+    color: var(--normal-color);
+  }
+
+  .article-actions_action:not(:last-child)::after {
+    content: "·\00a0";
+  }
+
+  .article-actions_action > a {
+    color: inherit;
+    text-decoration-color: var(--primary-color);
+  }
+
+  @media (max-width: 520px) {
+    .article-actions {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .article-actions_action::before {
+      content: "·";
+    }
+
+    .article-actions_action:not(:last-child)::after {
+      content: "";
+    }
+  }
+</style>
+
+<div class="article-actions">
+  <span class="article-actions_action">
+    使用
+    <a href="https://github.com/mebtte/animal-photosynthesis/discussions">Discussions</a> 讨论
+  </span>
+  <span class="article-actions_action">
+    在
+    <a href="https://github.com/mebtte/animal-photosynthesis/edit/master/articles/update_strategy_of_front_end_assets_under_the_load_balancing/index.md">Github</a>
+    上编辑
+  </span>
+  <span class="article-actions_action">
+    分享到
+    <a href="https://www.x.com/share?text=%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E4%B8%8B%E7%9A%84%E5%89%8D%E7%AB%AF%E8%B5%84%E6%BA%90%E6%9B%B4%E6%96%B0%E7%AD%96%E7%95%A5&amp;url=https%3A%2F%2Fmebtte.com%2Fupdate_strategy_of_front_end_assets_under_the_load_balancing">X</a>
+  </span>
+</div>
+
+  
+  <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8404651063516637" crossorigin="anonymous"></script>
+<style>
+  .adsbygoogle {
+    max-width: 100%;
+    margin-block: 40px;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .adsbygoogle:empty {
+    display: none;
+  }
+</style>
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8404651063516637" data-ad-slot="7746538242" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  <style>
+.page-footer {
+  font-size: 12px;
+  max-inline-size: var(--content-max-width);
+  margin-block: 40px;
+  margin-inline: auto;
+  padding-inline: 30px;
+  font-family: common_font;
+  color: var(--secondary-color);
+}
+
+.page-footer > a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.page-footer > a:hover {
+  color: var(--primary-color);
+}
+
+.page-footer > .underline {
+  text-decoration: underline;
+}
+</style>
+
+<footer class="page-footer">
+  <a href="https://github.com/mebtte/animal-photosynthesis/blob/master/license">©</a>
+  2026
+  &nbsp;
+  <a class="underline" href="https://i.mebtte.com">MEBTTE</a>
+  &nbsp;|&nbsp;
+  <a class="underline" href="https://stats.uptimerobot.com/4nO5RUYB60">UPTIME</a>
+  &nbsp;|&nbsp;
+  <a class="underline" href="/support">支持我</a>
+</footer>
+
+  <script src="/39c97c2884c3a2b5e64c8f085b843d4e.js"></script>
+  <script src="/0ec215ad131a36856d3d20423b9aca26.js" async="" defer=""></script>
+
+
+
+</body></html>

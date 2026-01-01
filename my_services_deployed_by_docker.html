@@ -1,0 +1,666 @@
+<!DOCTYPE html><html lang="zh-cn"><head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="mebtte">
+<meta name="keywords" content="HTML, CSS, JavaScript, Web, Front-End">
+
+<!-- Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-CESZTRKM96"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CESZTRKM96');
+</script>
+
+<!-- open graph -->
+<meta property="og:type" content="website">
+<meta property="og:image" content="/6ed5faa0573b2a5a9d47232c9a71fb88.png">
+
+<link rel="shortcut icon" type="image/png" href="/6ed5faa0573b2a5a9d47232c9a71fb88.png">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+
+<link rel="preload" href="/e0e440b1ae0a9ba21fb3feb4cff12d11.ttf" as="font" crossorigin="anonymous">
+<link rel="preload" href="/53d99659dc34209657d05bb2a7fc5de4.ttf" as="font" crossorigin="anonymous">
+
+  <style>
+  @font-face {
+    font-family: common_font;
+    src: url(/53d99659dc34209657d05bb2a7fc5de4.ttf);
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    --content-max-width: 840px;
+
+    --primary-color: rgb(237 106 94);
+
+    --normal-color: #333;
+    --secondary-color: #888;
+    --tertiary-color: #ddd;
+    --backgroud: rgb(255 255 255);
+
+    --border-radius: 2px;
+    --transition-duration: 0.3s;
+
+    background-color: var(--backgroud);
+    transition: background-color var(--transition-duration);
+  }
+
+  figure {
+    margin-inline: 0;
+  }
+</style>
+
+
+  <title>我用 Docker 部署的一些服务 - 动物的光合作用</title>
+  <meta name="description" content="前段时间开始折腾 NAS, 或者说 Home server, 试了很多方案, 最后采用了 Ubuntu Server + Docker 的方式, 下面是我用 Docker 部署的一些服务.  ## Portainer  Docker 在 CLI 的情况下使用, 命令和参数经常需要查文档. [Port......">
+  <meta property="og:description" content="前段时间开始折腾 NAS, 或者说 Home server, 试了很多方案, 最后采用了 Ubuntu Server + Docker 的方式, 下面是我用 Docker 部署的一些服务.  ## Portainer  Docker 在 CLI 的情况下使用, 命令和参数经常需要查文档. [Port......">
+
+  <link rel="preload" href="/9bbe9c733298c5ea2cefa2f2fdf298f3.ttf" as="font" crossorigin="anonymous">
+  <style>
+    @font-face {
+      font-family: article_font_my_services_deployed_by_docker;
+      src: url(/9bbe9c733298c5ea2cefa2f2fdf298f3.ttf);
+    }
+    article {
+      font-family: article_font_my_services_deployed_by_docker;
+    }
+  </style>
+  
+  <link rel="stylesheet" href="/ece570de77ba673c17121d06fc929bd9.css">
+</head>
+
+<body>
+  <style>
+  @font-face {
+    font-family: title_font;
+    src: url(/e0e440b1ae0a9ba21fb3feb4cff12d11.ttf);
+  }
+
+  .page-header {
+    max-inline-size: var(--content-max-width);
+    margin-block: 50px 40px;
+    margin-inline: auto;
+    padding-inline: 30px;
+    display: flex;
+    align-items: center;
+  }
+
+  .page-header_title {
+    flex: 1;
+    min-inline-size: 0;
+    font-size: min(8vw, 56px);
+    font-family: title_font;
+    margin: 0;
+    color: var(--normal-color);
+  }
+
+  .page-header_title > a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .page-header_icon {
+    margin-inline-start: 10px;
+  }
+
+  .page-header_icon > img {
+    user-select: none;
+    inline-size: 20px;
+    block-size: 20px;
+  }
+</style>
+
+<header class="page-header">
+  
+    <h2 class="page-header_title">
+      <a href="/">动物的光合作用</a>
+    </h2>
+  
+  <a class="page-header_icon" href="/rss.xml" target="_blank">
+    <img src="/e31ad23031e5bcb34e8d4a424ba0c100.png" alt="rss">
+  </a>
+  <a class="page-header_icon" href="https://github.com/mebtte/animal-photosynthesis" target="_blank">
+    <img src="/184c800e11079b13904f308161071b62.png" alt="github">
+  </a>
+  <a class="page-header_icon" href="//i.mebtte.com" target="_blank">
+    <img src="/2cd3760ad10a38f8a9ed6ea3993fa472.png" alt="author">
+  </a>
+</header>
+
+  <article>
+    <style>
+.article-header {
+  max-inline-size: var(--content-max-width);
+  margin-block: 40px;
+  margin-inline: auto;
+  padding-inline: 30px;
+}
+
+.article-title {
+  color: var(--primary-color);
+  font-size: 32px;
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+}
+
+.article-title a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.article-publish-time {
+  color: var(--secondary-color);
+  font-size: 14px;
+  font-family: common_font;
+}
+</style>
+
+<section class="article-header">
+  <h1 class="article-title">
+    <a href="/my_services_deployed_by_docker">我用 Docker 部署的一些服务</a>
+  </h1>
+  <time class="article-publish-time">2023-07-05</time>
+</section>
+
+    <style>
+  article {
+    --article-space: 30px;
+  }
+
+  article a {
+    color: var(--normal-color);
+    text-decoration-color: var(--primary-color);
+  }
+
+  article h2,
+  article h3,
+  article h4,
+  article h5,
+  article h6 {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-inline: auto;
+    line-height: 1.5;
+    color: var(--normal-color);
+  }
+
+  article h2 {
+    margin-block-start: 28px;
+    font-size: 28px;
+  }
+
+  article h3 {
+    margin-block-start: 26px;
+    font-size: 25px;
+  }
+
+  article h4 {
+    margin-block-start: 24px;
+    font-size: 22px;
+  }
+
+  article h5 {
+    margin-block-start: 22px;
+    font-size: 19px;
+  }
+
+  article h6 {
+    margin-block-start: 20px;
+    font-size: 16px;
+  }
+
+  article p {
+    max-inline-size: var(--content-max-width);
+
+    margin-block: 15px;
+    margin-inline: auto;
+    padding-inline: 30px;
+
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--normal-color);
+    word-break: break-word;
+  }
+
+  article p code,
+  article ul code,
+  article ol code,
+  article table code {
+    padding-inline: 4px;
+    border-radius: var(--border-radius);
+    background: rgba(237, 106, 94, 0.3);
+  }
+
+  article pre {
+    max-inline-size: var(--content-max-width) !important;
+    margin-block: 15px !important;
+    margin-inline: auto !important;
+    font-size: 14px !important;
+    box-sizing: border-box;
+    border-radius: var(--border-radius) !important;
+    tab-size: 2 !important;
+    padding: 0 !important;
+  }
+
+  article pre code {
+    display: block;
+    margin-block: 20px !important;
+    margin-inline: 30px !important;
+    overflow: auto !important;
+    font-size: inherit !important;
+  }
+
+  article hr {
+    max-inline-size: var(--content-max-width);
+    margin-block: 40px;
+    margin-inline: auto;
+    padding-inline: var(--article-space);
+    border: none;
+  }
+
+  article hr::after {
+    content: "";
+    display: block;
+    block-size: 1px;
+    background-color: var(--tertiary-color);
+  }
+
+  .table-container {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .table-container table {
+    border-collapse: collapse;
+  }
+
+  .table-container th,
+  .table-container td {
+    font-size: 14px;
+    color: var(--normal-color);
+    border: 1px solid var(--tertiary-color);
+    padding: 10px;
+    text-align: left;
+  }
+
+  .table-container th {
+    font-size: 16px;
+    text-align: left;
+  }
+
+  article blockquote {
+    max-inline-size: var(--content-max-width);
+    padding-inline: var(--article-space);
+    margin-block: 15px;
+    margin-inline: auto;
+    position: relative;
+    font-style: italic;
+    color: var(--secondary-color);
+  }
+
+  article blockquote::before {
+    content: "";
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 30px;
+    inline-size: 3px;
+    block-size: 100%;
+    background-color: var(--primary-color);
+  }
+
+  article blockquote p {
+    font-size: 14px;
+    color: inherit;
+    max-inline-size: unset;
+    padding: 0;
+    margin-inline-start: 30px;
+  }
+
+  article ul,
+  article ol {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+    color: var(--normal-color);
+    line-height: 1.5;
+  }
+
+  article ol {
+    counter-reset: li-count;
+  }
+
+  article ul li,
+  article ol li {
+    display: block;
+    margin-block: 5px;
+    position: relative;
+  }
+
+  article ol li {
+    counter-increment: li-count;
+  }
+
+  article ul li::before {
+    content: "";
+    display: inline-block;
+    inline-size: 6px;
+    block-size: 6px;
+
+    margin-inline-end: 10px;
+
+    vertical-align: middle;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+  }
+
+  article ol li::before {
+    content: counter(li-count) ". ";
+    color: var(--primary-color);
+  }
+
+  article figcaption {
+    font-size: 12px;
+    color: var(--secondary-color);
+    text-align: center;
+    margin-block-start: 5px;
+  }
+
+  .figure-img {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .figure-img img {
+    display: block;
+    max-inline-size: 100%;
+    margin-inline: auto;
+    border-radius: var(--border-radius);
+  }
+
+  .figure-media {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .figure-media .media {
+    display: block;
+    max-inline-size: 100%;
+    margin-inline: auto;
+  }
+
+  .figure-iframe {
+    inline-size: 100%;
+    margin-block: 15px;
+  }
+
+  .figure-iframe iframe {
+    display: block;
+    inline-size: 100%;
+    max-inline-size: var(--content-max-width);
+    margin-inline: auto;
+    block-size: 640px;
+    border: 1px solid var(--tertiary-color);
+    border-radius: var(--border-radius);
+  }
+
+  strong {
+    font-weight: normal;
+    text-decoration: underline;
+  }
+</style>
+
+<section><p>前段时间开始折腾 NAS, 或者说 Home server, 试了很多方案, 最后采用了 Ubuntu Server + Docker 的方式, 下面是我用 Docker 部署的一些服务.</p>
+<h2 id="portainer">Portainer</h2>
+<p>Docker 在 CLI 的情况下使用, 命令和参数经常需要查文档. <a href="https://www.portainer.io">Portainer</a> 是一款可视化的工具, 能够很方便地对 Docker 进行管理.</p>
+
+      <figure class="figure-img">
+        <a href="/c615174ee27c4b803ad23a990d13c198.png" target="_blank">
+          <img src="/c615174ee27c4b803ad23a990d13c198.png" alt="Portainer" title="Portainer" loading="lazy">
+        </a>
+        <figcaption>Portainer</figcaption>
+      </figure>
+    
+<p>通过浏览器我们可以很方便地操作容器/镜像/网络/…, 此外还支持 Docker Compose(在 Portainer 中称为 Stack). Portainer 有两个版本, 对于个人使用来说免费的 Community Edition 就可以了.</p>
+<h2 id="nextcloud">Nextcloud</h2>
+<p><a href="https://nextcloud.com">Nextcloud</a> 是一个网盘服务, 可以让我们自建类似于 Google Drive 和百度网盘这样的服务, 同时还支持通过 WebDAV 将网盘挂载到本地或者通过手机 APP 对文件进行管理.</p>
+
+      <figure class="figure-img">
+        <a href="/fc137f8101b64bad821b72adad16e96e.jpg" target="_blank">
+          <img src="/fc137f8101b64bad821b72adad16e96e.jpg" alt="" title="" loading="lazy">
+        </a>
+        
+      </figure>
+    
+<p>Nextcloud 有丰富的插件系统, 比如 File sharing 可以让我们分享文件给别人, Versions 可以让文件像 git 一样有版本的概念, 可以随时回滚. 不过也正是因为这样, 导致 Nextcloud 的前端和后端都很臃肿, 占用很多资源, 能够明显感觉到很多操作慢半拍, 希望后续能够优化吧.</p>
+<h2 id="jellyfin">Jellyfin</h2>
+<p><a href="https://github.com/jellyfin/jellyfin">Jellyfin</a> 是一个影音服务, 通过 Jellyfin 可以使用浏览器或者 APP 访问到硬盘上的媒体文件. Jellyfin 的客户端几乎支持全平台, 特别是在电视安装之后, 再也不用忍受满屏的广告和会员专属内容了.</p>
+
+      <figure class="figure-img">
+        <a href="/b257dd0187150d7098a588f35e50755b.png" target="_blank">
+          <img src="/b257dd0187150d7098a588f35e50755b.png" alt="Jellyfin" title="Jellyfin" loading="lazy">
+        </a>
+        <figcaption>Jellyfin</figcaption>
+      </figure>
+    
+<p>此外 Jellyfin 还会自动识别媒体并刮削, 生成漂亮的海报墙, 不过 Jellyfin 自带的刮削不太好用, 配合 <a href="https://github.com/cxfksword/jellyfin-plugin-metashark">jellyfin-plugin-metashark</a> 使用可以从豆瓣进行刮削.</p>
+<h2 id="cicada">Cicada</h2>
+<p><a href="https://github.com/mebtte/cicada">知了</a>是我自己开发的一个音乐服务, 因为版权的问题现在任一一个音乐平台都无法涵盖我要听的音乐, 在知了可以上传任何喜欢的音乐, 不用担心没有版权或者音乐被下架的问题.</p>
+
+      <figure class="figure-img">
+        <a href="/ee71fb954fe7dc8c16d5d4f759bbb0aa.png" target="_blank">
+          <img src="/ee71fb954fe7dc8c16d5d4f759bbb0aa.png" alt="知了" title="知了" loading="lazy">
+        </a>
+        <figcaption>知了</figcaption>
+      </figure>
+    
+<p>知了现在只支持 PWA, 除了 iOS/iPadOS 外, 其他平台都与原生 APP 无异.</p>
+<h2 id="mysqlmongodb">MySQL/MongoDB</h2>
+<p>作为一个开发者, 很多项目需要用到数据库, 在 Home server 跑数据库的话就不需要在本机启动了, 而且切换不同的开发设备或者多人开发也能访问同一数据库实例, 不需要考虑数据同步的问题.</p>
+<h2 id="qbittorrent">qBittorrent</h2>
+<p><a href="https://www.qbittorrent.org">qBittorrent</a> 是一个 P2P 的下载工具, 像一些影视资源的话可以挂在上面下载.</p>
+
+      <figure class="figure-img">
+        <a href="/7e1b7708a5b596797cb28f20a51fe6b5.png" target="_blank">
+          <img src="/7e1b7708a5b596797cb28f20a51fe6b5.png" alt="qBittorrent" title="qBittorrent" loading="lazy">
+        </a>
+        <figcaption>qBittorrent</figcaption>
+      </figure>
+    
+<h2 id="syncthing">Syncthing</h2>
+<p><a href="https://syncthing.net">Syncthing</a> 是一个文件同步服务, 可以将文件在不同的设备间进行同步. 将其他设备的重要文件和 Home server 进行同步, 这样设备损坏或者丢失就不用担心数据无法找回了, 而且 Syncthing 支持文件版本, 误删或者错误修改文件都可以回退.</p>
+
+      <figure class="figure-img">
+        <a href="/477276131246ac8fca7b7231a20ed893.png" target="_blank">
+          <img src="/477276131246ac8fca7b7231a20ed893.png" alt="Syncthing" title="Syncthing" loading="lazy">
+        </a>
+        <figcaption>Syncthing</figcaption>
+      </figure>
+    
+<h2 id="duplicati">Duplicati</h2>
+<p><a href="https://www.duplicati.com">Duplicati</a> 是一个在线备份的工具, 备份的数据会经过本地切片和加密, 然后通过网络备份到各种云服务, 加上本地备份(RAID/rsync/…), 重要数据就实现了两地三备份的基本准则.</p>
+
+      <figure class="figure-img">
+        <a href="/792045f5c4ea4040f1b65496d9abf8e1.jpg" target="_blank">
+          <img src="/792045f5c4ea4040f1b65496d9abf8e1.jpg" alt="Duplicati" title="Duplicati" loading="lazy">
+        </a>
+        <figcaption>Duplicati</figcaption>
+      </figure>
+    
+<h2 id="alist">AList</h2>
+<p><a href="https://alist.nn.ci">AList</a> 是一个网盘聚合的服务, 可以将各种网盘整合成一个网盘, 并且可以对外提供 WebDAV 服务.</p>
+
+      <figure class="figure-img">
+        <a href="/36bd8839fbffac62680ee416cd09d479.png" target="_blank">
+          <img src="/36bd8839fbffac62680ee416cd09d479.png" alt="AList" title="AList" loading="lazy">
+        </a>
+        <figcaption>AList</figcaption>
+      </figure>
+    
+<p>不过我用的比较少, 毕竟将数据存在网盘不是一个好主意.</p>
+<h2 id="frp">frp</h2>
+<p>对于大部分家用宽带来说是没有公网 IP 的, 这就使 Home server 部署的服务只能在局域网内访问. <a href="https://gofrp.org">frp</a> 是一个内网穿透的服务, 将服务端部署到有公网 IP 的机器, Home server 部署客户端, 这样就能够通过公网 IP 访问到 Home server 的服务了.</p>
+
+      <figure class="figure-img">
+        <a href="/2a63eaf587ce857917d2357122f23596.png" target="_blank">
+          <img src="/2a63eaf587ce857917d2357122f23596.png" alt="frp 示意图" title="frp 示意图" loading="lazy">
+        </a>
+        <figcaption>frp 示意图</figcaption>
+      </figure>
+    
+<p>frp 虽然有官方的 Docker 镜像, 不过却没有使用文档, 所以就利用 Github Action 自己封装了<a href="https://github.com/mebtte/docker/blob/master/frp/readme.md">一个</a>.</p>
+<h2 id="watchtower">Watchtower</h2>
+<p>通常情况下更新容器, 我们需要以下操作:</p>
+<ol>
+<li>拉取最新镜像</li>
+<li>删除正在运行的容器</li>
+<li>以相同参数创建容器</li>
+</ol>
+<p>当容器数量多了之后, 每个容器都重复这样的操作是非常繁琐的. <a href="https://github.com/containrrr/watchtower">Watchtower</a> 可以自动化上面的操作, 它会在后台检查镜像是否有更新, 更新存在的话自动拉取新的镜像, 然后移除旧的容器并以相同参数创建新的容器.</p></section>
+
+    <section>
+  <h2>更新记录</h2>
+  <div class="table-container">
+    <table>
+      
+        <tbody><tr>
+          <td>2023-12-06</td>
+          <td>修改错别字</td>
+        </tr>
+       
+    </tbody></table>
+  </div>
+</section>
+
+  </article>
+  
+    <style>
+  .article-actions {
+    max-inline-size: var(--content-max-width);
+
+    display: flex;
+    align-items: center;
+
+    margin-block: 40px;
+    margin-inline: auto;
+    padding-inline: 30px;
+
+    font-family: common_font;
+    color: var(--normal-color);
+  }
+
+  .article-actions_action:not(:last-child)::after {
+    content: "·\00a0";
+  }
+
+  .article-actions_action > a {
+    color: inherit;
+    text-decoration-color: var(--primary-color);
+  }
+
+  @media (max-width: 520px) {
+    .article-actions {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .article-actions_action::before {
+      content: "·";
+    }
+
+    .article-actions_action:not(:last-child)::after {
+      content: "";
+    }
+  }
+</style>
+
+<div class="article-actions">
+  <span class="article-actions_action">
+    使用
+    <a href="https://github.com/mebtte/animal-photosynthesis/discussions">Discussions</a> 讨论
+  </span>
+  <span class="article-actions_action">
+    在
+    <a href="https://github.com/mebtte/animal-photosynthesis/edit/master/articles/my_services_deployed_by_docker/index.md">Github</a>
+    上编辑
+  </span>
+  <span class="article-actions_action">
+    分享到
+    <a href="https://www.x.com/share?text=%E6%88%91%E7%94%A8%20Docker%20%E9%83%A8%E7%BD%B2%E7%9A%84%E4%B8%80%E4%BA%9B%E6%9C%8D%E5%8A%A1&amp;url=https%3A%2F%2Fmebtte.com%2Fmy_services_deployed_by_docker">X</a>
+  </span>
+</div>
+
+  
+  <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8404651063516637" crossorigin="anonymous"></script>
+<style>
+  .adsbygoogle {
+    max-width: 100%;
+    margin-block: 40px;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .adsbygoogle:empty {
+    display: none;
+  }
+</style>
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8404651063516637" data-ad-slot="7746538242" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  <style>
+.page-footer {
+  font-size: 12px;
+  max-inline-size: var(--content-max-width);
+  margin-block: 40px;
+  margin-inline: auto;
+  padding-inline: 30px;
+  font-family: common_font;
+  color: var(--secondary-color);
+}
+
+.page-footer > a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.page-footer > a:hover {
+  color: var(--primary-color);
+}
+
+.page-footer > .underline {
+  text-decoration: underline;
+}
+</style>
+
+<footer class="page-footer">
+  <a href="https://github.com/mebtte/animal-photosynthesis/blob/master/license">©</a>
+  2026
+  &nbsp;
+  <a class="underline" href="https://i.mebtte.com">MEBTTE</a>
+  &nbsp;|&nbsp;
+  <a class="underline" href="https://stats.uptimerobot.com/4nO5RUYB60">UPTIME</a>
+  &nbsp;|&nbsp;
+  <a class="underline" href="/support">支持我</a>
+</footer>
+
+  <script src="/39c97c2884c3a2b5e64c8f085b843d4e.js"></script>
+  <script src="/0ec215ad131a36856d3d20423b9aca26.js" async="" defer=""></script>
+
+
+
+</body></html>

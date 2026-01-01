@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/"
+  xmlns:atom="http://www.w3.org/2005/Atom"
+  version="2.0"
+>
+  <channel>
+    <title>
+      <![CDATA[动物的光合作用]]>
+    </title>
+    <description>
+      <![CDATA[一头能进行光合作用的动物]]>
+    </description>
+    <link>https://mebtte.com</link>
+    <lastBuildDate>2026-01-01T02:14:35.111Z</lastBuildDate>
+    
+      <item>
+        <title>
+          <![CDATA[内网穿透下 NAS 使用 DNS 轮循作为负载均衡]]>
+        </title>
+        <description>
+          <![CDATA[&gt; 注意是**轮循**而不是**轮询**, 前者对应的英文是 round-robin, 后者对应 polling.  由于我的宽带没有公网 IP, 所以我的 NAS 上一些服务是通过内网穿透到具有公网 IP 的 VPS 上进行远程访问的. 这里有两个问题导致远程访问不太稳定, 一个是 NAS 和 V...]]>
+        </description>
+        <link>https://mebtte.com/using_round-robin_dns_as_load_blancing_under_nat_traversal_on_nas</link>
+        <guid isPermaLink="false">using_round-robin_dns_as_load_blancing_under_nat_traversal_on_nas</guid>
+        <pubDate>2025-03-02T00:00:00.000Z</pubDate>
+      </item>
+    
+      <item>
+        <title>
+          <![CDATA[&lt;众安车保&gt;上当指南]]>
+        </title>
+        <description>
+          <![CDATA[年初的时候车险快要到期, 当时好几个保险销售加我微信给我报价单(好奇怎么知道我信息), 有平安/人保这些, 还有个自称**众安**的销售也给我报了价, 她的报价比其他保险要低 5% 到 10% 这样子.  ![微信号 Lyf1996210](./Lyf1996210.jpg)  ![自称众安](./...]]>
+        </description>
+        <link>https://mebtte.com/cheat_of_zhonganchebao</link>
+        <guid isPermaLink="false">cheat_of_zhonganchebao</guid>
+        <pubDate>2025-02-06T00:00:00.000Z</pubDate>
+      </item>
+    
+      <item>
+        <title>
+          <![CDATA[JS 中的 Shebang/Hashbang]]>
+        </title>
+        <description>
+          <![CDATA[把一段 Shell 脚本保存成文本文件:  ```sh # hello.sh echo &#39;Hello World&#39; ```  我们可以通过两种方式运行, 第一种是 Shell 命令加脚本文件:  ```sh sh hello.sh bash hello.sh zsh hello.sh ```  第二...]]>
+        </description>
+        <link>https://mebtte.com/shebang_in_js</link>
+        <guid isPermaLink="false">shebang_in_js</guid>
+        <pubDate>2023-12-13T00:00:00.000Z</pubDate>
+      </item>
+    
+      <item>
+        <title>
+          <![CDATA[我的自建 NAS]]>
+        </title>
+        <description>
+          <![CDATA[折腾 NAS 也差不多两年的时间了, 一开始的 [Mac Mini + 硬盘柜的方案](/remote_accessible_nas_by_mac_mini), 到后来直接购买成品 NAS, 再到现在的小主机 + 外接硬盘的方案. 小主机 + 外接硬盘的方案已经稳定运行半年多了, 目前体验还可以. ...]]>
+        </description>
+        <link>https://mebtte.com/my_nas</link>
+        <guid isPermaLink="false">my_nas</guid>
+        <pubDate>2023-12-12T00:00:00.000Z</pubDate>
+      </item>
+    
+      <item>
+        <title>
+          <![CDATA[React 组件中复用代码的方式]]>
+        </title>
+        <description>
+          <![CDATA[## Mixin  在 ES6 之前, React 使用 React.createClass 创建组件:  ```jsx const Article = React.createClass({   getInitialState: function () {     return {       c...]]>
+        </description>
+        <link>https://mebtte.com/reuse_code_between_react_components</link>
+        <guid isPermaLink="false">reuse_code_between_react_components</guid>
+        <pubDate>2023-12-10T00:00:00.000Z</pubDate>
+      </item>
+    
+      <item>
+        <title>
+          <![CDATA[负载均衡下的前端资源更新策略]]>
+        </title>
+        <description>
+          <![CDATA[我们的一些前端页面偶尔会有用户反馈页面空白, 稍等一会刷新就正常了. 奇怪的是我们在日志系统并没有发现可能导致页面空白的报错, 所以我们一度以为是用户的网络问题.  直到有一次我们内部人员也遇到了这个问题, 我们马上封锁现场进行排查, 结果发现是某个 JS 文件 `404`, 导致页面初始化失败从而...]]>
+        </description>
+        <link>https://mebtte.com/update_strategy_of_front_end_assets_under_the_load_balancing</link>
+        <guid isPermaLink="false">update_strategy_of_front_end_assets_under_the_load_balancing</guid>
+        <pubDate>2023-09-20T00:00:00.000Z</pubDate>
+      </item>
+    
+      <item>
+        <title>
+          <![CDATA[CSS 基于视区的长度单位]]>
+        </title>
+        <description>
+          <![CDATA[进入主题之前, 先来了解一下现有的 CSS 长度单位, 可以分为绝对长度单位和相对长度单位.  ## 绝对长度单位  ### `px`  现代显示器是由一颗颗像素组成的, 以我的显示器为例, 分辨率为 2560x1664, 也就是说这块显示器横向有 2560 个像素, 纵向有 1664 个像素, 显...]]>
+        </description>
+        <link>https://mebtte.com/new_css_viewport_units</link>
+        <guid isPermaLink="false">new_css_viewport_units</guid>
+        <pubDate>2023-09-12T00:00:00.000Z</pubDate>
+      </item>
+    
+      <item>
+        <title>
+          <![CDATA[Excalidraw 支持自定义字体]]>
+        </title>
+        <description>
+          <![CDATA[![](./excalidraw.png)  [Excalidraw](https://excalidraw.com) 是一款开源的画板工具, 可以用来绘制带有手写风格的图. 虽然 Excalidraw 本身支持多语言, 但是其手写风格的字体只支持英文, 其他语言会回退到普通字体.  ![非英语会回...]]>
+        </description>
+        <link>https://mebtte.com/excalidraw_with_custom_font</link>
+        <guid isPermaLink="false">excalidraw_with_custom_font</guid>
+        <pubDate>2023-07-24T00:00:00.000Z</pubDate>
+      </item>
+    
+      <item>
+        <title>
+          <![CDATA[我用 Docker 部署的一些服务]]>
+        </title>
+        <description>
+          <![CDATA[前段时间开始折腾 NAS, 或者说 Home server, 试了很多方案, 最后采用了 Ubuntu Server + Docker 的方式, 下面是我用 Docker 部署的一些服务.  ## Portainer  Docker 在 CLI 的情况下使用, 命令和参数经常需要查文档. [Port...]]>
+        </description>
+        <link>https://mebtte.com/my_services_deployed_by_docker</link>
+        <guid isPermaLink="false">my_services_deployed_by_docker</guid>
+        <pubDate>2023-07-05T00:00:00.000Z</pubDate>
+      </item>
+    
+      <item>
+        <title>
+          <![CDATA[CSS 书写模式和逻辑属性]]>
+        </title>
+        <description>
+          <![CDATA[所谓书写模式, 就是文本是如何排版的. 我们写字的时候可能从来没有注意过字与字之间是如何排列的, 都是自然而然地从左往右写满一行然后往下换行, 然而像我们的古人并不是按照这个方式去排列文本的, 他们是从上往下写满一列后再往左换一列.  ![竹简](./bamboo_slip.jpeg)  除了我们古...]]>
+        </description>
+        <link>https://mebtte.com/css_writing_modes_and_logical_properties</link>
+        <guid isPermaLink="false">css_writing_modes_and_logical_properties</guid>
+        <pubDate>2023-03-31T00:00:00.000Z</pubDate>
+      </item>
+    
+      <item>
+        <title>
+          <![CDATA[大量活动页面持续性维护的解决方案]]>
+        </title>
+        <description>
+          <![CDATA[在我负责的业务里面, 有个项目用于存放运营活动页面, 通常情况下每次运营活动都会相应地搭配一个或数个活动页面. 这个项目使用 react 构建 UI, 活动页面没有 SEO 的需求, 所以采用的是浏览器渲染. 同时使用前端路由, 每个活动页面都是 react-router 的子路由. 随着时间的增长...]]>
+        </description>
+        <link>https://mebtte.com/solution_of_maintaining_an_abundance_of_activity_pages_continually</link>
+        <guid isPermaLink="false">solution_of_maintaining_an_abundance_of_activity_pages_continually</guid>
+        <pubDate>2022-10-20T00:00:00.000Z</pubDate>
+      </item>
+    
+      <item>
+        <title>
+          <![CDATA[Mac mini 搭建外网可访问的简易 NAS]]>
+        </title>
+        <description>
+          <![CDATA[一般情况下我都是把影视资源放在网盘上, 第一是网盘空间大, 第二是随时随地可以观看(手机/平板/电脑).  前两个月「爱死机」出了第三季, 于是下载并放到网盘上打算晚点看. 当我忙完打开网盘想观看时, 发现被标注成「违规文件」无法观看, 也无法下载.  加上之前了解过 NAS, 所以想自己搞一个 N...]]>
+        </description>
+        <link>https://mebtte.com/remote_accessible_nas_by_mac_mini</link>
+        <guid isPermaLink="false">remote_accessible_nas_by_mac_mini</guid>
+        <pubDate>2022-08-08T00:00:00.000Z</pubDate>
+      </item>
+    
+      <item>
+        <title>
+          <![CDATA[React Fragment 添加事件监听?]]>
+        </title>
+        <description>
+          <![CDATA[[React Fragment](https://reactjs.org/docs/fragments.html) 支持**不添加额外节点**的情况下对子元素进行分组, 在文档上中 `Fragment` 的 Props 只有 `key`, 我们给 Fragment 添加任何事件监听例如 `onCli...]]>
+        </description>
+        <link>https://mebtte.com/react_fragment_with_event_listener</link>
+        <guid isPermaLink="false">react_fragment_with_event_listener</guid>
+        <pubDate>2022-06-26T00:00:00.000Z</pubDate>
+      </item>
+    
+      <item>
+        <title>
+          <![CDATA[如何在 React 解决竞态条件]]>
+        </title>
+        <description>
+          <![CDATA[最近看了一篇文章「[解决前端常见问题：竞态条件](https://juejin.cn/post/7098287689618685966)」([PDF](./archive.pdf)), 解释了什么是竞态条件以及如何解决这个问题, 不过觉得例子不是很完美, 所以用自己的例子复述一遍.  &lt;iframe...]]>
+        </description>
+        <link>https://mebtte.com/how_to_resolve_race_condition_in_react</link>
+        <guid isPermaLink="false">how_to_resolve_race_condition_in_react</guid>
+        <pubDate>2022-06-19T00:00:00.000Z</pubDate>
+      </item>
+    
+      <item>
+        <title>
+          <![CDATA[使用脚本备份 Github 仓库]]>
+        </title>
+        <description>
+          <![CDATA[最近看到了几篇关于被 Github 被封号的帖子, 当然帖子说的不一定是真的, 也有可能是这些账号真的违反了 Github 政策. 不过俄乌战争闹得沸沸扬扬, Github 也有考虑对俄罗斯开发者进行限制, 无独有偶, 几年前 Github 就曾将伊朗的开发者账号封禁, 导致他们无法登录账号和访问代...]]>
+        </description>
+        <link>https://mebtte.com/use_script_to_backup_github_repository</link>
+        <guid isPermaLink="false">use_script_to_backup_github_repository</guid>
+        <pubDate>2022-03-06T00:00:00.000Z</pubDate>
+      </item>
+    
+      <item>
+        <title>
+          <![CDATA[高性能 React 应用的几个小技巧]]>
+        </title>
+        <description>
+          <![CDATA[## 使用 function 作为 useState 的初始值  计算机科学中存在一个[求值策略](https://zh.wikipedia.org/wiki/%E6%B1%82%E5%80%BC%E7%AD%96%E7%95%A5)的问题, 简单来说就是什么时候计算参数的值, 比如以下伪代码:  ...]]>
+        </description>
+        <link>https://mebtte.com/tips_of_high_performance_react_app</link>
+        <guid isPermaLink="false">tips_of_high_performance_react_app</guid>
+        <pubDate>2022-03-03T00:00:00.000Z</pubDate>
+      </item>
+    
+      <item>
+        <title>
+          <![CDATA[复习 DOM 事件]]>
+        </title>
+        <description>
+          <![CDATA[最近面试时发现很多前端对 DOM 事件不熟悉, 甚至完全没有了解过相关的概念, 所以趁着这个机会, 自己也整理并复习一下 DOM 事件相关的知识点.  DOM 事件指的是文档上的元素会主动或者被动地触发一些特定的行为, 然后可以使用 JavaScript 对这些行为进行监听, 当这些行为触发时会自动...]]>
+        </description>
+        <link>https://mebtte.com/review_dom_event</link>
+        <guid isPermaLink="false">review_dom_event</guid>
+        <pubDate>2021-11-19T00:00:00.000Z</pubDate>
+      </item>
+    
+      <item>
+        <title>
+          <![CDATA[我的博客架构变迁之路]]>
+        </title>
+        <description>
+          <![CDATA[在大三的时候, 我创建了自己的博客, 跟大部分人一样, 创建博客不外乎这几个原因:  1. 作为一个程序员, 拥有博客是标配, 可以对外展示自己 1. 作为学习的记录, 总结一些技术或者经验进行分享 1. 能够体验到一个项目开发部署运维的全过程 1. 炫技(作为一个菜逼程序员, 目前还没有值得炫耀的...]]>
+        </description>
+        <link>https://mebtte.com/migration_of_my_blog_structure</link>
+        <guid isPermaLink="false">migration_of_my_blog_structure</guid>
+        <pubDate>2021-05-10T00:00:00.000Z</pubDate>
+      </item>
+    
+      <item>
+        <title>
+          <![CDATA[浏览器和 JavaScript 的一些新特性]]>
+        </title>
+        <description>
+          <![CDATA[## CookieStore API  目前, 浏览器可用的存储方式有 `cookie`/`sessionStorage`/`localStorage`/`IndexedDB`, 后三者都暴露了十分友好的 API 供开发者访问, 只有 cookie 例外. 回想一下, 平时我们都是怎么操作 cook...]]>
+        </description>
+        <link>https://mebtte.com/new_features_of_browser_and_js_202101</link>
+        <guid isPermaLink="false">new_features_of_browser_and_js_202101</guid>
+        <pubDate>2021-01-25T00:00:00.000Z</pubDate>
+      </item>
+    
+      <item>
+        <title>
+          <![CDATA[useCallback 的误区]]>
+        </title>
+        <description>
+          <![CDATA[![https://reactjs.org/docs/hooks-reference.html#usecallback](./use_callback_define.png)  `useCallback` 接受一个回调函数和一个依赖数组作为参数, 当依赖数组的每一项都不变的情况下返回缓存过后的回调函...]]>
+        </description>
+        <link>https://mebtte.com/use_callback_misunderstanding</link>
+        <guid isPermaLink="false">use_callback_misunderstanding</guid>
+        <pubDate>2020-10-30T00:00:00.000Z</pubDate>
+      </item>
+    
+      <item>
+        <title>
+          <![CDATA[在 React 中使用事件分离状态]]>
+        </title>
+        <description>
+          <![CDATA[最近在 React 项目遇到了一个问题, Web App 有一个登录弹窗, 在没有登录的情况下进行一些需要用户信息的操作, 首先会弹出登录弹窗.  然而这种操作分布在各个组件, 所以在 redux 保留一个变量 `loginDialogVisible`, 通过 `action` 控制登录弹窗是否展示...]]>
+        </description>
+        <link>https://mebtte.com/split_react_state_by_event</link>
+        <guid isPermaLink="false">split_react_state_by_event</guid>
+        <pubDate>2020-01-15T00:00:00.000Z</pubDate>
+      </item>
+    
+      <item>
+        <title>
+          <![CDATA[如何处理 RESTFUL 数据异常导致的前端错误]]>
+        </title>
+        <description>
+          <![CDATA[最近一段时间监控平台收集了很多 JS 错误，大部分都是`TypeError`  ```txt Uncaught TypeError: Cannot read property &#39;xxx&#39; of null ```  经过排查后发现基本都是因为接口数据错误的导致，比如  ```js // 正常数据 { ...]]>
+        </description>
+        <link>https://mebtte.com/handle_restful_api_error</link>
+        <guid isPermaLink="false">handle_restful_api_error</guid>
+        <pubDate>2019-05-30T00:00:00.000Z</pubDate>
+      </item>
+    
+      <item>
+        <title>
+          <![CDATA[基于 Node.js 的 WebFont 解决方案]]>
+        </title>
+        <description>
+          <![CDATA[CSS3 中的`@font-face`提供了自定义字体的功能，可以使网页不局限于用户系统中的字体。 然而理想很丰满，现实很骨感。 像英文这类的语言来说，字体文件包含非常少的字符，所以一个字体文件会非常的小。 我随便下载了几份英文字体  ![英文字体大小](./english_font_size.pn...]]>
+        </description>
+        <link>https://mebtte.com/web_font_solution_by_node</link>
+        <guid isPermaLink="false">web_font_solution_by_node</guid>
+        <pubDate>2019-03-10T00:00:00.000Z</pubDate>
+      </item>
+    
+  </channel>
+</rss>

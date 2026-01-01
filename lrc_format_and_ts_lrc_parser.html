@@ -1,0 +1,765 @@
+<!DOCTYPE html><html lang="zh-cn"><head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="mebtte">
+<meta name="keywords" content="HTML, CSS, JavaScript, Web, Front-End">
+
+<!-- Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-CESZTRKM96"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CESZTRKM96');
+</script>
+
+<!-- open graph -->
+<meta property="og:type" content="website">
+<meta property="og:image" content="/6ed5faa0573b2a5a9d47232c9a71fb88.png">
+
+<link rel="shortcut icon" type="image/png" href="/6ed5faa0573b2a5a9d47232c9a71fb88.png">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+
+<link rel="preload" href="/e0e440b1ae0a9ba21fb3feb4cff12d11.ttf" as="font" crossorigin="anonymous">
+<link rel="preload" href="/53d99659dc34209657d05bb2a7fc5de4.ttf" as="font" crossorigin="anonymous">
+
+  <style>
+  @font-face {
+    font-family: common_font;
+    src: url(/53d99659dc34209657d05bb2a7fc5de4.ttf);
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    --content-max-width: 840px;
+
+    --primary-color: rgb(237 106 94);
+
+    --normal-color: #333;
+    --secondary-color: #888;
+    --tertiary-color: #ddd;
+    --backgroud: rgb(255 255 255);
+
+    --border-radius: 2px;
+    --transition-duration: 0.3s;
+
+    background-color: var(--backgroud);
+    transition: background-color var(--transition-duration);
+  }
+
+  figure {
+    margin-inline: 0;
+  }
+</style>
+
+
+  <title>LRC 格式以及如何使用 TypeScript 解析 - 动物的光合作用</title>
+  <meta name="description" content="## LRC 格式  LRC 是一种常见的歌词保存格式, 使用文本的形式保存.  > LRC 是 lyric 去掉 y 和 i 后的缩写.  > 为了避免乱码, 所以的文本都应该使用 utf-8 保存.  在 LRC 文本中, 每一行表示一句歌词, 每一行都遵循一下格式:  ```txt [mm:s......">
+  <meta property="og:description" content="## LRC 格式  LRC 是一种常见的歌词保存格式, 使用文本的形式保存.  > LRC 是 lyric 去掉 y 和 i 后的缩写.  > 为了避免乱码, 所以的文本都应该使用 utf-8 保存.  在 LRC 文本中, 每一行表示一句歌词, 每一行都遵循一下格式:  ```txt [mm:s......">
+
+  <link rel="preload" href="/2d89c3e4cea5a9ccd07b227a6654c238.ttf" as="font" crossorigin="anonymous">
+  <style>
+    @font-face {
+      font-family: article_font_lrc_format_and_ts_lrc_parser;
+      src: url(/2d89c3e4cea5a9ccd07b227a6654c238.ttf);
+    }
+    article {
+      font-family: article_font_lrc_format_and_ts_lrc_parser;
+    }
+  </style>
+  
+  <link rel="stylesheet" href="/ece570de77ba673c17121d06fc929bd9.css">
+</head>
+
+<body>
+  <style>
+  @font-face {
+    font-family: title_font;
+    src: url(/e0e440b1ae0a9ba21fb3feb4cff12d11.ttf);
+  }
+
+  .page-header {
+    max-inline-size: var(--content-max-width);
+    margin-block: 50px 40px;
+    margin-inline: auto;
+    padding-inline: 30px;
+    display: flex;
+    align-items: center;
+  }
+
+  .page-header_title {
+    flex: 1;
+    min-inline-size: 0;
+    font-size: min(8vw, 56px);
+    font-family: title_font;
+    margin: 0;
+    color: var(--normal-color);
+  }
+
+  .page-header_title > a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .page-header_icon {
+    margin-inline-start: 10px;
+  }
+
+  .page-header_icon > img {
+    user-select: none;
+    inline-size: 20px;
+    block-size: 20px;
+  }
+</style>
+
+<header class="page-header">
+  
+    <h2 class="page-header_title">
+      <a href="/">动物的光合作用</a>
+    </h2>
+  
+  <a class="page-header_icon" href="/rss.xml" target="_blank">
+    <img src="/e31ad23031e5bcb34e8d4a424ba0c100.png" alt="rss">
+  </a>
+  <a class="page-header_icon" href="https://github.com/mebtte/animal-photosynthesis" target="_blank">
+    <img src="/184c800e11079b13904f308161071b62.png" alt="github">
+  </a>
+  <a class="page-header_icon" href="//i.mebtte.com" target="_blank">
+    <img src="/2cd3760ad10a38f8a9ed6ea3993fa472.png" alt="author">
+  </a>
+</header>
+
+  <article>
+    <style>
+.article-header {
+  max-inline-size: var(--content-max-width);
+  margin-block: 40px;
+  margin-inline: auto;
+  padding-inline: 30px;
+}
+
+.article-title {
+  color: var(--primary-color);
+  font-size: 32px;
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+}
+
+.article-title a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.article-publish-time {
+  color: var(--secondary-color);
+  font-size: 14px;
+  font-family: common_font;
+}
+</style>
+
+<section class="article-header">
+  <h1 class="article-title">
+    <a href="/lrc_format_and_ts_lrc_parser">LRC 格式以及如何使用 TypeScript 解析</a>
+  </h1>
+  <time class="article-publish-time">2021-03-23</time>
+</section>
+
+    <style>
+  article {
+    --article-space: 30px;
+  }
+
+  article a {
+    color: var(--normal-color);
+    text-decoration-color: var(--primary-color);
+  }
+
+  article h2,
+  article h3,
+  article h4,
+  article h5,
+  article h6 {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-inline: auto;
+    line-height: 1.5;
+    color: var(--normal-color);
+  }
+
+  article h2 {
+    margin-block-start: 28px;
+    font-size: 28px;
+  }
+
+  article h3 {
+    margin-block-start: 26px;
+    font-size: 25px;
+  }
+
+  article h4 {
+    margin-block-start: 24px;
+    font-size: 22px;
+  }
+
+  article h5 {
+    margin-block-start: 22px;
+    font-size: 19px;
+  }
+
+  article h6 {
+    margin-block-start: 20px;
+    font-size: 16px;
+  }
+
+  article p {
+    max-inline-size: var(--content-max-width);
+
+    margin-block: 15px;
+    margin-inline: auto;
+    padding-inline: 30px;
+
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--normal-color);
+    word-break: break-word;
+  }
+
+  article p code,
+  article ul code,
+  article ol code,
+  article table code {
+    padding-inline: 4px;
+    border-radius: var(--border-radius);
+    background: rgba(237, 106, 94, 0.3);
+  }
+
+  article pre {
+    max-inline-size: var(--content-max-width) !important;
+    margin-block: 15px !important;
+    margin-inline: auto !important;
+    font-size: 14px !important;
+    box-sizing: border-box;
+    border-radius: var(--border-radius) !important;
+    tab-size: 2 !important;
+    padding: 0 !important;
+  }
+
+  article pre code {
+    display: block;
+    margin-block: 20px !important;
+    margin-inline: 30px !important;
+    overflow: auto !important;
+    font-size: inherit !important;
+  }
+
+  article hr {
+    max-inline-size: var(--content-max-width);
+    margin-block: 40px;
+    margin-inline: auto;
+    padding-inline: var(--article-space);
+    border: none;
+  }
+
+  article hr::after {
+    content: "";
+    display: block;
+    block-size: 1px;
+    background-color: var(--tertiary-color);
+  }
+
+  .table-container {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .table-container table {
+    border-collapse: collapse;
+  }
+
+  .table-container th,
+  .table-container td {
+    font-size: 14px;
+    color: var(--normal-color);
+    border: 1px solid var(--tertiary-color);
+    padding: 10px;
+    text-align: left;
+  }
+
+  .table-container th {
+    font-size: 16px;
+    text-align: left;
+  }
+
+  article blockquote {
+    max-inline-size: var(--content-max-width);
+    padding-inline: var(--article-space);
+    margin-block: 15px;
+    margin-inline: auto;
+    position: relative;
+    font-style: italic;
+    color: var(--secondary-color);
+  }
+
+  article blockquote::before {
+    content: "";
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 30px;
+    inline-size: 3px;
+    block-size: 100%;
+    background-color: var(--primary-color);
+  }
+
+  article blockquote p {
+    font-size: 14px;
+    color: inherit;
+    max-inline-size: unset;
+    padding: 0;
+    margin-inline-start: 30px;
+  }
+
+  article ul,
+  article ol {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+    color: var(--normal-color);
+    line-height: 1.5;
+  }
+
+  article ol {
+    counter-reset: li-count;
+  }
+
+  article ul li,
+  article ol li {
+    display: block;
+    margin-block: 5px;
+    position: relative;
+  }
+
+  article ol li {
+    counter-increment: li-count;
+  }
+
+  article ul li::before {
+    content: "";
+    display: inline-block;
+    inline-size: 6px;
+    block-size: 6px;
+
+    margin-inline-end: 10px;
+
+    vertical-align: middle;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+  }
+
+  article ol li::before {
+    content: counter(li-count) ". ";
+    color: var(--primary-color);
+  }
+
+  article figcaption {
+    font-size: 12px;
+    color: var(--secondary-color);
+    text-align: center;
+    margin-block-start: 5px;
+  }
+
+  .figure-img {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .figure-img img {
+    display: block;
+    max-inline-size: 100%;
+    margin-inline: auto;
+    border-radius: var(--border-radius);
+  }
+
+  .figure-media {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .figure-media .media {
+    display: block;
+    max-inline-size: 100%;
+    margin-inline: auto;
+  }
+
+  .figure-iframe {
+    inline-size: 100%;
+    margin-block: 15px;
+  }
+
+  .figure-iframe iframe {
+    display: block;
+    inline-size: 100%;
+    max-inline-size: var(--content-max-width);
+    margin-inline: auto;
+    block-size: 640px;
+    border: 1px solid var(--tertiary-color);
+    border-radius: var(--border-radius);
+  }
+
+  strong {
+    font-weight: normal;
+    text-decoration: underline;
+  }
+</style>
+
+<section><h2 id="lrc">LRC 格式</h2>
+<p>LRC 是一种常见的歌词保存格式, 使用文本的形式保存.</p>
+<blockquote>
+  <p>LRC 是 lyric 去掉 y 和 i 后的缩写.</p>
+  <p>为了避免乱码, 所以的文本都应该使用 utf-8 保存.</p>
+</blockquote>
+<p>在 LRC 文本中, 每一行表示一句歌词, 每一行都遵循一下格式:</p>
+<pre><code class="txt language-txt">[mm:ss.xx]歌词文本
+</code></pre>
+<p><code>[ ]</code> 括号的内容表示歌词进入的时间, 其中 <code>mm</code> 表示分钟数, <code>ss</code> 表示秒数, <code>xx</code> 表示百分之一秒, 例如 <code>[00:20.43]对慢了 爱人会失去可爱</code> 表示这句歌词在音乐的 0 分 20 秒 430 毫秒处开始. 同时, 歌词文本可以是空字符串.</p>
+<pre><code class="txt language-txt">[01:58.828]拖着梦寐&amp;nbsp;说着我想说的梦话
+[02:02.709]不停摆
+[02:05.569]
+[02:06.099]寻找明天
+[02:07.450]每一辆飞车彻夜向前开
+</code></pre>
+<p>例如上面的第 3 行歌词, 表示第 2 行歌词和第 4 行歌词不是连贯的. 需要注意的是, LRC 并没有规定歌词一定按照时间先后的顺序排列, 也就是说, 后面的歌词可能出现在前面.</p>
+<p>LRC 文本还可以添加一些元数据. 元数据使用 <code>key -&gt; value</code> 的形式, key 和 value 使用 <code>:</code> 分隔, 每一行表示一对元数据:</p>
+<pre><code class="txt language-txt">[key:value]
+</code></pre>
+<p>常见的元数据有:</p>
+
+      <div class="table-container">
+        <table>
+          
+<thead>
+<tr>
+<th style="text-align:left;">key</th>
+<th style="text-align:left;">description</th>
+<th style="text-align:left;">example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">al</td>
+<td style="text-align:left;">专辑</td>
+<td style="text-align:left;">[al:范特西]</td>
+</tr>
+<tr>
+<td style="text-align:left;">by</td>
+<td style="text-align:left;">lrc 文本的作者</td>
+<td style="text-align:left;">[by:mebtte]</td>
+</tr>
+<tr>
+<td style="text-align:left;">ti</td>
+<td style="text-align:left;">音乐的标题</td>
+<td style="text-align:left;">[ti:听妈妈的话]</td>
+</tr>
+<tr>
+<td style="text-align:left;">ar</td>
+<td style="text-align:left;">歌手</td>
+<td style="text-align:left;">[ar:周杰伦]</td>
+</tr>
+</tbody>
+
+        </table>
+      </div>
+    
+<p>当然, 你还可以创造自己的元数据:</p>
+<pre><code class="txt language-txt">[author:mebtte]
+[copyright:mebtte]
+</code></pre>
+<p>LRC 格式除了可以用来表示歌词以外, 也可用于视频的<strong>字幕</strong>.</p>
+<h2 id="">不同于定义的实现</h2>
+<p>事实上, 很多厂商没有按照定义保存 LRC 文本.</p>
+<h3 id="-1">与定义不同的时间标签</h3>
+<p>在 LRC 中, 时间标签的格式是 <code>[分:秒:百分之一秒]</code>, 第三部分是百分之一秒, 范围是 <code>00-99</code>. 但在实现上, 一些厂商第三部分是毫秒, 范围是 <code>000-999</code>, 甚至有些厂商直接去掉了第三部分, 只有分和秒.</p>
+
+      <figure class="figure-img">
+        <a href="/9a76855ad574d4a66a52b62f8729af0b.png" target="_blank">
+          <img src="/9a76855ad574d4a66a52b62f8729af0b.png" alt="时间标签最后一部分是毫秒" title="时间标签最后一部分是毫秒" loading="lazy">
+        </a>
+        <figcaption>时间标签最后一部分是毫秒</figcaption>
+      </figure>
+    
+
+      <figure class="figure-img">
+        <a href="/e6690e70ec9f0f614c6d8bbd78bfc773.png" target="_blank">
+          <img src="/e6690e70ec9f0f614c6d8bbd78bfc773.png" alt="时间标签缺少第三部分" title="时间标签缺少第三部分" loading="lazy">
+        </a>
+        <figcaption>时间标签缺少第三部分</figcaption>
+      </figure>
+    
+<h3 id="-2">多重时间标签</h3>
+<p>有些厂商为了节省储存空间, 将相同歌词的行合并, 导致一行出现多个时间标签:</p>
+
+      <figure class="figure-img">
+        <a href="/9ae7cc3a1b80511e3ec9c026900a5b3b.png" target="_blank">
+          <img src="/9ae7cc3a1b80511e3ec9c026900a5b3b.png" alt="一行歌词多个时间标签" title="一行歌词多个时间标签" loading="lazy">
+        </a>
+        <figcaption>一行歌词多个时间标签</figcaption>
+      </figure>
+    
+<h3 id="-3">行首行末有多余空格</h3>
+<p>有些 LRC 文本会在行首或者行末添加不定数量的空格:</p>
+<pre><code class="txt language-txt"> [01:58.828]拖着梦寐&amp;nbsp;说着我想说的梦话
+[02:02.709]不停摆
+  [02:05.569]
+[02:06.099]寻找明天
+[02:07.450]每一辆飞车彻夜向前开
+</code></pre>
+<p>所以, 要想实现高兼容性的 LRC 解析器, 就需要考虑到上面几种异常情况.</p>
+<h2 id="typescriptlrc">使用 TypeScript 解析 LRC</h2>
+<p>对于 TypeScript 解析 LRC, 思路是这样的:</p>
+
+      <figure class="figure-img">
+        <a href="/77840a640935019a2280a54943a7e508.png" target="_blank">
+          <img src="/77840a640935019a2280a54943a7e508.png" alt="" title="" loading="lazy">
+        </a>
+        
+      </figure>
+    
+<p>上图中, 关键的步骤是通过正则检查是否符合格式, 涉及到两个正则, 第一个是歌词行:</p>
+<pre><code class="ts language-ts">const LYRIC_LINE = /^((?:\[\d+:\d+(?:\.\d+)?\])+)(.*)$/;
+</code></pre>
+<p>这里兼容了多个时间标签以及兼容时间标签缺少第三部分. 第二个是元数据行:</p>
+<pre><code class="ts language-ts">const METADATA_LINE = /^\[(.+?):(.*?)\]$/;
+</code></pre>
+<p>两个正则利用了<a href="https://developer.mozilla.org/docs/Web/JavaScript/Guide/Regular_Expressions/Groups_and_Ranges">正则的分组功能</a>, 可以通过 <code>String.prototype.match</code> 方法直接提取分组部分. 需要注意的是, 歌词行的单个时间标签使用了非捕获分组 <code>(?:)</code>, 因为可能含有多个时间标签, 导致捕获分组只能捕获最后一个时间标签, 所以这里需要把所有时间标签作为一个分组, 提取后再单独处理.</p>
+<p>下面是完整的解析代码:</p>
+<pre><code class="ts language-ts">/** lrc 行 */
+interface LrcLine {
+  /** 行号 */
+  lineNumber: number;
+  /** 行原始数据 */
+  raw: string;
+}
+
+/** 元数据行 */
+interface MetadataLine extends LrcLine {
+  key: string;
+  value: string;
+}
+
+/** 歌词行 */
+interface LyricLine extends LrcLine {
+  /** 开始时间, 毫秒 */
+  startMillisecond: number;
+  /** 歌词 */
+  content: string;
+}
+
+const LYRIC_LINE = /^((?:\[\d+:\d+(?:\.\d+)?\])+)(.*)$/;
+const METADATA_LINE = /^\[(.+?):(.*?)\]$/;
+
+function parse(lrc: string) {
+  const metadataLines: MetadataLine[] = []; // 元数据行
+  const lyricLines: LyricLine[] = []; // 歌词行
+  const invalidLines: LrcLine[] = []; // 无法解析的行
+
+  const lines = lrc.split('\n'); // 分隔成独立的行
+
+  for (let i = 0, { length } = lines; i &lt; length; i += 1) {
+    const line = lines[i];
+
+    // 歌词行
+    const lyricLineMatch = line.match(LYRIC_LINE);
+    if (lyricLineMatch) {
+      /***
+       * 利用了正则的分组
+       * 第一个分组是所有时间标签
+       * 第二个分组是歌词文本
+       */
+      const timeTagPart = lyricLineMatch[1];
+      const content = lyricLineMatch[2];
+
+      /**
+       * 分割多个时间标签
+       * 每一个时间标签对应一行歌词
+       * 正则表示右方括号和左方括号的位置, 也就是两个时间标签中间位置
+       */
+      for (const timeTag of timeTagPart.split(/(?&lt;=\])(?=\[)/)) {
+        /**
+         * 利用了正则的分组
+         * 第一个分组是分
+         * 第二个分组是秒
+         * 第三个分组是百分之一秒, 可能没有
+         */
+        const timeMatch = timeTag.match(/\[(\d+):(\d+)(?:\.(\d+))?\]/);
+
+        const minute = timeMatch[1];
+        const second = timeMatch[2];
+        const centisecond = timeMatch[3] || '00'; // 没有的话默认 00
+
+        /** 字符串前面添加 + 可以将字符串转换成数字 */
+        lyricLines.push({
+          lineNumber: i,
+          raw: line,
+          startMillisecond:
+            +minute * 60 * 1000 + +second * 1000 + +centisecond * 10,
+          content,
+        });
+      }
+
+      continue;
+    }
+
+    // 元数据行
+    const metadataLineMatch = line.match(METADATA_LINE);
+    if (metadataLineMatch) {
+      const key = metadataLineMatch[1];
+      const value = metadataLineMatch[2];
+
+      metadataLines.push({
+        lineNumber: i,
+        raw: line,
+        key,
+        value,
+      });
+
+      continue;
+    }
+
+    // 无法解析
+    invalidLines.push({
+      lineNumber: i,
+      raw: line,
+    });
+  }
+
+  return {
+    metadataLines,
+    lyricLines,
+    invalidLines,
+  };
+}
+</code></pre>
+<p>上面兼容了多个时间标签和缺少百分之一秒的情况, 还需要兼容百分之一秒是毫秒的情况:</p>
+<pre><code class="ts language-ts">// 通过位数判断是百分之一秒还是毫秒
+const startMillisecond =
+  +minute * 60 * 1000 +
+  +second * 1000 +
+  +centisecond * (centisecond.length === 2 ? 10 : 1);
+</code></pre>
+<p>以及兼容行前后空格的情况:</p>
+<pre><code class="ts language-ts">/** 通过 trim 方法移除行前后空格 */
+const lines = lrc.split('\n').map((l) =&gt; l.trim());
+</code></pre>
+<p>还有一点, 前面提到 LRC 没有规定歌词按时间先后排序, 如果需要按时间先后展示歌词, 那么还需要进行一次排序:</p>
+<pre><code class="ts language-ts">lyricLines = lyricLines.map((a, b) =&gt; a.startMillisecond - b.startMillisecond);
+</code></pre>
+<h2 id="clrchttpsgithubcommebtteclrcreactlrchttpswwwnpmjscompackagereactlrc"><a href="https://github.com/mebtte/clrc">clrc</a> 和 <a href="https://www.npmjs.com/package/react-lrc">react-lrc</a></h2>
+<p>基于上面的思路, 封装一个 <a href="https://github.com/mebtte/clrc">clrc</a> 的包发布在 <a href="https://www.npmjs.com/package/clrc">npm</a>, 可以通过下面的方法使用:</p>
+<pre><code class="bash language-bash">npm i --save clrc
+</code></pre>
+<pre><code class="ts language-ts">import { parse } from 'clrc';
+
+const lrc = `
+[by:mebtte]
+[ar:张叶蕾]
+[01:58.828]拖着梦寐&amp;nbsp;说着我想说的梦话
+[02:02.709]不停摆
+[02:05.569]
+[02:06.099]寻找明天
+[02:07.450]每一辆飞车彻夜向前开`;
+
+parse&lt;{ by: string; ar: string }&gt;(lrc); // { metadatas, metadata, lyrics, invalidLine }
+</code></pre>
+<p>同时提供了 <code>clrc</code> 的 <a href="https://mebtte.github.io/clrc">Playground</a> .</p>
+
+      <figure class="figure-iframe">
+        <iframe src="https://mebtte.github.io/clrc" title="clrc Playground" loading="lazy"></iframe>
+        <figcaption>clrc Playground</figcaption>
+      </figure>
+    
+<p>在 clrc 的基础上封装了 <a href="https://github.com/mebtte/react-lrc">react-lrc</a>, 为 react 项目提供了一个展示 LRC 的组件, 同样有一个 <a href="https://mebtte.github.io/react-lrc">Playground</a></p>
+
+      <figure class="figure-iframe">
+        <iframe src="https://mebtte.github.io/react-lrc" title="react-lrc Playground" loading="lazy"></iframe>
+        <figcaption>react-lrc Playground</figcaption>
+      </figure>
+    
+<h3 id="-4">参考</h3>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/LRC_(file_format)">LRC - Wikipedia</a></li>
+</ul></section>
+
+    
+  </article>
+  
+  <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8404651063516637" crossorigin="anonymous"></script>
+<style>
+  .adsbygoogle {
+    max-width: 100%;
+    margin-block: 40px;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .adsbygoogle:empty {
+    display: none;
+  }
+</style>
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8404651063516637" data-ad-slot="7746538242" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  <style>
+.page-footer {
+  font-size: 12px;
+  max-inline-size: var(--content-max-width);
+  margin-block: 40px;
+  margin-inline: auto;
+  padding-inline: 30px;
+  font-family: common_font;
+  color: var(--secondary-color);
+}
+
+.page-footer > a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.page-footer > a:hover {
+  color: var(--primary-color);
+}
+
+.page-footer > .underline {
+  text-decoration: underline;
+}
+</style>
+
+<footer class="page-footer">
+  <a href="https://github.com/mebtte/animal-photosynthesis/blob/master/license">©</a>
+  2026
+  &nbsp;
+  <a class="underline" href="https://i.mebtte.com">MEBTTE</a>
+  &nbsp;|&nbsp;
+  <a class="underline" href="https://stats.uptimerobot.com/4nO5RUYB60">UPTIME</a>
+  &nbsp;|&nbsp;
+  <a class="underline" href="/support">支持我</a>
+</footer>
+
+  <script src="/39c97c2884c3a2b5e64c8f085b843d4e.js"></script>
+  <script src="/0ec215ad131a36856d3d20423b9aca26.js" async="" defer=""></script>
+
+
+
+</body></html>

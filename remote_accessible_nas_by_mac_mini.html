@@ -1,0 +1,879 @@
+<!DOCTYPE html><html lang="zh-cn"><head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="mebtte">
+<meta name="keywords" content="HTML, CSS, JavaScript, Web, Front-End">
+
+<!-- Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-CESZTRKM96"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CESZTRKM96');
+</script>
+
+<!-- open graph -->
+<meta property="og:type" content="website">
+<meta property="og:image" content="/6ed5faa0573b2a5a9d47232c9a71fb88.png">
+
+<link rel="shortcut icon" type="image/png" href="/6ed5faa0573b2a5a9d47232c9a71fb88.png">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+
+<link rel="preload" href="/e0e440b1ae0a9ba21fb3feb4cff12d11.ttf" as="font" crossorigin="anonymous">
+<link rel="preload" href="/53d99659dc34209657d05bb2a7fc5de4.ttf" as="font" crossorigin="anonymous">
+
+  <style>
+  @font-face {
+    font-family: common_font;
+    src: url(/53d99659dc34209657d05bb2a7fc5de4.ttf);
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    --content-max-width: 840px;
+
+    --primary-color: rgb(237 106 94);
+
+    --normal-color: #333;
+    --secondary-color: #888;
+    --tertiary-color: #ddd;
+    --backgroud: rgb(255 255 255);
+
+    --border-radius: 2px;
+    --transition-duration: 0.3s;
+
+    background-color: var(--backgroud);
+    transition: background-color var(--transition-duration);
+  }
+
+  figure {
+    margin-inline: 0;
+  }
+</style>
+
+
+  <title>Mac mini 搭建外网可访问的简易 NAS - 动物的光合作用</title>
+  <meta name="description" content="一般情况下我都是把影视资源放在网盘上, 第一是网盘空间大, 第二是随时随地可以观看(手机/平板/电脑).  前两个月「爱死机」出了第三季, 于是下载并放到网盘上打算晚点看. 当我忙完打开网盘想观看时, 发现被标注成「违规文件」无法观看, 也无法下载.  加上之前了解过 NAS, 所以想自己搞一个 N......">
+  <meta property="og:description" content="一般情况下我都是把影视资源放在网盘上, 第一是网盘空间大, 第二是随时随地可以观看(手机/平板/电脑).  前两个月「爱死机」出了第三季, 于是下载并放到网盘上打算晚点看. 当我忙完打开网盘想观看时, 发现被标注成「违规文件」无法观看, 也无法下载.  加上之前了解过 NAS, 所以想自己搞一个 N......">
+
+  <link rel="preload" href="/d94f56e9ebe7e5492b64d3936c715566.ttf" as="font" crossorigin="anonymous">
+  <style>
+    @font-face {
+      font-family: article_font_remote_accessible_nas_by_mac_mini;
+      src: url(/d94f56e9ebe7e5492b64d3936c715566.ttf);
+    }
+    article {
+      font-family: article_font_remote_accessible_nas_by_mac_mini;
+    }
+  </style>
+  
+  <link rel="stylesheet" href="/ece570de77ba673c17121d06fc929bd9.css">
+</head>
+
+<body>
+  <style>
+  @font-face {
+    font-family: title_font;
+    src: url(/e0e440b1ae0a9ba21fb3feb4cff12d11.ttf);
+  }
+
+  .page-header {
+    max-inline-size: var(--content-max-width);
+    margin-block: 50px 40px;
+    margin-inline: auto;
+    padding-inline: 30px;
+    display: flex;
+    align-items: center;
+  }
+
+  .page-header_title {
+    flex: 1;
+    min-inline-size: 0;
+    font-size: min(8vw, 56px);
+    font-family: title_font;
+    margin: 0;
+    color: var(--normal-color);
+  }
+
+  .page-header_title > a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .page-header_icon {
+    margin-inline-start: 10px;
+  }
+
+  .page-header_icon > img {
+    user-select: none;
+    inline-size: 20px;
+    block-size: 20px;
+  }
+</style>
+
+<header class="page-header">
+  
+    <h2 class="page-header_title">
+      <a href="/">动物的光合作用</a>
+    </h2>
+  
+  <a class="page-header_icon" href="/rss.xml" target="_blank">
+    <img src="/e31ad23031e5bcb34e8d4a424ba0c100.png" alt="rss">
+  </a>
+  <a class="page-header_icon" href="https://github.com/mebtte/animal-photosynthesis" target="_blank">
+    <img src="/184c800e11079b13904f308161071b62.png" alt="github">
+  </a>
+  <a class="page-header_icon" href="//i.mebtte.com" target="_blank">
+    <img src="/2cd3760ad10a38f8a9ed6ea3993fa472.png" alt="author">
+  </a>
+</header>
+
+  <article>
+    <style>
+.article-header {
+  max-inline-size: var(--content-max-width);
+  margin-block: 40px;
+  margin-inline: auto;
+  padding-inline: 30px;
+}
+
+.article-title {
+  color: var(--primary-color);
+  font-size: 32px;
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+}
+
+.article-title a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.article-publish-time {
+  color: var(--secondary-color);
+  font-size: 14px;
+  font-family: common_font;
+}
+</style>
+
+<section class="article-header">
+  <h1 class="article-title">
+    <a href="/remote_accessible_nas_by_mac_mini">Mac mini 搭建外网可访问的简易 NAS</a>
+  </h1>
+  <time class="article-publish-time">2022-08-08</time>
+</section>
+
+    <style>
+  article {
+    --article-space: 30px;
+  }
+
+  article a {
+    color: var(--normal-color);
+    text-decoration-color: var(--primary-color);
+  }
+
+  article h2,
+  article h3,
+  article h4,
+  article h5,
+  article h6 {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-inline: auto;
+    line-height: 1.5;
+    color: var(--normal-color);
+  }
+
+  article h2 {
+    margin-block-start: 28px;
+    font-size: 28px;
+  }
+
+  article h3 {
+    margin-block-start: 26px;
+    font-size: 25px;
+  }
+
+  article h4 {
+    margin-block-start: 24px;
+    font-size: 22px;
+  }
+
+  article h5 {
+    margin-block-start: 22px;
+    font-size: 19px;
+  }
+
+  article h6 {
+    margin-block-start: 20px;
+    font-size: 16px;
+  }
+
+  article p {
+    max-inline-size: var(--content-max-width);
+
+    margin-block: 15px;
+    margin-inline: auto;
+    padding-inline: 30px;
+
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--normal-color);
+    word-break: break-word;
+  }
+
+  article p code,
+  article ul code,
+  article ol code,
+  article table code {
+    padding-inline: 4px;
+    border-radius: var(--border-radius);
+    background: rgba(237, 106, 94, 0.3);
+  }
+
+  article pre {
+    max-inline-size: var(--content-max-width) !important;
+    margin-block: 15px !important;
+    margin-inline: auto !important;
+    font-size: 14px !important;
+    box-sizing: border-box;
+    border-radius: var(--border-radius) !important;
+    tab-size: 2 !important;
+    padding: 0 !important;
+  }
+
+  article pre code {
+    display: block;
+    margin-block: 20px !important;
+    margin-inline: 30px !important;
+    overflow: auto !important;
+    font-size: inherit !important;
+  }
+
+  article hr {
+    max-inline-size: var(--content-max-width);
+    margin-block: 40px;
+    margin-inline: auto;
+    padding-inline: var(--article-space);
+    border: none;
+  }
+
+  article hr::after {
+    content: "";
+    display: block;
+    block-size: 1px;
+    background-color: var(--tertiary-color);
+  }
+
+  .table-container {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .table-container table {
+    border-collapse: collapse;
+  }
+
+  .table-container th,
+  .table-container td {
+    font-size: 14px;
+    color: var(--normal-color);
+    border: 1px solid var(--tertiary-color);
+    padding: 10px;
+    text-align: left;
+  }
+
+  .table-container th {
+    font-size: 16px;
+    text-align: left;
+  }
+
+  article blockquote {
+    max-inline-size: var(--content-max-width);
+    padding-inline: var(--article-space);
+    margin-block: 15px;
+    margin-inline: auto;
+    position: relative;
+    font-style: italic;
+    color: var(--secondary-color);
+  }
+
+  article blockquote::before {
+    content: "";
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 30px;
+    inline-size: 3px;
+    block-size: 100%;
+    background-color: var(--primary-color);
+  }
+
+  article blockquote p {
+    font-size: 14px;
+    color: inherit;
+    max-inline-size: unset;
+    padding: 0;
+    margin-inline-start: 30px;
+  }
+
+  article ul,
+  article ol {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+    color: var(--normal-color);
+    line-height: 1.5;
+  }
+
+  article ol {
+    counter-reset: li-count;
+  }
+
+  article ul li,
+  article ol li {
+    display: block;
+    margin-block: 5px;
+    position: relative;
+  }
+
+  article ol li {
+    counter-increment: li-count;
+  }
+
+  article ul li::before {
+    content: "";
+    display: inline-block;
+    inline-size: 6px;
+    block-size: 6px;
+
+    margin-inline-end: 10px;
+
+    vertical-align: middle;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+  }
+
+  article ol li::before {
+    content: counter(li-count) ". ";
+    color: var(--primary-color);
+  }
+
+  article figcaption {
+    font-size: 12px;
+    color: var(--secondary-color);
+    text-align: center;
+    margin-block-start: 5px;
+  }
+
+  .figure-img {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .figure-img img {
+    display: block;
+    max-inline-size: 100%;
+    margin-inline: auto;
+    border-radius: var(--border-radius);
+  }
+
+  .figure-media {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .figure-media .media {
+    display: block;
+    max-inline-size: 100%;
+    margin-inline: auto;
+  }
+
+  .figure-iframe {
+    inline-size: 100%;
+    margin-block: 15px;
+  }
+
+  .figure-iframe iframe {
+    display: block;
+    inline-size: 100%;
+    max-inline-size: var(--content-max-width);
+    margin-inline: auto;
+    block-size: 640px;
+    border: 1px solid var(--tertiary-color);
+    border-radius: var(--border-radius);
+  }
+
+  strong {
+    font-weight: normal;
+    text-decoration: underline;
+  }
+</style>
+
+<section><p>一般情况下我都是把影视资源放在网盘上, 第一是网盘空间大, 第二是随时随地可以观看(手机/平板/电脑).</p>
+<p>前两个月「爱死机」出了第三季, 于是下载并放到网盘上打算晚点看. 当我忙完打开网盘想观看时, 发现被标注成「违规文件」无法观看, 也无法下载.</p>
+<p>加上之前了解过 NAS, 所以想自己搞一个 NAS 用来存储文件, 这样就可以避免文件被审查的问题.</p>
+<p><a href="https://zh.wikipedia.org/wiki/%E7%BD%91%E7%BB%9C%E9%99%84%E6%8E%A5%E5%AD%98%E5%82%A8">NAS(Network Attached Storage)</a> 可以简单理解成网盘, 比如外接一个移动硬盘, 我们需要通过数据线来连接, NAS 是通过网络连接远程的硬盘.</p>
+<p>从技术角度看, NAS 就是一台服务器, 通过网络协议给其他计算机(手机/电脑/平板等等)提供存储服务.</p>
+<p>本来想购买成品 NAS 的, 不过像群晖/威联通这些品牌机价格都比较高, 于是想自建一台 NAS, 首先性价比高一点, 其次自由度也更好一些, 没有成品 NAS 的一些功能限制.</p>
+<p>自建 NAS 的话首先需要一台可以 24x7 工作的服务器, 因为我的性能要求不高, 主要考虑的是稳定性和功率(电费), 所以想到了以前折腾过的树莓派, 万万没想到的是以前 200 出头的树莓派竟然被炒到接近 1000, 足足翻了四五倍, 看了一下其他机器感觉也不太靠谱, 于是想等段时间价格下来之后再购买搭建 NAS 的, 结果等到现在树莓派的价格依然没有降下来.</p>
+<p>前几天想起这个事的时候, 望了一眼平时在桌面积灰的 Mac mini, 这难道不是比树莓派更好的选择吗? 而且平时也是不关机的.</p>
+
+      <figure class="figure-img">
+        <a href="/47bde97d6a4d2fbe08b92d2d9759771d.jpeg" target="_blank">
+          <img src="/47bde97d6a4d2fbe08b92d2d9759771d.jpeg" alt="Mac mini, 电源线质量堪忧" title="Mac mini, 电源线质量堪忧" loading="lazy">
+        </a>
+        <figcaption>Mac mini, 电源线质量堪忧</figcaption>
+      </figure>
+    
+<p>服务器搞定了, 还需要准备硬盘, 我的存储容量需求不是很高, 手上刚好有一块旧笔记本电脑拆下来的 2.5 寸机械硬盘, 因为要做备份所以要额外入手一块机械硬盘, 放置这两块硬盘还需要一个硬盘柜.</p>
+<blockquote>
+  <p>同等价格下机械硬盘的容量比固态硬盘大得多, 而且机械硬盘也比固态硬盘稳定, 数据恢复也更加容易.</p>
+</blockquote>
+
+      <figure class="figure-img">
+        <a href="/35c7d4ca4f1d804ce4696a612139fa2d.jpeg" target="_blank">
+          <img src="/35c7d4ca4f1d804ce4696a612139fa2d.jpeg" alt="2.5 寸硬盘, 需要额外安装螺丝固定" title="2.5 寸硬盘, 需要额外安装螺丝固定" loading="lazy">
+        </a>
+        <figcaption>2.5 寸硬盘, 需要额外安装螺丝固定</figcaption>
+      </figure>
+    
+
+      <figure class="figure-img">
+        <a href="/4824dc123b3e9d091288027a53667941.jpeg" target="_blank">
+          <img src="/4824dc123b3e9d091288027a53667941.jpeg" alt="双盘位硬盘柜" title="双盘位硬盘柜" loading="lazy">
+        </a>
+        <figcaption>双盘位硬盘柜</figcaption>
+      </figure>
+    
+<p>上面说到 NAS 是通过网络协议给其他设备提供服务的, NAS 有很多种网络协议, 比如 <a href="https://zh.wikipedia.org/wiki/%E6%96%87%E4%BB%B6%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE">FTP</a>/<a href="https://zh.wikipedia.org/wiki/%E7%BD%91%E7%BB%9C%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F">NFS</a>/<a href="https://zh.wikipedia.org/wiki/%E4%BC%BA%E6%9C%8D%E5%99%A8%E8%A8%8A%E6%81%AF%E5%8D%80%E5%A1%8A">SMB</a> 等等, 我这里选用的是 <a href="https://zh.wikipedia.org/wiki/%E5%9F%BA%E4%BA%8EWeb%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E7%BC%96%E5%86%99%E5%92%8C%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6">WebDAV</a> 协议.</p>
+<p>WebDAV 是在 HTTP 协议的基础上添加了额外的方法进行文件操作, 比如 COPY 方法进行文件复制 / MOVE 方法进行文件移动等等, 因为是基于 HTTP 协议, 所以 WebDAV 也可以通过 HTTPS 进行通信, 在公网情况下能够保证传输安全.</p>
+<p>通过 NGINX 可以提供 WebDAV 服务, 不过 <a href="https://brew.sh/">homebrew</a> 上的 NGINX 并不是完整版本, 没有包含 WebDAV 服务, 如果想要提供 WebDAV 服务的话需要自行编译. 自行编译比较麻烦, 而且 NGINX 本身也附带了一些我不需要的功能, 所以我没有选用 NGINX, 而是 GitHub 上的一个 <a href="https://github.com/hacdias/webdav">WebDAV</a> 服务.</p>
+<p>我的是 M1 版本的 Mac mini, 所以在 <a href="https://github.com/hacdias/webdav/releases">Releases</a> 找到 darwin-arm64 包下载并解压.</p>
+
+      <figure class="figure-img">
+        <a href="/a64fb700d54fc7c045c218b3348ebbf9.png" target="_blank">
+          <img src="/a64fb700d54fc7c045c218b3348ebbf9.png" alt="解压后的包" title="解压后的包" loading="lazy">
+        </a>
+        <figcaption>解压后的包</figcaption>
+      </figure>
+    
+<p>在终端我们可以直接在执行这个程序:</p>
+
+      <figure class="figure-img">
+        <a href="/a887c8f96cb3471f9c26a964a3efabd7.png" target="_blank">
+          <img src="/a887c8f96cb3471f9c26a964a3efabd7.png" alt="相对路径调用 webdav" title="相对路径调用 webdav" loading="lazy">
+        </a>
+        <figcaption>相对路径调用 webdav</figcaption>
+      </figure>
+    
+<p>在 macOS 一般情况下我们会把可执行命令放到 <code>/usr/local/bin</code> 下, 因为环境变量 <code>PATH</code> 已经包含了这个目录, 所以我们可以直接使用 webdav 命令而不用补全路径:</p>
+<blockquote>
+  <p>macOS <code>/usr/bin</code> 目录被锁定用户无法进行操作, 不过提供了备用目录 <code>/usr/local/bin</code>, 如果这个目录不存在的话可以通过命令 <code>sudo mkdir /usr/local/bin &amp;&amp; sudo chmod 755 /usr/local/bin</code> 创建.</p>
+</blockquote>
+
+      <figure class="figure-img">
+        <a href="/b2504729337ee14cd50a38baa5463ad8.png" target="_blank">
+          <img src="/b2504729337ee14cd50a38baa5463ad8.png" alt="直接使用 webdav 命令" title="直接使用 webdav 命令" loading="lazy">
+        </a>
+        <figcaption>直接使用 webdav 命令</figcaption>
+      </figure>
+    
+<p>我们先接入磁盘再部署 webdav 服务, 将硬盘放入硬盘柜再将硬盘柜连接到 Mac mini, 通过「磁盘工具」分别对两个硬盘进行格式化, 这里我用的是 APFS, 如果有加密需求的话可以选择加密格式.</p>
+
+      <figure class="figure-img">
+        <a href="/90dff9a00975176f8c798564fe24e9e8.png" target="_blank">
+          <img src="/90dff9a00975176f8c798564fe24e9e8.png" alt="磁盘格式化" title="磁盘格式化" loading="lazy">
+        </a>
+        <figcaption>磁盘格式化</figcaption>
+      </figure>
+    
+<p>两个盘一个命名 <code>a</code>, 另一个命名 <code>a_backup</code>, <code>a_backup</code> 作为 <code>a</code> 的备份. 这里为什么不组建 <a href="https://zh.wikipedia.org/wiki/RAID">RAID</a> 呢? 这里有几个原因:</p>
+<ol>
+<li>我这款硬盘柜不支持硬件 RAID</li>
+<li>两块硬盘互为镜像的 RAID1 降低写入速度的同时降低硬盘使用寿命, 而且我的旧硬盘是 1T, 新硬盘是 4T, 组成 RAID1 后只有 1T 的可使用空间</li>
+<li>要存放的数据不是很重要, 不需要实时备份</li>
+</ol>
+<p>所以我这里用的方式是定时备份.</p>
+
+      <figure class="figure-img">
+        <a href="/3b4bfb4ef7b0f5c37cc444756f31c4c7.png" target="_blank">
+          <img src="/3b4bfb4ef7b0f5c37cc444756f31c4c7.png" alt="macOS 磁盘工具的 RAID 助理可以实现软件形式的 RAID" title="macOS 磁盘工具的 RAID 助理可以实现软件形式的 RAID" loading="lazy">
+        </a>
+        <figcaption>macOS 磁盘工具的 RAID 助理可以实现软件形式的 RAID</figcaption>
+      </figure>
+    
+<p>定时备份的话需要借助 <a href="https://zh.wikipedia.org/zh-cn/Cron">cron</a>, macOS 自带了 crontab 和 cron 管理定时任务, 不需要额外安装, 需要注意的是要赋予 cron 完全磁盘访问权限, 具体操作是将 cron 程序拖入到「完全磁盘访问权限」列表中, 不然 cron 执行备份任务会报没有权限的错误:</p>
+
+      <figure class="figure-img">
+        <a href="/a1fc27f67c432245542f5630f7814399.png" target="_blank">
+          <img src="/a1fc27f67c432245542f5630f7814399.png" alt="赋予 cron 完全磁盘访问权限" title="赋予 cron 完全磁盘访问权限" loading="lazy">
+        </a>
+        <figcaption>赋予 cron 完全磁盘访问权限</figcaption>
+      </figure>
+    
+<p>此外还需要 <a href="https://zh.wikipedia.org/wiki/Rsync">rsync</a>, rsync 可以同步两个目录, 如果目标文件已存在则会跳过, 跟 <code>cp</code> 相比可以节省数据传输量. 一般情况下 macOS 都带有 rsync, 如果没有的话可以自行安装.</p>
+<p>我的备份计划是每天一次, 因为备份会占用大部分磁盘的读写, 所以放在凌晨 4 点尽量避免日常使用:</p>
+<pre><code class="txt language-txt">0 4 * * * /usr/bin/rsync -ahiPv --delete /Volumes/a /Volumes/a_copy
+</code></pre>
+
+      <figure class="figure-img">
+        <a href="/62b8a24fd822bdbbfe0b7b6462078039.png" target="_blank">
+          <img src="/62b8a24fd822bdbbfe0b7b6462078039.png" alt="如果看到 cron 在运行, 说明定时任务已经在跑了" title="如果看到 cron 在运行, 说明定时任务已经在跑了" loading="lazy">
+        </a>
+        <figcaption>如果看到 cron 在运行, 说明定时任务已经在跑了</figcaption>
+      </figure>
+    
+<blockquote>
+  <p>默认情况下 macOS 会把磁盘挂在在 /Volumes 与磁盘同名的目录下, 比如 a 磁盘挂载目录就是 /Volumes/a</p>
+</blockquote>
+<p>接下来就可以部署 webdav 服务了, 根据<a href="https://github.com/hacdias/webdav#readme">项目说明</a>写好配置文件, 一般情况下我们会把配置文件放在 <code>/etc</code> 目录下并赋予相应的文件权限:</p>
+<pre><code class="yaml language-yaml"># /etc/webdav.yaml
+address: 0.0.0.0
+port: 9000
+auth: true
+users:
+  - username: mebtte
+    password: 'your password'
+    scope: /Volumes/a/webdav # a 磁盘的 webdav 目录
+    modify: true
+</code></pre>
+
+      <figure class="figure-img">
+        <a href="/31601dead4e7247b73fc0cc0bbc4e16c.gif" target="_blank">
+          <img src="/31601dead4e7247b73fc0cc0bbc4e16c.gif" alt="创建配置文件并赋予相应权限" title="创建配置文件并赋予相应权限" loading="lazy">
+        </a>
+        <figcaption>创建配置文件并赋予相应权限</figcaption>
+      </figure>
+    
+<p>通过命令 <code>webdav --config /etc/webdav.yaml</code> 启动 webdav 服务后, 通过本机的访达可以测试连接:</p>
+
+      <figure class="figure-img">
+        <a href="/6968f62f698bc9b75f58505d252482b2.gif" target="_blank">
+          <img src="/6968f62f698bc9b75f58505d252482b2.gif" alt="访达连接到 webdav 服务" title="访达连接到 webdav 服务" loading="lazy">
+        </a>
+        <figcaption>访达连接到 webdav 服务</figcaption>
+      </figure>
+    
+<p>如果像上面一样成功打开, 并且访达的侧边栏新增 <code>localhost</code> 的话, 说明 webdav 服务已经成功跑起来了, 现在可以像操作本地目录一样操作 <code>localhost</code> 目录, 别的设备通过局域网连接到 webdav 同样也可以进行操作:</p>
+
+      <figure class="figure-img">
+        <a href="/f6b9348ac21d4fc25c09b5fd60cb08b4.gif" target="_blank">
+          <img src="/f6b9348ac21d4fc25c09b5fd60cb08b4.gif" alt="" title="" loading="lazy">
+        </a>
+        
+      </figure>
+    
+<p>这里我们通过命令行启动 webdav, 会有两个问题:</p>
+<ol>
+<li>终端被意外关闭 webdav 也会被停止</li>
+<li>重启后需要手动启动 webdav</li>
+</ol>
+<p>所以我们需要将 webdav 封装成服务, 这样就可以自动启动并且可以后台运行. macOS 原生服务配置比较复杂, 我这里用的是 <a href="http://supervisord.org">supervisor</a>, 通过 <code>homebrew</code> 可以很容易地安装并启动 supervisor service:</p>
+<pre><code class="bash language-bash">brew install supervisor
+brew services restart supervisor
+</code></pre>
+<p>简单来说, <code>supervisor</code> 可以帮助我们管理哪些程序需要开机启动并且在后台运行. 我们将 webdav 的配置放在 <code>/opt/homebrew/etc/supervisor.d</code> 目录下, 重新加载 supervisor 会自动读取该目录下 <code>*.ini</code> 的配置:</p>
+<pre><code class="txt language-txt"># webdav.ini
+[program:webdav]
+user = mebtte
+command = /usr/local/bin/webdav --config /etc/webdav.yaml
+</code></pre>
+<pre><code class="bash language-bash">mkdir -p /opt/homebrew/etc/supervisor.d
+cd /opt/homebrew/etc/supervisor.d
+vim webdav.ini
+# 将上面配置写入并保存
+</code></pre>
+<p>通过 <code>supervisorctl reload</code> 重新加载配置, 再通过 <code>supervisorctl status</code> 查看状态, 不出意外的话可以看到 webdav 已经正常运行了, 我们关闭终端或者重启之后, supervisor 依然会帮我们在后台运行 webdav.</p>
+
+      <figure class="figure-img">
+        <a href="/7c6fd2096024f4c944fdf8299d0d19b0.png" target="_blank">
+          <img src="/7c6fd2096024f4c944fdf8299d0d19b0.png" alt="" title="" loading="lazy">
+        </a>
+        
+      </figure>
+    
+<p>如果 <code>supervisorctl reload</code> 之后提示恶意软件警告, 可以在系统设置的「安全性与隐私」中忽略警告:</p>
+
+      <figure class="figure-img">
+        <a href="/936ed6436d0e8f60297df91ffcf56855.png" target="_blank">
+          <img src="/936ed6436d0e8f60297df91ffcf56855.png" alt="" title="" loading="lazy">
+        </a>
+        
+      </figure>
+    
+
+      <figure class="figure-img">
+        <a href="/db8c24424b5ea850f2cedf49073fadec.png" target="_blank">
+          <img src="/db8c24424b5ea850f2cedf49073fadec.png" alt="" title="" loading="lazy">
+        </a>
+        
+      </figure>
+    
+<p>到目前为止, 我们运行的 webdav 服务只能在本地局域网内访问到, 要想非局域网内访问就需要将 webdav 服务暴露在公网上. 如果运营商给的是公网 IP, 那么在路由器设置端口转发就可以了.</p>
+<blockquote>
+  <p>即使有些运营商给的是公网 IP, 但是重新拨号后会分配另一个公网 IP, 这种情况下需要在端口转发的基础上额外配置 <a href="https://zh.wikipedia.org/wiki/%E5%8B%95%E6%85%8BDNS">DDNS</a></p>
+</blockquote>
+<p>实际上, 更多的人的网络拓扑结构和我的一样, 运营商分配的是一个局域网 IP, 在这之上的小区路由才有公网 IP, 甚至有的小区路由也有可能是个局域网 IP.</p>
+
+      <figure class="figure-img">
+        <a href="/72909ae79de2b8d4474257e480171995.png" target="_blank">
+          <img src="/72909ae79de2b8d4474257e480171995.png" alt="我的网络拓扑结构" title="我的网络拓扑结构" loading="lazy">
+        </a>
+        <figcaption>我的网络拓扑结构</figcaption>
+      </figure>
+    
+<p>这种网络结构下就需要通过<a href="https://zh.wikipedia.org/zh-cn/NAT%E7%A9%BF%E9%80%8F">内网穿透</a>的技术了. 内网穿透的原理是借助一台有公网 IP 的机器, 内网机器与之建立隧道, 按照一定的规则访问公网 IP 的机器, 这台机器会自动转发给内网机器从而实现网络穿透.</p>
+
+      <figure class="figure-img">
+        <a href="/d88836a5ee37029b5f0a91ea92d85a44.png" target="_blank">
+          <img src="/d88836a5ee37029b5f0a91ea92d85a44.png" alt="内网穿透, 实际的网络流量经过绿色的线" title="内网穿透, 实际的网络流量经过绿色的线" loading="lazy">
+        </a>
+        <figcaption>内网穿透, 实际的网络流量经过绿色的线</figcaption>
+      </figure>
+    
+<p>公网 IP 的机器一般可以购买云服务器, 配置不需要好但是带宽要高, 因为内网穿透的速度取决于所有设备中最慢的那个, 而内穿穿透的软件有很多, github 上有个<a href="https://github.com/anderspitman/awesome-tunneling">仓库</a>维护了一份列表.</p>
+<p>不过内网穿透我没有选择自己搭建一套, 而是选择了 <a href="https://www.cpolar.com">cpolar</a> 这个现成的服务, cpolar 提供了免费套餐.</p>
+<p>和 webdav 一样, 我们需要把 cpolar <a href="https://www.cpolar.com/download">下载</a>解压后放到 <code>/usr/local/bin</code> 目录, 按照文档配置 <code>token</code> 后, 执行命令 <code>cpolar http 9000</code> 暴露 webdav 服务, 通过控制台输出的信息找到域名, 通过访达进行连接:</p>
+
+      <figure class="figure-img">
+        <a href="/29d5468584950c197abb46fb11682714.png" target="_blank">
+          <img src="/29d5468584950c197abb46fb11682714.png" alt="cpolar 状态面板, 可以选择通过 HTTP 还是 HTTPS 域名进行连接" title="cpolar 状态面板, 可以选择通过 HTTP 还是 HTTPS 域名进行连接" loading="lazy">
+        </a>
+        <figcaption>cpolar 状态面板, 可以选择通过 HTTP 还是 HTTPS 域名进行连接</figcaption>
+      </figure>
+    
+
+      <figure class="figure-img">
+        <a href="/35c601ad0c19a9764307449ace9e7965.png" target="_blank">
+          <img src="/35c601ad0c19a9764307449ace9e7965.png" alt="访达通过公网访问 webdav 服务" title="访达通过公网访问 webdav 服务" loading="lazy">
+        </a>
+        <figcaption>访达通过公网访问 webdav 服务</figcaption>
+      </figure>
+    
+<p>依葫芦画瓢, 我们同样对 cpolar 新建一个 supervisor 的配置文件:</p>
+<pre><code class="txt language-txt">[program:cpolar]
+user = mebtte
+environment = HOME="/Users/mebtte"
+command = /usr/local/bin/cpolar http 9000
+</code></pre>
+<pre><code class="bash language-bash">cd /opt/homebrew/etc/supervisor.d
+vim cpolar.ini
+# 将上面的配置写入并保存
+</code></pre>
+<p>然后执行 <code>supervisorctl reload</code>, 因为 cpolar 是 supervisor 帮我们运行的, 所以我们无法看到输出的域名信息, 而且 cpolar 每次启动都会随机一个域名, 这时就需要打开 cpolar 的<a href="https://dashboard.cpolar.com/status">控制面板</a>查看域名信息, 根据面板上展示的域名访问即可.</p>
+
+      <figure class="figure-img">
+        <a href="/2f20c1fed402c6545310fddb415e6d97.png" target="_blank">
+          <img src="/2f20c1fed402c6545310fddb415e6d97.png" alt="cpolar 控制面板" title="cpolar 控制面板" loading="lazy">
+        </a>
+        <figcaption>cpolar 控制面板</figcaption>
+      </figure>
+    
+<p>如果不想每次启动都随机域名的话, 可以选择 cpolar 的付费套餐支持固定域名.</p>
+
+      <figure class="figure-img">
+        <a href="/96208154a818e3ed6bb363213d9395a5.png" target="_blank">
+          <img src="/96208154a818e3ed6bb363213d9395a5.png" alt="cpolar 付费套餐" title="cpolar 付费套餐" loading="lazy">
+        </a>
+        <figcaption>cpolar 付费套餐</figcaption>
+      </figure>
+    
+<blockquote>
+  <p>访问内网服务还可以通过 VPN 的方式, 不过这种方式工程量和成本都很高, 一般情况下只有企业采用.</p>
+</blockquote>
+<p>公网访问的情况下速度会比本地访问差很多, 所以一般我不用访达连接 webdav 服务, 因为访达需要将文件完整下载后才能打开, 大文件容易造成访达卡死, 这里的话桌面设备推荐使用 <a href="https://cyberduck.io">Cyberduck</a>, 移动设备使用 <a href="https://nplayer.com">nPlayer</a> 进行访问.</p>
+<p>最后在 macOS 设置「断电后自动启动」, 这样意外停电来电的时候会自动启动 Mac mini, 加上 supervisor 服务实现了全流程自动化.</p>
+
+      <figure class="figure-img">
+        <a href="/8053cc17b470228a02e6d1cddbfa19b4.png" target="_blank">
+          <img src="/8053cc17b470228a02e6d1cddbfa19b4.png" alt="" title="" loading="lazy">
+        </a>
+        
+      </figure>
+    
+
+      <figure class="figure-img">
+        <a href="/2e129ba212d5d3d33a7a67167fa22d72.jpeg" target="_blank">
+          <img src="/2e129ba212d5d3d33a7a67167fa22d72.jpeg" alt="成品效果, 不建议硬盘柜放桌子上, 太吵了" title="成品效果, 不建议硬盘柜放桌子上, 太吵了" loading="lazy">
+        </a>
+        <figcaption>成品效果, 不建议硬盘柜放桌子上, 太吵了</figcaption>
+      </figure>
+    
+
+      <figure class="figure-img">
+        <a href="/bebe2bc4962a66ca70b4ce85d1a38755.jpeg" target="_blank">
+          <img src="/bebe2bc4962a66ca70b4ce85d1a38755.jpeg" alt="iPad 通过 nPlayer 访问 webdav" title="iPad 通过 nPlayer 访问 webdav" loading="lazy">
+        </a>
+        <figcaption>iPad 通过 nPlayer 访问 webdav</figcaption>
+      </figure>
+    
+<p>之所以选用 WebDAV 是因为相比其他协议有更多的软件支持以及更适合在公网上传输(HTTP 协议), 如果不想折腾 WebDAV 服务的话, macOS 提供了更简单的方法, 在「系统偏好设置」→「共享」中, 勾选「文件共享」, macOS 会帮我们启动一个 SMB 服务, 跟 WebDAV 服务类似, 局域网内的其他设备都可以访问或者通过访达挂载成远程硬盘.</p>
+
+      <figure class="figure-img">
+        <a href="/b4850772d41413cf36ad4a08b8802c79.png" target="_blank">
+          <img src="/b4850772d41413cf36ad4a08b8802c79.png" alt="文件共享, 右侧可以自定义共享文件夹和用户" title="文件共享, 右侧可以自定义共享文件夹和用户" loading="lazy">
+        </a>
+        <figcaption>文件共享, 右侧可以自定义共享文件夹和用户</figcaption>
+      </figure>
+    
+<p>借助内网穿透, SMB 服务也可以暴露在公网上. SMB 是通过 TCP 协议以及使用 445 端口, 还是以 cpolar 为例, 通过命令 <code>cpolar tcp 445</code> 暴露服务, 根据控制台输出的信息我们就可以远程连接了.</p>
+
+      <figure class="figure-img">
+        <a href="/208266b82b3a6deae6a376f96dedc336.png" target="_blank">
+          <img src="/208266b82b3a6deae6a376f96dedc336.png" alt="使用 cpolar 暴露 SMB 服务" title="使用 cpolar 暴露 SMB 服务" loading="lazy">
+        </a>
+        <figcaption>使用 cpolar 暴露 SMB 服务</figcaption>
+      </figure>
+    
+<blockquote>
+  <p>SMB 最开始是由微软开发并在 Windows 上使用的, 后来由 <a href="https://zh.wikipedia.org/wiki/%E5%AE%89%E5%BE%B7%E9%AD%AF%C2%B7%E5%9E%82%E9%B3%A9">Andrew Tridgell</a> 通过逆向工程移植到了 *nix 平台下, 实现了跨操作系统的文件共享, 这就是著名的 <a href="https://zh.wikipedia.org/wiki/Samba">Samba</a>. 说到 AT, 就不得不说他和 <a href="https://zh.wikipedia.org/wiki/Git">git</a> 的故事. 在 git 之前, Linux 内核通过一款名为 <a href="http://www.bitkeeper.org">BitKeeper</a> 的商业版本控制系统进行维护, BitKeeper 的公司 BitMover 为 Linux 社区提供免费授权. 在 2005 年的时候 AT 对 BitKeeper 进行反编译并写了一个小程序连接 BitKeeper 的仓库, 此行为被 BitMover 发现并撤回了对 Linux 社区的免费授权, Linux 内核开发团队和 BitMover 磋商无果, 于是就有了 Linus 十天开发出 git 的故事. 此外, AT 也是 rsync 的作者之一.</p>
+</blockquote>
+<p>Mac mini 除了提供存储服务以外, 基本任何服务都能以内网穿透的方式暴露出去, github 上有个 <a href="https://github.com/awesome-selfhosted/awesome-selfhosted#readme">awesome-selfhosted</a> 的项目记录了大量可自主部署的服务, 比如下载服务/照片自动备份服务, 有时间可以慢慢折腾.</p></section>
+
+    <section>
+  <h2>更新记录</h2>
+  <div class="table-container">
+    <table>
+      
+        <tbody><tr>
+          <td>2022-08-10</td>
+          <td>macOS 文件共享服务</td>
+        </tr>
+       
+    </tbody></table>
+  </div>
+</section>
+
+  </article>
+  
+    <style>
+  .article-actions {
+    max-inline-size: var(--content-max-width);
+
+    display: flex;
+    align-items: center;
+
+    margin-block: 40px;
+    margin-inline: auto;
+    padding-inline: 30px;
+
+    font-family: common_font;
+    color: var(--normal-color);
+  }
+
+  .article-actions_action:not(:last-child)::after {
+    content: "·\00a0";
+  }
+
+  .article-actions_action > a {
+    color: inherit;
+    text-decoration-color: var(--primary-color);
+  }
+
+  @media (max-width: 520px) {
+    .article-actions {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .article-actions_action::before {
+      content: "·";
+    }
+
+    .article-actions_action:not(:last-child)::after {
+      content: "";
+    }
+  }
+</style>
+
+<div class="article-actions">
+  <span class="article-actions_action">
+    使用
+    <a href="https://github.com/mebtte/animal-photosynthesis/discussions">Discussions</a> 讨论
+  </span>
+  <span class="article-actions_action">
+    在
+    <a href="https://github.com/mebtte/animal-photosynthesis/edit/master/articles/remote_accessible_nas_by_mac_mini/index.md">Github</a>
+    上编辑
+  </span>
+  <span class="article-actions_action">
+    分享到
+    <a href="https://www.x.com/share?text=Mac%20mini%20%E6%90%AD%E5%BB%BA%E5%A4%96%E7%BD%91%E5%8F%AF%E8%AE%BF%E9%97%AE%E7%9A%84%E7%AE%80%E6%98%93%20NAS&amp;url=https%3A%2F%2Fmebtte.com%2Fremote_accessible_nas_by_mac_mini">X</a>
+  </span>
+</div>
+
+  
+  <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8404651063516637" crossorigin="anonymous"></script>
+<style>
+  .adsbygoogle {
+    max-width: 100%;
+    margin-block: 40px;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .adsbygoogle:empty {
+    display: none;
+  }
+</style>
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8404651063516637" data-ad-slot="7746538242" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  <style>
+.page-footer {
+  font-size: 12px;
+  max-inline-size: var(--content-max-width);
+  margin-block: 40px;
+  margin-inline: auto;
+  padding-inline: 30px;
+  font-family: common_font;
+  color: var(--secondary-color);
+}
+
+.page-footer > a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.page-footer > a:hover {
+  color: var(--primary-color);
+}
+
+.page-footer > .underline {
+  text-decoration: underline;
+}
+</style>
+
+<footer class="page-footer">
+  <a href="https://github.com/mebtte/animal-photosynthesis/blob/master/license">©</a>
+  2026
+  &nbsp;
+  <a class="underline" href="https://i.mebtte.com">MEBTTE</a>
+  &nbsp;|&nbsp;
+  <a class="underline" href="https://stats.uptimerobot.com/4nO5RUYB60">UPTIME</a>
+  &nbsp;|&nbsp;
+  <a class="underline" href="/support">支持我</a>
+</footer>
+
+  <script src="/39c97c2884c3a2b5e64c8f085b843d4e.js"></script>
+  <script src="/0ec215ad131a36856d3d20423b9aca26.js" async="" defer=""></script>
+
+
+
+</body></html>

@@ -1,0 +1,888 @@
+<!DOCTYPE html><html lang="zh-cn"><head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="mebtte">
+<meta name="keywords" content="HTML, CSS, JavaScript, Web, Front-End">
+
+<!-- Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-CESZTRKM96"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CESZTRKM96');
+</script>
+
+<!-- open graph -->
+<meta property="og:type" content="website">
+<meta property="og:image" content="/6ed5faa0573b2a5a9d47232c9a71fb88.png">
+
+<link rel="shortcut icon" type="image/png" href="/6ed5faa0573b2a5a9d47232c9a71fb88.png">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+
+<link rel="preload" href="/e0e440b1ae0a9ba21fb3feb4cff12d11.ttf" as="font" crossorigin="anonymous">
+<link rel="preload" href="/53d99659dc34209657d05bb2a7fc5de4.ttf" as="font" crossorigin="anonymous">
+
+  <style>
+  @font-face {
+    font-family: common_font;
+    src: url(/53d99659dc34209657d05bb2a7fc5de4.ttf);
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    --content-max-width: 840px;
+
+    --primary-color: rgb(237 106 94);
+
+    --normal-color: #333;
+    --secondary-color: #888;
+    --tertiary-color: #ddd;
+    --backgroud: rgb(255 255 255);
+
+    --border-radius: 2px;
+    --transition-duration: 0.3s;
+
+    background-color: var(--backgroud);
+    transition: background-color var(--transition-duration);
+  }
+
+  figure {
+    margin-inline: 0;
+  }
+</style>
+
+
+  <title>高性能 React 应用的几个小技巧 - 动物的光合作用</title>
+  <meta name="description" content="## 使用 function 作为 useState 的初始值  计算机科学中存在一个[求值策略](https://zh.wikipedia.org/wiki/%E6%B1%82%E5%80%BC%E7%AD%96%E7%95%A5)的问题, 简单来说就是什么时候计算参数的值, 比如以下伪代码:  ......">
+  <meta property="og:description" content="## 使用 function 作为 useState 的初始值  计算机科学中存在一个[求值策略](https://zh.wikipedia.org/wiki/%E6%B1%82%E5%80%BC%E7%AD%96%E7%95%A5)的问题, 简单来说就是什么时候计算参数的值, 比如以下伪代码:  ......">
+
+  <link rel="preload" href="/249454d64c09348ebe1b9aeb4929fd0a.ttf" as="font" crossorigin="anonymous">
+  <style>
+    @font-face {
+      font-family: article_font_tips_of_high_performance_react_app;
+      src: url(/249454d64c09348ebe1b9aeb4929fd0a.ttf);
+    }
+    article {
+      font-family: article_font_tips_of_high_performance_react_app;
+    }
+  </style>
+  
+  <link rel="stylesheet" href="/ece570de77ba673c17121d06fc929bd9.css">
+</head>
+
+<body>
+  <style>
+  @font-face {
+    font-family: title_font;
+    src: url(/e0e440b1ae0a9ba21fb3feb4cff12d11.ttf);
+  }
+
+  .page-header {
+    max-inline-size: var(--content-max-width);
+    margin-block: 50px 40px;
+    margin-inline: auto;
+    padding-inline: 30px;
+    display: flex;
+    align-items: center;
+  }
+
+  .page-header_title {
+    flex: 1;
+    min-inline-size: 0;
+    font-size: min(8vw, 56px);
+    font-family: title_font;
+    margin: 0;
+    color: var(--normal-color);
+  }
+
+  .page-header_title > a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .page-header_icon {
+    margin-inline-start: 10px;
+  }
+
+  .page-header_icon > img {
+    user-select: none;
+    inline-size: 20px;
+    block-size: 20px;
+  }
+</style>
+
+<header class="page-header">
+  
+    <h2 class="page-header_title">
+      <a href="/">动物的光合作用</a>
+    </h2>
+  
+  <a class="page-header_icon" href="/rss.xml" target="_blank">
+    <img src="/e31ad23031e5bcb34e8d4a424ba0c100.png" alt="rss">
+  </a>
+  <a class="page-header_icon" href="https://github.com/mebtte/animal-photosynthesis" target="_blank">
+    <img src="/184c800e11079b13904f308161071b62.png" alt="github">
+  </a>
+  <a class="page-header_icon" href="//i.mebtte.com" target="_blank">
+    <img src="/2cd3760ad10a38f8a9ed6ea3993fa472.png" alt="author">
+  </a>
+</header>
+
+  <article>
+    <style>
+.article-header {
+  max-inline-size: var(--content-max-width);
+  margin-block: 40px;
+  margin-inline: auto;
+  padding-inline: 30px;
+}
+
+.article-title {
+  color: var(--primary-color);
+  font-size: 32px;
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+}
+
+.article-title a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.article-publish-time {
+  color: var(--secondary-color);
+  font-size: 14px;
+  font-family: common_font;
+}
+</style>
+
+<section class="article-header">
+  <h1 class="article-title">
+    <a href="/tips_of_high_performance_react_app">高性能 React 应用的几个小技巧</a>
+  </h1>
+  <time class="article-publish-time">2022-03-03</time>
+</section>
+
+    <style>
+  article {
+    --article-space: 30px;
+  }
+
+  article a {
+    color: var(--normal-color);
+    text-decoration-color: var(--primary-color);
+  }
+
+  article h2,
+  article h3,
+  article h4,
+  article h5,
+  article h6 {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-inline: auto;
+    line-height: 1.5;
+    color: var(--normal-color);
+  }
+
+  article h2 {
+    margin-block-start: 28px;
+    font-size: 28px;
+  }
+
+  article h3 {
+    margin-block-start: 26px;
+    font-size: 25px;
+  }
+
+  article h4 {
+    margin-block-start: 24px;
+    font-size: 22px;
+  }
+
+  article h5 {
+    margin-block-start: 22px;
+    font-size: 19px;
+  }
+
+  article h6 {
+    margin-block-start: 20px;
+    font-size: 16px;
+  }
+
+  article p {
+    max-inline-size: var(--content-max-width);
+
+    margin-block: 15px;
+    margin-inline: auto;
+    padding-inline: 30px;
+
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--normal-color);
+    word-break: break-word;
+  }
+
+  article p code,
+  article ul code,
+  article ol code,
+  article table code {
+    padding-inline: 4px;
+    border-radius: var(--border-radius);
+    background: rgba(237, 106, 94, 0.3);
+  }
+
+  article pre {
+    max-inline-size: var(--content-max-width) !important;
+    margin-block: 15px !important;
+    margin-inline: auto !important;
+    font-size: 14px !important;
+    box-sizing: border-box;
+    border-radius: var(--border-radius) !important;
+    tab-size: 2 !important;
+    padding: 0 !important;
+  }
+
+  article pre code {
+    display: block;
+    margin-block: 20px !important;
+    margin-inline: 30px !important;
+    overflow: auto !important;
+    font-size: inherit !important;
+  }
+
+  article hr {
+    max-inline-size: var(--content-max-width);
+    margin-block: 40px;
+    margin-inline: auto;
+    padding-inline: var(--article-space);
+    border: none;
+  }
+
+  article hr::after {
+    content: "";
+    display: block;
+    block-size: 1px;
+    background-color: var(--tertiary-color);
+  }
+
+  .table-container {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .table-container table {
+    border-collapse: collapse;
+  }
+
+  .table-container th,
+  .table-container td {
+    font-size: 14px;
+    color: var(--normal-color);
+    border: 1px solid var(--tertiary-color);
+    padding: 10px;
+    text-align: left;
+  }
+
+  .table-container th {
+    font-size: 16px;
+    text-align: left;
+  }
+
+  article blockquote {
+    max-inline-size: var(--content-max-width);
+    padding-inline: var(--article-space);
+    margin-block: 15px;
+    margin-inline: auto;
+    position: relative;
+    font-style: italic;
+    color: var(--secondary-color);
+  }
+
+  article blockquote::before {
+    content: "";
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 30px;
+    inline-size: 3px;
+    block-size: 100%;
+    background-color: var(--primary-color);
+  }
+
+  article blockquote p {
+    font-size: 14px;
+    color: inherit;
+    max-inline-size: unset;
+    padding: 0;
+    margin-inline-start: 30px;
+  }
+
+  article ul,
+  article ol {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+    color: var(--normal-color);
+    line-height: 1.5;
+  }
+
+  article ol {
+    counter-reset: li-count;
+  }
+
+  article ul li,
+  article ol li {
+    display: block;
+    margin-block: 5px;
+    position: relative;
+  }
+
+  article ol li {
+    counter-increment: li-count;
+  }
+
+  article ul li::before {
+    content: "";
+    display: inline-block;
+    inline-size: 6px;
+    block-size: 6px;
+
+    margin-inline-end: 10px;
+
+    vertical-align: middle;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+  }
+
+  article ol li::before {
+    content: counter(li-count) ". ";
+    color: var(--primary-color);
+  }
+
+  article figcaption {
+    font-size: 12px;
+    color: var(--secondary-color);
+    text-align: center;
+    margin-block-start: 5px;
+  }
+
+  .figure-img {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .figure-img img {
+    display: block;
+    max-inline-size: 100%;
+    margin-inline: auto;
+    border-radius: var(--border-radius);
+  }
+
+  .figure-media {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .figure-media .media {
+    display: block;
+    max-inline-size: 100%;
+    margin-inline: auto;
+  }
+
+  .figure-iframe {
+    inline-size: 100%;
+    margin-block: 15px;
+  }
+
+  .figure-iframe iframe {
+    display: block;
+    inline-size: 100%;
+    max-inline-size: var(--content-max-width);
+    margin-inline: auto;
+    block-size: 640px;
+    border: 1px solid var(--tertiary-color);
+    border-radius: var(--border-radius);
+  }
+
+  strong {
+    font-weight: normal;
+    text-decoration: underline;
+  }
+</style>
+
+<section><h2 id="functionusestate">使用 function 作为 useState 的初始值</h2>
+<p>计算机科学中存在一个<a href="https://zh.wikipedia.org/wiki/%E6%B1%82%E5%80%BC%E7%AD%96%E7%95%A5">求值策略</a>的问题, 简单来说就是什么时候计算参数的值, 比如以下伪代码:</p>
+<pre><code class="txt language-txt">function fn(n) {
+  return n * 2
+}
+
+x = 1
+y = fn(x + 1)
+</code></pre>
+<p><code>fn(x + 1)</code> 中的 <code>x + 1</code> 是什么时候计算的呢? 目前有两种流派, 第一种是<strong>传值引用</strong>, 先对参数计算, 然后执行函数, 也就是 <code>y = fn(x + 1) = fn(2)</code>. 第二种是<strong>传名引用</strong>, 把函数内用到参数的地方替换成具体的参数表达式, 函数运行时再进行计算, 可以表示为:</p>
+<pre><code class="txt language-txt">x = 1
+y = f(x + 1) = fn() {
+  return (x + 1) * 2
+}
+</code></pre>
+<p>传值引用实现起来比较简单, 但会有性能损耗, 比如 <code>fn(x + 1, x + 2, x + 3)</code> 后面两个的参数实际上不会用到也会进行计算. 传名引用可以做到按需计算, 但是实现起来比较复杂. 在 JavaScript 中采用的是传值引用.</p>
+<blockquote>
+  <p>JavaScript 也可以模拟传名引用, 具体可以查看阮一峰老师的 <a href="https://www.ruanyifeng.com/blog/2015/05/thunk.html">Thunk 函数的含义和用法</a></p>
+</blockquote>
+<p>回到 React 相关的话题, 来看下面这个例子, <code>Input</code> 组件的初始值从 <code>localStorage</code> 获取, 后续根据用户输入更新:</p>
+<pre><code class="jsx language-jsx">const Input = () =&gt; {
+  const [value, setValue] = useState(
+    localStorage.getItem('initial_value') || '',
+  );
+  const onChange = (event) =&gt; setValue(event.target.value);
+
+  return (
+    &lt;input type="text" value={value} onChange={onChange} /&gt;
+  );
+};
+</code></pre>
+<p>假设用户输入了 <code>abcde</code> 这串字符, 那么一共读取 <code>localStorage</code> 多少次?</p>
+<p>答案是 6 次. 可能有人会认为只有初始化的 1 次, 但是上面说到 JavaScript 是传值引用, <code>useState</code> 是一个函数, 所以每次调用的参数 <code>localStorage.getItem("initial_value") || ""</code> 都会计算一遍, 所以一共读取了 6 次 <code>localStorage</code>. 我们可以稍微改造一下验证是否正确, 将 <code>localStorage.getItem</code> 的调用替换成自定义函数 <code>getInitialState</code>:</p>
+
+      <figure class="figure-iframe">
+        <iframe src="https://codesandbox.io/embed/use-state-is-a-function-all-pyvnen?fontsize=14&amp;hidenavigation=1&amp;theme=dark" title="use_state_is_a_function_call" loading="lazy"></iframe>
+        <figcaption>use_state_is_a_function_call</figcaption>
+      </figure>
+    
+<p>当输入 <code>abcde</code> 这串字符, 可以看到 <code>getInitialState</code> 被调用了 6 次. 假如 <code>getInitialState</code> 计算量特别大的话将产生明显的性能问题.</p>
+<p><code>useState</code> 可以接受值作为初始值外, 还可以接受函数并自动调用该函数进行获得初始值, 所以上面的例子可以使用 function 作为 useState 的初始值进行优化:</p>
+<pre><code class="jsx language-jsx">import { useState } from 'react';
+
+function getInitialState() {
+  return localStorage.getItem('initial_value') || '';
+}
+
+const Input = () =&gt; {
+  const [value, setValue] = useState(getInitialState);
+  const onChange = (event) =&gt; setValue(event.target.value);
+
+  return (
+    &lt;input type="text" value={value} onChange={onChange} /&gt;
+  );
+};
+
+export default Input;
+</code></pre>
+<p>优化后的例子无论用户输入多少次都只有在初始化时读取 <code>localStorage</code> 一次.</p>
+<h2 id="usecallbackusememo">合理使用 useCallback 和 useMemo</h2>
+<p>之前分析过这个问题, <a href="/use_callback_misunderstanding" target="_blank">useCallback 的误区</a>.</p>
+<h2 id="state">缩小 state 影响范围</h2>
+<pre><code class="jsx language-jsx">import OtherComponent from 'other-component';
+
+const Label = ({ label }) =&gt; &lt;div&gt;{label}&lt;/div&gt;;
+
+const InputField = () =&gt; {
+  const [value, setValue] = useState('');
+  const onChange = (event) =&gt; setValue(event.target.value);
+
+  return (
+    &lt;OtherComponent&gt;
+      &lt;Label label="姓名" /&gt;
+      &lt;input type="text" value={value} onChange={onChange} /&gt;
+    &lt;/OtherComponent&gt;
+  );
+};
+</code></pre>
+<p>观察上面例子, <code>value</code> 作为 <code>InputField</code> 的 <code>state</code> 发生变化会导致 <code>OtherComponent</code>/<code>Label</code>/<code>input</code> 重新渲染, 仔细分析可以发现, <code>OtherComponent</code> 和 <code>Label</code> 的渲染跟 <code>value</code> 没有关系, 我们可以通过 <code>React.memo</code> 避免这种无效的渲染, 不过更好的办法是将 <code>value</code> 的影响范围缩小:</p>
+<pre><code class="jsx language-jsx">import OtherComponent from 'other-component';
+
+const Label = ({ label }) =&gt; &lt;div&gt;{label}&lt;/div&gt;;
+
+const Input = () =&gt; {
+  const [value, setValue] = useState('');
+  const onChange = (event) =&gt; setValue(event.target.value);
+
+  return (
+    &lt;input type="text" value={value} onChange={onChange} /&gt;
+  );
+};
+
+const InputField = () =&gt; (
+  &lt;OtherComponent&gt;
+    &lt;Label label="姓名" /&gt;
+    &lt;Input /&gt;
+  &lt;/OtherComponent&gt;
+);
+</code></pre>
+<p>把 <code>Input</code> 独立成组件后, <code>value</code> 的影响范围局限在 <code>Input</code> 组件自身, 避免导致其他组件的无效渲染. 我们再看一个复杂点的例子:</p>
+
+      <figure class="figure-img">
+        <a href="/0ea0bf36820ec3d7103935063293bba4.png" target="_blank">
+          <img src="/0ea0bf36820ec3d7103935063293bba4.png" alt="React Component Tree" title="React Component Tree" loading="lazy">
+        </a>
+        <figcaption>React Component Tree</figcaption>
+      </figure>
+    
+<p>一个组件表示为上图的树形结构, 假设有一个 <code>state</code> 被 <code>A</code>/<code>B</code>/<code>C</code> 所使用的, 因为 React 遵循自上到下的单向数据流, 为了保证 <code>A</code>/<code>B</code>/<code>C</code> 都能拿到 <code>state</code>, 那么 <code>state</code> 只能定义在 <code>Root</code>, 当 <code>state</code> 发生变化时整个组件树都会重新渲染. 不过仔细观察可以发现, 除了 A/B/C 外其他组件的重新渲染都是没有必要的.</p>
+<p>那有没有办法避免这些不必要的渲染?</p>
+<p>因为 React 父组件渲染的同时会导致子组件的渲染, 为了避免无效渲染只能将 <code>state</code> 克隆多份并下放到 A/B/C 自身, 那怎么保证 A/B/C <code>state</code> 的值是正确的以及如何及时更新?</p>
+<p>可以通过广播. 我们可以在 <code>Root</code> 保存一份 <code>state</code> 的 <code>ref</code>, 因为 <code>ref</code> 的变化不会导致重新渲染, 然后在 A/B/C 新建各自的 <code>state</code> , <code>stateRef</code> 的值作为 props 往下传递作为 A/B/C <code>state</code> 的初始值, 当 <code>stateRef</code> 发生变化时进行广播, A/B/C 通过监听对应的广播对 <code>state</code> 进行更新.</p>
+
+      <figure class="figure-img">
+        <a href="/74c26979d30b62533ba92065c095c979.png" target="_blank">
+          <img src="/74c26979d30b62533ba92065c095c979.png" alt="通过广播同步状态" title="通过广播同步状态" loading="lazy">
+        </a>
+        <figcaption>通过广播同步状态</figcaption>
+      </figure>
+    
+<p>这样的话达到了只更新对应组件的目的, 但是问题也很明显, 增加了代码的复杂度以及导致数据流难以追踪, 所以这个方法只建议用在影响范围大且更新频繁的 <code>state</code> 上.</p>
+<h2 id="">组件内使用的可变变量不要放在组件外部</h2>
+<pre><code class="jsx language-jsx">let timer;
+
+const Calculagraph = () =&gt; {
+  const [seconds, setSeconds] = useState(0);
+  const onStart = () =&gt; {
+    window.clearInterval(timer);
+    timer = window.setInterval(
+      () =&gt; setSeconds((s) =&gt; s + 1),
+      1000,
+    );
+  };
+  const onPause = () =&gt; window.clearInterval(timer);
+
+  return (
+    &lt;div&gt;
+      seconds: {seconds}
+      &lt;div&gt;
+        &lt;button type="button" onClick={onStart}&gt;
+          start
+        &lt;/button&gt;
+        &lt;button type="button" onClick={onPause}&gt;
+          pause
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+};
+</code></pre>
+<p>上面是一个计时器组件, 点击 <code>start</code> 后每 100 毫秒加一, 点击 <code>pause</code> 计时暂停.</p>
+<p>不过这个计时器组件存在一个问题, 当同时存在多个实例时, <code>start</code> 任何一个计时器都会导致其他计时器的暂停:</p>
+
+      <figure class="figure-iframe">
+        <iframe src="https://codesandbox.io/embed/caculagraph-6ms0yy?fontsize=14&amp;hidenavigation=1&amp;theme=dark" title="caculagraph" loading="lazy"></iframe>
+        <figcaption>caculagraph</figcaption>
+      </figure>
+    
+<p>原因在于 <code>Caculagraph</code> 是一个独立的模块, 模块顶层的 <code>timer</code> 变量是所有 <code>Caculagraph</code> 实例共用的, 所以任何一个计时器实例操作 <code>timer</code> 都会影响其他的计时器实例.</p>
+<p>像这种组件内使用的可变变量不应该放在组件外部, 应该使用 <code>ref</code> 放在组件内部:</p>
+<pre><code class="jsx language-jsx">import { useState, useRef } from 'react';
+
+const Caculagraph = () =&gt; {
+  const [seconds, setSeconds] = useState(0);
+
+  const timerRef = useRef();
+  const onStart = () =&gt; {
+    window.clearInterval(timerRef.current);
+    timerRef.current = window.setInterval(
+      () =&gt; setSeconds((s) =&gt; s + 1),
+      1000,
+    );
+  };
+  const onPause = () =&gt; window.clearInterval(timerRef.current);
+
+  // ...
+};
+</code></pre>
+<p>上面的例子只是用来说明组件内使用的可变变量不要放在组件外部, 实际上这个组件的设计并不合理而且存在组件卸载定时器没有清除的问题, 最优代码应该是这样:</p>
+<pre><code class="jsx language-jsx">const Caculagraph = () =&gt; {
+  const [seconds, setSeconds] = useState(0);
+  const [running, setRunning] = useState(false);
+  const onStart = () =&gt; setRunning(true);
+  const onPause = () =&gt; setRunning(false);
+
+  useEffect(() =&gt; {
+    if (running) {
+      const timer = window.setInterval(
+        () =&gt; setSeconds((s) =&gt; s + 1),
+        1000,
+      );
+      return () =&gt; window.clearInterval(timer);
+    }
+  }, [running]);
+
+  // ...
+};
+</code></pre>
+<h2 id="props">不变的 props 可以提升为常量</h2>
+
+      <figure class="figure-iframe">
+        <iframe src="https://codesandbox.io/embed/red-bush-p3ue5n?fontsize=14&amp;hidenavigation=1&amp;theme=dark" title="anonymous_object_as_props" loading="lazy"></iframe>
+        <figcaption>anonymous_object_as_props</figcaption>
+      </figure>
+    
+<p>上面的例子中, 使用 <code>React.memo</code> 对 <code>Label</code> 进行了优化, 在 <code>Input</code> 中因为 <code>Label</code> 的渲染跟 <code>value</code> 没有关系, 所以 <code>value</code> 变化不会导致 <code>Label</code> 重新渲染. 不过实际情况是 <code>value</code> 变化会导致 <code>Label</code> 重新渲染.</p>
+<p>分析这个问题我们对 <code>Input</code> 组件进行分解:</p>
+<pre><code class="jsx language-jsx">const style = { color: 'red' };
+return (
+  &lt;div&gt;
+    &lt;Label style={style} /&gt;
+    &lt;input type="text" value={value} onChange={onChange} /&gt;
+  &lt;/div&gt;
+);
+</code></pre>
+<p>可以发现每次渲染都会生成一个新的 <code>style</code> 对象, 前后两个 <code>style</code> 不相等导致 <code>React.memo</code> 失效.</p>
+<p>因为每次渲染 <code>style</code> 的值是不变的, 像这种不变的 <code>props</code> 可以提升为常量从而实现优化.</p>
+<pre><code class="jsx language-jsx">const Label = memo(({ style }) =&gt; {
+  console.count('label render');
+
+  return &lt;div style={style}&gt;label&lt;/div&gt;;
+});
+
+const labelStyle = { color: 'red' };
+
+const Input = () =&gt; {
+  const [value, setValue] = useState('');
+  const onChange = (event) =&gt; setValue(event.target.value);
+
+  console.count('input render');
+
+  return (
+    &lt;div&gt;
+      &lt;Label style={labelStyle} /&gt;
+      &lt;input type="text" value={value} onChange={onChange} /&gt;
+    &lt;/div&gt;
+  );
+};
+</code></pre>
+<h2 id="state-1">合并相关联 state 减少渲染次数</h2>
+
+      <figure class="figure-iframe">
+        <iframe src="https://codesandbox.io/embed/separate-state-xl5eiz?fontsize=14&amp;hidenavigation=1&amp;theme=dark" title="separate_state" loading="lazy"></iframe>
+        <figcaption>separate_state</figcaption>
+      </figure>
+    
+<p>上面的例子模拟从接口获取数据然后展示, 请求中/请求成功/请求失败都有对应的 UI, 然后可以通过 <code>reload</code> 按钮重新发起请求. 可以看到, 无论请求成功还是请求失败都会产生 3 次渲染, 后续每次重新请求也是 3 次渲染, 组件初始化导致第一次渲染, 然后是 <code>setError(null)</code> 和 <code>setLoading(true)</code> 因为和初始值一致跳过渲染, 请求成功的 <code>setData</code> 或者请求失败的 <code>setError</code> 导致第二次渲染, <code>setLoading(false)</code> 导致第三次渲染, 后续重新请求也是同理.</p>
+<p>仔细分析可以发现, <code>setData</code>/<code>setError</code> 后面始终跟着 <code>setLoading(false)</code>, 如果把 <code>data</code>/<code>error</code> 和 <code>loading</code> 合并成一个 <code>state</code> 的话那就可以减少一次渲染.</p>
+<pre><code class="tsx language-tsx">const useData = () =&gt; {
+  const [data, setData] = useState&lt;
+    /** 请求中 */
+    | {
+        loading: true;
+        error: null;
+        value: number;
+      }
+    /** 请求失败 */
+    | {
+        loading: false;
+        error: Error;
+        value: number;
+      }
+    /** 请求成功 */
+    | {
+        loading: false;
+        error: null;
+        value: number;
+      }
+  &gt;({ loading: true, error: null, value: 0 });
+  const getData = useCallback(async () =&gt; {
+    setData({ loading: true, error: null, value: 0 });
+    try {
+      await new Promise((resolve) =&gt;
+        window.setTimeout(resolve, 2000),
+      );
+      if (Math.random() &gt; 0.6) {
+        throw new Error('mock error');
+      }
+      setData({
+        loading: false,
+        error: null,
+        value: Math.random(),
+      });
+    } catch (e) {
+      setData({ loading: false, error: e as Error, value: 0 });
+    }
+  }, []);
+
+  useEffect(() =&gt; {
+    getData();
+  }, [getData]);
+
+  return { data, reload: getData };
+};
+
+const App = () =&gt; {
+  const { data, reload } = useData();
+
+  console.count('render');
+
+  if (data.error) {
+    return (
+      &lt;div&gt;
+        &lt;div&gt;error: {data.error.message}&lt;/div&gt;
+        &lt;button type="button" onClick={reload}&gt;
+          reload
+        &lt;/button&gt;
+      &lt;/div&gt;
+    );
+  }
+  if (data.loading) {
+    return &lt;div&gt;loading...&lt;/div&gt;;
+  }
+  return (
+    &lt;div&gt;
+      &lt;div&gt;data: {data.value}&lt;/div&gt;
+      &lt;button type="button" onClick={reload}&gt;
+        refresh
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+};
+</code></pre>
+<p>改造之后发现, 每次重新请求的渲染次数从 3 降到 2, 但是初始化依然是 3 次, 这是因为设置 loading 状态是生成一个新的对象 <code>{ loading: true, error: null, value: 0 }</code> 与初始值不相等导致的, 而 loading 状态的值其实是一致的, 所以可以把 loading 状态保存为一个常量进行优化.</p>
+<pre><code class="tsx language-tsx">const loadingState = { loading: true, error: null, value: 0 };
+
+const useData = () =&gt; {
+  const [data, setData] = useState(loadingState);
+  const getData = useCallback(async () =&gt; {
+    setData(loadingState);
+    // ...
+  }, []);
+
+  // ...
+};
+</code></pre>
+
+      <figure class="figure-iframe">
+        <iframe src="https://codesandbox.io/embed/unite-state-4gpdnb?fontsize=14&amp;hidenavigation=1&amp;theme=dark" title="unite_state" loading="lazy"></iframe>
+        <figcaption>unite_state</figcaption>
+      </figure>
+    </section>
+
+    
+  </article>
+  
+    <style>
+  .article-actions {
+    max-inline-size: var(--content-max-width);
+
+    display: flex;
+    align-items: center;
+
+    margin-block: 40px;
+    margin-inline: auto;
+    padding-inline: 30px;
+
+    font-family: common_font;
+    color: var(--normal-color);
+  }
+
+  .article-actions_action:not(:last-child)::after {
+    content: "·\00a0";
+  }
+
+  .article-actions_action > a {
+    color: inherit;
+    text-decoration-color: var(--primary-color);
+  }
+
+  @media (max-width: 520px) {
+    .article-actions {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .article-actions_action::before {
+      content: "·";
+    }
+
+    .article-actions_action:not(:last-child)::after {
+      content: "";
+    }
+  }
+</style>
+
+<div class="article-actions">
+  <span class="article-actions_action">
+    使用
+    <a href="https://github.com/mebtte/animal-photosynthesis/discussions">Discussions</a> 讨论
+  </span>
+  <span class="article-actions_action">
+    在
+    <a href="https://github.com/mebtte/animal-photosynthesis/edit/master/articles/tips_of_high_performance_react_app/index.md">Github</a>
+    上编辑
+  </span>
+  <span class="article-actions_action">
+    分享到
+    <a href="https://www.x.com/share?text=%E9%AB%98%E6%80%A7%E8%83%BD%20React%20%E5%BA%94%E7%94%A8%E7%9A%84%E5%87%A0%E4%B8%AA%E5%B0%8F%E6%8A%80%E5%B7%A7&amp;url=https%3A%2F%2Fmebtte.com%2Ftips_of_high_performance_react_app">X</a>
+  </span>
+</div>
+
+  
+  <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8404651063516637" crossorigin="anonymous"></script>
+<style>
+  .adsbygoogle {
+    max-width: 100%;
+    margin-block: 40px;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .adsbygoogle:empty {
+    display: none;
+  }
+</style>
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8404651063516637" data-ad-slot="7746538242" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  <style>
+.page-footer {
+  font-size: 12px;
+  max-inline-size: var(--content-max-width);
+  margin-block: 40px;
+  margin-inline: auto;
+  padding-inline: 30px;
+  font-family: common_font;
+  color: var(--secondary-color);
+}
+
+.page-footer > a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.page-footer > a:hover {
+  color: var(--primary-color);
+}
+
+.page-footer > .underline {
+  text-decoration: underline;
+}
+</style>
+
+<footer class="page-footer">
+  <a href="https://github.com/mebtte/animal-photosynthesis/blob/master/license">©</a>
+  2026
+  &nbsp;
+  <a class="underline" href="https://i.mebtte.com">MEBTTE</a>
+  &nbsp;|&nbsp;
+  <a class="underline" href="https://stats.uptimerobot.com/4nO5RUYB60">UPTIME</a>
+  &nbsp;|&nbsp;
+  <a class="underline" href="/support">支持我</a>
+</footer>
+
+  <script src="/39c97c2884c3a2b5e64c8f085b843d4e.js"></script>
+  <script src="/0ec215ad131a36856d3d20423b9aca26.js" async="" defer=""></script>
+
+
+
+</body></html>

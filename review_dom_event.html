@@ -1,0 +1,886 @@
+<!DOCTYPE html><html lang="zh-cn"><head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="mebtte">
+<meta name="keywords" content="HTML, CSS, JavaScript, Web, Front-End">
+
+<!-- Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-CESZTRKM96"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CESZTRKM96');
+</script>
+
+<!-- open graph -->
+<meta property="og:type" content="website">
+<meta property="og:image" content="/6ed5faa0573b2a5a9d47232c9a71fb88.png">
+
+<link rel="shortcut icon" type="image/png" href="/6ed5faa0573b2a5a9d47232c9a71fb88.png">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+
+<link rel="preload" href="/e0e440b1ae0a9ba21fb3feb4cff12d11.ttf" as="font" crossorigin="anonymous">
+<link rel="preload" href="/53d99659dc34209657d05bb2a7fc5de4.ttf" as="font" crossorigin="anonymous">
+
+  <style>
+  @font-face {
+    font-family: common_font;
+    src: url(/53d99659dc34209657d05bb2a7fc5de4.ttf);
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    --content-max-width: 840px;
+
+    --primary-color: rgb(237 106 94);
+
+    --normal-color: #333;
+    --secondary-color: #888;
+    --tertiary-color: #ddd;
+    --backgroud: rgb(255 255 255);
+
+    --border-radius: 2px;
+    --transition-duration: 0.3s;
+
+    background-color: var(--backgroud);
+    transition: background-color var(--transition-duration);
+  }
+
+  figure {
+    margin-inline: 0;
+  }
+</style>
+
+
+  <title>复习 DOM 事件 - 动物的光合作用</title>
+  <meta name="description" content="最近面试时发现很多前端对 DOM 事件不熟悉, 甚至完全没有了解过相关的概念, 所以趁着这个机会, 自己也整理并复习一下 DOM 事件相关的知识点.  DOM 事件指的是文档上的元素会主动或者被动地触发一些特定的行为, 然后可以使用 JavaScript 对这些行为进行监听, 当这些行为触发时会自动......">
+  <meta property="og:description" content="最近面试时发现很多前端对 DOM 事件不熟悉, 甚至完全没有了解过相关的概念, 所以趁着这个机会, 自己也整理并复习一下 DOM 事件相关的知识点.  DOM 事件指的是文档上的元素会主动或者被动地触发一些特定的行为, 然后可以使用 JavaScript 对这些行为进行监听, 当这些行为触发时会自动......">
+
+  <link rel="preload" href="/87bc4a43d3055d03444bb936eac88aaa.ttf" as="font" crossorigin="anonymous">
+  <style>
+    @font-face {
+      font-family: article_font_review_dom_event;
+      src: url(/87bc4a43d3055d03444bb936eac88aaa.ttf);
+    }
+    article {
+      font-family: article_font_review_dom_event;
+    }
+  </style>
+  
+  <link rel="stylesheet" href="/ece570de77ba673c17121d06fc929bd9.css">
+</head>
+
+<body>
+  <style>
+  @font-face {
+    font-family: title_font;
+    src: url(/e0e440b1ae0a9ba21fb3feb4cff12d11.ttf);
+  }
+
+  .page-header {
+    max-inline-size: var(--content-max-width);
+    margin-block: 50px 40px;
+    margin-inline: auto;
+    padding-inline: 30px;
+    display: flex;
+    align-items: center;
+  }
+
+  .page-header_title {
+    flex: 1;
+    min-inline-size: 0;
+    font-size: min(8vw, 56px);
+    font-family: title_font;
+    margin: 0;
+    color: var(--normal-color);
+  }
+
+  .page-header_title > a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .page-header_icon {
+    margin-inline-start: 10px;
+  }
+
+  .page-header_icon > img {
+    user-select: none;
+    inline-size: 20px;
+    block-size: 20px;
+  }
+</style>
+
+<header class="page-header">
+  
+    <h2 class="page-header_title">
+      <a href="/">动物的光合作用</a>
+    </h2>
+  
+  <a class="page-header_icon" href="/rss.xml" target="_blank">
+    <img src="/e31ad23031e5bcb34e8d4a424ba0c100.png" alt="rss">
+  </a>
+  <a class="page-header_icon" href="https://github.com/mebtte/animal-photosynthesis" target="_blank">
+    <img src="/184c800e11079b13904f308161071b62.png" alt="github">
+  </a>
+  <a class="page-header_icon" href="//i.mebtte.com" target="_blank">
+    <img src="/2cd3760ad10a38f8a9ed6ea3993fa472.png" alt="author">
+  </a>
+</header>
+
+  <article>
+    <style>
+.article-header {
+  max-inline-size: var(--content-max-width);
+  margin-block: 40px;
+  margin-inline: auto;
+  padding-inline: 30px;
+}
+
+.article-title {
+  color: var(--primary-color);
+  font-size: 32px;
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+}
+
+.article-title a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.article-publish-time {
+  color: var(--secondary-color);
+  font-size: 14px;
+  font-family: common_font;
+}
+</style>
+
+<section class="article-header">
+  <h1 class="article-title">
+    <a href="/review_dom_event">复习 DOM 事件</a>
+  </h1>
+  <time class="article-publish-time">2021-11-19</time>
+</section>
+
+    <style>
+  article {
+    --article-space: 30px;
+  }
+
+  article a {
+    color: var(--normal-color);
+    text-decoration-color: var(--primary-color);
+  }
+
+  article h2,
+  article h3,
+  article h4,
+  article h5,
+  article h6 {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-inline: auto;
+    line-height: 1.5;
+    color: var(--normal-color);
+  }
+
+  article h2 {
+    margin-block-start: 28px;
+    font-size: 28px;
+  }
+
+  article h3 {
+    margin-block-start: 26px;
+    font-size: 25px;
+  }
+
+  article h4 {
+    margin-block-start: 24px;
+    font-size: 22px;
+  }
+
+  article h5 {
+    margin-block-start: 22px;
+    font-size: 19px;
+  }
+
+  article h6 {
+    margin-block-start: 20px;
+    font-size: 16px;
+  }
+
+  article p {
+    max-inline-size: var(--content-max-width);
+
+    margin-block: 15px;
+    margin-inline: auto;
+    padding-inline: 30px;
+
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--normal-color);
+    word-break: break-word;
+  }
+
+  article p code,
+  article ul code,
+  article ol code,
+  article table code {
+    padding-inline: 4px;
+    border-radius: var(--border-radius);
+    background: rgba(237, 106, 94, 0.3);
+  }
+
+  article pre {
+    max-inline-size: var(--content-max-width) !important;
+    margin-block: 15px !important;
+    margin-inline: auto !important;
+    font-size: 14px !important;
+    box-sizing: border-box;
+    border-radius: var(--border-radius) !important;
+    tab-size: 2 !important;
+    padding: 0 !important;
+  }
+
+  article pre code {
+    display: block;
+    margin-block: 20px !important;
+    margin-inline: 30px !important;
+    overflow: auto !important;
+    font-size: inherit !important;
+  }
+
+  article hr {
+    max-inline-size: var(--content-max-width);
+    margin-block: 40px;
+    margin-inline: auto;
+    padding-inline: var(--article-space);
+    border: none;
+  }
+
+  article hr::after {
+    content: "";
+    display: block;
+    block-size: 1px;
+    background-color: var(--tertiary-color);
+  }
+
+  .table-container {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .table-container table {
+    border-collapse: collapse;
+  }
+
+  .table-container th,
+  .table-container td {
+    font-size: 14px;
+    color: var(--normal-color);
+    border: 1px solid var(--tertiary-color);
+    padding: 10px;
+    text-align: left;
+  }
+
+  .table-container th {
+    font-size: 16px;
+    text-align: left;
+  }
+
+  article blockquote {
+    max-inline-size: var(--content-max-width);
+    padding-inline: var(--article-space);
+    margin-block: 15px;
+    margin-inline: auto;
+    position: relative;
+    font-style: italic;
+    color: var(--secondary-color);
+  }
+
+  article blockquote::before {
+    content: "";
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 30px;
+    inline-size: 3px;
+    block-size: 100%;
+    background-color: var(--primary-color);
+  }
+
+  article blockquote p {
+    font-size: 14px;
+    color: inherit;
+    max-inline-size: unset;
+    padding: 0;
+    margin-inline-start: 30px;
+  }
+
+  article ul,
+  article ol {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+    color: var(--normal-color);
+    line-height: 1.5;
+  }
+
+  article ol {
+    counter-reset: li-count;
+  }
+
+  article ul li,
+  article ol li {
+    display: block;
+    margin-block: 5px;
+    position: relative;
+  }
+
+  article ol li {
+    counter-increment: li-count;
+  }
+
+  article ul li::before {
+    content: "";
+    display: inline-block;
+    inline-size: 6px;
+    block-size: 6px;
+
+    margin-inline-end: 10px;
+
+    vertical-align: middle;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+  }
+
+  article ol li::before {
+    content: counter(li-count) ". ";
+    color: var(--primary-color);
+  }
+
+  article figcaption {
+    font-size: 12px;
+    color: var(--secondary-color);
+    text-align: center;
+    margin-block-start: 5px;
+  }
+
+  .figure-img {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .figure-img img {
+    display: block;
+    max-inline-size: 100%;
+    margin-inline: auto;
+    border-radius: var(--border-radius);
+  }
+
+  .figure-media {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .figure-media .media {
+    display: block;
+    max-inline-size: 100%;
+    margin-inline: auto;
+  }
+
+  .figure-iframe {
+    inline-size: 100%;
+    margin-block: 15px;
+  }
+
+  .figure-iframe iframe {
+    display: block;
+    inline-size: 100%;
+    max-inline-size: var(--content-max-width);
+    margin-inline: auto;
+    block-size: 640px;
+    border: 1px solid var(--tertiary-color);
+    border-radius: var(--border-radius);
+  }
+
+  strong {
+    font-weight: normal;
+    text-decoration: underline;
+  }
+</style>
+
+<section><p>最近面试时发现很多前端对 DOM 事件不熟悉, 甚至完全没有了解过相关的概念, 所以趁着这个机会, 自己也整理并复习一下 DOM 事件相关的知识点.</p>
+<p>DOM 事件指的是文档上的元素会主动或者被动地触发一些特定的行为, 然后可以使用 JavaScript 对这些行为进行监听, 当这些行为触发时会自动执行对应的脚本. 例如一个 <code>button</code> 元素, 当被点击时我们想弹出一个警告, 可以这样:</p>
+<pre><code class="html language-html">&lt;button type="button" onclick="window.alert('warning')"&gt;
+  warning
+&lt;/button&gt;
+</code></pre>
+<p>上面是通过元素的 <code>onclick</code> 属性添加点击事件的处理, 其他事件同样可以通过元素的 <code>on*</code> 属性添加事件监听, 比如监听鼠标按下 <code>onmousedown</code>, 获得焦点 <code>onfocus</code>, 完整的事件列表可以查看 <a href="https://developer.mozilla.org/docs/Web/Events">https://developer.mozilla.org/docs/Web/Events</a>, 注意 <code>on*</code> 属性的拼写都是<strong>小写</strong>.</p>
+<p>如果脚本很长的话, 我们可以抽离成一个方法:</p>
+<pre><code class="html language-html">&lt;button type="button" onclick="warning()"&gt;warning&lt;/button&gt;
+&lt;script&gt;
+  function warning() {
+    window.alert('warning1');
+    window.alert('warning2');
+  }
+&lt;/script&gt;
+</code></pre>
+<p>注意, <code>onclick</code> 的值是 <code>warning()</code> 而不是 <code>warning</code>, 我们可以理解成 <code>onclick</code> 的值是函数体, 当函数体是一个变量 (<code>warning</code>) 而不是一个调用 (<code>warning()</code>) 时当然不会有任何效果.</p>
+
+      <figure class="figure-img">
+        <a href="/fc20987a2eb13afc503833ccc66a199a.png" target="_blank">
+          <img src="/fc20987a2eb13afc503833ccc66a199a.png" alt="onclick 的值作为匿名函数的函数体" title="onclick 的值作为匿名函数的函数体" loading="lazy">
+        </a>
+        <figcaption>onclick 的值作为匿名函数的函数体</figcaption>
+      </figure>
+    
+<p>把 HTML 和 JavaScript 混合在一起不符合职责分离的约定, 而且拓展性也不好, 所以一般会在 JavaScript 中添加事件监听:</p>
+<pre><code class="html language-html">&lt;button type="button"&gt;warning&lt;/button&gt;
+&lt;script&gt;
+  document.querySelector('button').onclick = function () {
+    window.alert('warning1');
+    window.alert('warning2');
+  };
+&lt;/script&gt;
+</code></pre>
+<p>如果想取消事件监听则将 <code>on*</code> 置为 <code>null</code> 就行了.</p>
+<pre><code class="javascript language-javascript">document.querySelector('button').onclick = null;
+</code></pre>
+<p>上面添加事件监听的方式有个缺点, 元素每种事件类型只能添加一个监听函数, 稍微不注意的话旧的事件监听可能会被覆盖, 所以添加事件监听更常用的是使用元素的 <code>addEventListener</code> 方法:</p>
+<pre><code class="html language-html">&lt;button type="button"&gt;warning&lt;/button&gt;
+&lt;script&gt;
+  const button = document.querySelector('button');
+  button.addEventListener('click', function () {
+    window.alert('warning1');
+  });
+  button.addEventListener('click', function () {
+    window.alert('warning2');
+  });
+&lt;/script&gt;
+</code></pre>
+<p><code>addEventListener</code> 允许对元素每种事件类型添加多个事件监听, 如果想取消事件监听的话则可以使用 <code>removeEventListener</code> 方法:</p>
+<pre><code class="html language-html">&lt;button type="button"&gt;warning&lt;/button&gt;
+&lt;script&gt;
+  const button = document.querySelector('button');
+
+  const warning1 = function () {
+    window.alert('warning1');
+  };
+  const warning2 = function () {
+    window.alert('warning2');
+  };
+
+  // 添加事件监听
+  button.addEventListener('click', warning1);
+  button.addEventListener('click', warning2);
+
+  // 取消事件监听
+  button.removeEventListener('click', warning1);
+  button.removeEventListener('click', warning2);
+&lt;/script&gt;
+</code></pre>
+<p>要想正确地取消事件监听, <code>removeEventListener</code> 的参数要和 <code>addEventListener</code> <strong>完全一致</strong>. 除了事件类型和事件处理函数两个参数以外, <code>addEventListener</code> 还有第三个可选参数, 这个我们稍后谈到, 如果指明了第三个参数, 那么第三个参数也要一致才能正确地取消事件监听.</p>
+<p>在事件处理函数中, <code>this</code> 永远指向添加事件监听的节点:</p>
+<pre><code class="html language-html">&lt;button type="button"&gt;warning&lt;/button&gt;
+&lt;script&gt;
+  document
+    .querySelector('button')
+    .addEventListener('click', function () {
+      console.log(this === warningNode); // true
+    });
+&lt;/script&gt;
+</code></pre>
+<p>如果是个箭头函数, 那要切记箭头函数没有自己的 <code>this</code>.</p>
+<h2 id="">事件流</h2>
+<p>事件发生后会生成一个事件对象 <code>event</code>, <code>event</code> 会分为三个阶段在文档内传递:</p>
+<ol>
+<li>捕获阶段 (Capture), <code>event</code> 从 <code>window</code> 向下经过层层子元素传递到目标元素;</li>
+<li>目标阶段 (Target), <code>event</code> 在目标元素触发;</li>
+<li>冒泡阶段 (Bubble), <code>event</code> 从目标元素向上经过层层父元素传递到 <code>window</code>.</li>
+</ol>
+<p>比如有下面的 DOM 结构:</p>
+<pre><code class="html language-html">&lt;div&gt;
+  &lt;button type="button"&gt;warning&lt;/button&gt;
+  &lt;p&gt;
+    &lt;a href="https://mebtte.com"&gt;mebtte.com&lt;/a&gt;
+  &lt;/p&gt;
+&lt;/div&gt;
+</code></pre>
+<p>当点击 <code>button</code> 时, <code>click</code> 事件对象 <code>event</code> 首先从 <code>window</code> 经过 <code>document -&gt; html -&gt; body -&gt; div</code> 向下传递到 <code>button</code>, 然后在 <code>button</code> 触发, 最后从 <code>button</code> 经过 <code>div -&gt; body -&gt; html -&gt; document</code> 向上传递到 <code>window</code>.</p>
+
+      <figure class="figure-img">
+        <a href="/dde6948852c25811ed46445771047b25.png" target="_blank">
+          <img src="/dde6948852c25811ed46445771047b25.png" alt="button 的 click 事件的传递过程" title="button 的 click 事件的传递过程" loading="lazy">
+        </a>
+        <figcaption>button 的 click 事件的传递过程</figcaption>
+      </figure>
+    
+<p>同样地, 当 <code>a</code> 被点击时, 事件对象是这样传递的 <code>window -&gt; document -&gt; html -&gt; body -&gt; div -&gt; p -&gt; a -&gt; p -&gt; div -&gt; body -&gt; html -&gt; document -&gt; window</code>.</p>
+
+      <figure class="figure-iframe">
+        <iframe src="https://codepen.io/mebtte/embed/abyYMbQ?default-tab=html%2Cresult" title="event_listener_default_phase" loading="lazy"></iframe>
+        <figcaption>event_listener_default_phase</figcaption>
+      </figure>
+    
+<p>我们来看一下上面的例子, 给 <code>div</code> 添加一个 <code>click</code> 事件监听, 按照事件传递的特性, 当点击 <code>button</code> 时事件对象 <code>event</code> 会在捕获和冒泡两个阶段各经过一次 <code>div</code>, 也就是说点击 <code>button</code> , <code>div</code> 的 <code>click</code> 监听函数会触发两次, 上面的例子会弹出两次 <code>alert</code>. 实际上面的例子只弹出了一次 <code>alert</code>, 这是因为默认情况下, 目标元素以外的事件监听函数只作用于<strong>冒泡阶段</strong>.</p>
+<p>如果想在<strong>捕获阶段</strong>触发, 元素的 <code>on*</code> 属性是无法做到的, 只能通过 <code>addEventListener</code> 方法, 当第三个参数为 <code>true</code> 或 <code>{ capture: true }</code> 时, 事件监听函数就会作用在<strong>捕获阶段</strong>.</p>
+
+      <figure class="figure-iframe">
+        <iframe src="https://codepen.io/mebtte/embed/NWvYJRg?default-tab=html%2Cresult" title="event_listener_at_capture" loading="lazy"></iframe>
+        <figcaption>event_listener_at_capture</figcaption>
+      </figure>
+    
+<p>如果想知道事件目前处于哪个阶段, 可以通过事件对象 <code>event</code> 的 <code>eventPhase</code> 属性:</p>
+
+      <div class="table-container">
+        <table>
+          
+<thead>
+<tr>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>捕获阶段</td>
+</tr>
+<tr>
+<td>2</td>
+<td>目标阶段</td>
+</tr>
+<tr>
+<td>3</td>
+<td>冒泡阶段</td>
+</tr>
+<tr>
+<td>0</td>
+<td>事件已被传递完毕</td>
+</tr>
+</tbody>
+
+        </table>
+      </div>
+    
+<p>通过 <code>eventPhase</code>, 我们可以判断某个事件是自身触发的还是子节点触发的:</p>
+
+      <figure class="figure-iframe">
+        <iframe src="https://codepen.io/mebtte/embed/ExvEMQz?default-tab=html%2Cresult" title="event_phase" loading="lazy"></iframe>
+        <figcaption>event_phase</figcaption>
+      </figure>
+    
+<p>除了 <code>eventPhase</code>, <code>event</code> 对象还有一些常用的属性:</p>
+<ul>
+<li><code>target</code>, 触发事件的元素.</li>
+<li><code>currentTarget</code>, 事件正在流经的元素.</li>
+<li>还有一些只在特定事件才有的属性, 比如鼠标事件的坐标 <code>clientX/clientY</code>, 键盘事件的键 <code>key</code> 等等.</li>
+</ul>
+<h2 id="-1">事件代理/事件委托</h2>
+<p>有一个很长的列表 <code>ul</code>, 我们想知道用户点击的是哪一个列表项 <code>li</code>, 可以给每一个列表项 <code>li</code> 添加一个点击事件监听, 不过这样的话, 当列表很长时会占用比较多的内存空间.</p>
+<p>利用事件冒泡的特性, 所有列表项 <code>li</code> 的点击事件都会冒泡到父元素 <code>ul</code>, 我们只需要给 <code>ul</code> 添加一个点击事件监听, 通过 <code>event.target</code> 判断是哪个列表项, 可以达到节省内存的目的, 这种做法称为<strong>事件代理</strong>或者<strong>事件委托</strong>.</p>
+
+      <figure class="figure-iframe">
+        <iframe src="https://codepen.io/mebtte/embed/jOLeZLv?default-tab=html%2Cresult" title="event_delegation" loading="lazy"></iframe>
+        <figcaption>event_delegation</figcaption>
+      </figure>
+    
+<h2 id="-2">阻止默认行为</h2>
+<p>某些事件会触发浏览器的默认行为, 比如点击 <code>a</code> 会发生跳转, 键盘按下 <code>cmd + f</code> 会打开浏览器的搜索功能等等. 但在一些特殊情况下, 我们并不想触发浏览器的默认行为, 可以通过事件对象的 <code>preventDefault</code> 方法阻止默认行为. 比如点击 <code>a</code> 不发生跳转:</p>
+
+      <figure class="figure-iframe">
+        <iframe src="https://codepen.io/mebtte/embed/eYEPyPj?default-tab=html%2Cresult" title="prevent_default" loading="lazy"></iframe>
+        <figcaption>prevent_default</figcaption>
+      </figure>
+    
+<p><code>addEventListener</code> 可以指定第三个参数的 <code>passive</code> 属性, 表示事件处理函数不会调用 <code>event.preventDefault</code> ( 即使调用了也会被忽略 ), 在<a href="https://developer.mozilla.org/docs/Web/API/EventTarget/addEventListener#%E4%BD%BF%E7%94%A8_passive_%E6%94%B9%E5%96%84%E7%9A%84%E6%BB%9A%E5%B1%8F%E6%80%A7%E8%83%BD">某些情况</a>下可以优化浏览器的性能.</p>
+<h2 id="-3">阻止事件的传递</h2>
+<p>有一个卡片 <code>div</code>, 当点击时会跳转到卡片详情, 所以我们给卡片 <code>div</code> 添加了一个 <code>click</code> 的跳转处理, 同时卡片 <code>div</code> 内部有个收藏按钮 <code>button</code>, 当点击 <code>button</code> 会触发收藏的逻辑. 实际上, 由于事件传递的特性, <code>button</code> 的点击事件会冒泡的 <code>div</code>, 导致收藏的同时跳转到卡片详情. 这种情况下我们就需要阻止事件的传递, 通过事件对象的 <code>stopPropagation</code> 方法, 可以阻止事件冒泡:</p>
+
+      <figure class="figure-iframe">
+        <iframe src="https://codepen.io/mebtte/embed/mdMzXYp?default-tab=html%2Cresult" title="stop_propagation" loading="lazy"></iframe>
+        <figcaption>stop_propagation</figcaption>
+      </figure>
+    
+<p>上面的例子中, 在 <code>button</code> 的点击处理函数中调用 <code>event.stopPropagation</code> 阻止了事件的冒泡, 从而避免触发 <code>div</code> 的点击处理函数.</p>
+<p><code>stopPropagatiion</code> 除了可以阻止事件的冒泡, 在捕获阶段也可以<strong>阻止事件的向下捕获</strong>. 想一下, 如果想禁用整个页面的点击事件应该要怎么做? 可以自行尝试一下, 答案在文章后面.</p>
+<h2 id="-4">不会冒泡的事件</h2>
+<p>事实上, 并不是所有的事件类型都会冒泡, 比如 <code>mouseenter/mouseleave</code>, audio/video 的 <code>play/pause</code>, 以及 <code>focus/blur</code> 等等. 如果想判断一个事件是否会冒泡, 可以通过事件对象的 <a href="https://developer.mozilla.org/docs/Web/API/Event/bubbles">bubbles</a> 属性, 当为 <code>false</code> 表示当前事件不会冒泡. 调用 <code>event.stopPropagation</code> 后 <code>bubbles</code> 也会被赋值为 <code>false</code>.</p>
+<h2 id="-5">一次性监听</h2>
+<p>上面说到, 如果想取消事件监听的话需要调用 <code>removeEventListener</code>, 并且参数要和 <code>addEventListener</code> 的一致. 当我们只想触发事件处理函数一次时, 就需要在函数末尾调用 <code>removeEventListener</code>, 如果觉得繁琐的话, 可以使用 <code>addEventListener</code> 第三个参数的 <code>once</code> 属性, 当为 <code>true</code> 时函数触发一次后会自动取消监听.</p>
+<pre><code class="html language-html">&lt;button type="button"&gt;warning&lt;/button&gt;
+&lt;script&gt;
+  document
+    .querySelector('button')
+    .addEventListener(
+      'click',
+      () =&gt; window.alert('只会触发一次'),
+      {
+        once: true,
+      },
+    );
+&lt;/script&gt;
+</code></pre>
+<h2 id="-6">阻止其他事件处理函数的调用</h2>
+<p>事件对象还提供了 <code>stopImmediatePropagation</code> 方法, 用来阻止剩余事件处理函数的调用. 比如我们给 <code>button</code> 依次添加 <code>click</code> 事件监听函数 <code>fn1</code> <code>fn2</code> <code>fn3</code> <code>fn4</code>, 当 <code>click</code> 事件发生时会依次调用 <code>fn1</code> <code>fn2</code> <code>fn3</code> <code>fn4</code>, 如果我们在 <code>fn2</code> 中调用 <code>stopImmediatePropagation</code>, 那么剩余的事件处理函数不会被调用, 也就是说 <code>fn3</code> <code>fn4</code> 不会被调用.</p>
+
+      <figure class="figure-iframe">
+        <iframe src="https://codepen.io/mebtte/embed/ZEJwKMR?default-tab=html%2Cresult" title="stop_immediate_propagation" loading="lazy"></iframe>
+        <figcaption>stop_immediate_propagation</figcaption>
+      </figure>
+    
+<h2 id="-7">主动触发事件</h2>
+<p>通过实例化 <code>Event</code> 对象以及元素的 <code>dispatchEvent</code> 方法我们可以主动触发元素相应的事件处理函数:</p>
+
+      <figure class="figure-iframe">
+        <iframe src="https://codepen.io/mebtte/embed/PoKVjOO?default-tab=html%2Cresult" title="dispatch_event" loading="lazy"></iframe>
+        <figcaption>dispatch_event</figcaption>
+      </figure>
+    
+<p>上面的例子中, 当点击按钮时通过实例化一个 <code>click</code> 的 <code>Event</code> 对象, 然后调用 <code>a.dispatchEvent</code> 方法实现了触发 <code>a</code> 的点击事件. 需要注意的是, <code>dispatchEvent</code> 触发的事件是不被浏览器信任的, 不受信任的事件不会触发浏览器的默认行为, 上面的例子就是 <code>a</code> 的 <code>click</code> 处理函数被触发, 但是浏览器没有发生跳转. 我们可以通过事件对象的 <a href="https://developer.mozilla.org/docs/Web/API/Event/isTrusted">isTrusted</a> 属性判断事件是用户还是脚本触发的.</p>
+<p>需要注意的是, <code>dispatchEvent</code> 触发的事件处理函数是<strong>同步</strong>调用, 上面的例子中会先弹出 <code>a click</code> 后弹出 <code>after dispatch event</code>.</p>
+<h2 id="-8">自定义事件</h2>
+<p>除了监听浏览器提供的事件类型外, <code>addEventListener</code> 还可以监听自定义事件类型, 不过自定义事件类型只能通过 <code>dispatchEvent</code> 进行触发:</p>
+<pre><code class="html language-html">&lt;button type="button"&gt;button&lt;/button&gt;
+
+&lt;script&gt;
+  const button = document.querySelector('button');
+  button.addEventListener('custom-event-type', () =&gt;
+    window.alert('dispatch'),
+  );
+
+  const event = new Event('custom-event-type');
+  button.dispatchEvent(event);
+&lt;/script&gt;
+</code></pre>
+<p>同时, <code>Event</code> 还可以设置 <code>bubbles</code> 属性, 当为 <code>true</code> 时事件会产生冒泡行为:</p>
+<pre><code class="javascript language-javascript">const event = new Event('custom-event-type', { bubbles: true });
+</code></pre>
+<h2 id="eventtarget">EventTarget</h2>
+<p>实际上, 元素的 <code>addEventListener</code> <code>removeEventListener</code> <code>dispatchEvent</code> 方法都继承于 <code>EventTarget</code>:</p>
+
+      <figure class="figure-img">
+        <a href="/33d265b3823feb1e88a1ba9ab0bd0de0.png" target="_blank">
+          <img src="/33d265b3823feb1e88a1ba9ab0bd0de0.png" alt="inherit_from_event_target" title="inherit_from_event_target" loading="lazy">
+        </a>
+        <figcaption>inherit_from_event_target</figcaption>
+      </figure>
+    
+<p>此外, 浏览器还提供了 <code>CustomEvent</code>, 通过添加 <code>detail</code> 属性可以在 <code>Event</code> 的基础上可以携带数据. 使用 <code>EventTarget</code> 和 <code>CustomEvent</code> 我们可以很方便地实现一个事件触发器 (EventEmitter):</p>
+<pre><code class="javascript language-javascript">const eventemitter = new EventTarget();
+eventemitter.addEventListener('custom-event', (event) =&gt;
+  /** 通过 detail 属性获取数据 */
+  console.log(event.detail),
+);
+
+/** 通过 detail 属性携带数据 */
+const customEvent = new CustomEvent('custom-event', {
+  detail: 'data-from-event',
+});
+eventemitter.dispatchEvent(customEvent);
+
+console.log('123');
+</code></pre>
+<p>上面说到 <code>dispatchEvent</code> 触发的事件监听函数调用是同步的, 所以这里是先输出 <code>data-from-event</code> 再输出 <code>123</code>, 如果想要异步调用的话我们可以改造一下:</p>
+<pre><code class="javascript language-javascript">const eventemitter = new EventTarget();
+
+eventemitter.aysncDispatchEvent = (event) =&gt;
+  window.setTimeout(() =&gt; eventemitter.dispatchEvent(event), 0);
+
+eventemitter.addEventListener('custom-event', (event) =&gt;
+  console.log(event.detail),
+);
+eventemitter.aysncDispatchEvent(
+  new CustomEvent('custom-event', {
+    detail: 'data-from-event',
+  }),
+);
+console.log('123');
+</code></pre>
+<p>现在会先输出 <code>123</code> 后输出 <code>data-from-event</code>.</p>
+<h2 id="-9">禁用整个页面的点击事件</h2>
+
+      <figure class="figure-iframe">
+        <iframe src="https://codepen.io/mebtte/embed/xxLyWGR?default-tab=html%2Cresult" title="forbid_click_globally" loading="lazy"></iframe>
+        <figcaption>forbid_click_globally</figcaption>
+      </figure>
+    
+<h2 id="-10">事件是否可以取消</h2>
+<p>禁用整个页面的点击事件是通过在 <code>window</code> 上添加一个捕获阶段点击处理函数, 通过调用 <code>event.stopPropagation</code> 阻止事件向下捕获, 从而阻止了页面上元素点击事件的触发. 然而对于 <code>scroll</code> 事件, 这种方式却不生效. 通过下面的例子, 可以发现 <code>event.stopPropagation</code> 确实阻止了滚动事件的向下捕获 (body 在捕获阶段的 scroll 处理函数没有触发), 但是滚动行为并没有被阻止.</p>
+
+      <figure class="figure-iframe">
+        <iframe src="https://codesandbox.io/embed/exciting-tamas-orwf0?fontsize=14&amp;hidenavigation=1&amp;theme=dark" title="scroll_capture_stop_propagation" loading="lazy"></iframe>
+        <figcaption>scroll_capture_stop_propagation</figcaption>
+      </figure>
+    
+<p>这是因为 <code>scroll</code> 属于不可取消事件, 不可取消事件是无法阻止实际行为发生的, 即使通过 <code>event.preventDefault</code> 也是无法阻止的. 我们可以通过事件对象的 <a href="https://developer.mozilla.org/docs/Web/API/Event/cancelable">cancelable</a> 属性判断当前事件是否可以被取消.</p>
+<p>此外 <code>scroll</code> 还有特殊的表现, 文档滚动时会冒泡, 而文档内元素滚动时则不会.</p>
+
+      <figure class="figure-img">
+        <a href="/26b9c60ec2482fd66a4fb3874d7c4522.png" target="_blank">
+          <img src="/26b9c60ec2482fd66a4fb3874d7c4522.png" alt="文档滚动事件会冒泡" title="文档滚动事件会冒泡" loading="lazy">
+        </a>
+        <figcaption>文档滚动事件会冒泡</figcaption>
+      </figure>
+    
+
+      <figure class="figure-img">
+        <a href="/b6bb0d637f4d548da70424f3f23bb77f.png" target="_blank">
+          <img src="/b6bb0d637f4d548da70424f3f23bb77f.png" alt="普通元素滚动事件不会冒泡" title="普通元素滚动事件不会冒泡" loading="lazy">
+        </a>
+        <figcaption>普通元素滚动事件不会冒泡</figcaption>
+      </figure>
+    
+<h2 id="-11">进一步阅读</h2>
+<ul>
+<li><a href="https://reactjs.org/docs/events.html">React 合成事件</a></li>
+<li><a href="https://v3.cn.vuejs.org/guide/events.html">Vue 事件处理</a></li>
+</ul></section>
+
+    <section>
+  <h2>更新记录</h2>
+  <div class="table-container">
+    <table>
+      
+        <tbody><tr>
+          <td>2021-11-23</td>
+          <td>增加 event.cancelable</td>
+        </tr>
+       
+    </tbody></table>
+  </div>
+</section>
+
+  </article>
+  
+    <style>
+  .article-actions {
+    max-inline-size: var(--content-max-width);
+
+    display: flex;
+    align-items: center;
+
+    margin-block: 40px;
+    margin-inline: auto;
+    padding-inline: 30px;
+
+    font-family: common_font;
+    color: var(--normal-color);
+  }
+
+  .article-actions_action:not(:last-child)::after {
+    content: "·\00a0";
+  }
+
+  .article-actions_action > a {
+    color: inherit;
+    text-decoration-color: var(--primary-color);
+  }
+
+  @media (max-width: 520px) {
+    .article-actions {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .article-actions_action::before {
+      content: "·";
+    }
+
+    .article-actions_action:not(:last-child)::after {
+      content: "";
+    }
+  }
+</style>
+
+<div class="article-actions">
+  <span class="article-actions_action">
+    使用
+    <a href="https://github.com/mebtte/animal-photosynthesis/discussions">Discussions</a> 讨论
+  </span>
+  <span class="article-actions_action">
+    在
+    <a href="https://github.com/mebtte/animal-photosynthesis/edit/master/articles/review_dom_event/index.md">Github</a>
+    上编辑
+  </span>
+  <span class="article-actions_action">
+    分享到
+    <a href="https://www.x.com/share?text=%E5%A4%8D%E4%B9%A0%20DOM%20%E4%BA%8B%E4%BB%B6&amp;url=https%3A%2F%2Fmebtte.com%2Freview_dom_event">X</a>
+  </span>
+</div>
+
+  
+  <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8404651063516637" crossorigin="anonymous"></script>
+<style>
+  .adsbygoogle {
+    max-width: 100%;
+    margin-block: 40px;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .adsbygoogle:empty {
+    display: none;
+  }
+</style>
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8404651063516637" data-ad-slot="7746538242" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  <style>
+.page-footer {
+  font-size: 12px;
+  max-inline-size: var(--content-max-width);
+  margin-block: 40px;
+  margin-inline: auto;
+  padding-inline: 30px;
+  font-family: common_font;
+  color: var(--secondary-color);
+}
+
+.page-footer > a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.page-footer > a:hover {
+  color: var(--primary-color);
+}
+
+.page-footer > .underline {
+  text-decoration: underline;
+}
+</style>
+
+<footer class="page-footer">
+  <a href="https://github.com/mebtte/animal-photosynthesis/blob/master/license">©</a>
+  2026
+  &nbsp;
+  <a class="underline" href="https://i.mebtte.com">MEBTTE</a>
+  &nbsp;|&nbsp;
+  <a class="underline" href="https://stats.uptimerobot.com/4nO5RUYB60">UPTIME</a>
+  &nbsp;|&nbsp;
+  <a class="underline" href="/support">支持我</a>
+</footer>
+
+  <script src="/39c97c2884c3a2b5e64c8f085b843d4e.js"></script>
+  <script src="/0ec215ad131a36856d3d20423b9aca26.js" async="" defer=""></script>
+
+
+
+</body></html>

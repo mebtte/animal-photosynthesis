@@ -1,0 +1,1081 @@
+<!DOCTYPE html><html lang="zh-cn"><head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="mebtte">
+<meta name="keywords" content="HTML, CSS, JavaScript, Web, Front-End">
+
+<!-- Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-CESZTRKM96"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CESZTRKM96');
+</script>
+
+<!-- open graph -->
+<meta property="og:type" content="website">
+<meta property="og:image" content="/6ed5faa0573b2a5a9d47232c9a71fb88.png">
+
+<link rel="shortcut icon" type="image/png" href="/6ed5faa0573b2a5a9d47232c9a71fb88.png">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+
+<link rel="preload" href="/e0e440b1ae0a9ba21fb3feb4cff12d11.ttf" as="font" crossorigin="anonymous">
+<link rel="preload" href="/53d99659dc34209657d05bb2a7fc5de4.ttf" as="font" crossorigin="anonymous">
+
+  <style>
+  @font-face {
+    font-family: common_font;
+    src: url(/53d99659dc34209657d05bb2a7fc5de4.ttf);
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    --content-max-width: 840px;
+
+    --primary-color: rgb(237 106 94);
+
+    --normal-color: #333;
+    --secondary-color: #888;
+    --tertiary-color: #ddd;
+    --backgroud: rgb(255 255 255);
+
+    --border-radius: 2px;
+    --transition-duration: 0.3s;
+
+    background-color: var(--backgroud);
+    transition: background-color var(--transition-duration);
+  }
+
+  figure {
+    margin-inline: 0;
+  }
+</style>
+
+
+  <title>浏览器和 JavaScript 的一些新特性 - 动物的光合作用</title>
+  <meta name="description" content="## CookieStore API  目前, 浏览器可用的存储方式有 `cookie`/`sessionStorage`/`localStorage`/`IndexedDB`, 后三者都暴露了十分友好的 API 供开发者访问, 只有 cookie 例外. 回想一下, 平时我们都是怎么操作 cook......">
+  <meta property="og:description" content="## CookieStore API  目前, 浏览器可用的存储方式有 `cookie`/`sessionStorage`/`localStorage`/`IndexedDB`, 后三者都暴露了十分友好的 API 供开发者访问, 只有 cookie 例外. 回想一下, 平时我们都是怎么操作 cook......">
+
+  <link rel="preload" href="/eab887e1ea08e1286838dc32f6152a6b.ttf" as="font" crossorigin="anonymous">
+  <style>
+    @font-face {
+      font-family: article_font_new_features_of_browser_and_js_202101;
+      src: url(/eab887e1ea08e1286838dc32f6152a6b.ttf);
+    }
+    article {
+      font-family: article_font_new_features_of_browser_and_js_202101;
+    }
+  </style>
+  
+  <link rel="stylesheet" href="/ece570de77ba673c17121d06fc929bd9.css">
+</head>
+
+<body>
+  <style>
+  @font-face {
+    font-family: title_font;
+    src: url(/e0e440b1ae0a9ba21fb3feb4cff12d11.ttf);
+  }
+
+  .page-header {
+    max-inline-size: var(--content-max-width);
+    margin-block: 50px 40px;
+    margin-inline: auto;
+    padding-inline: 30px;
+    display: flex;
+    align-items: center;
+  }
+
+  .page-header_title {
+    flex: 1;
+    min-inline-size: 0;
+    font-size: min(8vw, 56px);
+    font-family: title_font;
+    margin: 0;
+    color: var(--normal-color);
+  }
+
+  .page-header_title > a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .page-header_icon {
+    margin-inline-start: 10px;
+  }
+
+  .page-header_icon > img {
+    user-select: none;
+    inline-size: 20px;
+    block-size: 20px;
+  }
+</style>
+
+<header class="page-header">
+  
+    <h2 class="page-header_title">
+      <a href="/">动物的光合作用</a>
+    </h2>
+  
+  <a class="page-header_icon" href="/rss.xml" target="_blank">
+    <img src="/e31ad23031e5bcb34e8d4a424ba0c100.png" alt="rss">
+  </a>
+  <a class="page-header_icon" href="https://github.com/mebtte/animal-photosynthesis" target="_blank">
+    <img src="/184c800e11079b13904f308161071b62.png" alt="github">
+  </a>
+  <a class="page-header_icon" href="//i.mebtte.com" target="_blank">
+    <img src="/2cd3760ad10a38f8a9ed6ea3993fa472.png" alt="author">
+  </a>
+</header>
+
+  <article>
+    <style>
+.article-header {
+  max-inline-size: var(--content-max-width);
+  margin-block: 40px;
+  margin-inline: auto;
+  padding-inline: 30px;
+}
+
+.article-title {
+  color: var(--primary-color);
+  font-size: 32px;
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+}
+
+.article-title a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.article-publish-time {
+  color: var(--secondary-color);
+  font-size: 14px;
+  font-family: common_font;
+}
+</style>
+
+<section class="article-header">
+  <h1 class="article-title">
+    <a href="/new_features_of_browser_and_js_202101">浏览器和 JavaScript 的一些新特性</a>
+  </h1>
+  <time class="article-publish-time">2021-01-25</time>
+</section>
+
+    <style>
+  article {
+    --article-space: 30px;
+  }
+
+  article a {
+    color: var(--normal-color);
+    text-decoration-color: var(--primary-color);
+  }
+
+  article h2,
+  article h3,
+  article h4,
+  article h5,
+  article h6 {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-inline: auto;
+    line-height: 1.5;
+    color: var(--normal-color);
+  }
+
+  article h2 {
+    margin-block-start: 28px;
+    font-size: 28px;
+  }
+
+  article h3 {
+    margin-block-start: 26px;
+    font-size: 25px;
+  }
+
+  article h4 {
+    margin-block-start: 24px;
+    font-size: 22px;
+  }
+
+  article h5 {
+    margin-block-start: 22px;
+    font-size: 19px;
+  }
+
+  article h6 {
+    margin-block-start: 20px;
+    font-size: 16px;
+  }
+
+  article p {
+    max-inline-size: var(--content-max-width);
+
+    margin-block: 15px;
+    margin-inline: auto;
+    padding-inline: 30px;
+
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--normal-color);
+    word-break: break-word;
+  }
+
+  article p code,
+  article ul code,
+  article ol code,
+  article table code {
+    padding-inline: 4px;
+    border-radius: var(--border-radius);
+    background: rgba(237, 106, 94, 0.3);
+  }
+
+  article pre {
+    max-inline-size: var(--content-max-width) !important;
+    margin-block: 15px !important;
+    margin-inline: auto !important;
+    font-size: 14px !important;
+    box-sizing: border-box;
+    border-radius: var(--border-radius) !important;
+    tab-size: 2 !important;
+    padding: 0 !important;
+  }
+
+  article pre code {
+    display: block;
+    margin-block: 20px !important;
+    margin-inline: 30px !important;
+    overflow: auto !important;
+    font-size: inherit !important;
+  }
+
+  article hr {
+    max-inline-size: var(--content-max-width);
+    margin-block: 40px;
+    margin-inline: auto;
+    padding-inline: var(--article-space);
+    border: none;
+  }
+
+  article hr::after {
+    content: "";
+    display: block;
+    block-size: 1px;
+    background-color: var(--tertiary-color);
+  }
+
+  .table-container {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .table-container table {
+    border-collapse: collapse;
+  }
+
+  .table-container th,
+  .table-container td {
+    font-size: 14px;
+    color: var(--normal-color);
+    border: 1px solid var(--tertiary-color);
+    padding: 10px;
+    text-align: left;
+  }
+
+  .table-container th {
+    font-size: 16px;
+    text-align: left;
+  }
+
+  article blockquote {
+    max-inline-size: var(--content-max-width);
+    padding-inline: var(--article-space);
+    margin-block: 15px;
+    margin-inline: auto;
+    position: relative;
+    font-style: italic;
+    color: var(--secondary-color);
+  }
+
+  article blockquote::before {
+    content: "";
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 30px;
+    inline-size: 3px;
+    block-size: 100%;
+    background-color: var(--primary-color);
+  }
+
+  article blockquote p {
+    font-size: 14px;
+    color: inherit;
+    max-inline-size: unset;
+    padding: 0;
+    margin-inline-start: 30px;
+  }
+
+  article ul,
+  article ol {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+    color: var(--normal-color);
+    line-height: 1.5;
+  }
+
+  article ol {
+    counter-reset: li-count;
+  }
+
+  article ul li,
+  article ol li {
+    display: block;
+    margin-block: 5px;
+    position: relative;
+  }
+
+  article ol li {
+    counter-increment: li-count;
+  }
+
+  article ul li::before {
+    content: "";
+    display: inline-block;
+    inline-size: 6px;
+    block-size: 6px;
+
+    margin-inline-end: 10px;
+
+    vertical-align: middle;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+  }
+
+  article ol li::before {
+    content: counter(li-count) ". ";
+    color: var(--primary-color);
+  }
+
+  article figcaption {
+    font-size: 12px;
+    color: var(--secondary-color);
+    text-align: center;
+    margin-block-start: 5px;
+  }
+
+  .figure-img {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .figure-img img {
+    display: block;
+    max-inline-size: 100%;
+    margin-inline: auto;
+    border-radius: var(--border-radius);
+  }
+
+  .figure-media {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .figure-media .media {
+    display: block;
+    max-inline-size: 100%;
+    margin-inline: auto;
+  }
+
+  .figure-iframe {
+    inline-size: 100%;
+    margin-block: 15px;
+  }
+
+  .figure-iframe iframe {
+    display: block;
+    inline-size: 100%;
+    max-inline-size: var(--content-max-width);
+    margin-inline: auto;
+    block-size: 640px;
+    border: 1px solid var(--tertiary-color);
+    border-radius: var(--border-radius);
+  }
+
+  strong {
+    font-weight: normal;
+    text-decoration: underline;
+  }
+</style>
+
+<section><h2 id="cookiestoreapi">CookieStore API</h2>
+<p>目前, 浏览器可用的存储方式有 <code>cookie</code>/<code>sessionStorage</code>/<code>localStorage</code>/<code>IndexedDB</code>, 后三者都暴露了十分友好的 API 供开发者访问, 只有 cookie 例外. 回想一下, 平时我们都是怎么操作 cookie 的. 比如想要获取某个 cookie, 因为 <code>document.cookie</code> 返回所有 cookie 联合的字符串, 所以必须要手动解析才能获取到某个 cookie 的值.</p>
+
+      <figure class="figure-img">
+        <a href="/f4d1ddd06a7f1c96818535b34f7b42c7.png" target="_blank">
+          <img src="/f4d1ddd06a7f1c96818535b34f7b42c7.png" alt="from https://medium.com/nmc-techblog/introducing-the-async-cookie-store-api-89cbecf401f" title="from https://medium.com/nmc-techblog/introducing-the-async-cookie-store-api-89cbecf401f" loading="lazy">
+        </a>
+        <figcaption>from https://medium.com/nmc-techblog/introducing-the-async-cookie-store-api-89cbecf401f</figcaption>
+      </figure>
+    
+<p>如果想要添加一个 cookie, 那么需要像下面一样将 cookie 转换成字符串然后赋值给 <code>document.cookie</code>.</p>
+
+      <figure class="figure-img">
+        <a href="/8f09e87f62db43e54fe53e8450cc96da.png" target="_blank">
+          <img src="/8f09e87f62db43e54fe53e8450cc96da.png" alt="from https://medium.com/nmc-techblog/introducing-the-async-cookie-store-api-89cbecf401f" title="from https://medium.com/nmc-techblog/introducing-the-async-cookie-store-api-89cbecf401f" loading="lazy">
+        </a>
+        <figcaption>from https://medium.com/nmc-techblog/introducing-the-async-cookie-store-api-89cbecf401f</figcaption>
+      </figure>
+    
+<p>是不是觉得很奇怪, 明明 <code>document.cookie</code> 是所有 cookie 的集合, 但是添加一个 cookie 却是直接给 <code>document.cookie</code> 赋值. 还有另一个奇怪的点, 有些时候添加一个 cookie 根本不生效, 但是浏览器并不会给出任何的错误信息, 所以只能在 <code>setCookie</code> 之后通过 <code>getCookie</code> 判断是否生效.</p>
+<pre><code class="js language-js">setCookie('name', 'value', 1);
+if (getCookie('name')) {
+  console.log('success to setCookie');
+} else {
+  console.log('fail to setCookie');
+}
+</code></pre>
+<p>然而, 删除一个 cookie 更奇怪, 我们无法直接删除, 而是让 cookie 过期.</p>
+
+      <figure class="figure-img">
+        <a href="/b8bdc603022da29ac9444abc12d41deb.png" target="_blank">
+          <img src="/b8bdc603022da29ac9444abc12d41deb.png" alt="from https://medium.com/nmc-techblog/introducing-the-async-cookie-store-api-89cbecf401f" title="from https://medium.com/nmc-techblog/introducing-the-async-cookie-store-api-89cbecf401f" loading="lazy">
+        </a>
+        <figcaption>from https://medium.com/nmc-techblog/introducing-the-async-cookie-store-api-89cbecf401f</figcaption>
+      </figure>
+    
+<p>基于以上的问题推出了新的 CookieStore API.</p>
+<p>首先, 在 window 上添加了一个名为 <code>cookieStore</code> 的对象, 然后 <code>cookieStore</code> 对象上挂载 <code>get/set/delete</code> 三个方法分别对应单个 cookie 的 <code>获取/添加/删除</code> 操作. 需要注意的是, <code>get/set/delete</code> 返回的都是 <code>Promise</code>, 所以需要处理异常.</p>
+<pre><code class="js language-js">/** 获取一个 cookie */
+try {
+  // 根据 name 获取
+  const cookie = await window.cookieStore.get('name');
+  // 获取根据条件获取
+  const cookie = await window.cookieStore.get({
+    value: 'xxx',
+  });
+  if (cookie === null) {
+    console.log('name is a emtpy cookie');
+  } else {
+    console.log(cookie);
+    /**
+     * cookie 包含以下字段
+     * { domain, expires, name, path, sameSite, secure, value }
+     * 如果某些字段未设置则为 null
+     */
+  }
+} catch (error) {
+  // do with error
+}
+</code></pre>
+<pre><code class="js language-js">/** 添加一个 cookie, 修改一个 cookie 跟之前一样通过覆盖实现 */
+try {
+  /**
+   * 可配置的字段如下
+   * { domain, expires, name, path, sameSite, secure, value }
+   */
+  await window.cookieStore.set({
+    name: 'name',
+    value: 'value',
+    expires: Date.now() + 1000 * 60 * 60 * 24, // 一天后过期
+  });
+} catch (error) {
+  // do with error
+}
+</code></pre>
+<pre><code class="js language-js">/** 删除一个 cookie */
+try {
+  await window.cookieStore.delete('name');
+} catch (error) {
+  // do with error
+}
+</code></pre>
+<p>同时, cookieStore 还提供了 <code>getAll</code> 的方法, 用于获取 cookie 列表.</p>
+<pre><code class="js language-js">try {
+  // 根据 name 获取, 因为 cookie 可以存在同名的 cookie
+  const cookieList = await window.cookieStore.getAll('name');
+  // 或者根据条件获取
+  const cookieList = await window.cookieStore.getAll({
+    value: 'xxx',
+  });
+  // 如果没有条件, 则返回所有 cookie
+  const cookieList = await window.cookieStore.getAll();
+  // ...
+} catch (error) {
+  // do with error
+}
+</code></pre>
+<p>以前想要监听 cookie 变化, 只能通过定时器定时检查 cookie, 而 <code>cookieStore</code> 直接提供了监听 cookie 变化的能力.</p>
+<pre><code class="js language-js">cookieStore.addEventlistener('change', (event) =&gt; {
+  const {
+    changed, // 发生变化的 cookie 数组
+    deleted, // 删除的 cookie 数组
+  } = event;
+  // ...
+});
+</code></pre>
+<h4 id="">兼容性及参考</h4>
+<ul>
+<li><a href="https://caniuse.com/?search=cookieStore">Can I use 传送门</a></li>
+<li><a href="https://medium.com/nmc-techblog/introducing-the-async-cookie-store-api-89cbecf401f">Introducing: The Async Cookie Store API</a></li>
+<li><a href="https://wicg.github.io/cookie-store">Cookie Store API</a></li>
+</ul>
+<hr>
+<h2 id="mediasessionapi">Media Session API</h2>
+<p>如果想要控制页面上的 <code>audio</code>/<code>video</code>, 只能通过浏览器自带控制组件或者由开发者自己实现控制组件, 而且当页面处于无法点击状态时(比如切换到其他 Tab 或最小化浏览器窗口), 那么将无法实现控制 <code>audio</code>/<code>video</code>.</p>
+<p><code>Media Session API</code> 可以暴露页面 <code>audio</code>/<code>video</code> 的控制, 实现系统媒体中心控制页面的 <code>audio</code>/<code>video</code>, 包括正在播放媒体的基本信息(标题/作者/封面)以及操作(播放/暂停/快进/快退/下一个媒体/上一个媒体).</p>
+
+      <figure class="figure-iframe">
+        <iframe src="https://codesandbox.io/embed/mediasession-888j0?fontsize=14&amp;hidenavigation=1&amp;theme=dark" title="media_session" loading="lazy"></iframe>
+        <figcaption>media_session</figcaption>
+      </figure>
+    
+<p>上面的例子实现了一个基本的 <code>MediaSession</code>. 基本信息通过全局对象 <code>MediaMetadata</code> 实例化, 其中 <code>artwork</code> 可以设置多个值, 浏览器根据出现的场景自动选择最优尺寸, 然后赋值给 <code>navigator.mediaSession.metadata</code> 实现设置. 媒体的控制通过 <code>navigator.mediaSession.setActionHandler</code> 方法设置, <code>play</code>/<code>pause</code>/<code>seekbackward</code>/<code>seekforward</code>/<code>previoustrack</code>/<code>nexttrack</code> 分别对应 <code>播放</code>/<code>暂停</code>/<code>快退</code>/<code>快进</code>/<code>上一个媒体</code>/<code>下一个媒体</code> 操作. 当媒体播放后, 浏览器会将基本信息和操作与系统映射, 并在系统提供对应的操作菜单.</p>
+<p>比如在 Windows10 下, 音量控制附近会出现媒体控制面板.</p>
+
+      <figure class="figure-img">
+        <a href="/99e08ee8d6c650513568d8b282ee76d7.png" target="_blank">
+          <img src="/99e08ee8d6c650513568d8b282ee76d7.png" alt="mediaSession on Windows10" title="mediaSession on Windows10" loading="lazy">
+        </a>
+        <figcaption>mediaSession on Windows10</figcaption>
+      </figure>
+    
+<p>在 Android 系统下, 状态栏将会出现媒体控制面板.</p>
+
+      <figure class="figure-img">
+        <a href="/689f05239e09a2ac33f3570f1b59414b.png" target="_blank">
+          <img src="/689f05239e09a2ac33f3570f1b59414b.png" alt="mediaSession on Android, picture from https://github.com/mebtte/react-media-session" title="mediaSession on Android, picture from https://github.com/mebtte/react-media-session" loading="lazy">
+        </a>
+        <figcaption>mediaSession on Android, picture from https://github.com/mebtte/react-media-session</figcaption>
+      </figure>
+    
+<p>某些浏览器头部也会出现媒体控制面板.</p>
+
+      <figure class="figure-img">
+        <a href="/25db88f1a21cf3c31bb47de7d63871d1.png" target="_blank">
+          <img src="/25db88f1a21cf3c31bb47de7d63871d1.png" alt="mediaSession on Chrome" title="mediaSession on Chrome" loading="lazy">
+        </a>
+        <figcaption>mediaSession on Chrome</figcaption>
+      </figure>
+    
+<h4 id="-1">兼容性及参考</h4>
+<ul>
+<li><a href="https://caniuse.com/?search=mediaSession">Can I use 传送门</a></li>
+<li><a href="https://developer.mozilla.org/docs/Web/API/Media_Session_API">Media Session API</a></li>
+<li><a href="https://w3c.github.io/mediasession/#the-mediasession-interface">Media Session Standard</a></li>
+</ul>
+<hr>
+<h2 id="shapedetectionapi">Shape Detection API</h2>
+<p>现在随处可见二维码, 但是在网页上识别二维码不是一件容易的事, 要么上传到后端解析, 要么使用复杂的 <a href="https://github.com/cozmo/jsQR">JS 库</a>. 新的 <code>BarcodeDetector</code> 特性提供了友好的 API, 能够脱离后端在本地识别二维码.</p>
+<p>使用 <code>BarcodeDetector</code> 首先需要实例化, 然后将图片数据传给实例的 <code>detect</code> 方法, <code>detect</code> 方法是个异步操作, 所以返回值是一个 <code>Promise</code>. 同时, 一张图片可能包含多个二维码, 所以识别结果是个数组.</p>
+
+      <figure class="figure-iframe">
+        <iframe src="https://codesandbox.io/embed/barcodedetector-h2ngg?fontsize=14&amp;hidenavigation=1&amp;theme=dark" title="barcode_detector" loading="lazy"></iframe>
+        <figcaption>barcode_detector</figcaption>
+      </figure>
+    
+<p><code>BarcodeDetector</code> 不仅能够识别二维码, 还支持各种格式的条形码, 支持的格式包括 <code>aztec</code> / <code>code_128</code> / <code>code_39</code> / <code>code_93</code> / <code>codabar</code> / <code>data_matrix</code> / <code>ean_13</code> / <code>ean_8</code> / <code>itf</code> / <code>pdf417</code> / <code>qr_code</code> / <code>upc_a</code> / <code>upc_e</code>. <code>BarcodeDetector</code> 默认识别所有格式的条形码, 如果你只想识别其中的某几种格式, 可以在实例化的时候指定:</p>
+<pre><code class="js language-js">const detector = new BarcodeDetector({
+  formats: ['qr_code', 'codabar'], // 只识别图片中的 qr_code 和 codebar
+});
+</code></pre>
+<p><code>BarcodeDetector</code> 属于 <code>Shape Detection API</code> 的一部分, 除此之外, <code>Shape Detection API</code> 还有 <code>TextDetector</code> 和 <code>FaceDetector</code>, 分别对应文本识别和人脸识别, 以下是一个文本识别的例子:</p>
+<blockquote>
+  <p><code>TextDetector</code> 目前尚未稳定, 所以不一定能够识别画布上的文字, 上传的图片识别结果也可能不准确.</p>
+</blockquote>
+
+      <figure class="figure-iframe">
+        <iframe src="https://codesandbox.io/embed/textdetector-3ilx8?fontsize=14&amp;hidenavigation=1&amp;theme=dark" title="text_detector" loading="lazy"></iframe>
+        <figcaption>text_detector</figcaption>
+      </figure>
+    
+<h4 id="-2">兼容性及参考</h4>
+<ul>
+<li><a href="https://caniuse.com/?search=barcodedetector">Can I use 传送门</a></li>
+<li><a href="https://wicg.github.io/shape-detection-api">Accelerated Shape Detection in Images</a></li>
+<li><a href="https://web.dev/shape-detection">The Shape Detection API: a picture is worth a thousand words, faces, and barcodes</a></li>
+</ul>
+<hr>
+<h2 id="toplevelawait">Top-level await</h2>
+<p>以前 <code>await</code> 关键字只允许在 <code>async function</code> 的内部使用, <code>top-level await</code> 可以让我们直接在 <code>async function</code> 外使用 <code>await</code> 关键字.</p>
+<pre><code class="js language-js">// module-a.js
+(async function() {
+  const { default: axios } = await import('axios');
+  const response = await axios.request('https://registry.npm.taobao.org/react');
+  console.log(response.data.name); // react
+})();
+</code></pre>
+<p>使用 <code>top-level await</code> 上面的脚本可以直接移除 <code>async function</code>.</p>
+<pre><code class="js language-js">// module-a.js
+const { default: axios } = await import('axios');
+const response = await axios.request('https://registry.npm.taobao.org/react');
+console.log(response.data.name); // react
+</code></pre>
+<p>如果一个模块使用了 <code>top-level await</code>, 那么引用这个模块的其他模块将会等待这个模块 <code>resolve</code>.</p>
+<pre><code class="js language-js">// a.js
+console.log(1);
+const { default: axios } = await import('axios');
+const response = await axios.request('https://registry.npm.taobao.org/react');
+console.log(2);
+
+export default response.data.name;
+
+// b.js
+import name from './a.js';
+
+console.log(name); // react
+</code></pre>
+<p>上面的代码, 输出顺序是 <code>1 2 react</code>, 也就是说, b 模块将会等待 a 模块 <code>resolve</code> 才会继续执行. 同理, 当 a 模块 <code>reject</code>, b 模块也会无法正常工作. 要想 b 模块正常工作, 那么需要对 a 模块添加错误处理.</p>
+<pre><code class="js language-js">// a.js
+let name = 'default name';
+
+try {
+  const { default: axios } = await import('axios');
+  const response = await axios.request('https://registry.npm.taobao.org/react');
+} catch (error) {
+  // do with error
+}
+
+export default name;
+
+// b.js
+import name from './a.js';
+
+console.log(name); // 没有发生错误输出 react, 发生错误输出 default name
+</code></pre>
+<p><code>top-level await</code> 非常适合某些场景.</p>
+<h3 id="-3">条件引入模块</h3>
+<p>我们知道 <code>static import</code> 是无法实现根据条件引入, 比如下面的代码是不合法的.</p>
+<pre><code class="js language-js">if (process.env.NODE_ENV === 'production') {
+  import a from 'a.js';
+} else {
+  import a from 'a_development.js';
+}
+</code></pre>
+<p>通过 <code>top-level await</code> 配合 <code>dynamic import</code> 可以模拟条件静态引入.</p>
+<pre><code class="js language-js">let a;
+
+if (process.env.NODE_ENV === 'production') {
+  a = await import('a.js');
+} else {
+  a = await import('a_development.js');
+}
+</code></pre>
+<h3 id="-4">依赖回退</h3>
+<p>当我们引入一个静态模块时, 如果模块加载失败, 那么引用这个模块的其他模块都无法正常工作.</p>
+<pre><code class="js language-js">import $ from 'https://cdn.example.com/jquery.js';
+
+// 如果 https://cdn.example.com/jquery.js 加载失败, 那么下面的代码都无法正常工作
+// do with $
+</code></pre>
+<p>通过 <code>top-level await</code> 配合 <code>dynamic import</code> 可以实现依赖的回退操作.</p>
+<pre><code class="js language-js">// jquery_wrapper.js
+let $;
+try {
+  $ = await import('https://cdn_a.example_a.com/jquery.js');
+} catch (error) {
+  $ = await import('https://cdn_b.example_b.com/jquery.js');
+}
+
+export default $;
+
+// example.js
+import $ from 'path_to/jquery_wrapper.js';
+
+// do with $
+</code></pre>
+<h3 id="-5">资源初始化</h3>
+<p>以前, 当一个资源需要异步操作才能初始化时, 通常会有以下写法.</p>
+<pre><code class="js language-js">// ws.js
+let ws;
+
+async function getWs() {
+  if (!ws) {
+    const url = await getUrl();
+    ws = new Websocket(url);
+  }
+  return ws;
+}
+
+export default {
+  sendMessage: async (message) =&gt; {
+    const ws = await getWs();
+    return ws.sendMessage(message);
+  },
+};
+</code></pre>
+<blockquote>
+  <p>注意, 上面的代码只是实例, 实际应用中还需要大量的错误处理</p>
+</blockquote>
+<p>上面的代码中, 同步的 <code>sendMessage</code> 方法因为异步的 <code>getWs</code> 方法被迫变成异步方法, 使用 <code>top-level await</code> 可以避免这种问题.</p>
+<pre><code class="js language-js">const url = await getUrl();
+const ws = new Websocket(url);
+
+export default ws;
+</code></pre>
+<h4 id="-6">兼容性及参考</h4>
+<ul>
+<li><a href="https://caniuse.com/?search=top-level%20await">Can I use 传送门</a></li>
+<li><a href="https://github.com/tc39/proposal-top-level-await">tc39/proposal-top-level-await</a></li>
+</ul>
+<hr>
+<h2 id="bigint">BigInt</h2>
+<p>在 JavaScript 中, 整数的范围是 <code>[Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER]</code>, 也就是负 2 的 53 次方减 1 到 2 的 53 次方减 1, 如果超出这个范围将不能保证其精度, 比如:</p>
+
+      <figure class="figure-img">
+        <a href="/6030968b32ab618797df4b89ec3c0c39.png" target="_blank">
+          <img src="/6030968b32ab618797df4b89ec3c0c39.png" alt="out of max safe integer" title="out of max safe integer" loading="lazy">
+        </a>
+        <figcaption>out of max safe integer</figcaption>
+      </figure>
+    
+<p>如果想要精确地表示超出安全整数, 通常做法是转换成字符串, 然后实现各种字符串运算的方法(相信不少人都做过数字字符串相加的一道算法题, 比如 <code>'123' + '789' = '912'</code>).</p>
+<p><code>BigInt</code> 可以表示任意大的整数, 即使超出 <code>SAFE_INTEGER</code> 的范围依然能够保证精度. 声明一个 <code>BigInt</code> 可以在 number 后面添加 <code>n</code> 或者通过 <code>BigInt</code> 方法:</p>
+<pre><code class="js language-js">const a = 123n;
+const b = BigInt(123);
+const c = BigInt('123');
+</code></pre>
+<p>上面的 <code>a</code> / <code>b</code> / <code>c</code> 都表示 <code>123n</code>. <code>BigInt</code> 支持 <code>+</code> / <code>-</code> / <code>*</code> / <code>/</code> / <code>**</code> / <code>%</code> 运算符, 但是不能与其他类型混合运算:</p>
+<pre><code class="js language-js">const a = 1n + 2n; // 3n
+const b = 2n - 1n; // 1n
+const c = 3n * 3n; // 9n
+const d = 4n / 2n; // 2n
+const e = 2n ** 2n; // 4n
+const f = 5n % 3n; // 2n
+
+/** 除数不能为 0n */
+const g = 2n / 0n; // Uncaught RangeError: Division by zero
+
+/** 不能与其他类型运算 */
+const h = 2n + 1; // Uncaught TypeError: Cannot mix BigInt and other types
+
+/** 运算结果将会忽略小数 */
+const i = 3n / 2n; // 1n
+const k = -3n / 2n; // -1n
+</code></pre>
+<p><code>BigInt</code> 可以与 number 进行转换, 如果 <code>BigInt</code> 超过 <code>SAFE_INTER</code> 的范围, 那么转换后的 number 将会丢失精度:</p>
+<pre><code class="js language-js">const a = BigInt(Number.MAX_SAFE_INTEGER);
+const b = a + a;
+const c = Number(b); // c 不能保证准确
+</code></pre>
+<p><code>BigInt</code> 同样支持比较操作, 并且能够与 number 进行比较:</p>
+<pre><code class="js language-js">/** 与 number 不严格相等 */
+1n == 1; // true
+1n === 1; // false
+
+2n &gt; 1; // true
+2 &gt; 1n; // true
+2n &gt;= 2; // true
+</code></pre>
+<p><code>BigInt</code> 也有一些局限性, 首先不支持调用 <code>Math</code> 对象上的方法, 其次不支持 <code>JSON.stringify</code>, 如果想要序列化, 可以实现 <code>BigInt</code> 的 <code>toJSON</code> 方法:</p>
+<pre><code class="js language-js">BigInt.prototype.toJSON = function() {
+  // BigInt toString 不会带上 n, 例如 2n.toString() === '2'
+  return this.toString();
+};
+
+JSON.stringify({ value: 2n }); // { "value": "2" }
+</code></pre>
+<p>需要注意的是, <code>BigInt</code> 和 <code>Symbol</code> 一样是个普通方法, 不是一个构造方法, 所以无法通过 <code>new</code> 实例化:</p>
+<pre><code class="js language-js">const a = new BigInt(1); // Uncaught TypeError: BigInt is not a constructor
+</code></pre>
+<blockquote>
+  <p>JavaScript 一共有 7 种数据类型 <code>undefined</code> / <code>null</code> / <code>boolean</code> / <code>number</code> / <code>string</code> / <code>symbol</code> / <code>object</code>, <code>BigInt</code> 是第 8 种数据类型, <code>typeof 1n</code> 的值是 <code>bigint</code>, 而且属于基本类型.</p>
+</blockquote>
+<h4 id="-7">兼容性及参考</h4>
+<ul>
+<li><a href="https://caniuse.com/?search=bigint">Can I use 传送门</a></li>
+<li><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/BigInt">BigInt - JavaScript | MDN</a></li>
+</ul>
+<hr>
+<h2 id="-8">数字分隔符</h2>
+<p>通常情况下, 如果一个数字特别大, 我们会在显示界面添加分隔符显得更有可读性:</p>
+
+      <figure class="figure-img">
+        <a href="/9557eaaaab286700794dbd7dea88beed.png" target="_blank">
+          <img src="/9557eaaaab286700794dbd7dea88beed.png" alt="number on Google Sheets" title="number on Google Sheets" loading="lazy">
+        </a>
+        <figcaption>number on Google Sheets</figcaption>
+      </figure>
+    
+<blockquote>
+  <p>现在通常是千位分隔符, 应该是源于英语中的 thousond/million/billion/trillion/…, 每增加 3 位都有一个专有名词(https://en.wikipedia.org/wiki/Names<em>of</em>large_numbers). 对于我来说更偏向于万位分隔符, 可能是小学数学课养成的习惯.</p>
+</blockquote>
+<p>但是在 JavaScript 层面, 无论一个数多大我们都只能连写, 比如 <code>1032467823482.32134324</code>, 需要认真数的情况下才能得知准确的值.</p>
+<p>现在, <code>Numeric separators</code> 特性允许在数字字面量之间插入 <code>_</code> 分隔符, 使数字字面量更具可读性.</p>
+<pre><code class="js language-js">const a = 123_456;
+const b = 123.345_789;
+</code></pre>
+<p><code>_</code> 分隔符可以出现在整数部分, 也可以出现在小数部分. 除了十进制, 分隔符同样可以出现在其他进制:</p>
+<pre><code class="js language-js">const a = 0b101_101; // 二进制
+const b = 0o765_432; // 八进制
+const c = 0xfed_dba_987; // 十六进制
+</code></pre>
+<p>上面的代码是每隔 3 位添加分隔符, 其实分隔符是可以随意添加的, 但是需要注意的是, 分隔符只能在<code>数字之间</code>添加, 不能在数字开头/结尾/进制标志/小数点/科学计数法符号两边添加, 也不能连续两个分隔符, 下面分隔符的位置都是<code>错误</code>的:</p>
+<pre><code class="js language-js">_123; // 开头, 这其实是一个合法的变量名
+123_; // 结尾
+
+/** 进制标志 */
+0_b101; // 进制中间
+0x_fd9; // 进制后面
+
+/** 科学计数法 */
+1.23_e14; // 科学计数法前面
+1.23e_14; // 科学计数法后面
+
+123__456; // 连续两个分隔符
+</code></pre>
+<p>数字分隔符只是为了提高代码可读性, 并没有实际意义, 带有分隔符的数字在转换成字符串的时候不会带上分隔符. 同样地, 带有 <code>_</code> 字符串也不能正确地转换成数字:</p>
+<pre><code class="js language-js">(123_456.123_456).toString(); // 123456.123456
+Number('123_456.123_456'); // NaN
+Number.parseInt('123_456', 10); // 123
+Number.parseFloat('123_456.123_456', 10); // 123
+</code></pre>
+<p>此外, 数字分隔符同样适用于上面提到的 <code>BigInt</code>.</p>
+<h4 id="-9">兼容性及参考</h4>
+<ul>
+<li><a href="https://caniuse.com/?search=Numeric%20separators">Can I use 传送门</a></li>
+<li><a href="https://tc39.es/proposal-numeric-separator/">Numeric separators</a></li>
+<li><a href="https://2ality.com/2018/02/numeric-separators.html">ECMAScript feature: numeric separators</a></li>
+</ul>
+<hr>
+<h2 id="css">CSS 颜色方法新的语法</h2>
+<p>CSS 中提供了 4 个<code>颜色方法</code>, 分别是 <code>rgb</code> / <code>rgba</code> / <code>hsl</code> / <code>hsla</code>. 以前每个方法的参数都需要用<code>逗号</code>分隔, 现在 <code>rgb</code> / <code>hsl</code> 新的语法可以省略参数中的<code>逗号</code>而直接使用<code>空格</code>分隔.</p>
+<pre><code class="css language-css">color: rgb(1, 2, 3);
+/* 等同于 */
+color: rgb(1 2 3);
+
+color: hsl(1, 2%, 3%);
+/* 等同于 */
+color: hsl(1 2% 3%);
+</code></pre>
+<p>省略逗号的同时, <code>rgb</code> / <code>hsl</code> 都支持第 4 个参数, 表示透明度, 从而替换 <code>rgba</code> 和 <code>hsla</code>.</p>
+<pre><code class="css language-css">color: rgba(1, 2, 3, 0.4);
+/* 等同于 */
+color: rgb(1 2 3 / 0.4);
+
+color: hsla(1, 2%, 3%, 0.4);
+/* 等同于 */
+color: hsl(1 2% 3% / 0.4);
+</code></pre>
+<p>其中, <code>/</code> 两侧的空格可有可无.</p>
+<h4 id="-10">兼容性及参考</h4>
+<ul>
+<li><a href="https://caniuse.com/mdn-css_types_color_space_separated_functional_notation">Can I use 传送门</a></li>
+<li><a href="https://css-tricks.com/no-comma-color-functions-in-css">No-Comma Color Functions in CSS</a></li>
+</ul>
+<hr>
+<h2 id="aspectratio">aspect-ratio</h2>
+<p>如果想要实现一个指定比例的矩形, 通常使用 <code>padding</code>, 利用其百分比根据父元素宽度计算的特点, 但是真正的内容往往需要放在一个额外的子元素, 并且需要设置绝对定位:</p>
+<pre><code class="html language-html">&lt;!-- 4 / 1 的矩形 --&gt;
+&lt;style&gt;
+  .container {
+    padding-bottom: 25%;
+    background-color: pink;
+    position: relative;
+  }
+  .content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+&lt;/style&gt;
+
+&lt;div class="container"&gt;
+  &lt;div class="content"&gt;内容内容内容&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<p><code>aspect-ratio</code> 属性可以让我们直接设置元素的宽高比. 上面的例子使用 <code>aspect-ratio</code> 可以写成这样:</p>
+<pre><code class="html language-html">&lt;style&gt;
+  .content {
+    background-color: pink;
+    aspect-ratio: 4 / 1;
+  }
+&lt;/style&gt;
+
+&lt;div class="content"&gt;内容内容内容&lt;/div&gt;
+</code></pre>
+<h4 id="-11">兼容性及参考</h4>
+<ul>
+<li><a href="https://caniuse.com/?search=aspect-ratio">Can I use 传送门</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/aspect-ratio">aspect-ratio - CSS | MDN</a></li>
+</ul>
+<hr>
+<h2 id="gap">gap</h2>
+<p>在 <code>grid</code> 布局中, 可以用 <code>grid-gap</code> 属性来设置行与行和列与列之间的间隙, 现在可以直接使用 <code>gap</code> 属性替代 <code>grid-gap</code>, 而且 <code>gap</code> 属性增加了对 <code>flex</code> 和 <code>column-count</code> 的支持.</p>
+
+      <figure class="figure-iframe">
+        <iframe src="https://codesandbox.io/embed/gap-qbvxy?fontsize=14&amp;hidenavigation=1&amp;theme=dark" title="gap" loading="lazy"></iframe>
+        <figcaption>gap</figcaption>
+      </figure>
+    
+<h4 id="-12">兼容性及参考</h4>
+<ul>
+<li><a href="https://caniuse.com/?search=gap">Can I use 传送门</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/gap">gap - CSS | MDN</a></li>
+</ul>
+<hr>
+<h2 id="cssmathfunctions">CSS math functions</h2>
+<p>在 CSS 中可以使用 <code>calc</code> 方法进行数学计算, 现在新增了三个新的方法 <code>min</code> / <code>max</code> / <code>clamp</code>.</p>
+<p><code>min</code> 方法接受一个或多个值, 返回其中最小值, 比如 <code>width: min(1vw, 4rem, 80px);</code>, 如果 <code>viewport</code> 的宽度等于 <code>800px</code>, 则 <code>1vw === 8px</code>, <code>4rem === 64px</code>, 所以结果是 <code>width: 1vw;</code>.</p>
+<p><code>max</code> 方法接受一个或多个值, 返回其中最大值, 上面例子中, 结果是 <code>width: 80px;</code>.</p>
+<p><code>clamp</code> 方法接受 3 个值 <code>clamp(MIN, VAL, MAX)</code>, 从左到右分别是最小值/首选值/最大值, 如果首选值小于最小值则返回最小值, 如果大于最大值则返回最大值, 如果首选值介于最小值和最大值之间则返回首选值, 具体逻辑可以这样用 JS 表示:</p>
+<pre><code class="js language-js">function clamp(min, val, max) {
+  // 小于最小值的话返回最小值
+  if (val &lt; min) {
+    return min;
+  }
+  // 大于最大值的话返回最大值
+  if (val &gt; max) {
+    return max;
+  }
+  // 介于最小值和最大值, 返回首选值
+  return val;
+}
+</code></pre>
+<p>也就是说, <code>clamp</code> 限定了 <code>VAL</code> 的取值范围, 比如 <code>width: clamp(1rem, 10vw, 2rem);</code> 在 <code>viewport</code> 的宽度等于 <code>800px</code> 的情况下, 结果是 <code>width: 2rem;</code>, 因为 <code>(10vw = 80px) &gt; (2rem = 32px)</code>.</p>
+<p>有趣的是, <code>min</code> / <code>max</code> / <code>clamp</code> 还可以与其他方法嵌套, 比如 <code>clamp(1rem, calc(10vw - 5px), min(2rem, 20vw))</code>, 所以 <code>clamp</code> 可以写成 <code>max(MIN, min(VAL, MAX))</code> 或 <code>min(MAX, max(VAL, MIN))</code>.</p>
+<h4 id="-13">兼容性及参考</h4>
+<ul>
+<li><a href="https://caniuse.com/?search=CSS%20math%20functions">Can I use 传送门</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/min()">min() - CSS | MDN</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/max()">max() - CSS | MDN</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/clamp()">clamp() - CSS | MDN</a></li>
+</ul></section>
+
+    
+  </article>
+  
+    <style>
+  .article-actions {
+    max-inline-size: var(--content-max-width);
+
+    display: flex;
+    align-items: center;
+
+    margin-block: 40px;
+    margin-inline: auto;
+    padding-inline: 30px;
+
+    font-family: common_font;
+    color: var(--normal-color);
+  }
+
+  .article-actions_action:not(:last-child)::after {
+    content: "·\00a0";
+  }
+
+  .article-actions_action > a {
+    color: inherit;
+    text-decoration-color: var(--primary-color);
+  }
+
+  @media (max-width: 520px) {
+    .article-actions {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .article-actions_action::before {
+      content: "·";
+    }
+
+    .article-actions_action:not(:last-child)::after {
+      content: "";
+    }
+  }
+</style>
+
+<div class="article-actions">
+  <span class="article-actions_action">
+    使用
+    <a href="https://github.com/mebtte/animal-photosynthesis/discussions">Discussions</a> 讨论
+  </span>
+  <span class="article-actions_action">
+    在
+    <a href="https://github.com/mebtte/animal-photosynthesis/edit/master/articles/new_features_of_browser_and_js_202101/index.md">Github</a>
+    上编辑
+  </span>
+  <span class="article-actions_action">
+    分享到
+    <a href="https://www.x.com/share?text=%E6%B5%8F%E8%A7%88%E5%99%A8%E5%92%8C%20JavaScript%20%E7%9A%84%E4%B8%80%E4%BA%9B%E6%96%B0%E7%89%B9%E6%80%A7&amp;url=https%3A%2F%2Fmebtte.com%2Fnew_features_of_browser_and_js_202101">X</a>
+  </span>
+</div>
+
+  
+  <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8404651063516637" crossorigin="anonymous"></script>
+<style>
+  .adsbygoogle {
+    max-width: 100%;
+    margin-block: 40px;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .adsbygoogle:empty {
+    display: none;
+  }
+</style>
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8404651063516637" data-ad-slot="7746538242" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  <style>
+.page-footer {
+  font-size: 12px;
+  max-inline-size: var(--content-max-width);
+  margin-block: 40px;
+  margin-inline: auto;
+  padding-inline: 30px;
+  font-family: common_font;
+  color: var(--secondary-color);
+}
+
+.page-footer > a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.page-footer > a:hover {
+  color: var(--primary-color);
+}
+
+.page-footer > .underline {
+  text-decoration: underline;
+}
+</style>
+
+<footer class="page-footer">
+  <a href="https://github.com/mebtte/animal-photosynthesis/blob/master/license">©</a>
+  2026
+  &nbsp;
+  <a class="underline" href="https://i.mebtte.com">MEBTTE</a>
+  &nbsp;|&nbsp;
+  <a class="underline" href="https://stats.uptimerobot.com/4nO5RUYB60">UPTIME</a>
+  &nbsp;|&nbsp;
+  <a class="underline" href="/support">支持我</a>
+</footer>
+
+  <script src="/39c97c2884c3a2b5e64c8f085b843d4e.js"></script>
+  <script src="/0ec215ad131a36856d3d20423b9aca26.js" async="" defer=""></script>
+
+
+
+</body></html>

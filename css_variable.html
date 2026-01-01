@@ -1,0 +1,620 @@
+<!DOCTYPE html><html lang="zh-cn"><head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="mebtte">
+<meta name="keywords" content="HTML, CSS, JavaScript, Web, Front-End">
+
+<!-- Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-CESZTRKM96"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CESZTRKM96');
+</script>
+
+<!-- open graph -->
+<meta property="og:type" content="website">
+<meta property="og:image" content="/6ed5faa0573b2a5a9d47232c9a71fb88.png">
+
+<link rel="shortcut icon" type="image/png" href="/6ed5faa0573b2a5a9d47232c9a71fb88.png">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+
+<link rel="preload" href="/e0e440b1ae0a9ba21fb3feb4cff12d11.ttf" as="font" crossorigin="anonymous">
+<link rel="preload" href="/53d99659dc34209657d05bb2a7fc5de4.ttf" as="font" crossorigin="anonymous">
+
+  <style>
+  @font-face {
+    font-family: common_font;
+    src: url(/53d99659dc34209657d05bb2a7fc5de4.ttf);
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    --content-max-width: 840px;
+
+    --primary-color: rgb(237 106 94);
+
+    --normal-color: #333;
+    --secondary-color: #888;
+    --tertiary-color: #ddd;
+    --backgroud: rgb(255 255 255);
+
+    --border-radius: 2px;
+    --transition-duration: 0.3s;
+
+    background-color: var(--backgroud);
+    transition: background-color var(--transition-duration);
+  }
+
+  figure {
+    margin-inline: 0;
+  }
+</style>
+
+
+  <title>CSS 变量 - 动物的光合作用</title>
+  <meta name="description" content="基本所有的 CSS 预处理器都支持变量的特性，比如 SASS：  ```scss $color: white;  p {   color: $color; }  button {   color: $color; } ```  支持将一个复用属性赋值给变量，然后在其他地方可以使用这个变量，当需要修改......">
+  <meta property="og:description" content="基本所有的 CSS 预处理器都支持变量的特性，比如 SASS：  ```scss $color: white;  p {   color: $color; }  button {   color: $color; } ```  支持将一个复用属性赋值给变量，然后在其他地方可以使用这个变量，当需要修改......">
+
+  <link rel="preload" href="/f1ef9bf296af37d13d29cff3b0db5787.ttf" as="font" crossorigin="anonymous">
+  <style>
+    @font-face {
+      font-family: article_font_css_variable;
+      src: url(/f1ef9bf296af37d13d29cff3b0db5787.ttf);
+    }
+    article {
+      font-family: article_font_css_variable;
+    }
+  </style>
+  
+  <link rel="stylesheet" href="/ece570de77ba673c17121d06fc929bd9.css">
+</head>
+
+<body>
+  <style>
+  @font-face {
+    font-family: title_font;
+    src: url(/e0e440b1ae0a9ba21fb3feb4cff12d11.ttf);
+  }
+
+  .page-header {
+    max-inline-size: var(--content-max-width);
+    margin-block: 50px 40px;
+    margin-inline: auto;
+    padding-inline: 30px;
+    display: flex;
+    align-items: center;
+  }
+
+  .page-header_title {
+    flex: 1;
+    min-inline-size: 0;
+    font-size: min(8vw, 56px);
+    font-family: title_font;
+    margin: 0;
+    color: var(--normal-color);
+  }
+
+  .page-header_title > a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .page-header_icon {
+    margin-inline-start: 10px;
+  }
+
+  .page-header_icon > img {
+    user-select: none;
+    inline-size: 20px;
+    block-size: 20px;
+  }
+</style>
+
+<header class="page-header">
+  
+    <h2 class="page-header_title">
+      <a href="/">动物的光合作用</a>
+    </h2>
+  
+  <a class="page-header_icon" href="/rss.xml" target="_blank">
+    <img src="/e31ad23031e5bcb34e8d4a424ba0c100.png" alt="rss">
+  </a>
+  <a class="page-header_icon" href="https://github.com/mebtte/animal-photosynthesis" target="_blank">
+    <img src="/184c800e11079b13904f308161071b62.png" alt="github">
+  </a>
+  <a class="page-header_icon" href="//i.mebtte.com" target="_blank">
+    <img src="/2cd3760ad10a38f8a9ed6ea3993fa472.png" alt="author">
+  </a>
+</header>
+
+  <article>
+    <style>
+.article-header {
+  max-inline-size: var(--content-max-width);
+  margin-block: 40px;
+  margin-inline: auto;
+  padding-inline: 30px;
+}
+
+.article-title {
+  color: var(--primary-color);
+  font-size: 32px;
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+}
+
+.article-title a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.article-publish-time {
+  color: var(--secondary-color);
+  font-size: 14px;
+  font-family: common_font;
+}
+</style>
+
+<section class="article-header">
+  <h1 class="article-title">
+    <a href="/css_variable">CSS 变量</a>
+  </h1>
+  <time class="article-publish-time">2019-10-23</time>
+</section>
+
+    <style>
+  article {
+    --article-space: 30px;
+  }
+
+  article a {
+    color: var(--normal-color);
+    text-decoration-color: var(--primary-color);
+  }
+
+  article h2,
+  article h3,
+  article h4,
+  article h5,
+  article h6 {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-inline: auto;
+    line-height: 1.5;
+    color: var(--normal-color);
+  }
+
+  article h2 {
+    margin-block-start: 28px;
+    font-size: 28px;
+  }
+
+  article h3 {
+    margin-block-start: 26px;
+    font-size: 25px;
+  }
+
+  article h4 {
+    margin-block-start: 24px;
+    font-size: 22px;
+  }
+
+  article h5 {
+    margin-block-start: 22px;
+    font-size: 19px;
+  }
+
+  article h6 {
+    margin-block-start: 20px;
+    font-size: 16px;
+  }
+
+  article p {
+    max-inline-size: var(--content-max-width);
+
+    margin-block: 15px;
+    margin-inline: auto;
+    padding-inline: 30px;
+
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--normal-color);
+    word-break: break-word;
+  }
+
+  article p code,
+  article ul code,
+  article ol code,
+  article table code {
+    padding-inline: 4px;
+    border-radius: var(--border-radius);
+    background: rgba(237, 106, 94, 0.3);
+  }
+
+  article pre {
+    max-inline-size: var(--content-max-width) !important;
+    margin-block: 15px !important;
+    margin-inline: auto !important;
+    font-size: 14px !important;
+    box-sizing: border-box;
+    border-radius: var(--border-radius) !important;
+    tab-size: 2 !important;
+    padding: 0 !important;
+  }
+
+  article pre code {
+    display: block;
+    margin-block: 20px !important;
+    margin-inline: 30px !important;
+    overflow: auto !important;
+    font-size: inherit !important;
+  }
+
+  article hr {
+    max-inline-size: var(--content-max-width);
+    margin-block: 40px;
+    margin-inline: auto;
+    padding-inline: var(--article-space);
+    border: none;
+  }
+
+  article hr::after {
+    content: "";
+    display: block;
+    block-size: 1px;
+    background-color: var(--tertiary-color);
+  }
+
+  .table-container {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .table-container table {
+    border-collapse: collapse;
+  }
+
+  .table-container th,
+  .table-container td {
+    font-size: 14px;
+    color: var(--normal-color);
+    border: 1px solid var(--tertiary-color);
+    padding: 10px;
+    text-align: left;
+  }
+
+  .table-container th {
+    font-size: 16px;
+    text-align: left;
+  }
+
+  article blockquote {
+    max-inline-size: var(--content-max-width);
+    padding-inline: var(--article-space);
+    margin-block: 15px;
+    margin-inline: auto;
+    position: relative;
+    font-style: italic;
+    color: var(--secondary-color);
+  }
+
+  article blockquote::before {
+    content: "";
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 30px;
+    inline-size: 3px;
+    block-size: 100%;
+    background-color: var(--primary-color);
+  }
+
+  article blockquote p {
+    font-size: 14px;
+    color: inherit;
+    max-inline-size: unset;
+    padding: 0;
+    margin-inline-start: 30px;
+  }
+
+  article ul,
+  article ol {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+    color: var(--normal-color);
+    line-height: 1.5;
+  }
+
+  article ol {
+    counter-reset: li-count;
+  }
+
+  article ul li,
+  article ol li {
+    display: block;
+    margin-block: 5px;
+    position: relative;
+  }
+
+  article ol li {
+    counter-increment: li-count;
+  }
+
+  article ul li::before {
+    content: "";
+    display: inline-block;
+    inline-size: 6px;
+    block-size: 6px;
+
+    margin-inline-end: 10px;
+
+    vertical-align: middle;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+  }
+
+  article ol li::before {
+    content: counter(li-count) ". ";
+    color: var(--primary-color);
+  }
+
+  article figcaption {
+    font-size: 12px;
+    color: var(--secondary-color);
+    text-align: center;
+    margin-block-start: 5px;
+  }
+
+  .figure-img {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .figure-img img {
+    display: block;
+    max-inline-size: 100%;
+    margin-inline: auto;
+    border-radius: var(--border-radius);
+  }
+
+  .figure-media {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .figure-media .media {
+    display: block;
+    max-inline-size: 100%;
+    margin-inline: auto;
+  }
+
+  .figure-iframe {
+    inline-size: 100%;
+    margin-block: 15px;
+  }
+
+  .figure-iframe iframe {
+    display: block;
+    inline-size: 100%;
+    max-inline-size: var(--content-max-width);
+    margin-inline: auto;
+    block-size: 640px;
+    border: 1px solid var(--tertiary-color);
+    border-radius: var(--border-radius);
+  }
+
+  strong {
+    font-weight: normal;
+    text-decoration: underline;
+  }
+</style>
+
+<section><p>基本所有的 CSS 预处理器都支持变量的特性，比如 SASS：</p>
+<pre><code class="scss language-scss">$color: white;
+
+p {
+  color: $color;
+}
+
+button {
+  color: $color;
+}
+</code></pre>
+<p>支持将一个复用属性赋值给变量，然后在其他地方可以使用这个变量，当需要修改这个属性值的时候，只需要修改这个变量，而不用修改每个使用到的位置。</p>
+<p>遗憾的是，CSS 预处理器的变量只能在开发的时候可变，在编译结果中变量无法改变。比如，上面的 SASS 就会被编译成这样的 CSS：</p>
+<pre><code class="css language-css">p {
+  color: white;
+}
+
+button {
+  color: white;
+}
+</code></pre>
+<p>CSS 变量是标准 CSS 支持的特性，和 JavaScript 配合实现了真正意义上的可变性。CSS 变量声明主要包含<code>变量声明</code>和<code>使用变量</code>两个部分。</p>
+<h2 id="">变量声明</h2>
+<p>和其他 CSS 属性类似，声明一个变量只需要在你设定的变量名前加上<code>--</code>符号</p>
+<pre><code class="css language-css">div {
+  --theme: white;
+  --variable: 3px;
+  --background: black;
+  --Background: black;
+  --Background: white;
+}
+</code></pre>
+<p>需要注意的点是:</p>
+<ol>
+<li>CSS 变量是区分大小写的，上面的 <code>--background</code> 和 <code>--Background</code> 表示不同的两个变量</li>
+<li>和其他 CSS 属性规则类似，多次声明同一个变量，生效的值是最后一个，上面 <code>--Background</code> 的值为 <code>white</code></li>
+</ol>
+<p>还有一个作用域问题，比如有一个这样的 DOM 和样式：</p>
+<pre><code class="html language-html">&lt;style&gt;
+  :root {
+    --theme: white;
+    --size: 16px;
+  }
+  .a {
+    --size: 14px;
+  }
+  .b {
+    --size: 12px;
+    --scale: 1;
+  }
+&lt;/style&gt;
+
+&lt;div class="a"&gt;
+  &lt;div class="b"&gt;text&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<p>和 JS 的作用域类似，子元素可以访问父元素的变量，而父元素无法访问子元素的变量，另一个特点是子元素会屏蔽同名父元素的变量。比如，在 <code>a</code> 中，<code>size</code> 的值是 <code>14px</code>，<code>theme</code> 没有在 <code>a</code> 中声明，所以 <code>theme</code> 是顶层 <code>:root</code> 中的值 <code>white</code>，而 <code>scale</code> 只在 <code>b</code> 中声明了，所以 <code>a</code> 无法获取到 <code>scale</code> 的值。</p>
+<h2 id="-1">使用变量</h2>
+<p>使用变量主要通过 <a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/var">var 函数</a>。<code>var()</code> 接收两个参数，第一个是变量名，第二个是可选的默认值：</p>
+<pre><code class="css language-css">/* css属性: var(变量名, 默认值); */
+--size: 12px;
+font-size: var(--size, 16px);
+</code></pre>
+<p>怎么实现变量可变呢？主要是通过 JavaScript 修改变量的值：</p>
+<pre><code class="js language-js">document.querySelector('selector').style.setProperty('--variable', 'value');
+</code></pre>
+<p>当修改一个 CSS 变量的时候，引用这个变量的所有样式都会更新并且重新渲染。</p>
+<h2 id="-2">适用场景</h2>
+<h3 id="-3">动态主题</h3>
+<p>对于很多 WEB 应用来说，动态主题是比较麻烦的。以 SASS 为例，比如以下样式：</p>
+<pre><code class="sass language-sass">$theme: white;
+
+p {
+  color: $theme;
+}
+
+button {
+  background-color: $theme;
+}
+</code></pre>
+<p>当我需要白色和黑色两套主题时，将 <code>$theme</code> 赋值 <code>white</code> 然后编译出白色主题 CSS，将 <code>$theme</code> 赋值 <code>black</code> 然后编译出黑色主题 CSS，从而得到两套主题的 CSS 文件，在更换主题时我们需要通过 JS 动态修改主题 CSS 引用。</p>
+<p>通过 CSS 变量，我们不需要生产两份 CSS 文件，只需要定义变量，更换主题只需要修改变量值就可以了。</p>
+<pre><code class="html language-html">&lt;body&gt;
+  &lt;p&gt;我是段落&lt;/p&gt;
+  &lt;div class="action"&gt;
+    &lt;button type="button" onclick="changeTheme('light')"&gt;白色主题&lt;/button&gt;
+    &lt;button type="button" onclick="changeTheme('dark')"&gt;黑色主题&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+</code></pre>
+<pre><code class="css language-css">body {
+  color: var(--color, black);
+  background: var(--background, white);
+  transition: all 0.3s;
+}
+</code></pre>
+<pre><code class="js language-js">function changeTheme(theme) {
+  switch (theme) {
+    case 'light': {
+      document.documentElement.style.setProperty('--color', 'black');
+      document.documentElement.style.setProperty('--background', 'white');
+      break;
+    }
+    case 'dark': {
+      document.documentElement.style.setProperty('--color', 'white');
+      document.documentElement.style.setProperty('--background', 'black');
+      break;
+    }
+  }
+}
+</code></pre>
+<p><a href="/demo/theme_by_css_variable.html">这里查看效果</a>。</p>
+<h3 id="-4">不定高度渐变</h3>
+<p>CSS transition 是不支持 <code>auto</code> 值的，所以当一个元素高度不确定且需要高度渐变，往往需要 JS 计算并且操作 DOM 才能产生渐变效果，通过 CSS 变量可以极大地减少代码量和计算量。<a href="https://css.30secondsofcode.org/snippet/height-transition">具体实现看这里</a>。</p>
+<p>CSS 变量适用场景远远不止这些，限制你的永远是想象力。</p>
+<h2 id="-5">兼容性</h2>
+<p>所有的新特性都需要考虑兼容性的问题，CSS 变量也不例外，目前主流浏览器都已经支持 CSS 变量，对于一些低版本的浏览器，可以使用<a href="https://github.com/jhildenbiddle/css-vars-ponyfill">垫片库</a>。</p>
+
+      <figure class="figure-img">
+        <a href="/e723dc7d8469ff9991436669a15a236e.png" target="_blank">
+          <img src="/e723dc7d8469ff9991436669a15a236e.png" alt="" title="" loading="lazy">
+        </a>
+        
+      </figure>
+    
+<h4 id="-6">参考</h4>
+<ul>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Using_CSS_custom_properties">使用 CSS 变量 - MDN</a></li>
+<li><a href="https://www.ruanyifeng.com/blog/2017/05/css-variables.html">CSS 变量教程 - 阮一峰的网络日志</a></li>
+<li><a href="https://css.30secondsofcode.org/snippet/height-transition">Height transition - 30 seconds of CSS</a></li>
+</ul></section>
+
+    
+  </article>
+  
+  <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8404651063516637" crossorigin="anonymous"></script>
+<style>
+  .adsbygoogle {
+    max-width: 100%;
+    margin-block: 40px;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .adsbygoogle:empty {
+    display: none;
+  }
+</style>
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8404651063516637" data-ad-slot="7746538242" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  <style>
+.page-footer {
+  font-size: 12px;
+  max-inline-size: var(--content-max-width);
+  margin-block: 40px;
+  margin-inline: auto;
+  padding-inline: 30px;
+  font-family: common_font;
+  color: var(--secondary-color);
+}
+
+.page-footer > a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.page-footer > a:hover {
+  color: var(--primary-color);
+}
+
+.page-footer > .underline {
+  text-decoration: underline;
+}
+</style>
+
+<footer class="page-footer">
+  <a href="https://github.com/mebtte/animal-photosynthesis/blob/master/license">©</a>
+  2026
+  &nbsp;
+  <a class="underline" href="https://i.mebtte.com">MEBTTE</a>
+  &nbsp;|&nbsp;
+  <a class="underline" href="https://stats.uptimerobot.com/4nO5RUYB60">UPTIME</a>
+  &nbsp;|&nbsp;
+  <a class="underline" href="/support">支持我</a>
+</footer>
+
+  <script src="/39c97c2884c3a2b5e64c8f085b843d4e.js"></script>
+  <script src="/0ec215ad131a36856d3d20423b9aca26.js" async="" defer=""></script>
+
+
+
+</body></html>

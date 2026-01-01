@@ -1,0 +1,706 @@
+<!DOCTYPE html><html lang="zh-cn"><head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="mebtte">
+<meta name="keywords" content="HTML, CSS, JavaScript, Web, Front-End">
+
+<!-- Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-CESZTRKM96"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CESZTRKM96');
+</script>
+
+<!-- open graph -->
+<meta property="og:type" content="website">
+<meta property="og:image" content="/6ed5faa0573b2a5a9d47232c9a71fb88.png">
+
+<link rel="shortcut icon" type="image/png" href="/6ed5faa0573b2a5a9d47232c9a71fb88.png">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+
+<link rel="preload" href="/e0e440b1ae0a9ba21fb3feb4cff12d11.ttf" as="font" crossorigin="anonymous">
+<link rel="preload" href="/53d99659dc34209657d05bb2a7fc5de4.ttf" as="font" crossorigin="anonymous">
+
+  <style>
+  @font-face {
+    font-family: common_font;
+    src: url(/53d99659dc34209657d05bb2a7fc5de4.ttf);
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    --content-max-width: 840px;
+
+    --primary-color: rgb(237 106 94);
+
+    --normal-color: #333;
+    --secondary-color: #888;
+    --tertiary-color: #ddd;
+    --backgroud: rgb(255 255 255);
+
+    --border-radius: 2px;
+    --transition-duration: 0.3s;
+
+    background-color: var(--backgroud);
+    transition: background-color var(--transition-duration);
+  }
+
+  figure {
+    margin-inline: 0;
+  }
+</style>
+
+
+  <title>如何处理 RESTFUL 数据异常导致的前端错误 - 动物的光合作用</title>
+  <meta name="description" content="最近一段时间监控平台收集了很多 JS 错误，大部分都是`TypeError`  ```txt Uncaught TypeError: Cannot read property 'xxx' of null ```  经过排查后发现基本都是因为接口数据错误的导致，比如  ```js // 正常数据 { ......">
+  <meta property="og:description" content="最近一段时间监控平台收集了很多 JS 错误，大部分都是`TypeError`  ```txt Uncaught TypeError: Cannot read property 'xxx' of null ```  经过排查后发现基本都是因为接口数据错误的导致，比如  ```js // 正常数据 { ......">
+
+  <link rel="preload" href="/4242911b2bf3c01a9b291b6cd604c62e.ttf" as="font" crossorigin="anonymous">
+  <style>
+    @font-face {
+      font-family: article_font_handle_restful_api_error;
+      src: url(/4242911b2bf3c01a9b291b6cd604c62e.ttf);
+    }
+    article {
+      font-family: article_font_handle_restful_api_error;
+    }
+  </style>
+  
+  <link rel="stylesheet" href="/ece570de77ba673c17121d06fc929bd9.css">
+</head>
+
+<body>
+  <style>
+  @font-face {
+    font-family: title_font;
+    src: url(/e0e440b1ae0a9ba21fb3feb4cff12d11.ttf);
+  }
+
+  .page-header {
+    max-inline-size: var(--content-max-width);
+    margin-block: 50px 40px;
+    margin-inline: auto;
+    padding-inline: 30px;
+    display: flex;
+    align-items: center;
+  }
+
+  .page-header_title {
+    flex: 1;
+    min-inline-size: 0;
+    font-size: min(8vw, 56px);
+    font-family: title_font;
+    margin: 0;
+    color: var(--normal-color);
+  }
+
+  .page-header_title > a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .page-header_icon {
+    margin-inline-start: 10px;
+  }
+
+  .page-header_icon > img {
+    user-select: none;
+    inline-size: 20px;
+    block-size: 20px;
+  }
+</style>
+
+<header class="page-header">
+  
+    <h2 class="page-header_title">
+      <a href="/">动物的光合作用</a>
+    </h2>
+  
+  <a class="page-header_icon" href="/rss.xml" target="_blank">
+    <img src="/e31ad23031e5bcb34e8d4a424ba0c100.png" alt="rss">
+  </a>
+  <a class="page-header_icon" href="https://github.com/mebtte/animal-photosynthesis" target="_blank">
+    <img src="/184c800e11079b13904f308161071b62.png" alt="github">
+  </a>
+  <a class="page-header_icon" href="//i.mebtte.com" target="_blank">
+    <img src="/2cd3760ad10a38f8a9ed6ea3993fa472.png" alt="author">
+  </a>
+</header>
+
+  <article>
+    <style>
+.article-header {
+  max-inline-size: var(--content-max-width);
+  margin-block: 40px;
+  margin-inline: auto;
+  padding-inline: 30px;
+}
+
+.article-title {
+  color: var(--primary-color);
+  font-size: 32px;
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+}
+
+.article-title a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.article-publish-time {
+  color: var(--secondary-color);
+  font-size: 14px;
+  font-family: common_font;
+}
+</style>
+
+<section class="article-header">
+  <h1 class="article-title">
+    <a href="/handle_restful_api_error">如何处理 RESTFUL 数据异常导致的前端错误</a>
+  </h1>
+  <time class="article-publish-time">2019-05-30</time>
+</section>
+
+    <style>
+  article {
+    --article-space: 30px;
+  }
+
+  article a {
+    color: var(--normal-color);
+    text-decoration-color: var(--primary-color);
+  }
+
+  article h2,
+  article h3,
+  article h4,
+  article h5,
+  article h6 {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-inline: auto;
+    line-height: 1.5;
+    color: var(--normal-color);
+  }
+
+  article h2 {
+    margin-block-start: 28px;
+    font-size: 28px;
+  }
+
+  article h3 {
+    margin-block-start: 26px;
+    font-size: 25px;
+  }
+
+  article h4 {
+    margin-block-start: 24px;
+    font-size: 22px;
+  }
+
+  article h5 {
+    margin-block-start: 22px;
+    font-size: 19px;
+  }
+
+  article h6 {
+    margin-block-start: 20px;
+    font-size: 16px;
+  }
+
+  article p {
+    max-inline-size: var(--content-max-width);
+
+    margin-block: 15px;
+    margin-inline: auto;
+    padding-inline: 30px;
+
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--normal-color);
+    word-break: break-word;
+  }
+
+  article p code,
+  article ul code,
+  article ol code,
+  article table code {
+    padding-inline: 4px;
+    border-radius: var(--border-radius);
+    background: rgba(237, 106, 94, 0.3);
+  }
+
+  article pre {
+    max-inline-size: var(--content-max-width) !important;
+    margin-block: 15px !important;
+    margin-inline: auto !important;
+    font-size: 14px !important;
+    box-sizing: border-box;
+    border-radius: var(--border-radius) !important;
+    tab-size: 2 !important;
+    padding: 0 !important;
+  }
+
+  article pre code {
+    display: block;
+    margin-block: 20px !important;
+    margin-inline: 30px !important;
+    overflow: auto !important;
+    font-size: inherit !important;
+  }
+
+  article hr {
+    max-inline-size: var(--content-max-width);
+    margin-block: 40px;
+    margin-inline: auto;
+    padding-inline: var(--article-space);
+    border: none;
+  }
+
+  article hr::after {
+    content: "";
+    display: block;
+    block-size: 1px;
+    background-color: var(--tertiary-color);
+  }
+
+  .table-container {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .table-container table {
+    border-collapse: collapse;
+  }
+
+  .table-container th,
+  .table-container td {
+    font-size: 14px;
+    color: var(--normal-color);
+    border: 1px solid var(--tertiary-color);
+    padding: 10px;
+    text-align: left;
+  }
+
+  .table-container th {
+    font-size: 16px;
+    text-align: left;
+  }
+
+  article blockquote {
+    max-inline-size: var(--content-max-width);
+    padding-inline: var(--article-space);
+    margin-block: 15px;
+    margin-inline: auto;
+    position: relative;
+    font-style: italic;
+    color: var(--secondary-color);
+  }
+
+  article blockquote::before {
+    content: "";
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 30px;
+    inline-size: 3px;
+    block-size: 100%;
+    background-color: var(--primary-color);
+  }
+
+  article blockquote p {
+    font-size: 14px;
+    color: inherit;
+    max-inline-size: unset;
+    padding: 0;
+    margin-inline-start: 30px;
+  }
+
+  article ul,
+  article ol {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+    color: var(--normal-color);
+    line-height: 1.5;
+  }
+
+  article ol {
+    counter-reset: li-count;
+  }
+
+  article ul li,
+  article ol li {
+    display: block;
+    margin-block: 5px;
+    position: relative;
+  }
+
+  article ol li {
+    counter-increment: li-count;
+  }
+
+  article ul li::before {
+    content: "";
+    display: inline-block;
+    inline-size: 6px;
+    block-size: 6px;
+
+    margin-inline-end: 10px;
+
+    vertical-align: middle;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+  }
+
+  article ol li::before {
+    content: counter(li-count) ". ";
+    color: var(--primary-color);
+  }
+
+  article figcaption {
+    font-size: 12px;
+    color: var(--secondary-color);
+    text-align: center;
+    margin-block-start: 5px;
+  }
+
+  .figure-img {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .figure-img img {
+    display: block;
+    max-inline-size: 100%;
+    margin-inline: auto;
+    border-radius: var(--border-radius);
+  }
+
+  .figure-media {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .figure-media .media {
+    display: block;
+    max-inline-size: 100%;
+    margin-inline: auto;
+  }
+
+  .figure-iframe {
+    inline-size: 100%;
+    margin-block: 15px;
+  }
+
+  .figure-iframe iframe {
+    display: block;
+    inline-size: 100%;
+    max-inline-size: var(--content-max-width);
+    margin-inline: auto;
+    block-size: 640px;
+    border: 1px solid var(--tertiary-color);
+    border-radius: var(--border-radius);
+  }
+
+  strong {
+    font-weight: normal;
+    text-decoration: underline;
+  }
+</style>
+
+<section><p>最近一段时间监控平台收集了很多 JS 错误，大部分都是<code>TypeError</code></p>
+<pre><code class="txt language-txt">Uncaught TypeError: Cannot read property 'xxx' of null
+</code></pre>
+<p>经过排查后发现基本都是因为接口数据错误的导致，比如</p>
+<pre><code class="js language-js">// 正常数据
+{
+  "data": {
+    "name": "xxx",
+  },
+}
+
+// 错误数据
+{
+  "data": null,
+}
+</code></pre>
+<p>data 应该是一个对象，如果返回 null 的话访问<code>data.name</code>就会产生<code>TypeError</code>。
+至于接口为什么会返回错误的数据，原因有很多种</p>
+<ul>
+<li>接口本身 BUG</li>
+<li>手动修改数据库</li>
+<li>其他接口 BUG 导致错误地修改了数据</li>
+<li>…</li>
+</ul>
+<p>修复这些错误其实很简单，比如访问<code>data</code>之前先判断<code>data</code>是否为<code>null</code></p>
+<pre><code class="js language-js">data ? data.name : '';
+// 在其他的一些语言中有`?.`操作符可以很方便地进行上面的操作
+</code></pre>
+<p>但同时也会带来一些问题。</p>
+<p>比如<code>name</code>是要显示在页面上，<code>我的名字是xxx，我喜欢唱跳RAP和篮球</code>，因为缺失了<code>name</code>，所以变成了<code>我的名字是，我喜欢唱跳RAP和篮球</code>。
+这会对用户造成一些困扰。
+在一些涉及到交易的场景可能会造成更大的麻烦。</p>
+<p>另一个问题是如果接口数据复杂一点的话，为了避免报错你的页面可能会有很多判断的语句</p>
+<pre><code class="js language-js">{
+  data: {
+    user: { name: 'xxx' },
+    theme: { color: 'red' },
+  },
+}
+
+// 访问`user.name`
+data ? (data.user ? data.user.name : '') : '';
+// 或者
+(data &amp;&amp; data.user &amp;&amp; data.user.name) || '';
+
+// 访问`theme.color`
+data ? (data.theme ? data.theme.color : '') : '';
+// 或者
+(data &amp;&amp; data.theme &amp;&amp; data.theme.color) || '';
+</code></pre>
+<p>对于这类问题，我的观点是<strong>数据异常的页面不应该展示给用户</strong>。所以，应该对接口的数据进行校验。</p>
+<p><code>npm</code>上有很多优秀的数据校验包，比如 <a href="https://www.npmjs.com/package/ajv">ajv</a>，<a href="https://www.npmjs.com/package/@hapi/joi">joi</a> 这些，以<code>joi</code>为例。</p>
+<p>统一接口格式</p>
+<pre><code class="js language-js">{
+  error_code: "错误码，正常为0",
+  error_message: "错误信息，正常为''",
+  data: "数据",
+}
+</code></pre>
+<p>封装请求</p>
+<pre><code class="js language-js">// request.js
+import axios from 'axios'; // 或 window.fetch
+
+const request = async (options) =&gt; {
+  const response = await axios(options);
+  const {
+    error_code: errorCode,
+    error_message: errorMessage,
+    data,
+  } = response.data;
+  if (errorCode !== 0) {
+    throw new Error(`${errorCode}:${errorMessage}`);
+  }
+
+  // shcema 表示 joi 对象
+  // 验证数据，部分接口可能不需要验证，所以 schema 是可选参数
+  if (options.schema) {
+    // validate 是 joi 对象自带的方法用于验证数据
+    const { error } = schema.validate(data);
+
+    // 数据验证失败
+    if (error) {
+      // 上报数据格式错误，对于一些简单的数据错误可以及时修改数据库
+      reportDataError();
+      throw error;
+    }
+  }
+
+  return data;
+};
+
+export default request;
+</code></pre>
+<p>以<code>react</code>为例，调用请求</p>
+<pre><code class="jsx language-jsx">import React, { useState, useEffect } from 'react';
+import Joi from '@hapi/joi';
+
+import request from './path/request';
+
+// schema
+const schema = Joi.object().keys({
+  user: Joi.object().keys({
+    name: Joi.string().required(),
+  }),
+  theme: Joi.object().keys({
+    color: Joi.string().required(),
+  }),
+});
+
+const Component = () =&gt; {
+  const [status, setStatus] = useState('loading');
+  const [data, setData] = useState(null);
+
+  useEffect(() =&gt; {
+    request({
+      method: 'get',
+      url: '/user',
+      schema,
+    })
+      .then((user) =&gt; {
+        setStatus('success');
+        setUser(user);
+      })
+      .catch(() =&gt; setStatus('error'));
+  }, []);
+
+  if (status === 'success') {
+    // 保证了可以正确地获取变量，渲染过程中不会报错
+    return &lt;div style={{ color: data.theme.color }}&gt;{data.user.name}&lt;/duv&gt;;
+  }
+  if (status === 'loading') {
+    return &lt;div&gt;loading&lt;/div&gt;;
+  }
+  return &lt;div&gt;error&lt;/div&gt;;
+};
+</code></pre>
+<p>当调用请求的时候，数据格式或数据出错可以显式地抛出错误让组件捕获，可以保证用户看到的页面一定是正确的，否则只会看到错误页面。
+可以对请求进一步封装，如果多个组件调用就不需要重复定义<code>schema</code></p>
+<pre><code class="js language-js">// getUserInfo.js
+import Joi from 'joi';
+
+import request from './path/request';
+
+const schema = Joi.object().keys({
+  user: Joi.object().keys({
+    name: Joi.string().required(),
+  }),
+  theme: Joi.object().keys({
+    color: Joi.string().required(),
+  }),
+});
+
+export default () =&gt;
+  request({
+    method: 'get',
+    url: '/user',
+    schema,
+  });
+</code></pre>
+<p>当然，上面只是前端的一种预防方案，最重要应该还是在接口层面保证数据的完整性和正确性。</p></section>
+
+    
+  </article>
+  
+    <style>
+  .article-actions {
+    max-inline-size: var(--content-max-width);
+
+    display: flex;
+    align-items: center;
+
+    margin-block: 40px;
+    margin-inline: auto;
+    padding-inline: 30px;
+
+    font-family: common_font;
+    color: var(--normal-color);
+  }
+
+  .article-actions_action:not(:last-child)::after {
+    content: "·\00a0";
+  }
+
+  .article-actions_action > a {
+    color: inherit;
+    text-decoration-color: var(--primary-color);
+  }
+
+  @media (max-width: 520px) {
+    .article-actions {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .article-actions_action::before {
+      content: "·";
+    }
+
+    .article-actions_action:not(:last-child)::after {
+      content: "";
+    }
+  }
+</style>
+
+<div class="article-actions">
+  <span class="article-actions_action">
+    使用
+    <a href="https://github.com/mebtte/animal-photosynthesis/discussions">Discussions</a> 讨论
+  </span>
+  <span class="article-actions_action">
+    在
+    <a href="https://github.com/mebtte/animal-photosynthesis/edit/master/articles/handle_restful_api_error/index.md">Github</a>
+    上编辑
+  </span>
+  <span class="article-actions_action">
+    分享到
+    <a href="https://www.x.com/share?text=%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%20RESTFUL%20%E6%95%B0%E6%8D%AE%E5%BC%82%E5%B8%B8%E5%AF%BC%E8%87%B4%E7%9A%84%E5%89%8D%E7%AB%AF%E9%94%99%E8%AF%AF&amp;url=https%3A%2F%2Fmebtte.com%2Fhandle_restful_api_error">X</a>
+  </span>
+</div>
+
+  
+  <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8404651063516637" crossorigin="anonymous"></script>
+<style>
+  .adsbygoogle {
+    max-width: 100%;
+    margin-block: 40px;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .adsbygoogle:empty {
+    display: none;
+  }
+</style>
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8404651063516637" data-ad-slot="7746538242" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  <style>
+.page-footer {
+  font-size: 12px;
+  max-inline-size: var(--content-max-width);
+  margin-block: 40px;
+  margin-inline: auto;
+  padding-inline: 30px;
+  font-family: common_font;
+  color: var(--secondary-color);
+}
+
+.page-footer > a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.page-footer > a:hover {
+  color: var(--primary-color);
+}
+
+.page-footer > .underline {
+  text-decoration: underline;
+}
+</style>
+
+<footer class="page-footer">
+  <a href="https://github.com/mebtte/animal-photosynthesis/blob/master/license">©</a>
+  2026
+  &nbsp;
+  <a class="underline" href="https://i.mebtte.com">MEBTTE</a>
+  &nbsp;|&nbsp;
+  <a class="underline" href="https://stats.uptimerobot.com/4nO5RUYB60">UPTIME</a>
+  &nbsp;|&nbsp;
+  <a class="underline" href="/support">支持我</a>
+</footer>
+
+  <script src="/39c97c2884c3a2b5e64c8f085b843d4e.js"></script>
+  <script src="/0ec215ad131a36856d3d20423b9aca26.js" async="" defer=""></script>
+
+
+
+</body></html>

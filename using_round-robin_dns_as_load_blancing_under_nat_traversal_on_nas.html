@@ -1,0 +1,667 @@
+<!DOCTYPE html><html lang="zh-cn"><head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="mebtte">
+<meta name="keywords" content="HTML, CSS, JavaScript, Web, Front-End">
+
+<!-- Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-CESZTRKM96"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CESZTRKM96');
+</script>
+
+<!-- open graph -->
+<meta property="og:type" content="website">
+<meta property="og:image" content="/6ed5faa0573b2a5a9d47232c9a71fb88.png">
+
+<link rel="shortcut icon" type="image/png" href="/6ed5faa0573b2a5a9d47232c9a71fb88.png">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+
+<link rel="preload" href="/e0e440b1ae0a9ba21fb3feb4cff12d11.ttf" as="font" crossorigin="anonymous">
+<link rel="preload" href="/53d99659dc34209657d05bb2a7fc5de4.ttf" as="font" crossorigin="anonymous">
+
+  <style>
+  @font-face {
+    font-family: common_font;
+    src: url(/53d99659dc34209657d05bb2a7fc5de4.ttf);
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    --content-max-width: 840px;
+
+    --primary-color: rgb(237 106 94);
+
+    --normal-color: #333;
+    --secondary-color: #888;
+    --tertiary-color: #ddd;
+    --backgroud: rgb(255 255 255);
+
+    --border-radius: 2px;
+    --transition-duration: 0.3s;
+
+    background-color: var(--backgroud);
+    transition: background-color var(--transition-duration);
+  }
+
+  figure {
+    margin-inline: 0;
+  }
+</style>
+
+
+  <title>内网穿透下 NAS 使用 DNS 轮循作为负载均衡 - 动物的光合作用</title>
+  <meta name="description" content="> 注意是**轮循**而不是**轮询**, 前者对应的英文是 round-robin, 后者对应 polling.  由于我的宽带没有公网 IP, 所以我的 NAS 上一些服务是通过内网穿透到具有公网 IP 的 VPS 上进行远程访问的. 这里有两个问题导致远程访问不太稳定, 一个是 NAS 和 V......">
+  <meta property="og:description" content="> 注意是**轮循**而不是**轮询**, 前者对应的英文是 round-robin, 后者对应 polling.  由于我的宽带没有公网 IP, 所以我的 NAS 上一些服务是通过内网穿透到具有公网 IP 的 VPS 上进行远程访问的. 这里有两个问题导致远程访问不太稳定, 一个是 NAS 和 V......">
+
+  <link rel="preload" href="/6431b18e16eed6a018c70873058a94c7.ttf" as="font" crossorigin="anonymous">
+  <style>
+    @font-face {
+      font-family: article_font_using_round-robin_dns_as_load_blancing_under_nat_traversal_on_nas;
+      src: url(/6431b18e16eed6a018c70873058a94c7.ttf);
+    }
+    article {
+      font-family: article_font_using_round-robin_dns_as_load_blancing_under_nat_traversal_on_nas;
+    }
+  </style>
+  
+  <link rel="stylesheet" href="/ece570de77ba673c17121d06fc929bd9.css">
+</head>
+
+<body>
+  <style>
+  @font-face {
+    font-family: title_font;
+    src: url(/e0e440b1ae0a9ba21fb3feb4cff12d11.ttf);
+  }
+
+  .page-header {
+    max-inline-size: var(--content-max-width);
+    margin-block: 50px 40px;
+    margin-inline: auto;
+    padding-inline: 30px;
+    display: flex;
+    align-items: center;
+  }
+
+  .page-header_title {
+    flex: 1;
+    min-inline-size: 0;
+    font-size: min(8vw, 56px);
+    font-family: title_font;
+    margin: 0;
+    color: var(--normal-color);
+  }
+
+  .page-header_title > a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .page-header_icon {
+    margin-inline-start: 10px;
+  }
+
+  .page-header_icon > img {
+    user-select: none;
+    inline-size: 20px;
+    block-size: 20px;
+  }
+</style>
+
+<header class="page-header">
+  
+    <h2 class="page-header_title">
+      <a href="/">动物的光合作用</a>
+    </h2>
+  
+  <a class="page-header_icon" href="/rss.xml" target="_blank">
+    <img src="/e31ad23031e5bcb34e8d4a424ba0c100.png" alt="rss">
+  </a>
+  <a class="page-header_icon" href="https://github.com/mebtte/animal-photosynthesis" target="_blank">
+    <img src="/184c800e11079b13904f308161071b62.png" alt="github">
+  </a>
+  <a class="page-header_icon" href="//i.mebtte.com" target="_blank">
+    <img src="/2cd3760ad10a38f8a9ed6ea3993fa472.png" alt="author">
+  </a>
+</header>
+
+  <article>
+    <style>
+.article-header {
+  max-inline-size: var(--content-max-width);
+  margin-block: 40px;
+  margin-inline: auto;
+  padding-inline: 30px;
+}
+
+.article-title {
+  color: var(--primary-color);
+  font-size: 32px;
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+}
+
+.article-title a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.article-publish-time {
+  color: var(--secondary-color);
+  font-size: 14px;
+  font-family: common_font;
+}
+</style>
+
+<section class="article-header">
+  <h1 class="article-title">
+    <a href="/using_round-robin_dns_as_load_blancing_under_nat_traversal_on_nas">内网穿透下 NAS 使用 DNS 轮循作为负载均衡</a>
+  </h1>
+  <time class="article-publish-time">2025-03-02</time>
+</section>
+
+    <style>
+  article {
+    --article-space: 30px;
+  }
+
+  article a {
+    color: var(--normal-color);
+    text-decoration-color: var(--primary-color);
+  }
+
+  article h2,
+  article h3,
+  article h4,
+  article h5,
+  article h6 {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-inline: auto;
+    line-height: 1.5;
+    color: var(--normal-color);
+  }
+
+  article h2 {
+    margin-block-start: 28px;
+    font-size: 28px;
+  }
+
+  article h3 {
+    margin-block-start: 26px;
+    font-size: 25px;
+  }
+
+  article h4 {
+    margin-block-start: 24px;
+    font-size: 22px;
+  }
+
+  article h5 {
+    margin-block-start: 22px;
+    font-size: 19px;
+  }
+
+  article h6 {
+    margin-block-start: 20px;
+    font-size: 16px;
+  }
+
+  article p {
+    max-inline-size: var(--content-max-width);
+
+    margin-block: 15px;
+    margin-inline: auto;
+    padding-inline: 30px;
+
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--normal-color);
+    word-break: break-word;
+  }
+
+  article p code,
+  article ul code,
+  article ol code,
+  article table code {
+    padding-inline: 4px;
+    border-radius: var(--border-radius);
+    background: rgba(237, 106, 94, 0.3);
+  }
+
+  article pre {
+    max-inline-size: var(--content-max-width) !important;
+    margin-block: 15px !important;
+    margin-inline: auto !important;
+    font-size: 14px !important;
+    box-sizing: border-box;
+    border-radius: var(--border-radius) !important;
+    tab-size: 2 !important;
+    padding: 0 !important;
+  }
+
+  article pre code {
+    display: block;
+    margin-block: 20px !important;
+    margin-inline: 30px !important;
+    overflow: auto !important;
+    font-size: inherit !important;
+  }
+
+  article hr {
+    max-inline-size: var(--content-max-width);
+    margin-block: 40px;
+    margin-inline: auto;
+    padding-inline: var(--article-space);
+    border: none;
+  }
+
+  article hr::after {
+    content: "";
+    display: block;
+    block-size: 1px;
+    background-color: var(--tertiary-color);
+  }
+
+  .table-container {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .table-container table {
+    border-collapse: collapse;
+  }
+
+  .table-container th,
+  .table-container td {
+    font-size: 14px;
+    color: var(--normal-color);
+    border: 1px solid var(--tertiary-color);
+    padding: 10px;
+    text-align: left;
+  }
+
+  .table-container th {
+    font-size: 16px;
+    text-align: left;
+  }
+
+  article blockquote {
+    max-inline-size: var(--content-max-width);
+    padding-inline: var(--article-space);
+    margin-block: 15px;
+    margin-inline: auto;
+    position: relative;
+    font-style: italic;
+    color: var(--secondary-color);
+  }
+
+  article blockquote::before {
+    content: "";
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 30px;
+    inline-size: 3px;
+    block-size: 100%;
+    background-color: var(--primary-color);
+  }
+
+  article blockquote p {
+    font-size: 14px;
+    color: inherit;
+    max-inline-size: unset;
+    padding: 0;
+    margin-inline-start: 30px;
+  }
+
+  article ul,
+  article ol {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+    color: var(--normal-color);
+    line-height: 1.5;
+  }
+
+  article ol {
+    counter-reset: li-count;
+  }
+
+  article ul li,
+  article ol li {
+    display: block;
+    margin-block: 5px;
+    position: relative;
+  }
+
+  article ol li {
+    counter-increment: li-count;
+  }
+
+  article ul li::before {
+    content: "";
+    display: inline-block;
+    inline-size: 6px;
+    block-size: 6px;
+
+    margin-inline-end: 10px;
+
+    vertical-align: middle;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+  }
+
+  article ol li::before {
+    content: counter(li-count) ". ";
+    color: var(--primary-color);
+  }
+
+  article figcaption {
+    font-size: 12px;
+    color: var(--secondary-color);
+    text-align: center;
+    margin-block-start: 5px;
+  }
+
+  .figure-img {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .figure-img img {
+    display: block;
+    max-inline-size: 100%;
+    margin-inline: auto;
+    border-radius: var(--border-radius);
+  }
+
+  .figure-media {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .figure-media .media {
+    display: block;
+    max-inline-size: 100%;
+    margin-inline: auto;
+  }
+
+  .figure-iframe {
+    inline-size: 100%;
+    margin-block: 15px;
+  }
+
+  .figure-iframe iframe {
+    display: block;
+    inline-size: 100%;
+    max-inline-size: var(--content-max-width);
+    margin-inline: auto;
+    block-size: 640px;
+    border: 1px solid var(--tertiary-color);
+    border-radius: var(--border-radius);
+  }
+
+  strong {
+    font-weight: normal;
+    text-decoration: underline;
+  }
+</style>
+
+<section><blockquote>
+  <p>注意是<strong>轮循</strong>而不是<strong>轮询</strong>, 前者对应的英文是 round-robin, 后者对应 polling.</p>
+</blockquote>
+<p>由于我的宽带没有公网 IP, 所以我的 NAS 上一些服务是通过内网穿透到具有公网 IP 的 VPS 上进行远程访问的. 这里有两个问题导致远程访问不太稳定, 一个是 NAS 和 VPS 之间的连接不稳定, 另一个是 VPS 本身不稳定, 从而导致服务不能稳定 24 小时在线, 所以我使用了三台 VPS 进行内网穿透, 当其中一台 VPS 访问不稳定时, 可以使用另外两台作为备份. 例如 <a href="https://www.plex.tv">Plex</a> 服务, 为了方便访问, 每一台 VPS 都分配了唯一的域名:</p>
+
+      <figure class="figure-img">
+        <a href="/94492e0e9753155f2983064f92d6af9d.png" target="_blank">
+          <img src="/94492e0e9753155f2983064f92d6af9d.png" alt="Plex 内网穿透示意图" title="Plex 内网穿透示意图" loading="lazy">
+        </a>
+        <figcaption>Plex 内网穿透示意图</figcaption>
+      </figure>
+    
+<p>当我访问 Plex 时, 我会先访问 <code>plex.vps1.example.com</code>, 如果访问出现问题我就会切换到 <code>plex.vps2.example.com</code>, 依此类推. 这种访问方式极其不优雅, 全靠人工寻找可用的服务. 这里还有个问题, 由于我总是按照 VPS1 --&gt; VPS2 --&gt; VPS3 的顺序进行访问, 所以就有可能出现 VPS1 流量用完而 VPS2 和 VPS3 流量完全未被消耗的情况.</p>
+<p>为了避免这种情况, 我们可以引入负载均衡, 最简单的做法是新增 VPS4, 然后使用 VPS4 将流量均衡到另外三台 VPS.</p>
+
+      <figure class="figure-img">
+        <a href="/cae4ea0975163ce485783473ead4aff5.png" target="_blank">
+          <img src="/cae4ea0975163ce485783473ead4aff5.png" alt="使用额外的 VPS 作为入口" title="使用额外的 VPS 作为入口" loading="lazy">
+        </a>
+        <figcaption>使用额外的 VPS 作为入口</figcaption>
+      </figure>
+    
+<p>这样子我就可以访问 <code>plex.example.com</code>, VPS4 自动将流量均衡到其他三台 VPS, 当其中某些 VPS 不可用时, 也能够保证流量分配到可用的 VPS. 但是这个方案存在三个问题:</p>
+<ol>
+<li>VPS4 本身是个 VPS, 所有流量都经过它, 极易造成流量耗尽</li>
+<li>VPS4 存在掉线风险, 掉线之后只能回退到 VPS1 --&gt; VPS2 --&gt; VPS3 逐台访问的方式</li>
+<li>VPS4 需要额外花费以及维护成本</li>
+</ol>
+<p>自建的负载均衡无法保证稳定的情况下, 我转向了商业负载均衡, 基本每个云厂商都有提供负载均衡服务, 但无一例外它们的价格都不低, 例如 Cloudflare 在 3 个终端节点的情况下, 月付费为 $10, 对于个人用户来说是不小的负担.</p>
+
+      <figure class="figure-img">
+        <a href="/a547d2d58f33b59d88bd7345d6682833.png" target="_blank">
+          <img src="/a547d2d58f33b59d88bd7345d6682833.png" alt="Cloudflare 负载均衡价格" title="Cloudflare 负载均衡价格" loading="lazy">
+        </a>
+        <figcaption>Cloudflare 负载均衡价格</figcaption>
+      </figure>
+    
+<p>最后在快要放弃使用负载均衡方案的时候看到这么一篇<a href="https://blog.hyperknot.com/p/understanding-round-robin-dns">文章</a>, 了解到 DNS 轮循.</p>
+<h2 id="dns">什么是 DNS 轮循</h2>
+<p>在 DNS 中, 使用 A 记录表示地址, 也就是域名映射 IP, 上面的例子中就存下以下 A 记录:</p>
+
+      <div class="table-container">
+        <table>
+          
+<thead>
+<tr>
+<th>类型</th>
+<th>名称</th>
+<th>值</th>
+<th>TTL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>plex</td>
+<td>4.4.4.4</td>
+<td>auto</td>
+</tr>
+<tr>
+<td>A</td>
+<td>plex.vps1</td>
+<td>1.1.1.1</td>
+<td>auto</td>
+</tr>
+<tr>
+<td>A</td>
+<td>plex.vps2</td>
+<td>2.2.2.2</td>
+<td>auto</td>
+</tr>
+<tr>
+<td>A</td>
+<td>plex.vps3</td>
+<td>3.3.3.3</td>
+<td>auto</td>
+</tr>
+</tbody>
+
+        </table>
+      </div>
+    
+<p>当我们访问 <code>https://plex.vps1.example.com</code> 时, 会通过 A 记录 <code>plex.vps1</code> 将域名解析成 IP <code>1.1.1.1</code>, 然后向 <code>1.1.1.1</code> 所在的服务器发起 <code>HTTPS</code> 请求.</p>
+<p>通常情况下, 相同名称的 A 记录只有一个, 但是也可以设置多个, 这就是 <strong>DNS 轮循</strong>.</p>
+<blockquote>
+  <p>IP v6 同理, 不过 DNS 类型为 AAAA 记录.</p>
+</blockquote>
+<p>我们可以通过 <code>nslookup</code> 来查询 DNS, 如果存在多条 DNS 记录则会一并列出:</p>
+<pre><code class="sh language-sh">&gt; nslookup plex.example.com
+Server:         8.8.8.8
+Address:        8.8.8.8#53
+
+Non-authoritative answer:
+Name:   plex.example.com
+Address: 1.1.1.1
+Name:   plex.example.com
+Address: 3.3.3.3
+Name:   plex.example.com
+Address: 2.2.2.2
+</code></pre>
+<p>在 DNS 轮循中, 每次 DNS 解析会返回 IP 列表, IP 列表的顺序是不固定的, 一般情况下客户端会对 IP 列表中的第一个发起请求, 由于 IP 列表的顺序不固定, 这就导致了请求随机分配到不同的 IP, 近似达到了负载均衡的效果.</p>
+<p>但是这种策略也存在问题, 比如当其中某些服务器意外下线, DNS 轮循依然会返回已经下线的 IP, 当对这些 IP 发起请求时会造成服务不可用的假象.</p>
+<p>所以现代大多数客户端不会使用以上策略, 而是会对 IP 进行优先级排序, 对高优先级的 IP 进行连接, 优先级排序大概如下:</p>
+<ol>
+<li>检查服务器是否在线</li>
+<li>检测在线服务器的网络延迟时间, 从低到高进行排序</li>
+</ol>
+<blockquote>
+  <p>通常情况下, 服务器的地址位置离用户越近则网络延迟越低</p>
+</blockquote>
+<p>而且排序不是一次性的, 当网络发生变化或者与服务器连接存在问题时, 排序则会重新进行, 所以客户端总是能够连接<strong>延迟最低</strong>的<strong>在线</strong>服务器.</p>
+<p>基于 DNS 轮循, 上面 Plex 服务的架构能够得到简化, 节省金钱成本和维护成本, 更重要的是还有负载均衡的加持.</p>
+
+      <figure class="figure-img">
+        <a href="/428da68354d5cffc1e26f17a7b2b2072.png" target="_blank">
+          <img src="/428da68354d5cffc1e26f17a7b2b2072.png" alt="基于 DNS 轮循的负载均衡" title="基于 DNS 轮循的负载均衡" loading="lazy">
+        </a>
+        <figcaption>基于 DNS 轮循的负载均衡</figcaption>
+      </figure>
+    
+<p>所以在 NAS 内网穿透的场景下, 基于 DNS 轮循的负载均衡方案是最合适的选择. 不单单是这种场景, 个人用户最合适的负载均衡方案我认为也是基于 DNS 轮循.</p></section>
+
+    
+  </article>
+  
+    <style>
+  .article-actions {
+    max-inline-size: var(--content-max-width);
+
+    display: flex;
+    align-items: center;
+
+    margin-block: 40px;
+    margin-inline: auto;
+    padding-inline: 30px;
+
+    font-family: common_font;
+    color: var(--normal-color);
+  }
+
+  .article-actions_action:not(:last-child)::after {
+    content: "·\00a0";
+  }
+
+  .article-actions_action > a {
+    color: inherit;
+    text-decoration-color: var(--primary-color);
+  }
+
+  @media (max-width: 520px) {
+    .article-actions {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .article-actions_action::before {
+      content: "·";
+    }
+
+    .article-actions_action:not(:last-child)::after {
+      content: "";
+    }
+  }
+</style>
+
+<div class="article-actions">
+  <span class="article-actions_action">
+    使用
+    <a href="https://github.com/mebtte/animal-photosynthesis/discussions">Discussions</a> 讨论
+  </span>
+  <span class="article-actions_action">
+    在
+    <a href="https://github.com/mebtte/animal-photosynthesis/edit/master/articles/using_round-robin_dns_as_load_blancing_under_nat_traversal_on_nas/index.md">Github</a>
+    上编辑
+  </span>
+  <span class="article-actions_action">
+    分享到
+    <a href="https://www.x.com/share?text=%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E4%B8%8B%20NAS%20%E4%BD%BF%E7%94%A8%20DNS%20%E8%BD%AE%E5%BE%AA%E4%BD%9C%E4%B8%BA%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1&amp;url=https%3A%2F%2Fmebtte.com%2Fusing_round-robin_dns_as_load_blancing_under_nat_traversal_on_nas">X</a>
+  </span>
+</div>
+
+  
+  <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8404651063516637" crossorigin="anonymous"></script>
+<style>
+  .adsbygoogle {
+    max-width: 100%;
+    margin-block: 40px;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .adsbygoogle:empty {
+    display: none;
+  }
+</style>
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8404651063516637" data-ad-slot="7746538242" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  <style>
+.page-footer {
+  font-size: 12px;
+  max-inline-size: var(--content-max-width);
+  margin-block: 40px;
+  margin-inline: auto;
+  padding-inline: 30px;
+  font-family: common_font;
+  color: var(--secondary-color);
+}
+
+.page-footer > a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.page-footer > a:hover {
+  color: var(--primary-color);
+}
+
+.page-footer > .underline {
+  text-decoration: underline;
+}
+</style>
+
+<footer class="page-footer">
+  <a href="https://github.com/mebtte/animal-photosynthesis/blob/master/license">©</a>
+  2026
+  &nbsp;
+  <a class="underline" href="https://i.mebtte.com">MEBTTE</a>
+  &nbsp;|&nbsp;
+  <a class="underline" href="https://stats.uptimerobot.com/4nO5RUYB60">UPTIME</a>
+  &nbsp;|&nbsp;
+  <a class="underline" href="/support">支持我</a>
+</footer>
+
+  <script src="/39c97c2884c3a2b5e64c8f085b843d4e.js"></script>
+  <script src="/0ec215ad131a36856d3d20423b9aca26.js" async="" defer=""></script>
+
+
+
+</body></html>

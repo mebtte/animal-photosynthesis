@@ -1,0 +1,1040 @@
+<!DOCTYPE html><html lang="zh-cn"><head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="mebtte">
+<meta name="keywords" content="HTML, CSS, JavaScript, Web, Front-End">
+
+<!-- Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-CESZTRKM96"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CESZTRKM96');
+</script>
+
+<!-- open graph -->
+<meta property="og:type" content="website">
+<meta property="og:image" content="/6ed5faa0573b2a5a9d47232c9a71fb88.png">
+
+<link rel="shortcut icon" type="image/png" href="/6ed5faa0573b2a5a9d47232c9a71fb88.png">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+
+<link rel="preload" href="/e0e440b1ae0a9ba21fb3feb4cff12d11.ttf" as="font" crossorigin="anonymous">
+<link rel="preload" href="/53d99659dc34209657d05bb2a7fc5de4.ttf" as="font" crossorigin="anonymous">
+
+  <style>
+  @font-face {
+    font-family: common_font;
+    src: url(/53d99659dc34209657d05bb2a7fc5de4.ttf);
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    --content-max-width: 840px;
+
+    --primary-color: rgb(237 106 94);
+
+    --normal-color: #333;
+    --secondary-color: #888;
+    --tertiary-color: #ddd;
+    --backgroud: rgb(255 255 255);
+
+    --border-radius: 2px;
+    --transition-duration: 0.3s;
+
+    background-color: var(--backgroud);
+    transition: background-color var(--transition-duration);
+  }
+
+  figure {
+    margin-inline: 0;
+  }
+</style>
+
+
+  <title>React 组件中复用代码的方式 - 动物的光合作用</title>
+  <meta name="description" content="## Mixin  在 ES6 之前, React 使用 React.createClass 创建组件:  ```jsx const Article = React.createClass({   getInitialState: function () {     return {       c......">
+  <meta property="og:description" content="## Mixin  在 ES6 之前, React 使用 React.createClass 创建组件:  ```jsx const Article = React.createClass({   getInitialState: function () {     return {       c......">
+
+  <link rel="preload" href="/67176e9ba401dda805405101ef5049db.ttf" as="font" crossorigin="anonymous">
+  <style>
+    @font-face {
+      font-family: article_font_reuse_code_between_react_components;
+      src: url(/67176e9ba401dda805405101ef5049db.ttf);
+    }
+    article {
+      font-family: article_font_reuse_code_between_react_components;
+    }
+  </style>
+  
+  <link rel="stylesheet" href="/ece570de77ba673c17121d06fc929bd9.css">
+</head>
+
+<body>
+  <style>
+  @font-face {
+    font-family: title_font;
+    src: url(/e0e440b1ae0a9ba21fb3feb4cff12d11.ttf);
+  }
+
+  .page-header {
+    max-inline-size: var(--content-max-width);
+    margin-block: 50px 40px;
+    margin-inline: auto;
+    padding-inline: 30px;
+    display: flex;
+    align-items: center;
+  }
+
+  .page-header_title {
+    flex: 1;
+    min-inline-size: 0;
+    font-size: min(8vw, 56px);
+    font-family: title_font;
+    margin: 0;
+    color: var(--normal-color);
+  }
+
+  .page-header_title > a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .page-header_icon {
+    margin-inline-start: 10px;
+  }
+
+  .page-header_icon > img {
+    user-select: none;
+    inline-size: 20px;
+    block-size: 20px;
+  }
+</style>
+
+<header class="page-header">
+  
+    <h2 class="page-header_title">
+      <a href="/">动物的光合作用</a>
+    </h2>
+  
+  <a class="page-header_icon" href="/rss.xml" target="_blank">
+    <img src="/e31ad23031e5bcb34e8d4a424ba0c100.png" alt="rss">
+  </a>
+  <a class="page-header_icon" href="https://github.com/mebtte/animal-photosynthesis" target="_blank">
+    <img src="/184c800e11079b13904f308161071b62.png" alt="github">
+  </a>
+  <a class="page-header_icon" href="//i.mebtte.com" target="_blank">
+    <img src="/2cd3760ad10a38f8a9ed6ea3993fa472.png" alt="author">
+  </a>
+</header>
+
+  <article>
+    <style>
+.article-header {
+  max-inline-size: var(--content-max-width);
+  margin-block: 40px;
+  margin-inline: auto;
+  padding-inline: 30px;
+}
+
+.article-title {
+  color: var(--primary-color);
+  font-size: 32px;
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+}
+
+.article-title a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.article-publish-time {
+  color: var(--secondary-color);
+  font-size: 14px;
+  font-family: common_font;
+}
+</style>
+
+<section class="article-header">
+  <h1 class="article-title">
+    <a href="/reuse_code_between_react_components">React 组件中复用代码的方式</a>
+  </h1>
+  <time class="article-publish-time">2023-12-10</time>
+</section>
+
+    <style>
+  article {
+    --article-space: 30px;
+  }
+
+  article a {
+    color: var(--normal-color);
+    text-decoration-color: var(--primary-color);
+  }
+
+  article h2,
+  article h3,
+  article h4,
+  article h5,
+  article h6 {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-inline: auto;
+    line-height: 1.5;
+    color: var(--normal-color);
+  }
+
+  article h2 {
+    margin-block-start: 28px;
+    font-size: 28px;
+  }
+
+  article h3 {
+    margin-block-start: 26px;
+    font-size: 25px;
+  }
+
+  article h4 {
+    margin-block-start: 24px;
+    font-size: 22px;
+  }
+
+  article h5 {
+    margin-block-start: 22px;
+    font-size: 19px;
+  }
+
+  article h6 {
+    margin-block-start: 20px;
+    font-size: 16px;
+  }
+
+  article p {
+    max-inline-size: var(--content-max-width);
+
+    margin-block: 15px;
+    margin-inline: auto;
+    padding-inline: 30px;
+
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--normal-color);
+    word-break: break-word;
+  }
+
+  article p code,
+  article ul code,
+  article ol code,
+  article table code {
+    padding-inline: 4px;
+    border-radius: var(--border-radius);
+    background: rgba(237, 106, 94, 0.3);
+  }
+
+  article pre {
+    max-inline-size: var(--content-max-width) !important;
+    margin-block: 15px !important;
+    margin-inline: auto !important;
+    font-size: 14px !important;
+    box-sizing: border-box;
+    border-radius: var(--border-radius) !important;
+    tab-size: 2 !important;
+    padding: 0 !important;
+  }
+
+  article pre code {
+    display: block;
+    margin-block: 20px !important;
+    margin-inline: 30px !important;
+    overflow: auto !important;
+    font-size: inherit !important;
+  }
+
+  article hr {
+    max-inline-size: var(--content-max-width);
+    margin-block: 40px;
+    margin-inline: auto;
+    padding-inline: var(--article-space);
+    border: none;
+  }
+
+  article hr::after {
+    content: "";
+    display: block;
+    block-size: 1px;
+    background-color: var(--tertiary-color);
+  }
+
+  .table-container {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .table-container table {
+    border-collapse: collapse;
+  }
+
+  .table-container th,
+  .table-container td {
+    font-size: 14px;
+    color: var(--normal-color);
+    border: 1px solid var(--tertiary-color);
+    padding: 10px;
+    text-align: left;
+  }
+
+  .table-container th {
+    font-size: 16px;
+    text-align: left;
+  }
+
+  article blockquote {
+    max-inline-size: var(--content-max-width);
+    padding-inline: var(--article-space);
+    margin-block: 15px;
+    margin-inline: auto;
+    position: relative;
+    font-style: italic;
+    color: var(--secondary-color);
+  }
+
+  article blockquote::before {
+    content: "";
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 30px;
+    inline-size: 3px;
+    block-size: 100%;
+    background-color: var(--primary-color);
+  }
+
+  article blockquote p {
+    font-size: 14px;
+    color: inherit;
+    max-inline-size: unset;
+    padding: 0;
+    margin-inline-start: 30px;
+  }
+
+  article ul,
+  article ol {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+    color: var(--normal-color);
+    line-height: 1.5;
+  }
+
+  article ol {
+    counter-reset: li-count;
+  }
+
+  article ul li,
+  article ol li {
+    display: block;
+    margin-block: 5px;
+    position: relative;
+  }
+
+  article ol li {
+    counter-increment: li-count;
+  }
+
+  article ul li::before {
+    content: "";
+    display: inline-block;
+    inline-size: 6px;
+    block-size: 6px;
+
+    margin-inline-end: 10px;
+
+    vertical-align: middle;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+  }
+
+  article ol li::before {
+    content: counter(li-count) ". ";
+    color: var(--primary-color);
+  }
+
+  article figcaption {
+    font-size: 12px;
+    color: var(--secondary-color);
+    text-align: center;
+    margin-block-start: 5px;
+  }
+
+  .figure-img {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .figure-img img {
+    display: block;
+    max-inline-size: 100%;
+    margin-inline: auto;
+    border-radius: var(--border-radius);
+  }
+
+  .figure-media {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .figure-media .media {
+    display: block;
+    max-inline-size: 100%;
+    margin-inline: auto;
+  }
+
+  .figure-iframe {
+    inline-size: 100%;
+    margin-block: 15px;
+  }
+
+  .figure-iframe iframe {
+    display: block;
+    inline-size: 100%;
+    max-inline-size: var(--content-max-width);
+    margin-inline: auto;
+    block-size: 640px;
+    border: 1px solid var(--tertiary-color);
+    border-radius: var(--border-radius);
+  }
+
+  strong {
+    font-weight: normal;
+    text-decoration: underline;
+  }
+</style>
+
+<section><h2 id="mixin">Mixin</h2>
+<p>在 ES6 之前, React 使用 React.createClass 创建组件:</p>
+<pre><code class="jsx language-jsx">const Article = React.createClass({
+  getInitialState: function () {
+    return {
+      content: '',
+    };
+  },
+  componentDidMount: function () {
+    document.title = this.props.title;
+  },
+  onSave: function () {
+    // save
+  },
+  render: function () {
+    return (
+      &lt;div&gt;
+        &lt;h1&gt;{this.props.title}&lt;/h1&gt;
+        &lt;p&gt;{this.state.content}&lt;/p&gt;
+        &lt;button onClick={this.onSave}&gt;save&lt;/button&gt;
+      &lt;/div&gt;
+    );
+  },
+});
+</code></pre>
+<p>如果组件 A 和 B 都用到了相似的逻辑, 那么我们可以将这部分逻辑抽离成一个 Mixin, 通过 createClass 的 <code>mixins</code> 参数创建 A/B 组件:</p>
+<pre><code class="jsx language-jsx">const PrintMixin = {
+  print: function () {
+    console.log('print ', this.state.name);
+  },
+};
+const ComponentA = React.createClass({
+  mixins: [PrintMixin],
+  // ...
+});
+const ComponentB = React.createClass({
+  mixins: [PrintMixin],
+  // ...
+});
+</code></pre>
+<p>通过传入 <code>PrintMixin</code>, 组件 A/B 都拥有了 <code>print</code> 方法. 组件可以接收多个 Mixin, 这样就实现了跨组件的代码复用以及组件的能力拓展.</p>
+<p>随着 ES6 的发布, JS 真正拥有了 <code>class</code>, 虽然本质依然是原型链, 但是隐藏了原型链晦涩难懂的细节, 特别是通过 <code>extends</code> 实现继承. React 也逐渐地从 <code>createClass</code> 的方式创建组件迁移到 <code>ClassComponent</code>. 虽然 <code>ClassComponent</code> 已经没有 <code>mixins</code> 选项, 但是本质上 Mixin 是动态添加组件属性, 所以在 <code>ClassComponent</code> 也适用:</p>
+<pre><code class="jsx language-jsx">const PrintMixin = function () {
+  this.print = function () {
+    console.log('print ', this.state.name);
+  };
+};
+
+class Article extends React.Component {
+  constructor(props) {
+    super(props);
+
+    // !!!
+    PrintMixin.call(this);
+    // !!!
+
+    this.state = {
+      // ...
+    };
+  }
+
+  componentDidMount() {
+    // ...
+  }
+
+  render() {
+    // ...
+  }
+}
+</code></pre>
+<p>但是 Mixin 并不是一个好的代码复用模式, 比如存在命名冲突的问题:</p>
+<pre><code class="jsx language-jsx">const PrintMixin = {
+  print: function () {
+    console.log('print ', this.state.name);
+  },
+};
+const OtherMixin = {
+  print: function () {
+    console.log('print from other mixin');
+  },
+};
+const ComponentA = React.createClass({
+  mixins: [PrintMixin, OtherMixin],
+  // ...
+});
+</code></pre>
+<p>当两个 Mixin 存在同名属性属性时, 后面的 Mixin 会覆盖前面的. 如果是自定义 Mixin 的话可以通过重命名解决, 对于生命周期或者第三方 Mixin 我们就无能为力了. 同时 Mixin 和组件是紧密联系的, 我们修改组件很容易导致 Mixin 异常, 比如 <code>PrintMixin</code> 依赖了 <code>this.state.name</code>, 如果组件没有 <code>state.name</code> 或者重名 <code>state.name</code> 为 <code>state.other</code> 都会导致无法正常工作.</p>
+<h2 id="highordercomponenthoc">High-Order Component, HOC</h2>
+<p>简单来说, HOC 是一个接收组件为参数并返回新组件的一个函数. HOC 抛弃了 Mixin 修改组件属性的方式, 而是在组件外面包裹一层组件从而实现逻辑复用/功能增强的效果. 实现 HOC 通常来说有两种方法, 反向继承和属性代理.</p>
+<p>在反向继承中, 返回的组件不再继承于 <code>React.Component</code> 而是继承传入的组件, 从而实现对原组件属性的继承并拓展:</p>
+<pre><code class="jsx language-jsx">function enhance(Component) {
+  return class extends Component {
+    // ...
+
+    componentDidMount() {
+      // do something
+      super.componentDidMount();
+    }
+
+    inject = () =&gt; {
+      // ...
+    };
+
+    render() {
+      return super.render();
+    }
+  };
+}
+</code></pre>
+<p>反向继承一般不推荐使用, 首先在 React 中更多推崇的是组合而非是继承, 其次继承中的一些概念比如 <code>super.render()</code> 对于新手来说难以理解而且也需要更多的样板代码, 最后 <code>FunctionComponent</code> 无法实现继承所以反向继承只适用于 <code>ClassComponent</code>. 而属性代理就是一种组合的方式以及同时支持 <code>ClassComponent</code>和<code>FunctionComponent</code>:</p>
+<pre><code class="jsx language-jsx">function enhance(Component) {
+  return class extends React.Component {
+    // ...
+
+    componentDidMount() {
+      // ...
+    }
+
+    doSomething() {}
+
+    render() {
+      return &lt;Component {...this.props} newProp="x" /&gt;;
+    }
+  };
+}
+</code></pre>
+<p>在属性代理中, 传入的组件作为新组件的一个子组件被渲染, 我们可以自定义新组件而无需考虑是否调用传入组件中的方法. 因为 HOC 实际上是劫持了传入组件的渲染, 所以可以任意处置传入组件:</p>
+<h3 id="props">劫持 Props</h3>
+<p>经过 HOC 后, 传入组件的 Props 会先经过外层组件, 所以我们可以对 Props 进行增删查改:</p>
+<pre><code class="jsx language-jsx">function wrap(Component) {
+  return class extends React.Component {
+    // ...
+
+    doSomething = (event) =&gt; {
+      this.props.onClick(event);
+      // ...
+    };
+
+    render() {
+      const { x, ...rest } = this.props;
+      console.log('prop x: ', x);
+      return (
+        &lt;Component {...rest} x={x} onClick={this.doSomething} /&gt;
+      );
+    }
+  };
+}
+</code></pre>
+<p>比如 react-redux 中的 <code>connect</code> 就是对目标组件的 Props 进行操作:</p>
+<pre><code class="js language-js">connect()(MyComponent);
+connect(mapState)(MyComponent);
+connect(mapState, null, mergeProps, options)(MyComponent);
+</code></pre>
+<h3 id="">条件渲染</h3>
+<p>传入组件经过封装, 在 HOC 内我们可以通过条件是否渲染传入组件, 在一些需要权限控制的场景下非常有用:</p>
+<pre><code class="jsx language-jsx">function withLogin(Component) {
+  return class extends React.Component {
+    // ...
+    render() {
+      const { logined } = this.state;
+      return logined ? (
+        &lt;Component {...this.props} /&gt;
+      ) : (
+        &lt;div&gt;请先登录&lt;/div&gt;
+      );
+    }
+  };
+}
+
+const ProfilePage = withLogin(OriginalProfilePage);
+const SettingPage = withLogin(OriginalSettingPage);
+</code></pre>
+<h3 id="-1">组合渲染</h3>
+<p>和条件渲染一样, HOC 也可以将传入组件和其他组件进行组合渲染或者用其他组件包裹:</p>
+<pre><code class="jsx language-jsx">import Other from 'path/other';
+import Title from 'path/title';
+
+function withTitle(Component) {
+  return class extends React.Component {
+    // ...
+    render() {
+      return (
+        &lt;Other&gt;
+          &lt;Title title={this.props.title} /&gt;
+          &lt;Component {...this.props} /&gt;
+        &lt;/Other&gt;
+      );
+    }
+  };
+}
+</code></pre>
+<h2 id="renderprops">Render Props</h2>
+<p>无论是 Mixin 还是 HOC, 我们都是给组件拓展功能, 而 Render Props 则是反过来补全组件所缺失的功能. 比如我们有一个需求, 一个列表的每个列表项需要获取容器的宽度进行渲染:</p>
+<pre><code class="tsx language-tsx">import Item from 'path/item';
+
+class List extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { width: 0 };
+    this.ref = React.createRef();
+  }
+
+  componentDidMount() {
+    this.resizeObserver = new ResizeObserver((enties) =&gt;
+      this.setState({ width: enties[0].contentRect.width }),
+    );
+    this.resizeObserver.observe(this.ref.current);
+  }
+
+  componentWillUnmount() {
+    this.resizeObserver.disconnect();
+  }
+
+  render() {
+    const { width } = this.state;
+    return (
+      &lt;div ref={this.ref}&gt;
+        {this.props.list.map((item) =&gt; (
+          &lt;Item
+            key={item.id}
+            containerWidth={width}
+            item={item}
+          /&gt;
+        ))}
+      &lt;/div&gt;
+    );
+  }
+}
+</code></pre>
+<p>如果另一个组件 List2 跟 List 相似, 只是列表项从 <code>Item</code> 变成了 <code>Item2</code>:</p>
+<pre><code class="jsx language-jsx">import Item2 from 'path/item2';
+
+class List2 extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { width: 0 };
+    this.ref = React.createRef();
+  }
+
+  componentDidMount() {
+    this.resizeObserver = new ResizeObserver((enties) =&gt;
+      this.setState({ width: enties[0].contentRect.width }),
+    );
+    this.resizeObserver.observe(this.ref.current);
+  }
+
+  componentWillUnmount() {
+    this.resizeObserver.disconnect();
+  }
+
+  render() {
+    const { width } = this.state;
+    return (
+      &lt;div ref={this.ref}&gt;
+        {this.props.list.map((item) =&gt; (
+          &lt;Item2
+            key={item.id}
+            containerWidth={width}
+            item={item}
+          /&gt;
+        ))}
+      &lt;/div&gt;
+    );
+  }
+}
+</code></pre>
+<p>可以发现 List 和 List2 逻辑是一致的, 只是渲染有所差别, 我们不妨将渲染方法抽离成 Props, 由调用的地方决定如何渲染:</p>
+<pre><code class="jsx language-jsx">class WidthObserver extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { width: 0 };
+    this.ref = React.createRef();
+  }
+
+  componentDidMount() {
+    this.resizeObserver = new ResizeObserver((enties) =&gt;
+      this.setState({ width: enties[0].contentRect.width }),
+    );
+    this.resizeObserver.observe(this.ref.current);
+  }
+
+  componentWillUnmount() {
+    this.resizeObserver.disconnect();
+  }
+
+  render() {
+    const { width } = this.state;
+    const { renderList } = this.props;
+    return &lt;div ref={this.ref}&gt;{renderList(width)}&lt;/div&gt;;
+  }
+}
+
+function List({ list }) {
+  return (
+    &lt;WidthObserver
+      renderList={() =&gt;
+        list.map((item) =&gt; (
+          &lt;Item
+            key={item.id}
+            containerWidth={width}
+            item={item}
+          /&gt;
+        ))
+      }
+    /&gt;
+  );
+}
+
+function List2({ list }) {
+  return (
+    &lt;WidthObserver
+      renderList={() =&gt;
+        list.map((item) =&gt; (
+          &lt;Item2
+            key={item.id}
+            containerWidth={width}
+            item={item}
+          /&gt;
+        ))
+      }
+    /&gt;
+  );
+}
+</code></pre>
+<p>这就是 Render Props, 组件本身只负责逻辑, 具体的渲染由 Props 决定. 所以 Render Props 本身并没有逻辑复用, 复用的是接收 Render Props 的组件.</p>
+<p>本质上接收 Render Props 的组件也可以认为是一种 HOC. 上面的例子中, 我们可以把 <code>renderList</code> 的签名 <code>function renderList(list): ReactNode</code> 改成 <code>function renderList({ list }): ReactNode</code>, 可以看出 <code>renderList</code> 本质上是一个 <code>FunctionComponent</code>, <code>WidthObserver</code> 接收一个组件并返回一个新组件, 这就是 HOC 的定义. 所以任何 Render Props 都可以通过 HOC 实现:</p>
+<pre><code class="jsx language-jsx">function withContainerWidth(Component) {
+  return class extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = { width: 0 };
+      this.ref = React.createRef();
+    }
+
+    componentDidMount() {
+      this.resizeObserver = new ResizeObserver((enties) =&gt;
+        this.setState({ width: enties[0].contentRect.width }),
+      );
+      this.resizeObserver.observe(this.ref.current);
+    }
+
+    componentWillUnmount() {
+      this.resizeObserver.disconnect();
+    }
+
+    render() {
+      const { width } = this.state;
+      return (
+        &lt;div ref={this.ref}&gt;
+          &lt;Component {...this.props} containerWidth={width} /&gt;
+        &lt;/div&gt;
+      );
+    }
+  };
+}
+
+function List({ list, containerWidth }) {
+  return list.map((item) =&gt; (
+    &lt;Item
+      key={item.id}
+      containerWidth={containerWidth}
+      item={item}
+    /&gt;
+  ));
+}
+
+function List2({ list, containerWidth }) {
+  return list.map((item) =&gt; (
+    &lt;Item2
+      key={item.id}
+      containerWidth={containerWidth}
+      item={item}
+    /&gt;
+  ));
+}
+
+const WrappedList = withContainerWidth(List);
+const WrappedList2 = withContainerWidth(List2);
+</code></pre>
+<h2 id="hooks">Hooks</h2>
+<p>React 作为一个 UI 库, 其基本范式很简单 <code>UI=f(state)</code>, 对比 <code>ClassComponent</code> 和 <code>FunctionComponent</code> 可以发现 <code>FunctionComponent</code> 更符合这个范式. 不过 <code>UI=f(state)</code> 这个范式太过于理想, 在现实场景中我们往往需要保留状态以及执行一些副作用, 比如修改页面标题, 所以 <code>ClassComponent</code> 才需要各种各样的生命周期. 相较于 <code>ClassComponent</code>, <code>FunctionComponent</code> 完全缺少状态保留和执行副作用的能力, 所以 <code>FunctionComponent</code> 往往也被称为 <code>Stateless Component</code>.</p>
+<p><code>ClassComponent</code> 虽然能够适用于各种场景, 但是也存在着一些问题:</p>
+<h3 id="-2">样板代码过多</h3>
+<p><code>ClassComponent</code> 基于 JS 中的 class, 即使是非常简单的组件也需要一大堆的样板代码, 比如 <code>extends React.Component</code>/<code>constructor</code>/<code>各种生命周期方法</code> 等</p>
+<h3 id="-3">相关逻辑分散</h3>
+<p>在 <code>ClassComponent</code> 中, 我们往往在 <code>componentDidMount</code> 中执行副作用, 在 <code>componentWillUnmount</code> 中清除副作用, 执行和清除作用本应是相关逻辑, 但被分散在各个生命周期方法中:</p>
+<pre><code class="jsx language-jsx">class A extends React.Component {
+  componentDidMount() {
+    window.addEventListener('click', this.onWindowClick);
+  }
+
+  // ...
+
+  componentWillUnmount() {
+    window.removeEventListener('click', this.onWindowClick);
+  }
+
+  onWindowClick() {
+    // do something
+  }
+}
+</code></pre>
+<p>相关逻辑分散对于代码阅读难以理解, 重构时更是往往被遗漏.</p>
+<h3 id="hoc">HOC 的问题</h3>
+<p>我们通常使用 React Developer Tools 来辅助开发, 当组件经过 HOC 封装以后, 组件树的深度就会加深一层, 多个 HOC 嵌套往往会形成嵌套地狱的问题. 此外, HOC 还会导致传入组件静态属性的丢失, 我们往往要特殊处理:</p>
+<pre><code class="jsx language-jsx">function enhance(Component) {
+  class EnhanceComponent extends React.Component {
+    // ...
+  }
+  EnhanceComponent.displayName = `Enhance(${Component.displayName})`;
+  EnhanceComponent.staticMethod = Component.staticMethod;
+  return EnhanceComponent;
+}
+</code></pre>
+<p>此外, HOC 的基本单位都是组件, 而实际开发中我们复用的往往只是一段逻辑, 与组件无关. 因此, React Hooks 正式登场.</p>
+<p>这里我们不讨论 Hooks 的<a href="https://react.dev/reference/react/hooks">用法</a>, 只讨论它解决了什么问题和应用场景.</p>
+<p>虽然 React 提供了多个 Hooks API, 但是可以统分成两类:</p>
+<ul>
+<li>保留状态</li>
+<li>执行副作用</li>
+</ul>
+<p>拥有这两项能力, <code>FunctionComponent</code> 就能覆盖绝大部分 <code>ClassComponent</code> 的场景.</p>
+<blockquote>
+  <p>即使是 Hooks 加持下的 <code>FunctionComponent</code>, 目前仍无法覆盖 <code>ClassComponent</code> 中的 <code>getDerivedStateFromError</code>/<code>componentDidCatch</code> 和 <code>getSnapshotBeforeUpdate</code></p>
+</blockquote>
+<p>上面 <code>ClassComponent</code> + HOC 范式中存在的问题, <code>FunctionComponent</code> + Hooks 都提供了更好的解决方案.</p>
+<p>Hooks 的基本单位可以是组件, 也可以是一段逻辑, 这就避免了嵌套地狱的问题.</p>
+<p>样板代码过多的问题, <code>FunctionComponent</code> 是一个函数不存在 class 中过度的样板代码, 从某种角度上看, <code>FunctionComponent</code> 可以看做是纯函数, 因为内部的副作用已经交由 React 作处理.</p>
+<p>相关逻辑分散的问题, 在 Hooks 我们可以把相关逻辑封装在一起, 也可以是自定义 Hooks, 更好地阅读以及修改:</p>
+<pre><code class="jsx language-jsx">function useDocumentClick() {
+  useEffect(() =&gt; {
+    const onDocumentClick = () =&gt; {
+      // do something
+    };
+    document.addEventListener('click', onDocumentClick);
+    return () =&gt;
+      document.removeEventListener('click', onDocumentClick);
+  }, []);
+}
+
+function Component() {
+  // ...
+  useDocumentClick();
+  // ...
+}
+</code></pre>
+<p>所以 <code>FunctionComponent</code> + Hooks 相对于 <code>ClassComponent</code> + HOC 有着更好地阅读性和开发效率.</p>
+<h2 id="headlesscomponents">Headless Components</h2>
+<p>最后聊一下最近比较热门的 Headless Components. 所谓 Headless Components 其实就是 Render Props 的一种变体.</p>
+<p>对于不同的业务或者不同的项目, 我们的组件往往逻辑是相同的, 但是 UI 却各有特色. 很多 UI 库为了适配不同的设计都会提供更换主题之类的功能, 更换主题更像是换肤, 布局往往是无法修改的.</p>
+<p>举个例子, 一个包含输入框和搜索按钮的组件, 不同的 UI 设计往往有不同的选择:</p>
+<ul>
+<li>输入框在左, 搜索按钮在右</li>
+<li>输入框在上, 搜索按钮在下</li>
+<li>搜索按钮在输入框内</li>
+<li>…</li>
+</ul>
+<p>对于提供 UI 的组件库是无法适配上面这么多种情况的. 如果我们在设计组件的时候只考虑逻辑, UI 交由使用者决定如何渲染, 上面的问题就迎刃而解了, 这和 Render Props 的思想是一致的. 当然, 有了 Hooks 之后我们就没有必要用 Render Props 这种以组件为单位的写法了.</p>
+<pre><code class="jsx language-jsx">function useSearch() {
+  const [value, setValue] = useState('');
+  const onChange = (event) =&gt; setValue(event.target.value);
+  const onSearch = () =&gt; {
+    // search
+  };
+  return { value, onChange, onSearch };
+}
+
+function HorizontalSearch() {
+  const { value, onChange, onSearch } = useSearch();
+  return (
+    &lt;div&gt;
+      &lt;input value={value} onChange={onChange} /&gt;
+      &lt;button onClick={onSearch}&gt;Search&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+function VerticalSearch() {
+  const { value, onChange, onSearch } = useSearch();
+  return (
+    &lt;div&gt;
+      &lt;input value={value} onChange={onChange} /&gt;
+      &lt;br /&gt;
+      &lt;button onClick={onSearch}&gt;Search&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+<p>基于 Headless Components 的设计, 每个业务或者每个项目都能快速地创建 UI 库.</p>
+<h3 id="-4">参考</h3>
+<ul>
+<li><a href="https://legacy.reactjs.org/blog/2016/07/13/mixins-considered-harmful.html">Mixins Considered Harmful</a></li>
+<li><a href="https://mp.weixin.qq.com/s?__biz=Mzk0MDMwMzQyOA==&amp;mid=2247490057&amp;idx=1&amp;sn=e7a9abb4df2fb7f7baf406dbb20d8313&amp;source=41">【React 深入】从 Mixin 到 HOC 再到 Hook</a></li>
+</ul></section>
+
+    
+  </article>
+  
+    <style>
+  .article-actions {
+    max-inline-size: var(--content-max-width);
+
+    display: flex;
+    align-items: center;
+
+    margin-block: 40px;
+    margin-inline: auto;
+    padding-inline: 30px;
+
+    font-family: common_font;
+    color: var(--normal-color);
+  }
+
+  .article-actions_action:not(:last-child)::after {
+    content: "·\00a0";
+  }
+
+  .article-actions_action > a {
+    color: inherit;
+    text-decoration-color: var(--primary-color);
+  }
+
+  @media (max-width: 520px) {
+    .article-actions {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .article-actions_action::before {
+      content: "·";
+    }
+
+    .article-actions_action:not(:last-child)::after {
+      content: "";
+    }
+  }
+</style>
+
+<div class="article-actions">
+  <span class="article-actions_action">
+    使用
+    <a href="https://github.com/mebtte/animal-photosynthesis/discussions">Discussions</a> 讨论
+  </span>
+  <span class="article-actions_action">
+    在
+    <a href="https://github.com/mebtte/animal-photosynthesis/edit/master/articles/reuse_code_between_react_components/index.md">Github</a>
+    上编辑
+  </span>
+  <span class="article-actions_action">
+    分享到
+    <a href="https://www.x.com/share?text=React%20%E7%BB%84%E4%BB%B6%E4%B8%AD%E5%A4%8D%E7%94%A8%E4%BB%A3%E7%A0%81%E7%9A%84%E6%96%B9%E5%BC%8F&amp;url=https%3A%2F%2Fmebtte.com%2Freuse_code_between_react_components">X</a>
+  </span>
+</div>
+
+  
+  <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8404651063516637" crossorigin="anonymous"></script>
+<style>
+  .adsbygoogle {
+    max-width: 100%;
+    margin-block: 40px;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .adsbygoogle:empty {
+    display: none;
+  }
+</style>
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8404651063516637" data-ad-slot="7746538242" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  <style>
+.page-footer {
+  font-size: 12px;
+  max-inline-size: var(--content-max-width);
+  margin-block: 40px;
+  margin-inline: auto;
+  padding-inline: 30px;
+  font-family: common_font;
+  color: var(--secondary-color);
+}
+
+.page-footer > a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.page-footer > a:hover {
+  color: var(--primary-color);
+}
+
+.page-footer > .underline {
+  text-decoration: underline;
+}
+</style>
+
+<footer class="page-footer">
+  <a href="https://github.com/mebtte/animal-photosynthesis/blob/master/license">©</a>
+  2026
+  &nbsp;
+  <a class="underline" href="https://i.mebtte.com">MEBTTE</a>
+  &nbsp;|&nbsp;
+  <a class="underline" href="https://stats.uptimerobot.com/4nO5RUYB60">UPTIME</a>
+  &nbsp;|&nbsp;
+  <a class="underline" href="/support">支持我</a>
+</footer>
+
+  <script src="/39c97c2884c3a2b5e64c8f085b843d4e.js"></script>
+  <script src="/0ec215ad131a36856d3d20423b9aca26.js" async="" defer=""></script>
+
+
+
+</body></html>

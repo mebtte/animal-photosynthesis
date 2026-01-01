@@ -1,0 +1,673 @@
+<!DOCTYPE html><html lang="zh-cn"><head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="mebtte">
+<meta name="keywords" content="HTML, CSS, JavaScript, Web, Front-End">
+
+<!-- Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-CESZTRKM96"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CESZTRKM96');
+</script>
+
+<!-- open graph -->
+<meta property="og:type" content="website">
+<meta property="og:image" content="/6ed5faa0573b2a5a9d47232c9a71fb88.png">
+
+<link rel="shortcut icon" type="image/png" href="/6ed5faa0573b2a5a9d47232c9a71fb88.png">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+
+<link rel="preload" href="/e0e440b1ae0a9ba21fb3feb4cff12d11.ttf" as="font" crossorigin="anonymous">
+<link rel="preload" href="/53d99659dc34209657d05bb2a7fc5de4.ttf" as="font" crossorigin="anonymous">
+
+  <style>
+  @font-face {
+    font-family: common_font;
+    src: url(/53d99659dc34209657d05bb2a7fc5de4.ttf);
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    --content-max-width: 840px;
+
+    --primary-color: rgb(237 106 94);
+
+    --normal-color: #333;
+    --secondary-color: #888;
+    --tertiary-color: #ddd;
+    --backgroud: rgb(255 255 255);
+
+    --border-radius: 2px;
+    --transition-duration: 0.3s;
+
+    background-color: var(--backgroud);
+    transition: background-color var(--transition-duration);
+  }
+
+  figure {
+    margin-inline: 0;
+  }
+</style>
+
+
+  <title>useCallback 的误区 - 动物的光合作用</title>
+  <meta name="description" content="![https://reactjs.org/docs/hooks-reference.html#usecallback](./use_callback_define.png)  `useCallback` 接受一个回调函数和一个依赖数组作为参数, 当依赖数组的每一项都不变的情况下返回缓存过后的回调函......">
+  <meta property="og:description" content="![https://reactjs.org/docs/hooks-reference.html#usecallback](./use_callback_define.png)  `useCallback` 接受一个回调函数和一个依赖数组作为参数, 当依赖数组的每一项都不变的情况下返回缓存过后的回调函......">
+
+  <link rel="preload" href="/4848c32be6f2b41b77f64b9521aed570.ttf" as="font" crossorigin="anonymous">
+  <style>
+    @font-face {
+      font-family: article_font_use_callback_misunderstanding;
+      src: url(/4848c32be6f2b41b77f64b9521aed570.ttf);
+    }
+    article {
+      font-family: article_font_use_callback_misunderstanding;
+    }
+  </style>
+  
+  <link rel="stylesheet" href="/ece570de77ba673c17121d06fc929bd9.css">
+</head>
+
+<body>
+  <style>
+  @font-face {
+    font-family: title_font;
+    src: url(/e0e440b1ae0a9ba21fb3feb4cff12d11.ttf);
+  }
+
+  .page-header {
+    max-inline-size: var(--content-max-width);
+    margin-block: 50px 40px;
+    margin-inline: auto;
+    padding-inline: 30px;
+    display: flex;
+    align-items: center;
+  }
+
+  .page-header_title {
+    flex: 1;
+    min-inline-size: 0;
+    font-size: min(8vw, 56px);
+    font-family: title_font;
+    margin: 0;
+    color: var(--normal-color);
+  }
+
+  .page-header_title > a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .page-header_icon {
+    margin-inline-start: 10px;
+  }
+
+  .page-header_icon > img {
+    user-select: none;
+    inline-size: 20px;
+    block-size: 20px;
+  }
+</style>
+
+<header class="page-header">
+  
+    <h2 class="page-header_title">
+      <a href="/">动物的光合作用</a>
+    </h2>
+  
+  <a class="page-header_icon" href="/rss.xml" target="_blank">
+    <img src="/e31ad23031e5bcb34e8d4a424ba0c100.png" alt="rss">
+  </a>
+  <a class="page-header_icon" href="https://github.com/mebtte/animal-photosynthesis" target="_blank">
+    <img src="/184c800e11079b13904f308161071b62.png" alt="github">
+  </a>
+  <a class="page-header_icon" href="//i.mebtte.com" target="_blank">
+    <img src="/2cd3760ad10a38f8a9ed6ea3993fa472.png" alt="author">
+  </a>
+</header>
+
+  <article>
+    <style>
+.article-header {
+  max-inline-size: var(--content-max-width);
+  margin-block: 40px;
+  margin-inline: auto;
+  padding-inline: 30px;
+}
+
+.article-title {
+  color: var(--primary-color);
+  font-size: 32px;
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+}
+
+.article-title a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.article-publish-time {
+  color: var(--secondary-color);
+  font-size: 14px;
+  font-family: common_font;
+}
+</style>
+
+<section class="article-header">
+  <h1 class="article-title">
+    <a href="/use_callback_misunderstanding">useCallback 的误区</a>
+  </h1>
+  <time class="article-publish-time">2020-10-30</time>
+</section>
+
+    <style>
+  article {
+    --article-space: 30px;
+  }
+
+  article a {
+    color: var(--normal-color);
+    text-decoration-color: var(--primary-color);
+  }
+
+  article h2,
+  article h3,
+  article h4,
+  article h5,
+  article h6 {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-inline: auto;
+    line-height: 1.5;
+    color: var(--normal-color);
+  }
+
+  article h2 {
+    margin-block-start: 28px;
+    font-size: 28px;
+  }
+
+  article h3 {
+    margin-block-start: 26px;
+    font-size: 25px;
+  }
+
+  article h4 {
+    margin-block-start: 24px;
+    font-size: 22px;
+  }
+
+  article h5 {
+    margin-block-start: 22px;
+    font-size: 19px;
+  }
+
+  article h6 {
+    margin-block-start: 20px;
+    font-size: 16px;
+  }
+
+  article p {
+    max-inline-size: var(--content-max-width);
+
+    margin-block: 15px;
+    margin-inline: auto;
+    padding-inline: 30px;
+
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--normal-color);
+    word-break: break-word;
+  }
+
+  article p code,
+  article ul code,
+  article ol code,
+  article table code {
+    padding-inline: 4px;
+    border-radius: var(--border-radius);
+    background: rgba(237, 106, 94, 0.3);
+  }
+
+  article pre {
+    max-inline-size: var(--content-max-width) !important;
+    margin-block: 15px !important;
+    margin-inline: auto !important;
+    font-size: 14px !important;
+    box-sizing: border-box;
+    border-radius: var(--border-radius) !important;
+    tab-size: 2 !important;
+    padding: 0 !important;
+  }
+
+  article pre code {
+    display: block;
+    margin-block: 20px !important;
+    margin-inline: 30px !important;
+    overflow: auto !important;
+    font-size: inherit !important;
+  }
+
+  article hr {
+    max-inline-size: var(--content-max-width);
+    margin-block: 40px;
+    margin-inline: auto;
+    padding-inline: var(--article-space);
+    border: none;
+  }
+
+  article hr::after {
+    content: "";
+    display: block;
+    block-size: 1px;
+    background-color: var(--tertiary-color);
+  }
+
+  .table-container {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .table-container table {
+    border-collapse: collapse;
+  }
+
+  .table-container th,
+  .table-container td {
+    font-size: 14px;
+    color: var(--normal-color);
+    border: 1px solid var(--tertiary-color);
+    padding: 10px;
+    text-align: left;
+  }
+
+  .table-container th {
+    font-size: 16px;
+    text-align: left;
+  }
+
+  article blockquote {
+    max-inline-size: var(--content-max-width);
+    padding-inline: var(--article-space);
+    margin-block: 15px;
+    margin-inline: auto;
+    position: relative;
+    font-style: italic;
+    color: var(--secondary-color);
+  }
+
+  article blockquote::before {
+    content: "";
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 30px;
+    inline-size: 3px;
+    block-size: 100%;
+    background-color: var(--primary-color);
+  }
+
+  article blockquote p {
+    font-size: 14px;
+    color: inherit;
+    max-inline-size: unset;
+    padding: 0;
+    margin-inline-start: 30px;
+  }
+
+  article ul,
+  article ol {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+    color: var(--normal-color);
+    line-height: 1.5;
+  }
+
+  article ol {
+    counter-reset: li-count;
+  }
+
+  article ul li,
+  article ol li {
+    display: block;
+    margin-block: 5px;
+    position: relative;
+  }
+
+  article ol li {
+    counter-increment: li-count;
+  }
+
+  article ul li::before {
+    content: "";
+    display: inline-block;
+    inline-size: 6px;
+    block-size: 6px;
+
+    margin-inline-end: 10px;
+
+    vertical-align: middle;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+  }
+
+  article ol li::before {
+    content: counter(li-count) ". ";
+    color: var(--primary-color);
+  }
+
+  article figcaption {
+    font-size: 12px;
+    color: var(--secondary-color);
+    text-align: center;
+    margin-block-start: 5px;
+  }
+
+  .figure-img {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .figure-img img {
+    display: block;
+    max-inline-size: 100%;
+    margin-inline: auto;
+    border-radius: var(--border-radius);
+  }
+
+  .figure-media {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .figure-media .media {
+    display: block;
+    max-inline-size: 100%;
+    margin-inline: auto;
+  }
+
+  .figure-iframe {
+    inline-size: 100%;
+    margin-block: 15px;
+  }
+
+  .figure-iframe iframe {
+    display: block;
+    inline-size: 100%;
+    max-inline-size: var(--content-max-width);
+    margin-inline: auto;
+    block-size: 640px;
+    border: 1px solid var(--tertiary-color);
+    border-radius: var(--border-radius);
+  }
+
+  strong {
+    font-weight: normal;
+    text-decoration: underline;
+  }
+</style>
+
+<section>
+      <figure class="figure-img">
+        <a href="/2d68b1e78b5307e74854a786b1466c0a.png" target="_blank">
+          <img src="/2d68b1e78b5307e74854a786b1466c0a.png" alt="https://reactjs.org/docs/hooks-reference.html#usecallback" title="https://reactjs.org/docs/hooks-reference.html#usecallback" loading="lazy">
+        </a>
+        <figcaption>https://reactjs.org/docs/hooks-reference.html#usecallback</figcaption>
+      </figure>
+    
+<p><code>useCallback</code> 接受一个回调函数和一个依赖数组作为参数, 当依赖数组的每一项都不变的情况下返回缓存过后的回调函数.</p>
+<p>既然 <code>useCallback</code> 能够缓存函数, 那么所有的 Function 组件中的函数都用 <code>useCallback</code> 封装, 岂不是能够达到 <code>React</code> 应用优化的目的? 别急, 先看两个例子, 然后判断下面的 <code>App1</code> 和 <code>App2</code> 哪个性能更好 ?</p>
+<pre><code class="tsx language-tsx">const App1 = () =&gt; {
+  const [value, setValue] = useState('');
+  const onValueChange = useCallback(
+    (event: React.ChangeEvent&lt;HTMLInputElement&gt;) =&gt;
+      setValue(event.target.value),
+    [],
+  );
+
+  return &lt;input type="text" value={value} onChange={onValueChange} /&gt;;
+};
+</code></pre>
+<pre><code class="tsx language-tsx">const App2 = () =&gt; {
+  const [value, setValue] = useState('');
+  const onValueChange = (event: React.ChangeEvent&lt;HTMLInputElement&gt;) =&gt;
+    setValue(event.target.value);
+
+  return &lt;input type="text" value={value} onChange={onValueChange} /&gt;;
+};
+</code></pre>
+<p><code>App1</code> 和 <code>App2</code> 的差别在于 <code>onValueChange</code> 前者用了 <code>useCallback</code>, 后者没有. 在定义中知道 <code>useCallback</code> 能够缓存函数, 当 <code>value</code> 发生变化的时候, <code>App1</code> 不会生成新的 <code>onValueChange</code>, 所以第一感觉肯定是 <code>App1</code> 的性能更好.</p>
+<p>现在, 改写一下 <code>App1</code>, 再判断一下 <code>App1</code> 和 <code>App2</code> 哪个性能更好 ?</p>
+<pre><code class="tsx language-tsx">const App1 = () =&gt; {
+  const [value, setValue] = useState('');
+  const onValueChange = (event: React.ChangeEvent&lt;HTMLInputElement&gt;) =&gt;
+    setValue(event.target.value);
+  const dependenies = [];
+  const onValueChangeInUseCallback = useCallback(onValueChange, dependenies);
+
+  return (
+    &lt;input type="text" value={value} onChange={onValueChangeInUseCallback} /&gt;
+  );
+};
+</code></pre>
+<p>上面的 <code>App1</code> 跟开始的 <code>App1</code> 其实是一样的, 只是换了一种写法, 和 <code>App2</code> 对比一下可以发现, <code>App1</code> 比 <code>App2</code> 多了一个数组定义和一个 <code>useCallback</code> 调用, 所以跟开始的直觉相反, <code>App2</code> 比用了 <code>useCallback</code> 的 <code>App1</code> 性能更好.</p>
+<p>所以不应该使用 <code>useCallback</code>, 因为 <code>useCallback</code> 会导致性能更差 ?</p>
+<p>当然不是, <code>useCallback</code> 可以提高 React 的性能, 但是需要前提条件. 修改一下上面的例子, 给输入框添加了一个清除的功能:</p>
+
+      <figure class="figure-iframe">
+        <iframe src="https://codesandbox.io/embed/nousecallback-yfzkq?fontsize=14&amp;hidenavigation=1&amp;theme=dark" title="no_use_callback" loading="lazy"></iframe>
+        <figcaption>no_use_callback</figcaption>
+      </figure>
+    
+<p>上面的例子中, <code>ClearButton</code> 接受 <code>onClear</code> 的 props, 当点击按钮的时候清除输入. 但是这个例子有一个问题, 就是当 <code>value</code> 发生变化的时候, 从 <code>Console</code> 可以看到 <code>ClearButton</code> 也会重新渲染. 从性能的角度来看, <code>value</code> 改变不应该导致 <code>ClearButton</code> 的重新渲染, 因为 <code>ClearButton</code> 只依赖 <code>onClear</code>, 但是 <code>value</code> 的改变会导致 <code>onClear</code> 的重新生成, 导致 <code>prevProps.onClear !== nextProps.onClear</code>, 从而导致 <code>ClearButton</code> 的重新渲染. 这个情况下 <code>useCallback</code> 就派上用场了.</p>
+
+      <figure class="figure-iframe">
+        <iframe src="https://codesandbox.io/embed/usecallback-vf9b8?fontsize=14&amp;hidenavigation=1&amp;theme=dark" title="use_callback" loading="lazy"></iframe>
+        <figcaption>use_callback</figcaption>
+      </figure>
+    
+<p>在上面的例子中, 使用了 <code>useCallback</code> 封装了 <code>onClear</code>, 这样的话, <code>value</code> 改变不会导致 <code>onClear</code> 重新生成. 但是从 <code>Console</code> 看, 即使使用 <code>useCallback</code>, <code>value</code> 变化依然导致 <code>ClearButton</code> 重新渲染.</p>
+<p>这个时候就要回到 <code>React</code> 的渲染上了, 对于 <code>React</code> 组件来说, <strong>自身渲染必定导致子组件的重新渲染</strong>, 只需要把 <code>onClear</code> 从 <code>ClearButton</code> 移除就能验证.</p>
+<pre><code class="tsx language-tsx">const ClearButton = () =&gt; {
+  console.count('clear button render');
+
+  return &lt;button type="button"&gt;clear&lt;/button&gt;;
+};
+
+const App = () =&gt; {
+  console.count('app render');
+
+  const [value, setValue] = useState('');
+  const onValueChange = (event: React.ChangeEvent&lt;HTMLInputElement&gt;) =&gt;
+    setValue(event.target.value);
+
+  return (
+    &lt;&gt;
+      &lt;input value={value} onChange={onValueChange} /&gt;
+      &lt;ClearButton /&gt;
+    &lt;/&gt;
+  );
+};
+</code></pre>
+<p>上面的例子中, 即使 <code>ClearButton</code> 没有任何的 <code>props</code>, <code>value</code> 变化依然导致 <code>ClearButton</code> 重新渲染. 为什么会这样呢? 再改写一下上面的 <code>App</code> 就清楚了.</p>
+<pre><code class="tsx language-tsx">const App = () =&gt; {
+  console.count('app render');
+
+  const [value, setValue] = useState('');
+  const onValueChange = (event: React.ChangeEvent&lt;HTMLInputElement&gt;) =&gt;
+    setValue(event.target.value);
+
+  return React.createElement(React.Fragment, {}, [
+    React.createElement('input', { value, onChange: onValueChange }, null),
+    React.createElement(ClearButton, {}, null),
+  ]);
+};
+</code></pre>
+<p><code>React.createElement</code> 第二个参数是组件的 <code>props</code>, 可以看到, 即使 <code>ClearButton</code> 没有任何的 <code>props</code>, <code>App</code> 的每次渲染依然会传递一个新的<strong>空对象</strong>作为它的 <code>props</code>, 这就是 <code>ClearButton</code> 重新渲染的原因.</p>
+<p>那如何才能避免这种没有必要的渲染呢? 答案就是 Class 组件的 <code>shouldComponentUpdate</code> 生命周期和 Function 组件的 <code>React.memo</code>, <code>shouldComponentUpdate</code> 和 <code>React.memo</code> 能够让开发者手动判断组件是否需要重新渲染.</p>
+<p>对于上面的例子, 只需要在 <code>ClearButton</code> 外面包一层 <code>React.memo</code>, 就能够避免 <code>ClearButton</code> 的重新渲染.</p>
+
+      <figure class="figure-iframe">
+        <iframe src="https://codesandbox.io/embed/usecallbackwithmemo-h74x0?fontsize=14&amp;hidenavigation=1&amp;theme=dark" title="use_callback_with_memo" loading="lazy"></iframe>
+        <figcaption>use_callback_with_memo</figcaption>
+      </figure>
+    
+<p>所以, <code>useCallback</code> 不是 <code>React</code> 性能优化的银弹, 相反, 错误的用法反而会导致负优化.</p>
+<h2 id="usememo">useMemo</h2>
+<p>事实上, <code>useCallback</code> 是 <code>useMemo</code> 的一个语法糖, <code>useCallback(fn, dependencies)</code> 等同于 <code>useMemo(() =&gt; fn, dependencies)</code>. 和 <code>useCallback</code> 一样, <code>useMemo</code> 也不是用的越多越好, 那什么时候应该使用 <code>useMemo</code> 呢?</p>
+<p>第一种情况和 <code>useCallback</code> 一样, 当子组件使用了 <code>shouldComponentUpdate</code> 或者 <code>React.memo</code>, <code>useMemo</code> 计算后的值能够保证 <code>props</code> 不变, 从而避免子组件的重复渲染.</p>
+<p>第二种情况是值计算的性能消耗超过调用 <code>useMemo</code> 的性能消耗. 和上面 <code>useCallback</code> 的分解同理, 使用 <code>useMemo</code> 会增加一个计算函数 <code>fn</code> 的生成, 一个依赖数组 <code>dependencies</code> 的生成和一次 <code>useMemo</code> 的调用, 如果值的计算需要的性能大于 <code>useMemo</code> 的调用, 那么使用 <code>useMemo</code> 就能够达到优化效果.</p>
+<h4 id="">参考</h4>
+<ul>
+<li><a href="https://kentcdodds.com/blog/usememo-and-usecallback">When to useMemo and useCallback</a></li>
+</ul></section>
+
+    <section>
+  <h2>更新记录</h2>
+  <div class="table-container">
+    <table>
+      
+        <tbody><tr>
+          <td>2020-11-02</td>
+          <td>增加 useMemo</td>
+        </tr>
+       
+    </tbody></table>
+  </div>
+</section>
+
+  </article>
+  
+    <style>
+  .article-actions {
+    max-inline-size: var(--content-max-width);
+
+    display: flex;
+    align-items: center;
+
+    margin-block: 40px;
+    margin-inline: auto;
+    padding-inline: 30px;
+
+    font-family: common_font;
+    color: var(--normal-color);
+  }
+
+  .article-actions_action:not(:last-child)::after {
+    content: "·\00a0";
+  }
+
+  .article-actions_action > a {
+    color: inherit;
+    text-decoration-color: var(--primary-color);
+  }
+
+  @media (max-width: 520px) {
+    .article-actions {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .article-actions_action::before {
+      content: "·";
+    }
+
+    .article-actions_action:not(:last-child)::after {
+      content: "";
+    }
+  }
+</style>
+
+<div class="article-actions">
+  <span class="article-actions_action">
+    使用
+    <a href="https://github.com/mebtte/animal-photosynthesis/discussions">Discussions</a> 讨论
+  </span>
+  <span class="article-actions_action">
+    在
+    <a href="https://github.com/mebtte/animal-photosynthesis/edit/master/articles/use_callback_misunderstanding/index.md">Github</a>
+    上编辑
+  </span>
+  <span class="article-actions_action">
+    分享到
+    <a href="https://www.x.com/share?text=useCallback%20%E7%9A%84%E8%AF%AF%E5%8C%BA&amp;url=https%3A%2F%2Fmebtte.com%2Fuse_callback_misunderstanding">X</a>
+  </span>
+</div>
+
+  
+  <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8404651063516637" crossorigin="anonymous"></script>
+<style>
+  .adsbygoogle {
+    max-width: 100%;
+    margin-block: 40px;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .adsbygoogle:empty {
+    display: none;
+  }
+</style>
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8404651063516637" data-ad-slot="7746538242" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  <style>
+.page-footer {
+  font-size: 12px;
+  max-inline-size: var(--content-max-width);
+  margin-block: 40px;
+  margin-inline: auto;
+  padding-inline: 30px;
+  font-family: common_font;
+  color: var(--secondary-color);
+}
+
+.page-footer > a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.page-footer > a:hover {
+  color: var(--primary-color);
+}
+
+.page-footer > .underline {
+  text-decoration: underline;
+}
+</style>
+
+<footer class="page-footer">
+  <a href="https://github.com/mebtte/animal-photosynthesis/blob/master/license">©</a>
+  2026
+  &nbsp;
+  <a class="underline" href="https://i.mebtte.com">MEBTTE</a>
+  &nbsp;|&nbsp;
+  <a class="underline" href="https://stats.uptimerobot.com/4nO5RUYB60">UPTIME</a>
+  &nbsp;|&nbsp;
+  <a class="underline" href="/support">支持我</a>
+</footer>
+
+  <script src="/39c97c2884c3a2b5e64c8f085b843d4e.js"></script>
+  <script src="/0ec215ad131a36856d3d20423b9aca26.js" async="" defer=""></script>
+
+
+
+</body></html>

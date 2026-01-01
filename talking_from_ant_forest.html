@@ -1,0 +1,749 @@
+<!DOCTYPE html><html lang="zh-cn"><head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="mebtte">
+<meta name="keywords" content="HTML, CSS, JavaScript, Web, Front-End">
+
+<!-- Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-CESZTRKM96"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CESZTRKM96');
+</script>
+
+<!-- open graph -->
+<meta property="og:type" content="website">
+<meta property="og:image" content="/6ed5faa0573b2a5a9d47232c9a71fb88.png">
+
+<link rel="shortcut icon" type="image/png" href="/6ed5faa0573b2a5a9d47232c9a71fb88.png">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+
+<link rel="preload" href="/e0e440b1ae0a9ba21fb3feb4cff12d11.ttf" as="font" crossorigin="anonymous">
+<link rel="preload" href="/53d99659dc34209657d05bb2a7fc5de4.ttf" as="font" crossorigin="anonymous">
+
+  <style>
+  @font-face {
+    font-family: common_font;
+    src: url(/53d99659dc34209657d05bb2a7fc5de4.ttf);
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    --content-max-width: 840px;
+
+    --primary-color: rgb(237 106 94);
+
+    --normal-color: #333;
+    --secondary-color: #888;
+    --tertiary-color: #ddd;
+    --backgroud: rgb(255 255 255);
+
+    --border-radius: 2px;
+    --transition-duration: 0.3s;
+
+    background-color: var(--backgroud);
+    transition: background-color var(--transition-duration);
+  }
+
+  figure {
+    margin-inline: 0;
+  }
+</style>
+
+
+  <title>从蚂蚁森林说起 - 动物的光合作用</title>
+  <meta name="description" content="假如你是一个支付宝的开发, 一天产品提出了一个叫做`蚂蚁果园`功能需求  > 给每个用户分配一棵虚拟的苹果树, 当使用支付宝进行一笔线下付款后, 产生一份能量. 用户可以收集能量, 果树随着能量值增加而长大, 当能量达到某个值的时候, 用户可以消耗能量值兑换苹果一份.  你分析了一下这个功能, 画了......">
+  <meta property="og:description" content="假如你是一个支付宝的开发, 一天产品提出了一个叫做`蚂蚁果园`功能需求  > 给每个用户分配一棵虚拟的苹果树, 当使用支付宝进行一笔线下付款后, 产生一份能量. 用户可以收集能量, 果树随着能量值增加而长大, 当能量达到某个值的时候, 用户可以消耗能量值兑换苹果一份.  你分析了一下这个功能, 画了......">
+
+  <link rel="preload" href="/18d0ab13222f15a88fa10f6ccd66aab9.ttf" as="font" crossorigin="anonymous">
+  <style>
+    @font-face {
+      font-family: article_font_talking_from_ant_forest;
+      src: url(/18d0ab13222f15a88fa10f6ccd66aab9.ttf);
+    }
+    article {
+      font-family: article_font_talking_from_ant_forest;
+    }
+  </style>
+  
+  <link rel="stylesheet" href="/ece570de77ba673c17121d06fc929bd9.css">
+</head>
+
+<body>
+  <style>
+  @font-face {
+    font-family: title_font;
+    src: url(/e0e440b1ae0a9ba21fb3feb4cff12d11.ttf);
+  }
+
+  .page-header {
+    max-inline-size: var(--content-max-width);
+    margin-block: 50px 40px;
+    margin-inline: auto;
+    padding-inline: 30px;
+    display: flex;
+    align-items: center;
+  }
+
+  .page-header_title {
+    flex: 1;
+    min-inline-size: 0;
+    font-size: min(8vw, 56px);
+    font-family: title_font;
+    margin: 0;
+    color: var(--normal-color);
+  }
+
+  .page-header_title > a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .page-header_icon {
+    margin-inline-start: 10px;
+  }
+
+  .page-header_icon > img {
+    user-select: none;
+    inline-size: 20px;
+    block-size: 20px;
+  }
+</style>
+
+<header class="page-header">
+  
+    <h2 class="page-header_title">
+      <a href="/">动物的光合作用</a>
+    </h2>
+  
+  <a class="page-header_icon" href="/rss.xml" target="_blank">
+    <img src="/e31ad23031e5bcb34e8d4a424ba0c100.png" alt="rss">
+  </a>
+  <a class="page-header_icon" href="https://github.com/mebtte/animal-photosynthesis" target="_blank">
+    <img src="/184c800e11079b13904f308161071b62.png" alt="github">
+  </a>
+  <a class="page-header_icon" href="//i.mebtte.com" target="_blank">
+    <img src="/2cd3760ad10a38f8a9ed6ea3993fa472.png" alt="author">
+  </a>
+</header>
+
+  <article>
+    <style>
+.article-header {
+  max-inline-size: var(--content-max-width);
+  margin-block: 40px;
+  margin-inline: auto;
+  padding-inline: 30px;
+}
+
+.article-title {
+  color: var(--primary-color);
+  font-size: 32px;
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+}
+
+.article-title a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.article-publish-time {
+  color: var(--secondary-color);
+  font-size: 14px;
+  font-family: common_font;
+}
+</style>
+
+<section class="article-header">
+  <h1 class="article-title">
+    <a href="/talking_from_ant_forest">从蚂蚁森林说起</a>
+  </h1>
+  <time class="article-publish-time">2020-07-12</time>
+</section>
+
+    <style>
+  article {
+    --article-space: 30px;
+  }
+
+  article a {
+    color: var(--normal-color);
+    text-decoration-color: var(--primary-color);
+  }
+
+  article h2,
+  article h3,
+  article h4,
+  article h5,
+  article h6 {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-inline: auto;
+    line-height: 1.5;
+    color: var(--normal-color);
+  }
+
+  article h2 {
+    margin-block-start: 28px;
+    font-size: 28px;
+  }
+
+  article h3 {
+    margin-block-start: 26px;
+    font-size: 25px;
+  }
+
+  article h4 {
+    margin-block-start: 24px;
+    font-size: 22px;
+  }
+
+  article h5 {
+    margin-block-start: 22px;
+    font-size: 19px;
+  }
+
+  article h6 {
+    margin-block-start: 20px;
+    font-size: 16px;
+  }
+
+  article p {
+    max-inline-size: var(--content-max-width);
+
+    margin-block: 15px;
+    margin-inline: auto;
+    padding-inline: 30px;
+
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--normal-color);
+    word-break: break-word;
+  }
+
+  article p code,
+  article ul code,
+  article ol code,
+  article table code {
+    padding-inline: 4px;
+    border-radius: var(--border-radius);
+    background: rgba(237, 106, 94, 0.3);
+  }
+
+  article pre {
+    max-inline-size: var(--content-max-width) !important;
+    margin-block: 15px !important;
+    margin-inline: auto !important;
+    font-size: 14px !important;
+    box-sizing: border-box;
+    border-radius: var(--border-radius) !important;
+    tab-size: 2 !important;
+    padding: 0 !important;
+  }
+
+  article pre code {
+    display: block;
+    margin-block: 20px !important;
+    margin-inline: 30px !important;
+    overflow: auto !important;
+    font-size: inherit !important;
+  }
+
+  article hr {
+    max-inline-size: var(--content-max-width);
+    margin-block: 40px;
+    margin-inline: auto;
+    padding-inline: var(--article-space);
+    border: none;
+  }
+
+  article hr::after {
+    content: "";
+    display: block;
+    block-size: 1px;
+    background-color: var(--tertiary-color);
+  }
+
+  .table-container {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .table-container table {
+    border-collapse: collapse;
+  }
+
+  .table-container th,
+  .table-container td {
+    font-size: 14px;
+    color: var(--normal-color);
+    border: 1px solid var(--tertiary-color);
+    padding: 10px;
+    text-align: left;
+  }
+
+  .table-container th {
+    font-size: 16px;
+    text-align: left;
+  }
+
+  article blockquote {
+    max-inline-size: var(--content-max-width);
+    padding-inline: var(--article-space);
+    margin-block: 15px;
+    margin-inline: auto;
+    position: relative;
+    font-style: italic;
+    color: var(--secondary-color);
+  }
+
+  article blockquote::before {
+    content: "";
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 30px;
+    inline-size: 3px;
+    block-size: 100%;
+    background-color: var(--primary-color);
+  }
+
+  article blockquote p {
+    font-size: 14px;
+    color: inherit;
+    max-inline-size: unset;
+    padding: 0;
+    margin-inline-start: 30px;
+  }
+
+  article ul,
+  article ol {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+    color: var(--normal-color);
+    line-height: 1.5;
+  }
+
+  article ol {
+    counter-reset: li-count;
+  }
+
+  article ul li,
+  article ol li {
+    display: block;
+    margin-block: 5px;
+    position: relative;
+  }
+
+  article ol li {
+    counter-increment: li-count;
+  }
+
+  article ul li::before {
+    content: "";
+    display: inline-block;
+    inline-size: 6px;
+    block-size: 6px;
+
+    margin-inline-end: 10px;
+
+    vertical-align: middle;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+  }
+
+  article ol li::before {
+    content: counter(li-count) ". ";
+    color: var(--primary-color);
+  }
+
+  article figcaption {
+    font-size: 12px;
+    color: var(--secondary-color);
+    text-align: center;
+    margin-block-start: 5px;
+  }
+
+  .figure-img {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .figure-img img {
+    display: block;
+    max-inline-size: 100%;
+    margin-inline: auto;
+    border-radius: var(--border-radius);
+  }
+
+  .figure-media {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .figure-media .media {
+    display: block;
+    max-inline-size: 100%;
+    margin-inline: auto;
+  }
+
+  .figure-iframe {
+    inline-size: 100%;
+    margin-block: 15px;
+  }
+
+  .figure-iframe iframe {
+    display: block;
+    inline-size: 100%;
+    max-inline-size: var(--content-max-width);
+    margin-inline: auto;
+    block-size: 640px;
+    border: 1px solid var(--tertiary-color);
+    border-radius: var(--border-radius);
+  }
+
+  strong {
+    font-weight: normal;
+    text-decoration: underline;
+  }
+</style>
+
+<section><p>假如你是一个支付宝的开发, 一天产品提出了一个叫做<code>蚂蚁果园</code>功能需求</p>
+<blockquote>
+  <p>给每个用户分配一棵虚拟的苹果树, 当使用支付宝进行一笔线下付款后, 产生一份能量. 用户可以收集能量, 果树随着能量值增加而长大, 当能量达到某个值的时候, 用户可以消耗能量值兑换苹果一份.</p>
+</blockquote>
+<p>你分析了一下这个功能, 画了个流程图, 然后就开始动手实现</p>
+
+      <figure class="figure-img">
+        <a href="/e3f9df14ad1bead599128e16fce53be6.png" target="_blank">
+          <img src="/e3f9df14ad1bead599128e16fce53be6.png" alt="流程图" title="流程图" loading="lazy">
+        </a>
+        <figcaption>流程图</figcaption>
+      </figure>
+    
+<pre><code class="js language-js">线下付款() {
+  原有线下付款逻辑;
+  产生能量;
+}
+</code></pre>
+<p>功能上线后反响不错, 产品想进一步推广这个功能, 提出了新的需求, 在原有基础上, 生活缴费也能产生能量. 你发现这个逻辑跟线下付款流程是一样的, 所以有下面的实现</p>
+<pre><code class="js language-js">线下付款() {
+  原有线下付款逻辑;
+  产生能量;
+}
+
+生活缴费() {
+  原有生活缴费逻辑;
+  产生能量;
+}
+</code></pre>
+<p>又过了几天, 产品跑过来跟你说"蚂蚁果园这个功能火了, 我们决定全力推广, 这里有个列表, 上面的操作都可以产生能量</p>
+
+      <figure class="figure-img">
+        <a href="/56e6f0ef22402ba15ac7e7e79666791c.jpeg" target="_blank">
+          <img src="/56e6f0ef22402ba15ac7e7e79666791c.jpeg" alt="" title="" loading="lazy">
+        </a>
+        
+      </figure>
+    
+
+      <figure class="figure-img">
+        <a href="/26dcd8e0fd598096f06bcf32efe259c8.jpeg" target="_blank">
+          <img src="/26dcd8e0fd598096f06bcf32efe259c8.jpeg" alt="" title="" loading="lazy">
+        </a>
+        
+      </figure>
+    
+<p>于是就有了这样的实现</p>
+<pre><code class="js language-js">线下付款() {
+  原有线下付款逻辑;
+  产生能量;
+}
+
+生活缴费() {
+  原有生活缴费逻辑;
+  产生能量;
+}
+
+公交出行() {
+  原有公交出行逻辑;
+  产生能量;
+}
+
+共享单车() {
+  原有共享单车逻辑;
+  产生能量;
+}
+
+
+国际退税() {
+  原有国际退税逻辑;
+  产生能量;
+}
+
+// ...
+// 在各个原有逻辑上添加产生能量的逻辑
+</code></pre>
+<p>在功能更新上线后的不久, 产品又提出了一个<code>蚂蚁猪圈</code>的功能</p>
+<blockquote>
+  <p>给每个用户分配一头虚拟的猪, 在蚂蚁果园产生能量的同时产生一份饲料, 用户可以收集饲料, 猪随着饲料值的增加而长大, 当饲料值达到某个值的时候, 用户可以消耗饲料值兑换猪肉一份.</p>
+</blockquote>
+<p>你发现饲料和能量产生的逻辑是一样的, 于是有这样的实现</p>
+<pre><code class="js language-js">线下付款() {
+  原有线下付款逻辑;
+  产生能量;
+  产生饲料;
+}
+
+生活缴费() {
+  原有生活缴费逻辑;
+  产生能量;
+  产生饲料;
+}
+
+公交出行() {
+  原有公交出行逻辑;
+  产生能量;
+  产生饲料;
+}
+
+共享单车() {
+  原有共享单车逻辑;
+  产生能量;
+  产生饲料;
+}
+
+
+国际退税() {
+  原有国际退税逻辑;
+  产生能量;
+  产生饲料;
+}
+
+// ...
+// 在各个原有逻辑上添加产生能量和产生饲料的逻辑
+</code></pre>
+<p>过了几天产品又跑了过来说由于猪肉涨价, 导致<code>蚂蚁猪圈</code>的成本大幅上升, 为了控制成本, 需要临时将<code>蚂蚁猪圈</code>下线, 等猪肉价格降下来以后再重新上线.</p>
+<p>没有办法, 你只好将产生饲料的代码移除, 等到<code>蚂蚁猪圈</code>重新上线时再恢复产生饲料的代码.</p>
+<hr>
+<p>上面的实现存在一个问题, 就是不同业务之间耦合严重. 比如线下付款, 产生能量和产生饲料应该分属付款业务, 蚂蚁果园业务和蚂蚁猪圈业务, 但是果园和猪圈业务代码被嵌入到付款业务里, 造成的问题就是每次果园或者猪圈业务的调整, 都会修改付款业务的代码, 这样操作容易给付款业务引入 BUG. 另外一点就是代码维护困难, 比如明天产品要增加<code>蚂蚁牛圈</code>的功能, 后天增加<code>蚂蚁菜园</code>的功能, 大后天下线<code>蚂蚁果园</code>功能, 通通都要修改线下付款的代码, 这样的代码维护起来极其困难.</p>
+<p>对于这类问题, 可以通过业务代码分离和消息队列(Message Queue)解决.</p>
+<h3 id="">业务代码分离</h3>
+<p>业务代码分离指的是每个业务实现自己的服务, 业务相关的接口放在各自的服务. 比如上面的例子, 可以分成付款, 果园和猪圈三个服务</p>
+<pre><code class="js language-js">付款服务 {
+  线下付款() { ... }
+  生活缴费() { ... }
+  公交出行() { ... }
+  ...
+}
+
+蚂蚁果园服务 {
+  产生能量() { ... }
+  收集能量() { ... }
+  兑换苹果() { ... }
+  ...
+}
+
+蚂蚁猪圈服务 {
+  产生饲料() { ... }
+  收集饲料() { ... }
+  兑换猪肉() { ... }
+  ...
+}
+</code></pre>
+<p>将不同业务分离成独立服务后, 服务之间怎样进行沟通呢? 通常情况是通过各种 rpc, 但在这个场景下, MQ 更合适.</p>
+<h3 id="-1">消息队列</h3>
+<p>在果园的场景下, MQ 的作用相当于一个消息中心.</p>
+
+      <figure class="figure-img">
+        <a href="/ac1c74e5d6af930ae877d17605586666.png" target="_blank">
+          <img src="/ac1c74e5d6af930ae877d17605586666.png" alt="①表示支付服务通知消息队列" 某个用户完成一笔线下付款",="" ②表示消息队列通知果园服务"某个用户完成一笔线下付款""="" title="①表示支付服务通知消息队列" loading="lazy">
+        </a>
+        <figcaption>①表示支付服务通知消息队列"某个用户完成一笔线下付款", ②表示消息队列通知果园服务"某个用户完成一笔线下付款"</figcaption>
+      </figure>
+    
+<pre><code class="js language-js">付款服务 {
+  线下付款() {
+    线下付款操作;
+    通知消息队列"某个用户完成一笔线下付款";
+  }
+  ...
+}
+
+蚂蚁果园服务 {
+  监听"某个用户完成一笔线下付款" {
+    蚂蚁果园服务.产生能量();
+  }
+  ...
+}
+</code></pre>
+<p>当用户完成一笔线下付款后, 会向消息队列发送一个"某个用户完成一笔线下付款"的消息, 果园服务在监听"某个用户完成一笔线下付款"消息的情况下, 收到消息后调用产生能量接口给用户产生能量.</p>
+<p>通过消息队列, 实现了支付服务和蚂蚁果园服务解构.</p>
+<p>这里有个问题, 为什么支付服务不直接通知果园服务, 而是要通过消息队列呢?</p>
+<p>首先, 如果由支付服务直接通知果园服务, 这样的话支付服务依然跟果园服务相关联, 没有完全解构. 其次, 在消息队列作为中介的情况下, 加入猪圈服务我们不需要修改支付服务的代码.</p>
+
+      <figure class="figure-img">
+        <a href="/c9ae9b832ef641cab73039999ab5fbf0.png" target="_blank">
+          <img src="/c9ae9b832ef641cab73039999ab5fbf0.png" alt="③表示消息队列在通知果园服务的同时通知猪圈服务" 某个用户完成一笔线下付款""="" title="③表示消息队列在通知果园服务的同时通知猪圈服务" loading="lazy">
+        </a>
+        <figcaption>③表示消息队列在通知果园服务的同时通知猪圈服务"某个用户完成一笔线下付款"</figcaption>
+      </figure>
+    
+<pre><code class="js language-js">付款服务 {
+  线下付款() {
+    线下付款操作;
+    通知消息队列"某个用户完成一笔线下付款";
+  }
+  ...
+}
+
+蚂蚁果园服务 {
+  监听"某个用户完成一笔线下付款" {
+    蚂蚁果园服务.产生能量();
+  }
+  ...
+}
+
+蚂蚁猪圈服务 {
+  监听"某个用户完成一笔线下付款" {
+    蚂蚁猪圈服务.产生饲料();
+  }
+  ...
+}
+</code></pre>
+<p>对比一下可以发现, 在加入猪圈服务的情况下, 只需要猪圈服务主动监听消息, 完全不需要修改支付服务的任何代码就能实现线下付款产生饲料.</p>
+<p>同理, 后续什么<code>蚂蚁菜园</code>, <code>蚂蚁牛圈</code>等一系列功能增加, 同样无需修改支付服务的代码, 这一系列功能下线也是一样. 对于<code>生活缴费</code>, <code>公交出行</code>和<code>共享单车</code>等其他可以产生能量/饲料的操作, 只需要增加消息类型, 在原有逻辑添加触发消息的操作, 在其他服务监听消息完成对应的操作就可以了.</p>
+<pre><code class="js language-js">付款服务 {
+  线下付款() {
+    线下付款操作;
+    通知消息队列"某个用户完成一笔线下付款";
+  }
+
+  生活缴费() {
+    生活缴费操作;
+    通知消息队列"某个用户完成一笔生活缴费";
+  }
+
+  公交出行() {
+    公交出行操作;
+    通知消息队列"某个用户完成一次公交出行";
+  }
+
+  ...
+}
+
+蚂蚁果园服务 {
+  监听"某个用户完成一笔线下付款" {
+    蚂蚁果园服务.产生能量();
+  }
+
+  监听"某个用户完成一笔生活缴费" {
+    蚂蚁果园服务.产生能量();
+  }
+
+  监听"某个用户完成一次公交出行" {
+    蚂蚁果园服务.产生能量();
+  }
+
+  ...
+}
+
+蚂蚁猪圈服务 {
+  监听"某个用户完成一笔线下付款" {
+    蚂蚁猪圈服务.产生饲料();
+  }
+
+  监听"某个用户完成一笔生活缴费" {
+    蚂蚁猪圈服务.产生饲料();
+  }
+
+  监听"某个用户完成一次公交出行" {
+    蚂蚁猪圈服务.产生饲料();
+  }
+
+  ...
+}
+</code></pre>
+<h4 id="-2">参考</h4>
+<ul>
+<li>什么是消息队列？<a href="https://juejin.im/post/5cb025fb5188251b0351ef48">https://juejin.im/post/5cb025fb5188251b0351ef48</a></li>
+</ul></section>
+
+    
+  </article>
+  
+  <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8404651063516637" crossorigin="anonymous"></script>
+<style>
+  .adsbygoogle {
+    max-width: 100%;
+    margin-block: 40px;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .adsbygoogle:empty {
+    display: none;
+  }
+</style>
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8404651063516637" data-ad-slot="7746538242" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  <style>
+.page-footer {
+  font-size: 12px;
+  max-inline-size: var(--content-max-width);
+  margin-block: 40px;
+  margin-inline: auto;
+  padding-inline: 30px;
+  font-family: common_font;
+  color: var(--secondary-color);
+}
+
+.page-footer > a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.page-footer > a:hover {
+  color: var(--primary-color);
+}
+
+.page-footer > .underline {
+  text-decoration: underline;
+}
+</style>
+
+<footer class="page-footer">
+  <a href="https://github.com/mebtte/animal-photosynthesis/blob/master/license">©</a>
+  2026
+  &nbsp;
+  <a class="underline" href="https://i.mebtte.com">MEBTTE</a>
+  &nbsp;|&nbsp;
+  <a class="underline" href="https://stats.uptimerobot.com/4nO5RUYB60">UPTIME</a>
+  &nbsp;|&nbsp;
+  <a class="underline" href="/support">支持我</a>
+</footer>
+
+  <script src="/39c97c2884c3a2b5e64c8f085b843d4e.js"></script>
+  <script src="/0ec215ad131a36856d3d20423b9aca26.js" async="" defer=""></script>
+
+
+
+</body></html>

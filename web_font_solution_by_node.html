@@ -1,0 +1,775 @@
+<!DOCTYPE html><html lang="zh-cn"><head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="mebtte">
+<meta name="keywords" content="HTML, CSS, JavaScript, Web, Front-End">
+
+<!-- Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-CESZTRKM96"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CESZTRKM96');
+</script>
+
+<!-- open graph -->
+<meta property="og:type" content="website">
+<meta property="og:image" content="/6ed5faa0573b2a5a9d47232c9a71fb88.png">
+
+<link rel="shortcut icon" type="image/png" href="/6ed5faa0573b2a5a9d47232c9a71fb88.png">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+
+<link rel="preload" href="/e0e440b1ae0a9ba21fb3feb4cff12d11.ttf" as="font" crossorigin="anonymous">
+<link rel="preload" href="/53d99659dc34209657d05bb2a7fc5de4.ttf" as="font" crossorigin="anonymous">
+
+  <style>
+  @font-face {
+    font-family: common_font;
+    src: url(/53d99659dc34209657d05bb2a7fc5de4.ttf);
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    --content-max-width: 840px;
+
+    --primary-color: rgb(237 106 94);
+
+    --normal-color: #333;
+    --secondary-color: #888;
+    --tertiary-color: #ddd;
+    --backgroud: rgb(255 255 255);
+
+    --border-radius: 2px;
+    --transition-duration: 0.3s;
+
+    background-color: var(--backgroud);
+    transition: background-color var(--transition-duration);
+  }
+
+  figure {
+    margin-inline: 0;
+  }
+</style>
+
+
+  <title>基于 Node.js 的 WebFont 解决方案 - 动物的光合作用</title>
+  <meta name="description" content="CSS3 中的`@font-face`提供了自定义字体的功能，可以使网页不局限于用户系统中的字体。 然而理想很丰满，现实很骨感。 像英文这类的语言来说，字体文件包含非常少的字符，所以一个字体文件会非常的小。 我随便下载了几份英文字体  ![英文字体大小](./english_font_size.pn......">
+  <meta property="og:description" content="CSS3 中的`@font-face`提供了自定义字体的功能，可以使网页不局限于用户系统中的字体。 然而理想很丰满，现实很骨感。 像英文这类的语言来说，字体文件包含非常少的字符，所以一个字体文件会非常的小。 我随便下载了几份英文字体  ![英文字体大小](./english_font_size.pn......">
+
+  <link rel="preload" href="/c449235232ec7e194732c6b7013dab86.ttf" as="font" crossorigin="anonymous">
+  <style>
+    @font-face {
+      font-family: article_font_web_font_solution_by_node;
+      src: url(/c449235232ec7e194732c6b7013dab86.ttf);
+    }
+    article {
+      font-family: article_font_web_font_solution_by_node;
+    }
+  </style>
+  
+  <link rel="stylesheet" href="/ece570de77ba673c17121d06fc929bd9.css">
+</head>
+
+<body>
+  <style>
+  @font-face {
+    font-family: title_font;
+    src: url(/e0e440b1ae0a9ba21fb3feb4cff12d11.ttf);
+  }
+
+  .page-header {
+    max-inline-size: var(--content-max-width);
+    margin-block: 50px 40px;
+    margin-inline: auto;
+    padding-inline: 30px;
+    display: flex;
+    align-items: center;
+  }
+
+  .page-header_title {
+    flex: 1;
+    min-inline-size: 0;
+    font-size: min(8vw, 56px);
+    font-family: title_font;
+    margin: 0;
+    color: var(--normal-color);
+  }
+
+  .page-header_title > a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .page-header_icon {
+    margin-inline-start: 10px;
+  }
+
+  .page-header_icon > img {
+    user-select: none;
+    inline-size: 20px;
+    block-size: 20px;
+  }
+</style>
+
+<header class="page-header">
+  
+    <h2 class="page-header_title">
+      <a href="/">动物的光合作用</a>
+    </h2>
+  
+  <a class="page-header_icon" href="/rss.xml" target="_blank">
+    <img src="/e31ad23031e5bcb34e8d4a424ba0c100.png" alt="rss">
+  </a>
+  <a class="page-header_icon" href="https://github.com/mebtte/animal-photosynthesis" target="_blank">
+    <img src="/184c800e11079b13904f308161071b62.png" alt="github">
+  </a>
+  <a class="page-header_icon" href="//i.mebtte.com" target="_blank">
+    <img src="/2cd3760ad10a38f8a9ed6ea3993fa472.png" alt="author">
+  </a>
+</header>
+
+  <article>
+    <style>
+.article-header {
+  max-inline-size: var(--content-max-width);
+  margin-block: 40px;
+  margin-inline: auto;
+  padding-inline: 30px;
+}
+
+.article-title {
+  color: var(--primary-color);
+  font-size: 32px;
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+}
+
+.article-title a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.article-publish-time {
+  color: var(--secondary-color);
+  font-size: 14px;
+  font-family: common_font;
+}
+</style>
+
+<section class="article-header">
+  <h1 class="article-title">
+    <a href="/web_font_solution_by_node">基于 Node.js 的 WebFont 解决方案</a>
+  </h1>
+  <time class="article-publish-time">2019-03-10</time>
+</section>
+
+    <style>
+  article {
+    --article-space: 30px;
+  }
+
+  article a {
+    color: var(--normal-color);
+    text-decoration-color: var(--primary-color);
+  }
+
+  article h2,
+  article h3,
+  article h4,
+  article h5,
+  article h6 {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-inline: auto;
+    line-height: 1.5;
+    color: var(--normal-color);
+  }
+
+  article h2 {
+    margin-block-start: 28px;
+    font-size: 28px;
+  }
+
+  article h3 {
+    margin-block-start: 26px;
+    font-size: 25px;
+  }
+
+  article h4 {
+    margin-block-start: 24px;
+    font-size: 22px;
+  }
+
+  article h5 {
+    margin-block-start: 22px;
+    font-size: 19px;
+  }
+
+  article h6 {
+    margin-block-start: 20px;
+    font-size: 16px;
+  }
+
+  article p {
+    max-inline-size: var(--content-max-width);
+
+    margin-block: 15px;
+    margin-inline: auto;
+    padding-inline: 30px;
+
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--normal-color);
+    word-break: break-word;
+  }
+
+  article p code,
+  article ul code,
+  article ol code,
+  article table code {
+    padding-inline: 4px;
+    border-radius: var(--border-radius);
+    background: rgba(237, 106, 94, 0.3);
+  }
+
+  article pre {
+    max-inline-size: var(--content-max-width) !important;
+    margin-block: 15px !important;
+    margin-inline: auto !important;
+    font-size: 14px !important;
+    box-sizing: border-box;
+    border-radius: var(--border-radius) !important;
+    tab-size: 2 !important;
+    padding: 0 !important;
+  }
+
+  article pre code {
+    display: block;
+    margin-block: 20px !important;
+    margin-inline: 30px !important;
+    overflow: auto !important;
+    font-size: inherit !important;
+  }
+
+  article hr {
+    max-inline-size: var(--content-max-width);
+    margin-block: 40px;
+    margin-inline: auto;
+    padding-inline: var(--article-space);
+    border: none;
+  }
+
+  article hr::after {
+    content: "";
+    display: block;
+    block-size: 1px;
+    background-color: var(--tertiary-color);
+  }
+
+  .table-container {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .table-container table {
+    border-collapse: collapse;
+  }
+
+  .table-container th,
+  .table-container td {
+    font-size: 14px;
+    color: var(--normal-color);
+    border: 1px solid var(--tertiary-color);
+    padding: 10px;
+    text-align: left;
+  }
+
+  .table-container th {
+    font-size: 16px;
+    text-align: left;
+  }
+
+  article blockquote {
+    max-inline-size: var(--content-max-width);
+    padding-inline: var(--article-space);
+    margin-block: 15px;
+    margin-inline: auto;
+    position: relative;
+    font-style: italic;
+    color: var(--secondary-color);
+  }
+
+  article blockquote::before {
+    content: "";
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 30px;
+    inline-size: 3px;
+    block-size: 100%;
+    background-color: var(--primary-color);
+  }
+
+  article blockquote p {
+    font-size: 14px;
+    color: inherit;
+    max-inline-size: unset;
+    padding: 0;
+    margin-inline-start: 30px;
+  }
+
+  article ul,
+  article ol {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+    color: var(--normal-color);
+    line-height: 1.5;
+  }
+
+  article ol {
+    counter-reset: li-count;
+  }
+
+  article ul li,
+  article ol li {
+    display: block;
+    margin-block: 5px;
+    position: relative;
+  }
+
+  article ol li {
+    counter-increment: li-count;
+  }
+
+  article ul li::before {
+    content: "";
+    display: inline-block;
+    inline-size: 6px;
+    block-size: 6px;
+
+    margin-inline-end: 10px;
+
+    vertical-align: middle;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+  }
+
+  article ol li::before {
+    content: counter(li-count) ". ";
+    color: var(--primary-color);
+  }
+
+  article figcaption {
+    font-size: 12px;
+    color: var(--secondary-color);
+    text-align: center;
+    margin-block-start: 5px;
+  }
+
+  .figure-img {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .figure-img img {
+    display: block;
+    max-inline-size: 100%;
+    margin-inline: auto;
+    border-radius: var(--border-radius);
+  }
+
+  .figure-media {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .figure-media .media {
+    display: block;
+    max-inline-size: 100%;
+    margin-inline: auto;
+  }
+
+  .figure-iframe {
+    inline-size: 100%;
+    margin-block: 15px;
+  }
+
+  .figure-iframe iframe {
+    display: block;
+    inline-size: 100%;
+    max-inline-size: var(--content-max-width);
+    margin-inline: auto;
+    block-size: 640px;
+    border: 1px solid var(--tertiary-color);
+    border-radius: var(--border-radius);
+  }
+
+  strong {
+    font-weight: normal;
+    text-decoration: underline;
+  }
+</style>
+
+<section><p>CSS3 中的<code>@font-face</code>提供了自定义字体的功能，可以使网页不局限于用户系统中的字体。
+然而理想很丰满，现实很骨感。
+像英文这类的语言来说，字体文件包含非常少的字符，所以一个字体文件会非常的小。
+我随便下载了几份英文字体</p>
+
+      <figure class="figure-img">
+        <a href="/4d66418a38e882a82f2fe2312a6b3661.png" target="_blank">
+          <img src="/4d66418a38e882a82f2fe2312a6b3661.png" alt="英文字体大小" title="英文字体大小" loading="lazy">
+        </a>
+        <figcaption>英文字体大小</figcaption>
+      </figure>
+    
+<p>除了一些字库特别丰富的一些字体外，大部分的英文字体文件都是在 100KB 以内。
+但是对于中文这类包含非常多字符的语言来说，就没有办法保证字体文件的大小了。
+比如汉字，<a href="https://www.zhihu.com/question/20767273">常用的就有三千多个</a>。</p>
+
+      <figure class="figure-img">
+        <a href="/b480327082c4ef9d50873c05cb89d7ce.png" target="_blank">
+          <img src="/b480327082c4ef9d50873c05cb89d7ce.png" alt="中文字体大小" title="中文字体大小" loading="lazy">
+        </a>
+        <figcaption>中文字体大小</figcaption>
+      </figure>
+    
+<p>下载了几份中文字体，都超过 1MB，一些字库丰富的字体可以超过 10MB。
+对于一个几十 KB 或几百 KB 的网页来说，加载几个 MB 的字体文件肯定是不划算的。
+又或者在网络差的环境，用户已经浏览完页面了，字体才加载回来，这时候已经没有意义了。</p>
+<p>但是，换一个角度想，虽然一个中文字体包含了几千个常用字，但一个网页去掉重复字的情况下，往往只包含数十个到数百个字，那加载一个完整包含数千个字的字体文件是否有必要呢？能不能只加载网页需要的字体？一能减小加字体文件的大小，二能保证字体加载的速度。</p>
+<h2 id="">有字库</h2>
+<p>对于上面两个问题，<a href="https://www.webfont.com">有字库</a>是一种解决方案，但是对于我来说存在一些问题</p>
+<ol>
+<li>收费，免费套餐使用有限制</li>
+<li>字体有限，自定义字体需要上传并审核，对于一些需要紧急上线的项目无法使用</li>
+</ol>
+<p>如果不关心以上问题，有字库的方案已经够用了。</p>
+<hr>
+<h2 id="fontmin">fontmin</h2>
+<p><a href="https://github.com/ecomfe/fontmin">fontmin</a> 是 <a href="https://efe.baidu.com/">efe</a> 开发的一个 npm 包，能够提取字体中需要的字体子集。</p>
+
+      <figure class="figure-img">
+        <a href="/39211a45f31c3ad849014e38ae110590.png" target="_blank">
+          <img src="/39211a45f31c3ad849014e38ae110590.png" alt="" title="" loading="lazy">
+        </a>
+        
+      </figure>
+    
+<p>官方的一个例子，从一个包含 7500+ 字 / 4.2MB 的字体中提取了 7 个字，输出子集字体只有 4.5KB。fontmin 提供了<code>API</code>和<code>CLI</code>的使用方式，具体使用方式请查看<a href="https://github.com/ecomfe/fontmin">官方介绍</a></p>
+<h2 id="-1">场景</h2>
+<p>设想一个场景，现在我们有一个博客需要用到自定义字体，博客可以从管理后台新增/修改/删除博文，根据我们字体子集的方案，每一篇博文都需要生成一个字体子集文件。
+这种方案有一些问题</p>
+<ul>
+<li>当博文修改的时候，我们需要重新生成字体子集文件。</li>
+<li>想更换另一种字体，我们需要为所有博文重新生成字体子集文件。</li>
+</ul>
+<h2 id="-2">接口</h2>
+<p>为了避免这些繁琐的流程，我们决定基于接口设计一种通用的解决方案。
+一个接口接受字体和需要的文字，页面直接调用然后返回字体子集文件。</p>
+<pre><code>https://example.com/api/font?font=fontName&amp;text=text
+// font 表示指定的字体
+// text 表示需要的文字
+</code></pre>
+<p>以<code>koa</code>为例</p>
+<pre><code class="js language-js">// generateFont.js
+import path from 'path';
+
+import Fontmin from 'fontmin';
+
+const FONTS = ['a', 'b', 'c', 'd']; // 我们只允许a,b,c,d这4种字体
+const FONT_DIR = path.join(__dirname, 'font dir'); // 存放原始字体的目录
+
+/**
+ * 为了简单展示，这里假设所有字体都是ttf格式
+ * fontmin支持多种字体格式
+ */
+export default async (ctx) =&gt; {
+  // font 表示指定字体，text 表示提取的文本
+  const { font, text } = ctx.query;
+  if (!font || !FONTS.includes(font) || !text) {
+    ctx.status = 400;
+    ctx.body = '参数错误';
+    return;
+  }
+
+  const fontmin = new Fontmin()
+    .src(`${FONT_DIR}/${font}.ttf`)
+    .use(Fontmin.glyph({ text }));
+
+  // fontmin没有提供promise的方法调用，这里封装一下
+  const content = await new Promise((resolve, reject) =&gt; {
+    fontmin.run((error, files) =&gt; {
+      if (error) {
+        return reject(error);
+      }
+      return resolve(files[0].contents);
+    });
+  });
+
+  ctx.body = content;
+};
+</code></pre>
+<p>上面的代码好像还少了点东西？ 是的，缓存。比如我们设置<code>cache-control=max-age</code>，在一个用户浏览器中确实是缓存了，但是当别的用户访问的时候，接口依然要生成新的字体子集。所以我们需要在服务端作缓存，改进一下代码。</p>
+<pre><code class="js language-js">// generateFont.js
+import path from 'path';
+import fs from 'fs';
+import util from 'util';
+
+import md5 from 'md5';
+import Fontmin from 'fontmin';
+
+const FONTS = ['a', 'b', 'c', 'd']; // 我们只允许a,b,c,d这4种字体
+const FONT_DIR = path.join(__dirname, 'font dir'); // 存放原始字体的目录
+const SUB_FONT_DIR = path.join(__dirname, 'sub font dir'); // 子集字体的目录
+
+// 判断文件是否存在
+const access = (filename) =&gt;
+  new Promise((resolve) =&gt; fs.access(filename, (error) =&gt; resolve(!error)));
+const writeFile = util.promisify(fs.writeFile);
+
+export default async (ctx) =&gt; {
+  // font 表示指定字体，text 表示提取的文本
+  const { font, text } = ctx.query;
+  if (!font || !FONTS.includes(font) || !text) {
+    ctx.status = 400;
+    ctx.body = '参数错误';
+    return;
+  }
+
+  /**
+   * 对text作md5来标记是否已经缓存
+   * 缓存存在返回缓存
+   * 缓存不存在创建缓存
+   */
+  const textMd5 = md5(text);
+  const cacheFile = `${SUB_FONT_DIR}/${font}_${md5}.ttf`;
+  const exist = await access(cacheFile);
+  if (!exist) {
+    const fontmin = new Fontmin()
+      .src(`${FONT_DIR}/${font}.ttf`)
+      .use(Fontmin.glyph({ text }));
+    const content = await new Promise((resolve, reject) =&gt; {
+      fontmin.run((error, files) =&gt; {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(files[0].contents);
+      });
+    });
+    await writeFile(cacheFile, content);
+  }
+
+  ctx.body = fs.createReadStream(cacheFile);
+};
+</code></pre>
+<p>还有一个问题是关于 <code>text</code> 的，比如 <code>text=abc</code> / <code>text=aabc</code> / <code>text=cba</code>，虽然它们都不相等，其实他们返回的都是同一份字体，但接口却计算并缓存了三份，所以需要对 <code>text</code> 做一下处理。</p>
+<pre><code class="js language-js">// 对text去重以及排序
+text = Array.from(new Set(text))
+  .sort()
+  .join('');
+</code></pre>
+
+      <figure class="figure-img">
+        <a href="/1c9ab70b70a4d992ca6f7dc230fa1dc6.png" target="_blank">
+          <img src="/1c9ab70b70a4d992ca6f7dc230fa1dc6.png" alt="" title="" loading="lazy">
+        </a>
+        
+      </figure>
+    
+<p>对接口进行了测试，从一个 20MB 字体中请求了 400 个汉字，大小约为 150KB。</p>
+<h2 id="-3">客户端</h2>
+<p>在博文页面，我们只需要在页面加载后调用一次接口就可以了。</p>
+<pre><code class="js language-js">window.addEventListener('onload', () =&gt; {
+  const font = 'a'; // 使用的字体
+  const text = Array.from(new Set(document.body.textContent))
+    .sort()
+    .join();
+  const style = document.createElement('style');
+  style.innerHTML = `
+    @font-face {
+      font-family: ${font};
+      src: url("https://example.com/api/font?font=${font}&amp;text=${encodeURIComponent(
+    text,
+  )}");
+    }
+    html {
+      font-family: ${font};
+    }
+  `;
+  document.head.appendChild(style);
+});
+</code></pre>
+<h2 id="-4">动态页面</h2>
+<p>假设博客添加了评论功能，用户的评论可以在不刷新页面的情况下插入到页面中，那么上面的调用就产生了问题。
+比如原博文只包含<code>这是一篇博客</code>这几个字，然后一个用户评论了<code>写的真好</code>这几个字，因为用户内容跟博文内容没有重合文字，所以用户评论并不会产生自定义字体效果。
+这种情况下，我们也需要动态加载字体。</p>
+<p>第一种方案就是每新增加一个评论，就跟静态页面一样，重新替换页面的字体。</p>
+<p>第二种方案就是对每一个新的评论设置自己的字体</p>
+<pre><code class="js language-js">const node = document.querySelector('comment node'); // 新增的评论节点
+const font = 'a'; // 使用的字体
+
+// 随机生成字体名称避免冲突
+const fontFamily = `${Math.random()}`.replace('0.', 'font_family_');
+
+const text = Array.from(new Set(node.textContent))
+  .sort()
+  .join();
+const style = document.createElement('style');
+style.innerHTML = `
+  @font-face {
+    font-family: ${fontFamily};
+    src: url("https://example.com/api/font?font=${font}&amp;text=${encodeURIComponent(
+  text,
+)}");
+  }
+`;
+document.head.appendChild(style);
+node.style.fontFamily = fontFamily;
+</code></pre></section>
+
+    <section>
+  <h2>更新记录</h2>
+  <div class="table-container">
+    <table>
+      
+        <tbody><tr>
+          <td>2020-05-01</td>
+          <td>fontmin项目疑似已停止维护, 请采用其他方案</td>
+        </tr>
+       
+    </tbody></table>
+  </div>
+</section>
+
+  </article>
+  
+    <style>
+  .article-actions {
+    max-inline-size: var(--content-max-width);
+
+    display: flex;
+    align-items: center;
+
+    margin-block: 40px;
+    margin-inline: auto;
+    padding-inline: 30px;
+
+    font-family: common_font;
+    color: var(--normal-color);
+  }
+
+  .article-actions_action:not(:last-child)::after {
+    content: "·\00a0";
+  }
+
+  .article-actions_action > a {
+    color: inherit;
+    text-decoration-color: var(--primary-color);
+  }
+
+  @media (max-width: 520px) {
+    .article-actions {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .article-actions_action::before {
+      content: "·";
+    }
+
+    .article-actions_action:not(:last-child)::after {
+      content: "";
+    }
+  }
+</style>
+
+<div class="article-actions">
+  <span class="article-actions_action">
+    使用
+    <a href="https://github.com/mebtte/animal-photosynthesis/discussions">Discussions</a> 讨论
+  </span>
+  <span class="article-actions_action">
+    在
+    <a href="https://github.com/mebtte/animal-photosynthesis/edit/master/articles/web_font_solution_by_node/index.md">Github</a>
+    上编辑
+  </span>
+  <span class="article-actions_action">
+    分享到
+    <a href="https://www.x.com/share?text=%E5%9F%BA%E4%BA%8E%20Node.js%20%E7%9A%84%20WebFont%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88&amp;url=https%3A%2F%2Fmebtte.com%2Fweb_font_solution_by_node">X</a>
+  </span>
+</div>
+
+  
+  <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8404651063516637" crossorigin="anonymous"></script>
+<style>
+  .adsbygoogle {
+    max-width: 100%;
+    margin-block: 40px;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .adsbygoogle:empty {
+    display: none;
+  }
+</style>
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8404651063516637" data-ad-slot="7746538242" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  <style>
+.page-footer {
+  font-size: 12px;
+  max-inline-size: var(--content-max-width);
+  margin-block: 40px;
+  margin-inline: auto;
+  padding-inline: 30px;
+  font-family: common_font;
+  color: var(--secondary-color);
+}
+
+.page-footer > a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.page-footer > a:hover {
+  color: var(--primary-color);
+}
+
+.page-footer > .underline {
+  text-decoration: underline;
+}
+</style>
+
+<footer class="page-footer">
+  <a href="https://github.com/mebtte/animal-photosynthesis/blob/master/license">©</a>
+  2026
+  &nbsp;
+  <a class="underline" href="https://i.mebtte.com">MEBTTE</a>
+  &nbsp;|&nbsp;
+  <a class="underline" href="https://stats.uptimerobot.com/4nO5RUYB60">UPTIME</a>
+  &nbsp;|&nbsp;
+  <a class="underline" href="/support">支持我</a>
+</footer>
+
+  <script src="/39c97c2884c3a2b5e64c8f085b843d4e.js"></script>
+  <script src="/0ec215ad131a36856d3d20423b9aca26.js" async="" defer=""></script>
+
+
+
+</body></html>

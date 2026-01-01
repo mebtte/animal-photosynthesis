@@ -1,0 +1,628 @@
+<!DOCTYPE html><html lang="zh-cn"><head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="mebtte">
+<meta name="keywords" content="HTML, CSS, JavaScript, Web, Front-End">
+
+<!-- Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-CESZTRKM96"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CESZTRKM96');
+</script>
+
+<!-- open graph -->
+<meta property="og:type" content="website">
+<meta property="og:image" content="/6ed5faa0573b2a5a9d47232c9a71fb88.png">
+
+<link rel="shortcut icon" type="image/png" href="/6ed5faa0573b2a5a9d47232c9a71fb88.png">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+
+<link rel="preload" href="/e0e440b1ae0a9ba21fb3feb4cff12d11.ttf" as="font" crossorigin="anonymous">
+<link rel="preload" href="/53d99659dc34209657d05bb2a7fc5de4.ttf" as="font" crossorigin="anonymous">
+
+  <style>
+  @font-face {
+    font-family: common_font;
+    src: url(/53d99659dc34209657d05bb2a7fc5de4.ttf);
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    --content-max-width: 840px;
+
+    --primary-color: rgb(237 106 94);
+
+    --normal-color: #333;
+    --secondary-color: #888;
+    --tertiary-color: #ddd;
+    --backgroud: rgb(255 255 255);
+
+    --border-radius: 2px;
+    --transition-duration: 0.3s;
+
+    background-color: var(--backgroud);
+    transition: background-color var(--transition-duration);
+  }
+
+  figure {
+    margin-inline: 0;
+  }
+</style>
+
+
+  <title>介绍一下自己写的开源音乐服务「知了」 - 动物的光合作用</title>
+  <meta name="description" content="「[知了](https://github.com/mebtte/cicada)」是一个开源的音乐服务, 可以部署在任何 Linux/Windows/macOS 设备上, 主要有以下特点:  ### 完全开源和数据完全掌控  知了分为服务端和客户端, 代码完全[开源](https://github.c......">
+  <meta property="og:description" content="「[知了](https://github.com/mebtte/cicada)」是一个开源的音乐服务, 可以部署在任何 Linux/Windows/macOS 设备上, 主要有以下特点:  ### 完全开源和数据完全掌控  知了分为服务端和客户端, 代码完全[开源](https://github.c......">
+
+  <link rel="preload" href="/19c7e28ee353b463cb2f5d9ee2ffed32.ttf" as="font" crossorigin="anonymous">
+  <style>
+    @font-face {
+      font-family: article_font_introducing_cicada;
+      src: url(/19c7e28ee353b463cb2f5d9ee2ffed32.ttf);
+    }
+    article {
+      font-family: article_font_introducing_cicada;
+    }
+  </style>
+  
+  <link rel="stylesheet" href="/ece570de77ba673c17121d06fc929bd9.css">
+</head>
+
+<body>
+  <style>
+  @font-face {
+    font-family: title_font;
+    src: url(/e0e440b1ae0a9ba21fb3feb4cff12d11.ttf);
+  }
+
+  .page-header {
+    max-inline-size: var(--content-max-width);
+    margin-block: 50px 40px;
+    margin-inline: auto;
+    padding-inline: 30px;
+    display: flex;
+    align-items: center;
+  }
+
+  .page-header_title {
+    flex: 1;
+    min-inline-size: 0;
+    font-size: min(8vw, 56px);
+    font-family: title_font;
+    margin: 0;
+    color: var(--normal-color);
+  }
+
+  .page-header_title > a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .page-header_icon {
+    margin-inline-start: 10px;
+  }
+
+  .page-header_icon > img {
+    user-select: none;
+    inline-size: 20px;
+    block-size: 20px;
+  }
+</style>
+
+<header class="page-header">
+  
+    <h2 class="page-header_title">
+      <a href="/">动物的光合作用</a>
+    </h2>
+  
+  <a class="page-header_icon" href="/rss.xml" target="_blank">
+    <img src="/e31ad23031e5bcb34e8d4a424ba0c100.png" alt="rss">
+  </a>
+  <a class="page-header_icon" href="https://github.com/mebtte/animal-photosynthesis" target="_blank">
+    <img src="/184c800e11079b13904f308161071b62.png" alt="github">
+  </a>
+  <a class="page-header_icon" href="//i.mebtte.com" target="_blank">
+    <img src="/2cd3760ad10a38f8a9ed6ea3993fa472.png" alt="author">
+  </a>
+</header>
+
+  <article>
+    <style>
+.article-header {
+  max-inline-size: var(--content-max-width);
+  margin-block: 40px;
+  margin-inline: auto;
+  padding-inline: 30px;
+}
+
+.article-title {
+  color: var(--primary-color);
+  font-size: 32px;
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+}
+
+.article-title a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.article-publish-time {
+  color: var(--secondary-color);
+  font-size: 14px;
+  font-family: common_font;
+}
+</style>
+
+<section class="article-header">
+  <h1 class="article-title">
+    <a href="/introducing_cicada">介绍一下自己写的开源音乐服务「知了」</a>
+  </h1>
+  <time class="article-publish-time">2022-12-22</time>
+</section>
+
+    <style>
+  article {
+    --article-space: 30px;
+  }
+
+  article a {
+    color: var(--normal-color);
+    text-decoration-color: var(--primary-color);
+  }
+
+  article h2,
+  article h3,
+  article h4,
+  article h5,
+  article h6 {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-inline: auto;
+    line-height: 1.5;
+    color: var(--normal-color);
+  }
+
+  article h2 {
+    margin-block-start: 28px;
+    font-size: 28px;
+  }
+
+  article h3 {
+    margin-block-start: 26px;
+    font-size: 25px;
+  }
+
+  article h4 {
+    margin-block-start: 24px;
+    font-size: 22px;
+  }
+
+  article h5 {
+    margin-block-start: 22px;
+    font-size: 19px;
+  }
+
+  article h6 {
+    margin-block-start: 20px;
+    font-size: 16px;
+  }
+
+  article p {
+    max-inline-size: var(--content-max-width);
+
+    margin-block: 15px;
+    margin-inline: auto;
+    padding-inline: 30px;
+
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--normal-color);
+    word-break: break-word;
+  }
+
+  article p code,
+  article ul code,
+  article ol code,
+  article table code {
+    padding-inline: 4px;
+    border-radius: var(--border-radius);
+    background: rgba(237, 106, 94, 0.3);
+  }
+
+  article pre {
+    max-inline-size: var(--content-max-width) !important;
+    margin-block: 15px !important;
+    margin-inline: auto !important;
+    font-size: 14px !important;
+    box-sizing: border-box;
+    border-radius: var(--border-radius) !important;
+    tab-size: 2 !important;
+    padding: 0 !important;
+  }
+
+  article pre code {
+    display: block;
+    margin-block: 20px !important;
+    margin-inline: 30px !important;
+    overflow: auto !important;
+    font-size: inherit !important;
+  }
+
+  article hr {
+    max-inline-size: var(--content-max-width);
+    margin-block: 40px;
+    margin-inline: auto;
+    padding-inline: var(--article-space);
+    border: none;
+  }
+
+  article hr::after {
+    content: "";
+    display: block;
+    block-size: 1px;
+    background-color: var(--tertiary-color);
+  }
+
+  .table-container {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .table-container table {
+    border-collapse: collapse;
+  }
+
+  .table-container th,
+  .table-container td {
+    font-size: 14px;
+    color: var(--normal-color);
+    border: 1px solid var(--tertiary-color);
+    padding: 10px;
+    text-align: left;
+  }
+
+  .table-container th {
+    font-size: 16px;
+    text-align: left;
+  }
+
+  article blockquote {
+    max-inline-size: var(--content-max-width);
+    padding-inline: var(--article-space);
+    margin-block: 15px;
+    margin-inline: auto;
+    position: relative;
+    font-style: italic;
+    color: var(--secondary-color);
+  }
+
+  article blockquote::before {
+    content: "";
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 30px;
+    inline-size: 3px;
+    block-size: 100%;
+    background-color: var(--primary-color);
+  }
+
+  article blockquote p {
+    font-size: 14px;
+    color: inherit;
+    max-inline-size: unset;
+    padding: 0;
+    margin-inline-start: 30px;
+  }
+
+  article ul,
+  article ol {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+    color: var(--normal-color);
+    line-height: 1.5;
+  }
+
+  article ol {
+    counter-reset: li-count;
+  }
+
+  article ul li,
+  article ol li {
+    display: block;
+    margin-block: 5px;
+    position: relative;
+  }
+
+  article ol li {
+    counter-increment: li-count;
+  }
+
+  article ul li::before {
+    content: "";
+    display: inline-block;
+    inline-size: 6px;
+    block-size: 6px;
+
+    margin-inline-end: 10px;
+
+    vertical-align: middle;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+  }
+
+  article ol li::before {
+    content: counter(li-count) ". ";
+    color: var(--primary-color);
+  }
+
+  article figcaption {
+    font-size: 12px;
+    color: var(--secondary-color);
+    text-align: center;
+    margin-block-start: 5px;
+  }
+
+  .figure-img {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .figure-img img {
+    display: block;
+    max-inline-size: 100%;
+    margin-inline: auto;
+    border-radius: var(--border-radius);
+  }
+
+  .figure-media {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .figure-media .media {
+    display: block;
+    max-inline-size: 100%;
+    margin-inline: auto;
+  }
+
+  .figure-iframe {
+    inline-size: 100%;
+    margin-block: 15px;
+  }
+
+  .figure-iframe iframe {
+    display: block;
+    inline-size: 100%;
+    max-inline-size: var(--content-max-width);
+    margin-inline: auto;
+    block-size: 640px;
+    border: 1px solid var(--tertiary-color);
+    border-radius: var(--border-radius);
+  }
+
+  strong {
+    font-weight: normal;
+    text-decoration: underline;
+  }
+</style>
+
+<section><p>「<a href="https://github.com/mebtte/cicada">知了</a>」是一个开源的音乐服务, 可以部署在任何 Linux/Windows/macOS 设备上, 主要有以下特点:</p>
+<h3 id="">完全开源和数据完全掌控</h3>
+<p>知了分为服务端和客户端, 代码完全<a href="https://github.com/mebtte/cicada">开源</a>. 知了上的数据完全保留在本机, 包括数据库(Sqlite). 迁移服务只需要将知了的数据目录迁移即可.</p>
+<h3 id="pwahttpsdevelopermozillaorgdocswebprogressive_web_apps">支持 <a href="https://developer.mozilla.org/docs/Web/Progressive_web_apps">PWA</a>, 媲美原生应用</h3>
+<p>PWA 是一种可以将 Web APP 安装到本地的一种技术, 安装之后可以像原生应用出现在系统的应用列表中, 并且启动后有独立的应用窗口. 当然, PWA 能做的不仅仅这些, 不过篇幅过长这里就不再概述了.</p>
+<blockquote>
+  <p>PWA 仅支持 <code>HTTPS</code> 或者 <code>localhost</code>, 知了目前暂不支持配置 <code>HTTPS</code>, 请使用 <code>nginx</code> 之类的工具进行 <code>HTTPS</code> 反向代理.</p>
+</blockquote>
+
+      <figure class="figure-img">
+        <a href="/7fb2cf7ab3f59211725152557fd30703.png" target="_blank">
+          <img src="/7fb2cf7ab3f59211725152557fd30703.png" alt="PWA 安装到 macOS 中" title="PWA 安装到 macOS 中" loading="lazy">
+        </a>
+        <figcaption>PWA 安装到 macOS 中</figcaption>
+      </figure>
+    
+<h3 id="ui">还算可以的 UI 设计以及适配移动端</h3>
+<p>因为我本身也不是设计出身, 也没什么设计天赋, 所以知了的 UI 都是按照自己的喜好还有参考其他应用设计出来的, 自以为 UI 上还过得去.</p>
+
+      <figure class="figure-img">
+        <a href="/daf07e44a4ab3ede932e84fb152288ed.png" target="_blank">
+          <img src="/daf07e44a4ab3ede932e84fb152288ed.png" alt="发现页和歌手详情" title="发现页和歌手详情" loading="lazy">
+        </a>
+        <figcaption>发现页和歌手详情</figcaption>
+      </figure>
+    
+
+      <figure class="figure-img">
+        <a href="/59a37421a3c98a74d4b732e659c7e39c.png" target="_blank">
+          <img src="/59a37421a3c98a74d4b732e659c7e39c.png" alt="搜索页" title="搜索页" loading="lazy">
+        </a>
+        <figcaption>搜索页</figcaption>
+      </figure>
+    
+<p>此外还在桌面端的基础上适配了移动端.</p>
+
+      <figure class="figure-img">
+        <a href="/5db0909164f0a755378d320cc0a6a063.jpeg" target="_blank">
+          <img src="/5db0909164f0a755378d320cc0a6a063.jpeg" alt="移动端发现页和音乐详情" title="移动端发现页和音乐详情" loading="lazy">
+        </a>
+        <figcaption>移动端发现页和音乐详情</figcaption>
+      </figure>
+    
+
+      <figure class="figure-img">
+        <a href="/cdc4e75314c81207df97de7bfe1744e3.jpeg" target="_blank">
+          <img src="/cdc4e75314c81207df97de7bfe1744e3.jpeg" alt="移动端搜索页" title="移动端搜索页" loading="lazy">
+        </a>
+        <figcaption>移动端搜索页</figcaption>
+      </figure>
+    
+<h3 id="-1">支持离线访问</h3>
+<p>得益于 PWA, 知了会把加载过的资源缓存在本地, 即使在断网情况下, 依然可以播放和查看已缓存的数据.</p>
+<h3 id="-2">系统媒体支持</h3>
+<p>知了已接入系统媒体, 能够在操控台看到当前正在播放的音乐, 以及使用系统快捷键/键盘快捷键进行操作.</p>
+
+      <figure class="figure-img">
+        <a href="/78ca3c5db7693ff3099c9f52dcd111a6.png" target="_blank">
+          <img src="/78ca3c5db7693ff3099c9f52dcd111a6.png" alt="macOS 控制中心" title="macOS 控制中心" loading="lazy">
+        </a>
+        <figcaption>macOS 控制中心</figcaption>
+      </figure>
+    
+
+      <figure class="figure-img">
+        <a href="/7514579140b0c48de085517c51338ee2.jpeg" target="_blank">
+          <img src="/7514579140b0c48de085517c51338ee2.jpeg" alt="Android 状态栏" title="Android 状态栏" loading="lazy">
+        </a>
+        <figcaption>Android 状态栏</figcaption>
+      </figure>
+    
+<h3 id="-3">多歌词支持</h3>
+
+      <figure class="figure-img">
+        <a href="/d3618691dd1e64b5ad66039fcb044628.png" target="_blank">
+          <img src="/d3618691dd1e64b5ad66039fcb044628.png" alt="多歌词" title="多歌词" loading="lazy">
+        </a>
+        <figcaption>多歌词</figcaption>
+      </figure>
+    
+<h3 id="-4">多用户</h3>
+<p>知了对用户数量没有限制, 只要你愿意就可以将知了服务分享给好友使用.</p>
+
+      <figure class="figure-img">
+        <a href="/e69592314c2cd7b44b88edfda660734b.png" target="_blank">
+          <img src="/e69592314c2cd7b44b88edfda660734b.png" alt="创建用户" title="创建用户" loading="lazy">
+        </a>
+        <figcaption>创建用户</figcaption>
+      </figure>
+    
+<h2 id="-5">如何部署</h2>
+<p>知了的部署也很简单, 需要准备一个邮箱用于发送邮件, 因为知了的登录和其他部分服务需要依赖邮箱, 将邮箱信息填写到 JSON 或者 JSON5 格式的配置文件中:</p>
+<pre><code class="json language-json">{
+  "emailHost": "smtp.example.com",
+  "emailUser": "example",
+  "emailPass": "example-password"
+}
+</code></pre>
+<p>然后从 <a href="https://github.com/mebtte/cicada/releases">Releases</a> 页面下载并解压对应平台的包或者<a href="https://github.com/mebtte/cicada/blob/master/docs/build/index.md">自行编译</a>, 使用如下命令启动(以 x64 Linux 为例):</p>
+<pre><code class="sh language-sh">./cicada-linux-x64 start -c path_to/config.json
+</code></pre>
+<p>首次运行知了会要求输入管理员邮箱进行初始化, 初始化完成后访问 <code>localhost:8000</code> 或者 <code>{{ip}}:8000</code> 就可以访问了.</p>
+<p>当然, 首次登入到知了是没有任何数据, 可以前往「我的音乐」页面创建新的音乐, 创建后就可以随时随地地畅听了.</p>
+
+      <figure class="figure-img">
+        <a href="/5d9f77c6608d4137ff68d3fd0daac5f3.png" target="_blank">
+          <img src="/5d9f77c6608d4137ff68d3fd0daac5f3.png" alt="创建音乐" title="创建音乐" loading="lazy">
+        </a>
+        <figcaption>创建音乐</figcaption>
+      </figure>
+    
+<h2 id="-6">起源</h2>
+<p>接下来说一下为什么会有「知了」这个项目.</p>
+<p>曾几何时我也是使用在线音乐服务的, QQ 音乐和网易云音乐我都曾经是会员, 当时只要开通了会员, 你就可以听到任何你想听到的音乐. 后面随着版权大战, 收藏列表的音乐每天都有变灰的, 最夸张的是我的一个歌单三百首竟然灰了一百多首(知了没有使用第三方音乐源的原因).</p>
+<p>在线音乐服务能听的歌越来越少是主因, 还有一些其他原因, 比如网易云音乐的播放列表限制一千首(从产品和技术角度我都不明白为什么有这个限制), QQ 音乐中的各种广告(会员还要给我看广告?)以及使用习惯等等.</p>
+<p>最开始的知了其实是由 electron 开发的一个单机应用, 有次同学看到我在使用知了并且对知了很感兴趣, 我给了他一份副本, 他使用几天后感觉还可以然后也提出了他的建议"这玩意能做成多端同步吗?"</p>
+<p>因为当时我是使用第三方应用在多台电脑进行音乐文件同步的, 如果我把知了做成多端同步不就不需要第三方同步应用了吗? 但是多端同步的实现复杂性和安全性都是个很大的问题, 所以退而求其次我选择了 C/S 架构, 多个客户端连接一个服务端从而省略了多端同步.</p>
+<p>这一版的知了积累了二十多个用户后, 有一天有个同学问我"这东西可以做成开源的吗? 这样我也能部署一个". 于是我听从了他的建议才有了现在的知了.</p>
+<p>当然知了的开发也不是一路顺风, 我也从中学到了很多新的技术. 比如当初知了是分为 <code>server</code> / <a href="https://github.com/mebtte/cicada_pwa">pwa</a> / <a href="https://github.com/mebtte/cicada_electron">electron</a> 三个项目的, 后面接触到了 <a href="https://monorepo.tools">monorepo</a>, 于是就有了现在合并后的 <a href="https://github.com/mebtte/cicada">cicada</a> 项目. 再比如有 electron 客户端是因为我想全局快捷键下实现<code>播放</code>/<code>暂停</code>/<code>上一首</code>/<code>下一首</code>操作的, 后面解到 <a href="https://developer.mozilla.org/docs/Web/API/Media_Session_API">Media Session API</a>, 发现接入系统媒体后就不需要全局快捷键了, 所以就把 electron 客户端干掉了.</p>
+<p>从知了学到的远远不止这些, 比如 <a href="https://github.com/mebtte/clrc">clrc</a> 这个包, 就是为了解析 LRC 格式提炼出来的, 还有:</p>
+<ul>
+<li><a href="https://github.com/mebtte/react-lrc">react-lrc</a>, 用于展示 LRC 格式歌词的 React 组件</li>
+<li><a href="https://github.com/mebtte/react-media-session">react-media-session</a>(已归档), 用于配置 Media Session 的 React 组件</li>
+<li><a href="https://github.com/mebtte/eventin">eventin</a>, 支持 TypeScript 类型约束的事件触发器</li>
+<li><a href="https://github.com/mebtte/cicada/blob/master/apps/pwa/src/utils/x_state.tsx">x-state</a>, React 状态管理工具</li>
+</ul>
+<p>虽然知了已经开发很多年了, 但是仍然处于一个起步阶段, 还有很多方面要完善, 比如:</p>
+<ul>
+<li>现在 PWA 在移动平台的体验还很差, 所以的话后续打算开发 iOS/Android 客户端</li>
+<li>提供 Docker 镜像, 更方便地部署</li>
+<li>开发电台功能, 随机播放音乐, 不用纠结到底要听什么了</li>
+<li>…</li>
+</ul>
+<p>当然, 后续开发的前提是知了得有人用, 所以欢迎大家来使用知了, 使用过程中有问题或者建议的话可以通过 <a href="https://github.com/mebtte/cicada/issues">Issues</a> 进行反馈.</p>
+<h3 id="-7">更多</h3>
+<ul>
+<li><a href="https://github.com/mebtte/cicada">项目地址</a>: https://github.com/mebtte/cicada</li>
+<li><a href="https://github.com/mebtte/cicada/issues">问题反馈</a>: https://github.com/mebtte/cicada/issues</li>
+</ul></section>
+
+    
+  </article>
+  
+  <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8404651063516637" crossorigin="anonymous"></script>
+<style>
+  .adsbygoogle {
+    max-width: 100%;
+    margin-block: 40px;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .adsbygoogle:empty {
+    display: none;
+  }
+</style>
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8404651063516637" data-ad-slot="7746538242" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  <style>
+.page-footer {
+  font-size: 12px;
+  max-inline-size: var(--content-max-width);
+  margin-block: 40px;
+  margin-inline: auto;
+  padding-inline: 30px;
+  font-family: common_font;
+  color: var(--secondary-color);
+}
+
+.page-footer > a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.page-footer > a:hover {
+  color: var(--primary-color);
+}
+
+.page-footer > .underline {
+  text-decoration: underline;
+}
+</style>
+
+<footer class="page-footer">
+  <a href="https://github.com/mebtte/animal-photosynthesis/blob/master/license">©</a>
+  2026
+  &nbsp;
+  <a class="underline" href="https://i.mebtte.com">MEBTTE</a>
+  &nbsp;|&nbsp;
+  <a class="underline" href="https://stats.uptimerobot.com/4nO5RUYB60">UPTIME</a>
+  &nbsp;|&nbsp;
+  <a class="underline" href="/support">支持我</a>
+</footer>
+
+  <script src="/39c97c2884c3a2b5e64c8f085b843d4e.js"></script>
+  <script src="/0ec215ad131a36856d3d20423b9aca26.js" async="" defer=""></script>
+
+
+
+</body></html>

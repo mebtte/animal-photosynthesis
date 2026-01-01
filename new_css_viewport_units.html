@@ -1,0 +1,888 @@
+<!DOCTYPE html><html lang="zh-cn"><head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="mebtte">
+<meta name="keywords" content="HTML, CSS, JavaScript, Web, Front-End">
+
+<!-- Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-CESZTRKM96"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CESZTRKM96');
+</script>
+
+<!-- open graph -->
+<meta property="og:type" content="website">
+<meta property="og:image" content="/6ed5faa0573b2a5a9d47232c9a71fb88.png">
+
+<link rel="shortcut icon" type="image/png" href="/6ed5faa0573b2a5a9d47232c9a71fb88.png">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+
+<link rel="preload" href="/e0e440b1ae0a9ba21fb3feb4cff12d11.ttf" as="font" crossorigin="anonymous">
+<link rel="preload" href="/53d99659dc34209657d05bb2a7fc5de4.ttf" as="font" crossorigin="anonymous">
+
+  <style>
+  @font-face {
+    font-family: common_font;
+    src: url(/53d99659dc34209657d05bb2a7fc5de4.ttf);
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    --content-max-width: 840px;
+
+    --primary-color: rgb(237 106 94);
+
+    --normal-color: #333;
+    --secondary-color: #888;
+    --tertiary-color: #ddd;
+    --backgroud: rgb(255 255 255);
+
+    --border-radius: 2px;
+    --transition-duration: 0.3s;
+
+    background-color: var(--backgroud);
+    transition: background-color var(--transition-duration);
+  }
+
+  figure {
+    margin-inline: 0;
+  }
+</style>
+
+
+  <title>CSS 基于视区的长度单位 - 动物的光合作用</title>
+  <meta name="description" content="进入主题之前, 先来了解一下现有的 CSS 长度单位, 可以分为绝对长度单位和相对长度单位.  ## 绝对长度单位  ### `px`  现代显示器是由一颗颗像素组成的, 以我的显示器为例, 分辨率为 2560x1664, 也就是说这块显示器横向有 2560 个像素, 纵向有 1664 个像素, 显......">
+  <meta property="og:description" content="进入主题之前, 先来了解一下现有的 CSS 长度单位, 可以分为绝对长度单位和相对长度单位.  ## 绝对长度单位  ### `px`  现代显示器是由一颗颗像素组成的, 以我的显示器为例, 分辨率为 2560x1664, 也就是说这块显示器横向有 2560 个像素, 纵向有 1664 个像素, 显......">
+
+  <link rel="preload" href="/7c94140f583dabcbc657964cc5bbcbce.ttf" as="font" crossorigin="anonymous">
+  <style>
+    @font-face {
+      font-family: article_font_new_css_viewport_units;
+      src: url(/7c94140f583dabcbc657964cc5bbcbce.ttf);
+    }
+    article {
+      font-family: article_font_new_css_viewport_units;
+    }
+  </style>
+  
+  <link rel="stylesheet" href="/ece570de77ba673c17121d06fc929bd9.css">
+</head>
+
+<body>
+  <style>
+  @font-face {
+    font-family: title_font;
+    src: url(/e0e440b1ae0a9ba21fb3feb4cff12d11.ttf);
+  }
+
+  .page-header {
+    max-inline-size: var(--content-max-width);
+    margin-block: 50px 40px;
+    margin-inline: auto;
+    padding-inline: 30px;
+    display: flex;
+    align-items: center;
+  }
+
+  .page-header_title {
+    flex: 1;
+    min-inline-size: 0;
+    font-size: min(8vw, 56px);
+    font-family: title_font;
+    margin: 0;
+    color: var(--normal-color);
+  }
+
+  .page-header_title > a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .page-header_icon {
+    margin-inline-start: 10px;
+  }
+
+  .page-header_icon > img {
+    user-select: none;
+    inline-size: 20px;
+    block-size: 20px;
+  }
+</style>
+
+<header class="page-header">
+  
+    <h2 class="page-header_title">
+      <a href="/">动物的光合作用</a>
+    </h2>
+  
+  <a class="page-header_icon" href="/rss.xml" target="_blank">
+    <img src="/e31ad23031e5bcb34e8d4a424ba0c100.png" alt="rss">
+  </a>
+  <a class="page-header_icon" href="https://github.com/mebtte/animal-photosynthesis" target="_blank">
+    <img src="/184c800e11079b13904f308161071b62.png" alt="github">
+  </a>
+  <a class="page-header_icon" href="//i.mebtte.com" target="_blank">
+    <img src="/2cd3760ad10a38f8a9ed6ea3993fa472.png" alt="author">
+  </a>
+</header>
+
+  <article>
+    <style>
+.article-header {
+  max-inline-size: var(--content-max-width);
+  margin-block: 40px;
+  margin-inline: auto;
+  padding-inline: 30px;
+}
+
+.article-title {
+  color: var(--primary-color);
+  font-size: 32px;
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+}
+
+.article-title a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.article-publish-time {
+  color: var(--secondary-color);
+  font-size: 14px;
+  font-family: common_font;
+}
+</style>
+
+<section class="article-header">
+  <h1 class="article-title">
+    <a href="/new_css_viewport_units">CSS 基于视区的长度单位</a>
+  </h1>
+  <time class="article-publish-time">2023-09-12</time>
+</section>
+
+    <style>
+  article {
+    --article-space: 30px;
+  }
+
+  article a {
+    color: var(--normal-color);
+    text-decoration-color: var(--primary-color);
+  }
+
+  article h2,
+  article h3,
+  article h4,
+  article h5,
+  article h6 {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-inline: auto;
+    line-height: 1.5;
+    color: var(--normal-color);
+  }
+
+  article h2 {
+    margin-block-start: 28px;
+    font-size: 28px;
+  }
+
+  article h3 {
+    margin-block-start: 26px;
+    font-size: 25px;
+  }
+
+  article h4 {
+    margin-block-start: 24px;
+    font-size: 22px;
+  }
+
+  article h5 {
+    margin-block-start: 22px;
+    font-size: 19px;
+  }
+
+  article h6 {
+    margin-block-start: 20px;
+    font-size: 16px;
+  }
+
+  article p {
+    max-inline-size: var(--content-max-width);
+
+    margin-block: 15px;
+    margin-inline: auto;
+    padding-inline: 30px;
+
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--normal-color);
+    word-break: break-word;
+  }
+
+  article p code,
+  article ul code,
+  article ol code,
+  article table code {
+    padding-inline: 4px;
+    border-radius: var(--border-radius);
+    background: rgba(237, 106, 94, 0.3);
+  }
+
+  article pre {
+    max-inline-size: var(--content-max-width) !important;
+    margin-block: 15px !important;
+    margin-inline: auto !important;
+    font-size: 14px !important;
+    box-sizing: border-box;
+    border-radius: var(--border-radius) !important;
+    tab-size: 2 !important;
+    padding: 0 !important;
+  }
+
+  article pre code {
+    display: block;
+    margin-block: 20px !important;
+    margin-inline: 30px !important;
+    overflow: auto !important;
+    font-size: inherit !important;
+  }
+
+  article hr {
+    max-inline-size: var(--content-max-width);
+    margin-block: 40px;
+    margin-inline: auto;
+    padding-inline: var(--article-space);
+    border: none;
+  }
+
+  article hr::after {
+    content: "";
+    display: block;
+    block-size: 1px;
+    background-color: var(--tertiary-color);
+  }
+
+  .table-container {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .table-container table {
+    border-collapse: collapse;
+  }
+
+  .table-container th,
+  .table-container td {
+    font-size: 14px;
+    color: var(--normal-color);
+    border: 1px solid var(--tertiary-color);
+    padding: 10px;
+    text-align: left;
+  }
+
+  .table-container th {
+    font-size: 16px;
+    text-align: left;
+  }
+
+  article blockquote {
+    max-inline-size: var(--content-max-width);
+    padding-inline: var(--article-space);
+    margin-block: 15px;
+    margin-inline: auto;
+    position: relative;
+    font-style: italic;
+    color: var(--secondary-color);
+  }
+
+  article blockquote::before {
+    content: "";
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 30px;
+    inline-size: 3px;
+    block-size: 100%;
+    background-color: var(--primary-color);
+  }
+
+  article blockquote p {
+    font-size: 14px;
+    color: inherit;
+    max-inline-size: unset;
+    padding: 0;
+    margin-inline-start: 30px;
+  }
+
+  article ul,
+  article ol {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+    color: var(--normal-color);
+    line-height: 1.5;
+  }
+
+  article ol {
+    counter-reset: li-count;
+  }
+
+  article ul li,
+  article ol li {
+    display: block;
+    margin-block: 5px;
+    position: relative;
+  }
+
+  article ol li {
+    counter-increment: li-count;
+  }
+
+  article ul li::before {
+    content: "";
+    display: inline-block;
+    inline-size: 6px;
+    block-size: 6px;
+
+    margin-inline-end: 10px;
+
+    vertical-align: middle;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+  }
+
+  article ol li::before {
+    content: counter(li-count) ". ";
+    color: var(--primary-color);
+  }
+
+  article figcaption {
+    font-size: 12px;
+    color: var(--secondary-color);
+    text-align: center;
+    margin-block-start: 5px;
+  }
+
+  .figure-img {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .figure-img img {
+    display: block;
+    max-inline-size: 100%;
+    margin-inline: auto;
+    border-radius: var(--border-radius);
+  }
+
+  .figure-media {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .figure-media .media {
+    display: block;
+    max-inline-size: 100%;
+    margin-inline: auto;
+  }
+
+  .figure-iframe {
+    inline-size: 100%;
+    margin-block: 15px;
+  }
+
+  .figure-iframe iframe {
+    display: block;
+    inline-size: 100%;
+    max-inline-size: var(--content-max-width);
+    margin-inline: auto;
+    block-size: 640px;
+    border: 1px solid var(--tertiary-color);
+    border-radius: var(--border-radius);
+  }
+
+  strong {
+    font-weight: normal;
+    text-decoration: underline;
+  }
+</style>
+
+<section><p>进入主题之前, 先来了解一下现有的 CSS 长度单位, 可以分为绝对长度单位和相对长度单位.</p>
+<h2 id="">绝对长度单位</h2>
+<h3 id="px"><code>px</code></h3>
+<p>现代显示器是由一颗颗像素组成的, 以我的显示器为例, 分辨率为 2560x1664, 也就是说这块显示器横向有 2560 个像素, 纵向有 1664 个像素, 显示器的像素我们称为物理像素.</p>
+
+      <figure class="figure-img">
+        <a href="/c229a82277dbfd5d7539b57a303ebc0d.png" target="_blank">
+          <img src="/c229a82277dbfd5d7539b57a303ebc0d.png" alt="屏幕分辨率" title="屏幕分辨率" loading="lazy">
+        </a>
+        <figcaption>屏幕分辨率</figcaption>
+      </figure>
+    
+<p>CSS 中的像素 <code>px</code> 我们称为逻辑像素, 它并不总是和物理像素一一对应的, <strong>同等尺寸下</strong>现代显示器的分辨率越来越高, 如果逻辑像素和物理像素一一对应的话, 那么同样大小的区域在高分辨率的显示器下就会越小, 如下图所示:</p>
+
+      <figure class="figure-img">
+        <a href="/e2899526f27fbb2e5eee0d61c6966981.png" target="_blank">
+          <img src="/e2899526f27fbb2e5eee0d61c6966981.png" alt="" title="" loading="lazy">
+        </a>
+        
+      </figure>
+    
+<blockquote>
+  <p>显示器有个指标 <a href="https://zh.wikipedia.org/wiki/PPI">PPI</a>, 越大表示同等尺寸下像素点越多</p>
+</blockquote>
+<p>除了显示尺寸的问题外, 一个物理像素对应一个逻辑像素的显示效果是比较差的, 容易产生锯齿感. 所以现代操作系统都会提供缩放功能, 多个物理像素对应一个逻辑像素, 这样的话显示效果会比较细腻, 比如 macOS:</p>
+
+      <figure class="figure-img">
+        <a href="/b0b4023e24d347c60c788b432be47dcb.png" target="_blank">
+          <img src="/b0b4023e24d347c60c788b432be47dcb.png" alt="macOS 调整屏幕缩放" title="macOS 调整屏幕缩放" loading="lazy">
+        </a>
+        <figcaption>macOS 调整屏幕缩放</figcaption>
+      </figure>
+    
+<p>也就是说我这块显示器物理像素是 2560x1664, 逻辑像素是 1470x956, 所以 CSS 中 <code>1px</code> 约等于 1.74 个物理像素.</p>
+<p>在浏览器 API 中, 我们可以通过 <code>window.devicePixelRatio</code> 获取到物理像素与逻辑像素的比值, 不过这个值似乎并不准确, <a href="https://drafts.csswg.org/cssom-view/#dom-window-devicepixelratio">规范描述</a>中这是个双精度浮点数, 而在 MacBook 下测试所有浏览器都返回整数, 似乎对该值做了向上取整的操作.</p>
+<h3 id="-1">其他绝对长度单位</h3>
+<p>绝对长度单位只需要知道 <code>px</code> 就可以了, 其他单位要不使用非国际单位, 对于我们来说难以理解, 比如英寸 <code>in</code>, 要不使用频率非常低, 比如毫米 <code>mm</code>, 但最主要的是这些单位都可以用 <code>px</code> 来表示, 比如 <code>1in === 96px</code>, <code>1mm === 3.78px</code>.</p>
+<h2 id="-2">相对长度单位</h2>
+<h3 id="-3">相对于上层元素</h3>
+
+      <div class="table-container">
+        <table>
+          
+<thead>
+<tr>
+<th>单位</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>em</td>
+<td>当用在 <a href="https://developer.mozilla.org/docs/Web/CSS/font-size">font-size</a> 时表示相对于父元素的 <code>font-size</code>, 其他 CSS 属性中使用时相对于自身的 <code>font-size</code></td>
+</tr>
+<tr>
+<td>rem</td>
+<td>相对于根元素 <code>html</code> 的 <code>font-size</code></td>
+</tr>
+</tbody>
+
+        </table>
+      </div>
+    
+<h3 id="-4">相对于字体</h3>
+
+      <div class="table-container">
+        <table>
+          
+<thead>
+<tr>
+<th>单位</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ex</td>
+<td>小写字符 <code>x</code> 的高度</td>
+</tr>
+<tr>
+<td>ch</td>
+<td>数字 <code>0</code> 的宽度</td>
+</tr>
+</tbody>
+
+        </table>
+      </div>
+    
+<p>不同的字体设计存在差异, 所以 <code>ex</code> 和 <code>ch</code> 的大小是跟具体字体相关的.</p>
+<h3 id="-5">相对于行高</h3>
+
+      <div class="table-container">
+        <table>
+          
+<thead>
+<tr>
+<th>单位</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>lh</td>
+<td>当前元素 <code>line-height</code></td>
+</tr>
+<tr>
+<td>rlh</td>
+<td>根元素 <code>html</code> 的 <code>line-height</code></td>
+</tr>
+</tbody>
+
+        </table>
+      </div>
+    
+<h3 id="viewport">相对于视区(Viewport)</h3>
+<p>Viewport 指的是浏览器窗口中页面的可渲染区域, 也就是下图中的红框部分.</p>
+
+      <figure class="figure-img">
+        <a href="/c4760215d04c19b67262417953a667d6.png" target="_blank">
+          <img src="/c4760215d04c19b67262417953a667d6.png" alt="Viewport" title="Viewport" loading="lazy">
+        </a>
+        <figcaption>Viewport</figcaption>
+      </figure>
+    
+
+      <div class="table-container">
+        <table>
+          
+<thead>
+<tr>
+<th>单位</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>vw</td>
+<td><code>1vw</code> 表示 Viewport 宽度的 1%</td>
+</tr>
+<tr>
+<td>vh</td>
+<td><code>1vh</code> 表示 Viewport 高度的 1%</td>
+</tr>
+<tr>
+<td>vmin</td>
+<td><code>1vmin</code> 表示 <code>Math.min(Viewport.width, Viewport.height)</code> 的 1%</td>
+</tr>
+<tr>
+<td>vmax</td>
+<td><code>1vmax</code> 表示 <code>Math.max(Viewport.width, Viewport.height)</code> 的 1%</td>
+</tr>
+<tr>
+<td>vi</td>
+<td>逻辑单位, 取值与 <a href="https://developer.mozilla.org/docs/Web/CSS/writing-mode">writing-mode</a> 相关, <code>1vi</code> 表示 Viewport 内联元素流动方向上长度的 1%</td>
+</tr>
+<tr>
+<td>vb</td>
+<td>逻辑单位, 取值与 <code>writing-mode</code> 相关, <code>1vb</code> 表示 Viewport 块级元素流动方向上长度的 1%</td>
+</tr>
+</tbody>
+
+        </table>
+      </div>
+    
+<blockquote>
+  <p><code>vi</code> 和 <code>vb</code> 相关的 <code>writing-mode</code> 可以参考之前的文章 <a href="https://mebtte.com/css_writing_modes_and_logical_properties">CSS 书写模式和逻辑属性</a></p>
+</blockquote>
+<p>Viewport 的大小和浏览器窗口相关, 所以以上单位会随着浏览器窗口大小的改变而改变.</p>
+<p>以上是现有的 CSS 长度单位, 在 <a href="https://www.w3.org/TR/css-values-4">CSS Values and Units Module Level 4</a> 中给视区增加了状态, 那什么是视区状态以及为什么要增加状态呢?</p>
+<p>相对于 Viewport 的长度单位(<code>vw</code>/<code>vh</code>/…)在桌面浏览器上表现很好, 但是在移动设备上却存在一些问题. 在移动设备上为了尽可能地显示更多的内容, 浏览器会将地址栏/工具栏等元素覆盖在 Viewport 上或者使 Viewport 移位, 如下图所示:</p>
+
+      <figure class="figure-img">
+        <a href="/ac8c71b956f93c0248816c6f3b42efd0.png" target="_blank">
+          <img src="/ac8c71b956f93c0248816c6f3b42efd0.png" alt="Viewport 被遮挡或者移位, 图源自 https://web.dev/viewport-units" title="Viewport 被遮挡或者移位, 图源自 https://web.dev/viewport-units" loading="lazy">
+        </a>
+        <figcaption>Viewport 被遮挡或者移位, 图源自 https://web.dev/viewport-units</figcaption>
+      </figure>
+    
+<p>然后往下滚动的过程中地址栏/工具栏等元素会逐渐消失或者隐藏, Viewport 也逐渐<strong>完全</strong>展示, 可以使用移动设备访问这个<a href="/66a8c7bfb32b2d990ef4bf25388b3078.html">例子</a>. 这就导致了相对于 Viewport 的单位在移动端表现是不符合预期的.</p>
+
+      <figure class="figure-img">
+        <a href="/c57fb713c32a2882c9c6855398e01a15.png" target="_blank">
+          <img src="/c57fb713c32a2882c9c6855398e01a15.png" alt="Viewport 完全展示, 图源自 https://web.dev/viewport-units" title="Viewport 完全展示, 图源自 https://web.dev/viewport-units" loading="lazy">
+        </a>
+        <figcaption>Viewport 完全展示, 图源自 https://web.dev/viewport-units</figcaption>
+      </figure>
+    
+<p>为了解决这个问题, CSS 指定了 Viewport 的状态:</p>
+<ul>
+<li>大视区(LV, Large Viewport): Viewport 的<strong>最大</strong>展示区域, 也就是导航栏/工具栏之类的浏览器元素<strong>收起</strong>的时候</li>
+<li>小视区(SV, Small Viewport): Viewport 的<strong>最小</strong>展示区域, 也就是导航栏/工具栏之类的浏览器元素<strong>展开</strong>的时候</li>
+<li>动态视区(DV, Dynamic Viewport): 始终是 Viewport 的展示区域, 也就是处于 Large Viewport 时等于 Large Viewport, 处于 Small Viewport 时等于 Small Viewport</li>
+</ul>
+
+      <figure class="figure-img">
+        <a href="/e703830d66645c9476ee91070a144d75.png" target="_blank">
+          <img src="/e703830d66645c9476ee91070a144d75.png" alt="大视区和小视区, 图源自 https://web.dev/viewport-units" title="大视区和小视区, 图源自 https://web.dev/viewport-units" loading="lazy">
+        </a>
+        <figcaption>大视区和小视区, 图源自 https://web.dev/viewport-units</figcaption>
+      </figure>
+    
+<p>同时基于以上的状态新增了 <code>lvw</code>/<code>lvh</code>/<code>lvi</code>/<code>lvb</code>/<code>lvmin</code>/<code>lvmax</code>/<code>svw</code>/<code>svh</code>/<code>svi</code>/<code>svb</code>/<code>svmin</code>/<code>svmax</code>/<code>dvw</code>/<code>dvh</code>/<code>dvi</code>/<code>dvb</code>/<code>dvmin</code>/<code>dvmax</code> 18 个长度单位. 虽然数量很多, 但是可以根据以上状态分成三类:</p>
+<h3 id="lv">大视区 <code>lv*</code></h3>
+
+      <div class="table-container">
+        <table>
+          
+<thead>
+<tr>
+<th>单位</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>lvw</td>
+<td><code>1lvw</code> 表示 Large Viewport 宽度的 1%</td>
+</tr>
+<tr>
+<td>lvh</td>
+<td><code>1lvh</code> 表示 Large Viewport 高度的 1%</td>
+</tr>
+<tr>
+<td>lvmax</td>
+<td><code>1lvmax</code> 表示 <code>Math.max(LargeViewport.width, LargeViewport.height)</code> 的 1%</td>
+</tr>
+<tr>
+<td>lvmin</td>
+<td><code>1lvmin</code> 表示 <code>Math.min(LargeViewport.width, LargeViewport.height)</code> 的 1%</td>
+</tr>
+<tr>
+<td>lvi</td>
+<td>逻辑单位, 取值与 <code>writing-mode</code> 相关, <code>1lvi</code> 表示 Large Viewport 内联元素流动方向上长度的 1%</td>
+</tr>
+<tr>
+<td>lvb</td>
+<td>逻辑单位, 取值与 <code>writing-mode</code> 相关, <code>1lvb</code> 表示 Large Viewport 块级元素流动方向上长度的 1%</td>
+</tr>
+</tbody>
+
+        </table>
+      </div>
+    
+<h3 id="sv">小视区 <code>sv*</code></h3>
+
+      <div class="table-container">
+        <table>
+          
+<thead>
+<tr>
+<th>单位</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>svw</td>
+<td><code>1svw</code> 表示 Small Viewport 宽度的 1%</td>
+</tr>
+<tr>
+<td>svh</td>
+<td><code>1svh</code> 表示 Small Viewport 高度的 1%</td>
+</tr>
+<tr>
+<td>svmax</td>
+<td><code>1svmax</code> 表示 <code>Math.max(SmallViewport.width, SmallViewport.height)</code> 的 1%</td>
+</tr>
+<tr>
+<td>svmin</td>
+<td><code>1svmin</code> 表示 <code>Math.min(SmallViewport.width, SmallViewport.height)</code> 的 1%</td>
+</tr>
+<tr>
+<td>svi</td>
+<td>逻辑单位, 取值与 <code>writing-mode</code> 相关, <code>1svi</code> 表示 Small Viewport 内联元素流动方向上长度的 1%</td>
+</tr>
+<tr>
+<td>svb</td>
+<td>逻辑单位, 取值与 <code>writing-mode</code> 相关, <code>1svb</code> 表示 Small Viewport 块级元素流动方向上长度的 1%</td>
+</tr>
+</tbody>
+
+        </table>
+      </div>
+    
+<h3 id="dv">动态视区 <code>dv*</code></h3>
+
+      <div class="table-container">
+        <table>
+          
+<thead>
+<tr>
+<th>单位</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>dvw</td>
+<td><code>1dvw</code> 表示 Dynamic Viewport 宽度的 1%</td>
+</tr>
+<tr>
+<td>dvh</td>
+<td><code>1svh</code> 表示 Dynamic Viewport 高度的 1%</td>
+</tr>
+<tr>
+<td>dvmax</td>
+<td><code>1dvmax</code> 表示 <code>Math.max(DynamicViewport.width, DynamicViewport.height)</code> 的 1%</td>
+</tr>
+<tr>
+<td>dvmin</td>
+<td><code>1dvmin</code> 表示 <code>Math.min(DynamicViewport.width, DynamicViewport.height)</code> 的 1%</td>
+</tr>
+<tr>
+<td>dvi</td>
+<td>逻辑单位, 取值与 <code>writing-mode</code> 相关, <code>1dvi</code> 表示 Dynamic Viewport 内联元素流动方向上长度的 1%</td>
+</tr>
+<tr>
+<td>dvb</td>
+<td>逻辑单位, 取值与 <code>writing-mode</code> 相关, <code>1dvb</code> 表示 Dynamic Viewport 块级元素流动方向上长度的 1%</td>
+</tr>
+</tbody>
+
+        </table>
+      </div>
+    
+<p><code>lv*</code>/<code>sv*</code> 可能使用场景很少, 更多情况下还是使用 <code>dv*</code>. 像一些移动端的页面我们为了撑满一屏会使用 <code>height: 100vh</code>, 现在使用 <code>height: 100dvh</code> 会更符合预期.</p>
+<p>最后就是兼容性问题, 目前从 <a href="https://caniuse.com/?search=large%2C%20small">Can I use</a> 上看不太乐观, 生产环境下还是要避免使用.</p>
+
+      <figure class="figure-img">
+        <a href="/e31796b5b5a00d6f6e7c8522c2c3dabb.png" target="_blank">
+          <img src="/e31796b5b5a00d6f6e7c8522c2c3dabb.png" alt="浏览器兼容性" title="浏览器兼容性" loading="lazy">
+        </a>
+        <figcaption>浏览器兼容性</figcaption>
+      </figure>
+    
+<h3 id="-6">参考</h3>
+<ul>
+<li><a href="https://developer.mozilla.org/docs/Web/CSS/Viewport_concepts">Viewport concepts</a></li>
+<li><a href="https://web.dev/viewport-units">The large, small, and dynamic viewport units</a></li>
+<li><a href="https://developer.mozilla.org/docs/Learn/CSS/Building_blocks/Values_and_units">CSS values and units</a></li>
+<li><a href="https://mebtte.com/css_writing_modes_and_logical_properties">CSS 书写模式和逻辑属性</a></li>
+</ul></section>
+
+    
+  </article>
+  
+    <style>
+  .article-actions {
+    max-inline-size: var(--content-max-width);
+
+    display: flex;
+    align-items: center;
+
+    margin-block: 40px;
+    margin-inline: auto;
+    padding-inline: 30px;
+
+    font-family: common_font;
+    color: var(--normal-color);
+  }
+
+  .article-actions_action:not(:last-child)::after {
+    content: "·\00a0";
+  }
+
+  .article-actions_action > a {
+    color: inherit;
+    text-decoration-color: var(--primary-color);
+  }
+
+  @media (max-width: 520px) {
+    .article-actions {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .article-actions_action::before {
+      content: "·";
+    }
+
+    .article-actions_action:not(:last-child)::after {
+      content: "";
+    }
+  }
+</style>
+
+<div class="article-actions">
+  <span class="article-actions_action">
+    使用
+    <a href="https://github.com/mebtte/animal-photosynthesis/discussions">Discussions</a> 讨论
+  </span>
+  <span class="article-actions_action">
+    在
+    <a href="https://github.com/mebtte/animal-photosynthesis/edit/master/articles/new_css_viewport_units/index.md">Github</a>
+    上编辑
+  </span>
+  <span class="article-actions_action">
+    分享到
+    <a href="https://www.x.com/share?text=CSS%20%E5%9F%BA%E4%BA%8E%E8%A7%86%E5%8C%BA%E7%9A%84%E9%95%BF%E5%BA%A6%E5%8D%95%E4%BD%8D&amp;url=https%3A%2F%2Fmebtte.com%2Fnew_css_viewport_units">X</a>
+  </span>
+</div>
+
+  
+  <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8404651063516637" crossorigin="anonymous"></script>
+<style>
+  .adsbygoogle {
+    max-width: 100%;
+    margin-block: 40px;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .adsbygoogle:empty {
+    display: none;
+  }
+</style>
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8404651063516637" data-ad-slot="7746538242" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  <style>
+.page-footer {
+  font-size: 12px;
+  max-inline-size: var(--content-max-width);
+  margin-block: 40px;
+  margin-inline: auto;
+  padding-inline: 30px;
+  font-family: common_font;
+  color: var(--secondary-color);
+}
+
+.page-footer > a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.page-footer > a:hover {
+  color: var(--primary-color);
+}
+
+.page-footer > .underline {
+  text-decoration: underline;
+}
+</style>
+
+<footer class="page-footer">
+  <a href="https://github.com/mebtte/animal-photosynthesis/blob/master/license">©</a>
+  2026
+  &nbsp;
+  <a class="underline" href="https://i.mebtte.com">MEBTTE</a>
+  &nbsp;|&nbsp;
+  <a class="underline" href="https://stats.uptimerobot.com/4nO5RUYB60">UPTIME</a>
+  &nbsp;|&nbsp;
+  <a class="underline" href="/support">支持我</a>
+</footer>
+
+  <script src="/39c97c2884c3a2b5e64c8f085b843d4e.js"></script>
+  <script src="/0ec215ad131a36856d3d20423b9aca26.js" async="" defer=""></script>
+
+
+
+</body></html>
