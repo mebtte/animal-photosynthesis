@@ -4,7 +4,7 @@
   "type": "module",
   "author": {
     "name": "mebtte",
-    "email": "hi@mebtte.com",
+    "email": "i@mebtte.com",
     "url": "https://mebtte.com"
   },
   "scripts": {
@@ -18,7 +18,7 @@
     "url": "git+https://github.com/mebtte/animal-photosynthesis.git"
   },
   "devDependencies": {
-    "cheerio": "^1.0.0-rc.6",
+    "cheerio": "1.0.0-rc.6",
     "ejs": "^3.1.10",
     "fontmin": "^0.9.8",
     "front-matter": "^4.0.2",
