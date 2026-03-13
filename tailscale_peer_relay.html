@@ -1,0 +1,578 @@
+<!DOCTYPE html><html lang="zh-cn"><head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="mebtte">
+<meta name="keywords" content="HTML, CSS, JavaScript, Web, Front-End">
+
+<!-- Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-CESZTRKM96"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CESZTRKM96');
+</script>
+
+<!-- open graph -->
+<meta property="og:type" content="website">
+<meta property="og:image" content="/6ed5faa0573b2a5a9d47232c9a71fb88.png">
+
+<link rel="shortcut icon" type="image/png" href="/6ed5faa0573b2a5a9d47232c9a71fb88.png">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+
+<link rel="preload" href="/73ea99e78c421a1c467882fe5ab186ab.ttf" as="font" crossorigin="anonymous">
+<link rel="preload" href="/f611abccf5b79f04dd34c00752d8a90a.ttf" as="font" crossorigin="anonymous">
+
+  <style>
+  @font-face {
+    font-family: common_font;
+    src: url(/f611abccf5b79f04dd34c00752d8a90a.ttf);
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    --content-max-width: 840px;
+
+    --primary-color: rgb(237 106 94);
+
+    --normal-color: #333;
+    --secondary-color: #888;
+    --tertiary-color: #ddd;
+    --backgroud: rgb(255 255 255);
+
+    --border-radius: 2px;
+    --transition-duration: 0.3s;
+
+    background-color: var(--backgroud);
+    transition: background-color var(--transition-duration);
+  }
+
+  figure {
+    margin-inline: 0;
+  }
+</style>
+
+
+  <title>使用 Peer Relay 提高 Tailscale 的速度 - 动物的光合作用</title>
+  <meta name="description" content="最近 Tailscale 推出了 Peer Relay [\[1\]](https://tailscale.com/blog/peer-relays-beta) [\[2\]](https://tailscale.com/blog/peer-relays-ga), 当节点间无法直连时, Peer R......">
+  <meta property="og:description" content="最近 Tailscale 推出了 Peer Relay [\[1\]](https://tailscale.com/blog/peer-relays-beta) [\[2\]](https://tailscale.com/blog/peer-relays-ga), 当节点间无法直连时, Peer R......">
+
+  <link rel="preload" href="/0ac3cd954211ce896ac3042020c516f7.ttf" as="font" crossorigin="anonymous">
+  <style>
+    @font-face {
+      font-family: article_font_tailscale_peer_relay;
+      src: url(/0ac3cd954211ce896ac3042020c516f7.ttf);
+    }
+    article {
+      font-family: article_font_tailscale_peer_relay;
+    }
+  </style>
+  
+  <link rel="stylesheet" href="/ece570de77ba673c17121d06fc929bd9.css">
+</head>
+
+<body>
+  <style>
+  @font-face {
+    font-family: title_font;
+    src: url(/73ea99e78c421a1c467882fe5ab186ab.ttf);
+  }
+
+  .page-header {
+    max-inline-size: var(--content-max-width);
+    margin-block: 50px 40px;
+    margin-inline: auto;
+    padding-inline: 30px;
+    display: flex;
+    align-items: center;
+  }
+
+  .page-header_title {
+    flex: 1;
+    min-inline-size: 0;
+    font-size: min(8vw, 56px);
+    font-family: title_font;
+    margin: 0;
+    color: var(--normal-color);
+  }
+
+  .page-header_title > a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .page-header_icon {
+    margin-inline-start: 10px;
+  }
+
+  .page-header_icon > img {
+    user-select: none;
+    inline-size: 20px;
+    block-size: 20px;
+  }
+</style>
+
+<header class="page-header">
+  
+    <h2 class="page-header_title">
+      <a href="/">动物的光合作用</a>
+    </h2>
+  
+  <a class="page-header_icon" href="/rss.xml" target="_blank">
+    <img src="/e31ad23031e5bcb34e8d4a424ba0c100.png" alt="rss">
+  </a>
+  <a class="page-header_icon" href="https://github.com/mebtte/animal-photosynthesis" target="_blank">
+    <img src="/184c800e11079b13904f308161071b62.png" alt="github">
+  </a>
+  <a class="page-header_icon" href="//i.mebtte.com" target="_blank">
+    <img src="/2cd3760ad10a38f8a9ed6ea3993fa472.png" alt="author">
+  </a>
+</header>
+
+  <article>
+    <style>
+.article-header {
+  max-inline-size: var(--content-max-width);
+  margin-block: 40px;
+  margin-inline: auto;
+  padding-inline: 30px;
+}
+
+.article-title {
+  color: var(--primary-color);
+  font-size: 32px;
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+}
+
+.article-title a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.article-publish-time {
+  color: var(--secondary-color);
+  font-size: 14px;
+  font-family: common_font;
+}
+</style>
+
+<section class="article-header">
+  <h1 class="article-title">
+    <a href="/tailscale_peer_relay">使用 Peer Relay 提高 Tailscale 的速度</a>
+  </h1>
+  <time class="article-publish-time">2026-03-13</time>
+</section>
+
+    <style>
+  article {
+    --article-space: 30px;
+  }
+
+  article a {
+    color: var(--normal-color);
+    text-decoration-color: var(--primary-color);
+  }
+
+  article h2,
+  article h3,
+  article h4,
+  article h5,
+  article h6 {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-inline: auto;
+    line-height: 1.5;
+    color: var(--normal-color);
+  }
+
+  article h2 {
+    margin-block-start: 28px;
+    font-size: 28px;
+  }
+
+  article h3 {
+    margin-block-start: 26px;
+    font-size: 25px;
+  }
+
+  article h4 {
+    margin-block-start: 24px;
+    font-size: 22px;
+  }
+
+  article h5 {
+    margin-block-start: 22px;
+    font-size: 19px;
+  }
+
+  article h6 {
+    margin-block-start: 20px;
+    font-size: 16px;
+  }
+
+  article p {
+    max-inline-size: var(--content-max-width);
+
+    margin-block: 15px;
+    margin-inline: auto;
+    padding-inline: 30px;
+
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--normal-color);
+    word-break: break-word;
+  }
+
+  article p code,
+  article ul code,
+  article ol code,
+  article table code {
+    padding-inline: 4px;
+    border-radius: var(--border-radius);
+    background: rgba(237, 106, 94, 0.3);
+  }
+
+  article pre {
+    max-inline-size: var(--content-max-width) !important;
+    margin-block: 15px !important;
+    margin-inline: auto !important;
+    font-size: 14px !important;
+    box-sizing: border-box;
+    border-radius: var(--border-radius) !important;
+    tab-size: 2 !important;
+    padding: 0 !important;
+  }
+
+  article pre code {
+    display: block;
+    margin-block: 20px !important;
+    margin-inline: 30px !important;
+    overflow: auto !important;
+    font-size: inherit !important;
+  }
+
+  article hr {
+    max-inline-size: var(--content-max-width);
+    margin-block: 40px;
+    margin-inline: auto;
+    padding-inline: var(--article-space);
+    border: none;
+  }
+
+  article hr::after {
+    content: "";
+    display: block;
+    block-size: 1px;
+    background-color: var(--tertiary-color);
+  }
+
+  .table-container {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .table-container table {
+    border-collapse: collapse;
+  }
+
+  .table-container th,
+  .table-container td {
+    font-size: 14px;
+    color: var(--normal-color);
+    border: 1px solid var(--tertiary-color);
+    padding: 10px;
+    text-align: left;
+  }
+
+  .table-container th {
+    font-size: 16px;
+    text-align: left;
+  }
+
+  article blockquote {
+    max-inline-size: var(--content-max-width);
+    padding-inline: var(--article-space);
+    margin-block: 15px;
+    margin-inline: auto;
+    position: relative;
+    font-style: italic;
+    color: var(--secondary-color);
+  }
+
+  article blockquote::before {
+    content: "";
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 30px;
+    inline-size: 3px;
+    block-size: 100%;
+    background-color: var(--primary-color);
+  }
+
+  article blockquote p {
+    font-size: 14px;
+    color: inherit;
+    max-inline-size: unset;
+    padding: 0;
+    margin-inline-start: 30px;
+  }
+
+  article ul,
+  article ol {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+    color: var(--normal-color);
+    line-height: 1.5;
+  }
+
+  article ol {
+    counter-reset: li-count;
+  }
+
+  article ul li,
+  article ol li {
+    display: block;
+    margin-block: 5px;
+    position: relative;
+  }
+
+  article ol li {
+    counter-increment: li-count;
+  }
+
+  article ul li::before {
+    content: "";
+    display: inline-block;
+    inline-size: 6px;
+    block-size: 6px;
+
+    margin-inline-end: 10px;
+
+    vertical-align: middle;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+  }
+
+  article ol li::before {
+    content: counter(li-count) ". ";
+    color: var(--primary-color);
+  }
+
+  article figcaption {
+    font-size: 12px;
+    color: var(--secondary-color);
+    text-align: center;
+    margin-block-start: 5px;
+  }
+
+  .figure-img {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .figure-img img {
+    display: block;
+    max-inline-size: 100%;
+    margin-inline: auto;
+    border-radius: var(--border-radius);
+  }
+
+  .figure-media {
+    max-inline-size: var(--content-max-width);
+    padding-inline: 30px;
+    margin-block: 15px;
+    margin-inline: auto;
+  }
+
+  .figure-media .media {
+    display: block;
+    max-inline-size: 100%;
+    margin-inline: auto;
+  }
+
+  .figure-iframe {
+    inline-size: 100%;
+    margin-block: 15px;
+  }
+
+  .figure-iframe iframe {
+    display: block;
+    inline-size: 100%;
+    max-inline-size: var(--content-max-width);
+    margin-inline: auto;
+    block-size: 640px;
+    border: 1px solid var(--tertiary-color);
+    border-radius: var(--border-radius);
+  }
+
+  strong {
+    font-weight: normal;
+    text-decoration: underline;
+  }
+</style>
+
+<section><p>最近 Tailscale 推出了 Peer Relay <a href="https://tailscale.com/blog/peer-relays-beta">[1]</a> <a href="https://tailscale.com/blog/peer-relays-ga">[2]</a>, 当节点间无法直连时, Peer Relay 能够充当隧道加速节点间的连接速度.</p>
+<p>在 Peer Relay 之前, 当 Tailnet, 即一个虚拟局域网中, 两个节点无法直连(P2P)时, 会回退到依靠官方 DERP 中继. 但是官方 DERP 服务器数量有限并且拥挤, 最重要的大陆并没有官方 DERP 服务器, 所以只要不是直连, 流量必须要绕海外一圈, 延迟高且速度慢.</p>
+<p>当然, 除官方 DERP 外我们可以自建 DERP 服务器, 但是自建 DERP 的门槛有点高, 第一必须公网 IP, 第二必须开放 TCP 端口, 第三需要 TLS 证书, 第四还需要复杂的 ACL 配置, 并且自建 DERP 是不需要鉴权的, 虽然没有安全问题, 但是暴露可能会被第三方滥用.</p>
+<p>那 Peer Relay 跟 DERP 有什么不同呢?</p>
+<ol>
+<li>DERP 作为独立的服务器是不会加入到 Tailnet 的, 而 Peer Relay 是 Tailnet 中的一个节点, 也就是说 Peer Delay 只有自己的 Tailnet 才能用, 不用担心滥用问题.</li>
+<li>DERP 需要公网 IP, Peer Relay 不需要公网 IP.</li>
+<li>DERP 使用的是 TCP 协议, Peer Relay 使用的是 UDP 协议.</li>
+</ol>
+<p>使用 Peer Relay 也特别简单, 第一步在 access controls 中添加规则:</p>
+<pre><code class="json language-json">{
+  "grants": [
+    {
+      "src": ["src"],
+      "dst": ["dst"],
+      "app": {
+        "tailscale.com/cap/relay": []
+      }
+    }
+  ]
+}
+</code></pre>
+<p>其中 <code>src</code> 表示哪些节点可以使用 Peer Relay, 比如 <code>tag:abc</code>, <code>dst</code> 表示哪些节点可以作为 Peer Relay, 比如 <code>tag:vps</code>, <code>tailscale.com/cap/relay</code> 用来配置 Peer Relay, 目前没有相关配置项留空即可.</p>
+<p>第二步, 在你想要作为中继的节点上运行 <code>tailscale set --relay-server-port=10000</code>, 其中 <code>relay-server-port</code> 指定端口传输 UDP 流量, 可以设置你想要的端口, 需要注意的是端口必须在防火墙中放行.</p>
+<p>这就是配置 Peer Relay 的全部步骤了, 这时候模拟非直连场景 Ping 可以看到从 <code>DERP-relayed</code> 变成 <code>Peer-relayed</code>, 延迟也大幅下降.</p>
+
+      <figure class="figure-media">
+        <video class="media" src="/d88504a8ce0d7e48e912689f470f647c.mp4" loading="lazy" controls=""></video>
+        <figcaption>从 DERP-relayed 变成 Peer-relayed</figcaption>
+      </figure>
+    
+<p>更多内容可以参考官方文档 <a href="https://tailscale.com/docs/features/peer-relay">https://tailscale.com/docs/features/peer-relay</a>.</p></section>
+
+    
+  </article>
+  
+    <style>
+  .article-actions {
+    max-inline-size: var(--content-max-width);
+
+    display: flex;
+    align-items: center;
+
+    margin-block: 40px;
+    margin-inline: auto;
+    padding-inline: 30px;
+
+    font-family: common_font;
+    color: var(--normal-color);
+  }
+
+  .article-actions_action:not(:last-child)::after {
+    content: "·\00a0";
+  }
+
+  .article-actions_action > a {
+    color: inherit;
+    text-decoration-color: var(--primary-color);
+  }
+
+  @media (max-width: 520px) {
+    .article-actions {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .article-actions_action::before {
+      content: "·";
+    }
+
+    .article-actions_action:not(:last-child)::after {
+      content: "";
+    }
+  }
+</style>
+
+<div class="article-actions">
+  <span class="article-actions_action">
+    使用
+    <a href="https://github.com/mebtte/animal-photosynthesis/discussions">Discussions</a> 讨论
+  </span>
+  <span class="article-actions_action">
+    在
+    <a href="https://github.com/mebtte/animal-photosynthesis/edit/master/articles/tailscale_peer_relay/index.md">Github</a>
+    上编辑
+  </span>
+  <span class="article-actions_action">
+    分享到
+    <a href="https://www.x.com/share?text=%E4%BD%BF%E7%94%A8%20Peer%20Relay%20%E6%8F%90%E9%AB%98%20Tailscale%20%E7%9A%84%E9%80%9F%E5%BA%A6&amp;url=https%3A%2F%2Fmebtte.com%2Ftailscale_peer_relay">X</a>
+  </span>
+</div>
+
+  
+  <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8404651063516637" crossorigin="anonymous"></script>
+<style>
+  .adsbygoogle {
+    max-width: 100%;
+    margin-block: 40px;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .adsbygoogle:empty {
+    display: none;
+  }
+</style>
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8404651063516637" data-ad-slot="7746538242" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  <style>
+.page-footer {
+  font-size: 12px;
+  max-inline-size: var(--content-max-width);
+  margin-block: 40px;
+  margin-inline: auto;
+  padding-inline: 30px;
+  font-family: common_font;
+  color: var(--secondary-color);
+}
+
+.page-footer > a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.page-footer > a:hover {
+  color: var(--primary-color);
+}
+
+.page-footer > .underline {
+  text-decoration: underline;
+}
+</style>
+
+<footer class="page-footer">
+  <a href="https://github.com/mebtte/animal-photosynthesis/blob/master/license">©</a>
+  2026
+  &nbsp;
+  <a class="underline" href="https://i.mebtte.com">MEBTTE</a>
+  &nbsp;|&nbsp;
+  <a class="underline" href="https://stats.uptimerobot.com/4nO5RUYB60">UPTIME</a>
+  &nbsp;|&nbsp;
+  <a class="underline" href="/support">支持我</a>
+</footer>
+
+  <script src="/39c97c2884c3a2b5e64c8f085b843d4e.js"></script>
+  <script src="/0ec215ad131a36856d3d20423b9aca26.js" async="" defer=""></script>
+
+
+
+</body></html>
