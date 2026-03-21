@@ -13,6 +13,6 @@ hidden: true
 
 在不影响阅读的情况下, 每篇文章底部都嵌入了谷歌广告, 你可以关闭广告屏蔽插件, 广告的曝光和点击都能给我带来收入.
 
-## VMISS 推广链接
+## VMRACK 推广链接
 
-通过[推广链接](https://app.vmiss.com/aff.php?aff=1073)购买 VMISS 服务, 我可以获得收入. 购买前请仔细判断风险, 我无法保证厂商不会跑路, 推广的理由是我正在使用 VMISS 的 VPS.
+通过[推广链接](https://www.vmrack.net?ref_code=5ixkAsjhUwR)购买 VMRACK 服务, 我可以获得返利. 购买前请仔细判断风险, 我无法保证厂商不会跑路, 推广的理由是我正在使用 VMRACK 的 VPS.
