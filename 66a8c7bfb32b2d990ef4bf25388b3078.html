@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Viewport Units</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  </head>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+
+      height: 150vh;
+    }
+
+    .absolute {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+
+      display: flex;
+      align-items: flex-end;
+    }
+  </style>
+  <body>
+    <div
+      class="absolute"
+      style="height: 100vh; background-color: antiquewhite"
+    >
+      100vh
+    </div>
+    <div
+      class="absolute"
+      style="height: 90vh; background-color: aqua"
+    >
+      90vh
+    </div>
+    <div
+      class="absolute"
+      style="height: 80vh; background-color: cadetblue"
+    >
+      80vh
+    </div>
+    <div
+      class="absolute"
+      style="height: 70vh; background-color: yellowgreen"
+    >
+      70vh
+    </div>
+    <div
+      class="absolute"
+      style="height: 60vh; background-color: cornsilk"
+    >
+      60vh
+    </div>
+    <div
+      class="absolute"
+      style="height: 50vh; background-color: thistle"
+    >
+      50vh
+    </div>
+
+    <div id="qrcode" class="absolute"></div>
+    <script>
+      new QRCode(
+        document.getElementById('qrcode'),
+        window.location.href,
+      );
+    </script>
+  </body>
+</html>
