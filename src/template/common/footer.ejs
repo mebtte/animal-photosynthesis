@@ -1,35 +1,32 @@
 <style>
-.page-footer {
-  font-size: 12px;
-  max-inline-size: var(--content-max-width);
-  margin-block: 40px;
-  margin-inline: auto;
-  padding-inline: 30px;
-  font-family: common_font;
-  color: var(--secondary-color);
-}
+  .page-footer {
+    font-size: 12px;
+    max-inline-size: var(--content-max-width);
+    margin-block: 40px;
+    margin-inline: auto;
+    padding-inline: 30px;
+    font-family: common_font;
+    color: var(--secondary-color);
+  }
 
-.page-footer > a {
-  text-decoration: none;
-  color: inherit;
-}
+  .page-footer > a {
+    text-decoration: none;
+    color: inherit;
+  }
 
-.page-footer > a:hover {
-  color: var(--primary-color);
-}
+  .page-footer > a:hover {
+    color: var(--primary-color);
+  }
 
-.page-footer > .underline {
-  text-decoration: underline;
-}
+  .page-footer > .underline {
+    text-decoration: underline;
+  }
 </style>
 
 <footer class="page-footer">
   <a href="<%= config.github_repository %>/blob/master/license">&copy;</a>
-  <%= new Date().getFullYear() %>
-  &nbsp;
+  <%= new Date().getFullYear() %> &nbsp;
   <a class="underline" href="https://i.mebtte.com">MEBTTE</a>
-  &nbsp;|&nbsp;
-  <a class="underline" href="https://stats.uptimerobot.com/4nO5RUYB60">UPTIME</a>
   &nbsp;|&nbsp;
   <a class="underline" href="/support">支持我</a>
 </footer>
