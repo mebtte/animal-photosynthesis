@@ -19,7 +19,7 @@ jobs:
       - run: |
           npm ci
           npm run generate-readme
-          npm run build
+          npm test
 
       - run: echo 'mebtte.com' > build/CNAME
 

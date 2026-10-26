@@ -9,6 +9,7 @@
   },
   "scripts": {
     "prepare": "husky",
+    "test": "node --test scripts/tests/*.test.ts",
     "generate-readme": "node scripts/generate_readme.ts",
     "watch": "node scripts/watch.ts",
     "build": "node scripts/build.ts",
