@@ -1,5 +1,5 @@
-import { promisify } from 'util';
-import * as fs from 'fs';
+import { promisify } from 'node:util';
+import * as fs from 'node:fs';
 
 import fsExtra from 'fs-extra';
 

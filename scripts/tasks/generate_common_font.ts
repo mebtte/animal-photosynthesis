@@ -1,10 +1,10 @@
-import * as path from 'path';
+import * as path from 'node:path';
 import md5 from 'md5';
-import ora from '../utils/ora.js';
-import fs from '../utils/fs.js';
-import directory from '../utils/directory.js';
-import fontmin from '../utils/fontmin.js';
-import config from '../config.js';
+import ora from '../utils/ora.ts';
+import fs from '../utils/fs.ts';
+import directory from '../utils/directory.ts';
+import fontmin from '../utils/fontmin.ts';
+import config from '../config.ts';
 
 const FILE_LIST = [
   `${directory.TEMPLATE}/common/footer.ejs`,
@@ -15,8 +15,8 @@ export default async () => {
   const spinner = ora.createSpinner('正在生成通用字体...');
   let text =
     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-';
-  for (const key in config) {
-    text += config[key];
+  for (const value of Object.values(config)) {
+    text += value;
   }
   for (const file of FILE_LIST) {
     text += (await fs.readFile(file)).toString();

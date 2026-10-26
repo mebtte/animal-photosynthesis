@@ -11,10 +11,12 @@ jobs:
 
       - uses: actions/setup-node@main
         with:
-          node-version: 16
+          node-version-file: '.nvmrc'
+          cache: npm
 
       - run: |
           npm ci
+          npm run generate-readme
           npm run build
 
       - run: echo 'mebtte.com' > build/CNAME

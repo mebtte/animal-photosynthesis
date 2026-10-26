@@ -1,20 +1,24 @@
 #!/usr/bin/env node
-import * as path from 'path';
-import * as cp from 'child_process';
+import * as path from 'node:path';
+import * as cp from 'node:child_process';
 import fs from 'fs-extra';
 import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
+import type { WatchListener } from 'node:fs';
 import ejs from 'ejs';
 import md5 from 'md5';
-import directory from './utils/directory.js';
-import ora from './utils/ora.js';
-import fontmin from './utils/fontmin.js';
-import parseHtmlResource from './utils/parse_html_resource.js';
-import parseArticle from './utils/parse_article.js';
-import generateTitleFont from './tasks/generate_title_font.js';
-import generateCommonFont from './tasks/generate_common_font.js';
-import config from './config.js';
+import directory from './utils/directory.ts';
+import ora from './utils/ora.ts';
+import fontmin from './utils/fontmin.ts';
+import parseHtmlResource from './utils/parse_html_resource.ts';
+import parseArticle from './utils/parse_article.ts';
+import generateTitleFont from './tasks/generate_title_font.ts';
+import generateCommonFont from './tasks/generate_common_font.ts';
+import config from './config.ts';
 
-const { id } = yargs(process.argv).argv;
+const { id } = yargs(hideBin(process.argv))
+  .option('id', { type: 'string', default: '' })
+  .parseSync();
 
 if (!id) {
   console.error(
@@ -51,6 +55,9 @@ async function build() {
   const spinner = ora.createSpinner('Building...');
   try {
     const data = await parseArticle(id);
+    if (!data) {
+      throw new Error(`Article "${id}" is empty.`);
+    }
 
     const articleFontPath = `${directory.ASSET}/content_font.ttf`;
     const articleContentFontPath = await fontmin({
@@ -98,7 +105,7 @@ async function build() {
   }
 }
 
-function onChange(type, filename) {
+const onChange: WatchListener<string> = (type, filename) => {
   console.log(`file ${type}: ${filename}`);
 
   if (building) {
@@ -106,7 +113,7 @@ function onChange(type, filename) {
   } else {
     build();
   }
-}
+};
 
 fs.watch(
   `${directory.ARTICLES}/${id}`,

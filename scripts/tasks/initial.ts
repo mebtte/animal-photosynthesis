@@ -1,6 +1,6 @@
-import directory from '../utils/directory.js';
-import ora from '../utils/ora.js';
-import fs from '../utils/fs.js';
+import directory from '../utils/directory.ts';
+import ora from '../utils/ora.ts';
+import fs from '../utils/fs.ts';
 
 export default async () => {
   const spinner = ora.createSpinner('正在初始化...');

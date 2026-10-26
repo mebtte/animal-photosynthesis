@@ -1,5 +1,6 @@
 # 动物的光合作用
 
+- [使用 Peer Relay 提高 Tailscale 的速度](https://mebtte.com/tailscale_peer_relay) <sup><sub>2026-03-13</sub></sup>
 - [内网穿透下 NAS 使用 DNS 轮循作为负载均衡](https://mebtte.com/using_round-robin_dns_as_load_blancing_under_nat_traversal_on_nas) <sup><sub>2025-03-02</sub></sup>
 - [<众安车保>上当指南](https://mebtte.com/cheat_of_zhonganchebao) <sup><sub>2025-02-06</sub></sup>
 - [JS 中的 Shebang/Hashbang](https://mebtte.com/shebang_in_js) <sup><sub>2023-12-13</sub></sup>
@@ -26,10 +27,29 @@
 
 ## 依赖 & 初始化
 
-- [Deno](https://deno.com)
+- [Node.js](https://nodejs.org) >= 24（包含 npm）
 
 ```sh
+npm ci
 git config --local core.hooksPath .githooks
+```
+
+## 开发 & 构建
+
+构建脚本使用 TypeScript，由 Node.js 直接运行 `.ts` 文件。
+
+```sh
+# 生成 README 文章列表（提交前也会自动执行）
+npm run generate-readme
+
+# 构建网站到 build/
+npm run build
+
+# 构建并在 http://localhost:8000 预览
+npm run preview
+
+# 监听指定文章并预览，将 article_id 替换为 articles/ 下的目录名
+npm run watch -- --id article_id
 ```
 
 ## 版权

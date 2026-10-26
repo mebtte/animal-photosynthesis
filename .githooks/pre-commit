@@ -1,3 +1,4 @@
 #!/bin/bash
-deno task generate-readme
+set -e
+npm run generate-readme
 git add readme.md

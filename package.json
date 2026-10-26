@@ -8,8 +8,9 @@
     "url": "https://mebtte.com"
   },
   "scripts": {
-    "watch": "node scripts/watch.js",
-    "build": "node scripts/build.js",
+    "generate-readme": "node scripts/generate_readme.ts",
+    "watch": "node scripts/watch.ts",
+    "build": "node scripts/build.ts",
     "http-server": "http-server build -p 8000 -c=0",
     "preview": "npm run build && npm run http-server"
   },
@@ -28,5 +29,8 @@
     "ora": "^5.1.0",
     "showdown": "^1.9.1",
     "yargs": "^17.0.1"
+  },
+  "engines": {
+    "node": ">=24"
   }
 }

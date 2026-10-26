@@ -1,11 +1,11 @@
-import * as path from 'path';
+import * as path from 'node:path';
 
 import md5 from 'md5';
 
-import fontmin from '../utils/fontmin.js';
-import directory from '../utils/directory.js';
-import ora from '../utils/ora.js';
-import config from '../config.js';
+import fontmin from '../utils/fontmin.ts';
+import directory from '../utils/directory.ts';
+import ora from '../utils/ora.ts';
+import config from '../config.ts';
 
 export default async () => {
   const spinner = ora.createSpinner('正在生成标题字体...');

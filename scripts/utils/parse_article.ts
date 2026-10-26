@@ -1,13 +1,13 @@
-import * as path from "path";
+import * as path from "node:path";
 import showdown from "showdown";
 import frontMatter from "front-matter";
 import cheerio from "cheerio";
-import fs from "./fs.js";
-import directory from "./directory.js";
-import toBuild from "./to_build.js";
-import config from "../config.js";
+import fs from "./fs.ts";
+import directory from "./directory.ts";
+import toBuild from "./to_build.ts";
+import type { ArticleAttributes } from "../types.ts";
 
-export default async (id) => {
+export default async (id: string) => {
   const articleDir = `${directory.ARTICLES}/${id}`;
   const mdPath = `${articleDir}/index.md`;
   const exist = await fs.exist(mdPath);
@@ -18,7 +18,7 @@ export default async (id) => {
   if (!mdText) {
     return null;
   }
-  const { attributes, body: mdBody } = frontMatter(mdText);
+  const { attributes, body: mdBody } = frontMatter<ArticleAttributes>(mdText);
   const mdParser = new showdown.Converter({
     tables: true,
     strikethrough: true,
@@ -26,12 +26,12 @@ export default async (id) => {
   const html = mdParser.makeHtml(mdBody);
   const $ = cheerio.load(html);
 
-  const buildLocalResource = async (type) => {
+  const buildLocalResource = async (type: string) => {
     const resourceNodeList = $(`[${type}]`).toArray();
     for (const resourceNode of resourceNodeList) {
       const node = $(resourceNode);
       const resourcePath = node.attr(type);
-      if (resourcePath[0] !== ".") {
+      if (!resourcePath?.startsWith(".")) {
         continue;
       }
       const localPath = path.join(articleDir, resourcePath);
@@ -105,7 +105,7 @@ export default async (id) => {
   const codeNodeList = $("code").toArray();
   for (const codeNode of codeNodeList) {
     const node = $(codeNode);
-    node.html(node.html());
+    node.html(node.html() || "");
   }
 
   const article = {

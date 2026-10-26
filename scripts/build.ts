@@ -1,21 +1,22 @@
 #!/usr/bin/env node
-import * as path from 'path';
+import * as path from 'node:path';
 import ejs from 'ejs';
 import md5 from 'md5';
-import initial from './tasks/initial.js';
-import generateTitleFont from './tasks/generate_title_font.js';
-import generateAllArticleTitleFont from './tasks/generate_all_article_title_font.js';
-import generateCommonFont from './tasks/generate_common_font.js';
-import generateSitemap from './tasks/generate_sitemap.js';
-import generateRss from './tasks/generate_rss.js';
-import parseArticle from './utils/parse_article.js';
-import ora from './utils/ora.js';
-import fs from './utils/fs.js';
-import directory from './utils/directory.js';
-import parseHtmlResource from './utils/parse_html_resource.js';
-import fontmin from './utils/fontmin.js';
-import config from './config.js';
-import copyStatic from './tasks/copy_static.js';
+import initial from './tasks/initial.ts';
+import generateTitleFont from './tasks/generate_title_font.ts';
+import generateAllArticleTitleFont from './tasks/generate_all_article_title_font.ts';
+import generateCommonFont from './tasks/generate_common_font.ts';
+import generateSitemap from './tasks/generate_sitemap.ts';
+import generateRss from './tasks/generate_rss.ts';
+import parseArticle from './utils/parse_article.ts';
+import ora from './utils/ora.ts';
+import fs from './utils/fs.ts';
+import directory from './utils/directory.ts';
+import parseHtmlResource from './utils/parse_html_resource.ts';
+import fontmin from './utils/fontmin.ts';
+import config from './config.ts';
+import copyStatic from './tasks/copy_static.ts';
+import type { ArticleSummary } from './types.ts';
 
 const articleTemplate = `${directory.TEMPLATE}/article/index.ejs`;
 const indexTemplate = `${directory.TEMPLATE}/index.ejs`;
@@ -29,7 +30,7 @@ let spinner = ora.createSpinner('正在查找文章列表...');
 const articleIdList = await fs.readdir(directory.ARTICLES);
 spinner.succeed(`共有 ${articleIdList.length} 篇文章`);
 
-const articleList = [];
+const articleList: ArticleSummary[] = [];
 
 for (
   let i = 0, { length } = articleIdList;
@@ -37,7 +38,7 @@ for (
   i += 1
 ) {
   const articleId = articleIdList[i];
-  const createLog = (text) =>
+  const createLog = (text: string) =>
     `(${i + 1}/${length}) ${articleId} ${text}`;
   const innerSpinner = ora.createSpinner(
     createLog('正在构建...'),
@@ -97,7 +98,7 @@ const allArticleTitleFontPath =
   await generateAllArticleTitleFont(articleList);
 let indexHtml = await ejs.renderFile(indexTemplate, {
   articleList: articleList.sort(
-    (a, b) => new Date(b.publishTime) - new Date(a.publishTime),
+    (a, b) => new Date(b.publishTime!).getTime() - new Date(a.publishTime!).getTime(),
   ),
   config,
   titleFontPath,

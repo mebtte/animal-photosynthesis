@@ -1,11 +1,10 @@
-import * as path from 'path';
+import * as path from 'node:path';
 
 import cheerio from 'cheerio';
 
-import directory from './directory.js';
-import fs from './fs.js';
-import toBuild from './to_build.js';
-import config from '../config.js';
+import directory from './directory.ts';
+import fs from './fs.ts';
+import toBuild from './to_build.ts';
 
 const RESOURCE_TYPE = {
   CONTENT: 'content',
@@ -13,7 +12,7 @@ const RESOURCE_TYPE = {
   SRC: 'src',
 };
 
-export default async (html) => {
+export default async (html: string) => {
   const $ = cheerio.load(html, { decodeEntities: false });
   const resourceNodeList = $(
     `${Object.values(RESOURCE_TYPE)
@@ -34,7 +33,7 @@ export default async (html) => {
       resource = $resourceNode.attr(RESOURCE_TYPE.SRC);
       type = RESOURCE_TYPE.SRC;
     }
-    if (resource[0] !== '/' || !path.parse(resource).ext) {
+    if (!resource?.startsWith('/') || !path.parse(resource).ext) {
       continue;
     }
     const aPath = `${directory.ASSET}${resource}`;

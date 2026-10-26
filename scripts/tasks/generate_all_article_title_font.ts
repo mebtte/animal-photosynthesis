@@ -1,9 +1,10 @@
-import * as path from 'path';
+import * as path from 'node:path';
 import md5 from 'md5';
-import directory from '../utils/directory.js';
-import fontmin from '../utils/fontmin.js';
+import directory from '../utils/directory.ts';
+import fontmin from '../utils/fontmin.ts';
+import type { ArticleSummary } from '../types.ts';
 
-export default async (articleList) => {
+export default async (articleList: ArticleSummary[]) => {
   const text = articleList.reduce((t, a) => t + a.title, '');
   const fontPath = `${directory.ASSET}/content_font.ttf`;
   const filename = await fontmin({

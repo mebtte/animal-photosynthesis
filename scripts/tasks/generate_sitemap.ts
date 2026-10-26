@@ -1,11 +1,12 @@
 import ejs from 'ejs';
 
-import fs from '../utils/fs.js';
-import directory from '../utils/directory.js';
-import ora from '../utils/ora.js';
-import config from '../config.js';
+import fs from '../utils/fs.ts';
+import directory from '../utils/directory.ts';
+import ora from '../utils/ora.ts';
+import config from '../config.ts';
+import type { ArticleSummary } from '../types.ts';
 
-export default async (articleList) => {
+export default async (articleList: ArticleSummary[]) => {
   const spinner = ora.createSpinner('正在生成 sitemap.xml ...');
   const xml = await ejs.renderFile(`${directory.TEMPLATE}/sitemap.ejs`, {
     articleList,

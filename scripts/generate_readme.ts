@@ -1,12 +1,15 @@
-import { fs, frontMatter, datetime } from './module.ts';
-import { ROOT_DIR, ARTICLE_DIR, SRC_DIR } from './constants.ts';
+import { readdir, readFile, writeFile } from 'node:fs/promises';
+import fs from 'fs-extra';
+import frontMatter from 'front-matter';
+import directory from './utils/directory.ts';
 import config from './config.ts';
+import type { ArticleAttributes } from './types.ts';
 
 const articleIds: string[] = [];
-for await (const entry of Deno.readDir(ARTICLE_DIR)) {
-  if (entry.isDirectory) {
-    const exists = await fs.exists(
-      `${ARTICLE_DIR}/${entry.name}/index.md`,
+for (const entry of await readdir(directory.ARTICLES, { withFileTypes: true })) {
+  if (entry.isDirectory()) {
+    const exists = await fs.pathExists(
+      `${directory.ARTICLES}/${entry.name}/index.md`,
     );
     if (exists) {
       articleIds.push(entry.name);
@@ -20,10 +23,11 @@ const articles: {
   publishTime: Date;
 }[] = [];
 for (const articleId of articleIds) {
-  const content = await Deno.readTextFile(
-    `${ARTICLE_DIR}/${articleId}/index.md`,
+  const content = await readFile(
+    `${directory.ARTICLES}/${articleId}/index.md`,
+    'utf8',
   );
-  const { attrs } = frontMatter.extract(content);
+  const { attributes: attrs } = frontMatter<ArticleAttributes>(content);
   if (!attrs.hidden) {
     articles.push({
       id: articleId,
@@ -42,18 +46,20 @@ for (const article of articles) {
   articleMdList.push(
     `- [${article.title}](${config.origin}/${
       article.id
-    }) <sup><sub>${datetime.format(
-      article.publishTime,
-      'yyyy-MM-dd',
-    )}</sub></sup>`,
+    }) <sup><sub>${[
+      article.publishTime.getFullYear(),
+      String(article.publishTime.getMonth() + 1).padStart(2, '0'),
+      String(article.publishTime.getDate()).padStart(2, '0'),
+    ].join('-')}</sub></sup>`,
   );
 }
 
-const readmeTemplate = await Deno.readTextFile(
-  `${SRC_DIR}/template/readme.md`,
+const readmeTemplate = await readFile(
+  `${directory.TEMPLATE}/readme.md`,
+  'utf8',
 );
-await Deno.writeTextFile(
-  `${ROOT_DIR}/readme.md`,
+await writeFile(
+  `${directory.ROOT}/readme.md`,
   readmeTemplate.replace(
     '<!-- article-list -->',
     articleMdList.join('\n'),

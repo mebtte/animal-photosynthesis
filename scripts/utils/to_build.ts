@@ -1,13 +1,13 @@
-import * as path from 'path';
+import * as path from 'node:path';
 
 import md5 from 'md5';
 
-import fs from './fs.js';
-import directory from './directory.js';
+import fs from './fs.ts';
+import directory from './directory.ts';
 
-const map = {};
+const map: Record<string, string> = {};
 
-export default async (originalPath) => {
+export default async (originalPath: string) => {
   let filename = map[originalPath];
   if (!filename) {
     const data = await fs.readFile(originalPath);
