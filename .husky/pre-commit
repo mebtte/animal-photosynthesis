@@ -1,0 +1,5 @@
+set -e
+
+# 生成成功后才暂存 README, 失败时阻止提交.
+npm run generate-readme
+git add readme.md

@@ -8,6 +8,7 @@
     "url": "https://mebtte.com"
   },
   "scripts": {
+    "prepare": "husky",
     "generate-readme": "node scripts/generate_readme.ts",
     "watch": "node scripts/watch.ts",
     "build": "node scripts/build.ts",
@@ -25,6 +26,7 @@
     "front-matter": "^4.0.2",
     "fs-extra": "^10.0.0",
     "http-server": "^0.12.3",
+    "husky": "^9.1.7",
     "md5": "^2.3.0",
     "ora": "^5.1.0",
     "showdown": "^1.9.1",

@@ -6,6 +6,8 @@ on:
 jobs:
   build_and_deploy_to_gh_pages:
     runs-on: ubuntu-latest
+    env:
+      HUSKY: '0'
     steps:
       - uses: actions/checkout@main
 
