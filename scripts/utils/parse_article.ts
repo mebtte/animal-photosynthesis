@@ -1,7 +1,7 @@
 import * as path from "node:path";
 import showdown from "showdown";
 import frontMatter from "front-matter";
-import cheerio from "cheerio";
+import { load } from "cheerio";
 import fs from "./fs.ts";
 import directory from "./directory.ts";
 import toBuild from "./to_build.ts";
@@ -24,7 +24,7 @@ export default async (id: string) => {
     strikethrough: true,
   });
   const html = mdParser.makeHtml(mdBody);
-  const $ = cheerio.load(html);
+  const $ = load(html);
 
   const buildLocalResource = async (type: string) => {
     const resourceNodeList = $(`[${type}]`).toArray();

@@ -1,6 +1,6 @@
 import * as path from 'node:path';
 
-import cheerio from 'cheerio';
+import { load } from 'cheerio';
 
 import directory from './directory.ts';
 import fs from './fs.ts';
@@ -13,7 +13,7 @@ const RESOURCE_TYPE = {
 };
 
 export default async (html: string) => {
-  const $ = cheerio.load(html, { decodeEntities: false });
+  const $ = load(html);
   const resourceNodeList = $(
     `${Object.values(RESOURCE_TYPE)
       .map((r) => `[${r}]`)
