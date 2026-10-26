@@ -1,7 +1,6 @@
 import assert from 'node:assert/strict';
-import { execFileSync } from 'node:child_process';
 import { readFile, readdir, stat } from 'node:fs/promises';
-import { before, test } from 'node:test';
+import { test } from 'node:test';
 import * as cheerio from 'cheerio';
 import ejs from 'ejs';
 import frontMatter from 'front-matter';
@@ -21,14 +20,7 @@ const articles = await Promise.all(
 const published = articles.filter((article) => article.publish_time && !article.hidden)
   .sort((a, b) => Date.parse(b.publish_time!) - Date.parse(a.publish_time!));
 
-// 使用真实文章执行完整构建, 覆盖模板 include、Markdown、资源复制和字体裁剪.
-before(() => {
-  execFileSync(process.execPath, ['scripts/build.ts'], {
-    cwd: directory.ROOT,
-    timeout: 120_000,
-    stdio: 'pipe',
-  });
-});
+// 构建产物回归测试只读取已有的 build/, 运行前需单独执行 npm run build.
 
 test('all articles render with their titles, including hidden pages', async () => {
   for (const article of articles) {
