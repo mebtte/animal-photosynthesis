@@ -20,6 +20,7 @@ jobs:
           npm ci
           npm run generate-readme
           npm run build
+          cp readme.md build/readme.md
 
       - run: echo 'mebtte.com' > build/CNAME
 
