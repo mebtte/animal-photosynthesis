@@ -4,11 +4,9 @@ import md5 from 'md5';
 
 import fontmin from '../utils/fontmin.ts';
 import directory from '../utils/directory.ts';
-import ora from '../utils/ora.ts';
 import config from '../config.ts';
 
 export default async () => {
-  const spinner = ora.createSpinner('正在生成标题字体...');
   const fontPath = `${directory.ASSET}/title_font.ttf`;
   const filename = await fontmin({
     fontPath,
@@ -20,6 +18,5 @@ export default async () => {
       }`;
     },
   });
-  spinner.succeed('标题字体已生成');
   return filename.replace(`${directory.BUILD}/`, '');
 };

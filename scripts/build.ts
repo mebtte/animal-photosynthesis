@@ -1,113 +1,85 @@
 #!/usr/bin/env node
-import * as path from 'node:path';
-import ejs from 'ejs';
-import md5 from 'md5';
+import { availableParallelism } from 'node:os';
+import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
 import initial from './tasks/initial.ts';
+import copyStatic from './tasks/copy_static.ts';
 import generateTitleFont from './tasks/generate_title_font.ts';
-import generateAllArticleTitleFont from './tasks/generate_all_article_title_font.ts';
 import generateCommonFont from './tasks/generate_common_font.ts';
 import generateSitemap from './tasks/generate_sitemap.ts';
 import generateRss from './tasks/generate_rss.ts';
-import parseArticle from './utils/parse_article.ts';
-import ora from './utils/ora.ts';
+import buildIndex from './tasks/build_index.ts';
 import fs from './utils/fs.ts';
 import directory from './utils/directory.ts';
-import parseHtmlResource from './utils/parse_html_resource.ts';
-import fontmin from './utils/fontmin.ts';
-import config from './config.ts';
-import copyStatic from './tasks/copy_static.ts';
-import type { ArticleSummary } from './types.ts';
+import runWorkerPool from './utils/worker_pool.ts';
+import createBuildReporter, { formatDuration } from './utils/build_reporter.ts';
+import type { ArticleResult } from './tasks/build_article.ts';
 
-const articleTemplate = `${directory.TEMPLATE}/article/index.ejs`;
-const indexTemplate = `${directory.TEMPLATE}/index.ejs`;
+// 字体裁剪会占用较多内存, 默认并行度同时受 CPU 和 4 个线程限制.
+const defaultConcurrency = Math.min(4, availableParallelism());
+const options = yargs(hideBin(process.argv))
+  .scriptName('npm run build --')
+  .usage('$0 [options]')
+  .option('concurrency', {
+    alias: 'c', type: 'number', default: defaultConcurrency,
+    description: '文章构建的最大并行线程数',
+  })
+  .option('verbose', { alias: 'v', type: 'boolean', default: false, description: '显示每篇文章的构建结果及错误详情' })
+  .check(({ concurrency }) => {
+    if (!Number.isSafeInteger(concurrency) || concurrency < 1) {
+      throw new Error('--concurrency 必须为正整数.');
+    }
+    return true;
+  })
+  .strict()
+  .version(false)
+  .help()
+  .parseSync();
 
-await initial();
-await copyStatic();
-const titleFontPath = await generateTitleFont();
-const commonFontPath = await generateCommonFont();
+const reporter = createBuildReporter(options.verbose);
+const start = performance.now();
 
-let spinner = ora.createSpinner('正在查找文章列表...');
-const articleIdList = await fs.readdir(directory.ARTICLES);
-spinner.succeed(`共有 ${articleIdList.length} 篇文章`);
-
-const articleList: ArticleSummary[] = [];
-
-for (
-  let i = 0, { length } = articleIdList;
-  i < length;
-  i += 1
-) {
-  const articleId = articleIdList[i];
-  const createLog = (text: string) =>
-    `(${i + 1}/${length}) ${articleId} ${text}`;
-  const innerSpinner = ora.createSpinner(
-    createLog('正在构建...'),
+async function build() {
+  await reporter.phase('[1/4] 初始化构建目录', initial);
+  const [titleFontPath, commonFontPath, articleIds, updatesTemplate] = await reporter.phase(
+    '[2/4] 准备公共资源',
+    () => Promise.all([
+      generateTitleFont(), generateCommonFont(), fs.readdir(directory.ARTICLES),
+      fs.readFile(`${directory.TEMPLATE}/article/article_updates.ejs`).then((data) => data.toString()),
+      copyStatic(),
+    ]),
   );
-  const data = await parseArticle(articleId);
-  if (!data) {
-    innerSpinner.fail(createLog('文章为空'));
-    continue;
-  }
-  const articleFontPath = `${directory.ASSET}/content_font.ttf`;
-  const articleContentFontPath = await fontmin({
-    fontPath: articleFontPath,
-    text:
-      data.mdText +
-      (
-        await fs.readFile(
-          `${directory.TEMPLATE}/article/article_updates.ejs`,
-        )
-      ).toString(),
-    generateFilename: (d) => {
-      const dMd5 = md5(d);
-      return `${directory.BUILD}/${dMd5}${
-        path.parse(articleFontPath).ext
-      }`;
-    },
-  });
-  let html = await ejs.renderFile(articleTemplate, {
-    ...data,
-    config,
-    titleFontPath,
-    commonFontPath,
-    articleContentFontPath: articleContentFontPath.replace(
-      `${directory.BUILD}/`,
-      '',
-    ),
-  });
-  html = await parseHtmlResource(html);
-  await fs.writeFile(
-    `${directory.BUILD}/${articleId}.html`,
-    html,
+
+  const concurrency = Math.min(options.concurrency, articleIds.length);
+  let completed = 0;
+  const results = await reporter.phase(
+    `[3/4] 构建 ${articleIds.length} 篇文章 (并行 ${concurrency})`,
+    () => runWorkerPool<string, ArticleResult | null>({
+      workerURL: new URL('./workers/article.ts', import.meta.url),
+      items: articleIds,
+      concurrency: options.concurrency,
+      workerData: { titleFontPath, commonFontPath, updatesTemplate },
+      onResult(result, id) {
+        completed += 1;
+        reporter.progress(`[3/4] 构建文章 ${completed}/${articleIds.length} | ${id}`);
+        reporter.detail(`${completed}/${articleIds.length} ${id}: ${!result ? '跳过空文章' : result.hidden ? '已构建 (隐藏)' : '已构建'}`);
+      },
+    }),
   );
-  if (data.hidden) {
-    innerSpinner.info(createLog('已构建, 属于隐藏文章'));
-  } else {
-    innerSpinner.succeed(createLog('已构建'));
-    articleList.push({
-      id: articleId,
-      title: data.title,
-      description: data.description,
-      publishTime: data.publishTime,
-    });
-  }
+  const articleList = results.flatMap((result) => result && !result.hidden ? [result.article] : [])
+    .sort((a, b) => Date.parse(b.publishTime!) - Date.parse(a.publishTime!));
+
+  await reporter.phase('[4/4] 生成首页, RSS 和 sitemap', () => Promise.all([
+    buildIndex(articleList, { titleFontPath, commonFontPath }),
+    generateSitemap(articleList), generateRss(articleList),
+  ]));
+  const built = results.filter(Boolean).length;
+  reporter.summary(`构建完成: ${built} 篇文章, ${articleList.length} 篇公开, ${built - articleList.length} 篇隐藏, ${articleIds.length - built} 篇跳过.\n输出: build/ | 并行: ${concurrency} | 总耗时: ${formatDuration(performance.now() - start)}`);
 }
 
-spinner = ora.createSpinner('正在构建首页...');
-const allArticleTitleFontPath =
-  await generateAllArticleTitleFont(articleList);
-let indexHtml = await ejs.renderFile(indexTemplate, {
-  articleList: articleList.sort(
-    (a, b) => new Date(b.publishTime!).getTime() - new Date(a.publishTime!).getTime(),
-  ),
-  config,
-  titleFontPath,
-  commonFontPath,
-  allArticleTitleFontPath,
-});
-indexHtml = await parseHtmlResource(indexHtml);
-await fs.writeFile(`${directory.BUILD}/index.html`, indexHtml);
-spinner.succeed('首页已构建');
-
-await generateSitemap(articleList);
-await generateRss(articleList);
+try {
+  await build();
+} catch (error) {
+  reporter.error(error);
+  process.exitCode = 1;
+}
