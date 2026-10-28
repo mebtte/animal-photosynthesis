@@ -1,4 +1,5 @@
 import * as path from 'node:path';
+import { rename } from 'node:fs/promises';
 import ejs from 'ejs';
 import md5 from 'md5';
 import config from '../config.ts';
@@ -14,11 +15,14 @@ export interface ArticleContext {
   titleFontPath: string;
   commonFontPath: string;
   updatesTemplate: string;
+  articleContentFontPath?: string;
+  atomic?: boolean;
 }
 
 export interface ArticleResult {
   article: ArticleSummary;
   hidden: boolean;
+  articleContentFontPath: string;
 }
 
 export default async function buildArticle(
@@ -28,7 +32,7 @@ export default async function buildArticle(
   const data = await parseArticle(articleId);
   if (!data) return null;
   const fontPath = `${directory.ASSET}/content_font.ttf`;
-  const articleContentFontPath = await fontmin({
+  const articleContentFontPath = context.articleContentFontPath ?? await fontmin({
     fontPath,
     text: data.mdText + context.updatesTemplate,
     generateFilename: (buffer) => `${directory.BUILD}/${md5(buffer)}${path.extname(fontPath)}`,
@@ -42,7 +46,11 @@ export default async function buildArticle(
     feedUrl: siteUrl('rss.xml'),
     articleContentFontPath: articleContentFontPath.replace(`${directory.BUILD}/`, ''),
   });
-  await fs.writeFile(`${directory.BUILD}/${articleId}.html`, await parseHtmlResource(html));
+  const filename = `${directory.BUILD}/${articleId}.html`;
+  const output = context.atomic ? `${filename}.tmp` : filename;
+  // watch 的串行队列复用暂存文件, 成功后原子替换, 不暴露半写入页面.
+  await fs.writeFile(output, await parseHtmlResource(html));
+  if (context.atomic) await rename(output, filename);
   return {
     article: {
       id: articleId,
@@ -52,5 +60,6 @@ export default async function buildArticle(
       modifiedTime: data.modifiedTime,
     },
     hidden: data.hidden,
+    articleContentFontPath,
   };
 }

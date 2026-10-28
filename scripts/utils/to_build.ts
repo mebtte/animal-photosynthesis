@@ -7,6 +7,11 @@ import directory from './directory.ts';
 
 const copies = new Map<string, Promise<string>>();
 
+export function invalidateResources(paths?: readonly string[]) {
+  if (!paths) copies.clear();
+  else for (const filename of paths) copies.delete(path.resolve(filename));
+}
+
 export default (originalPath: string): Promise<string> => {
   const key = path.resolve(originalPath);
   const existing = copies.get(key);
