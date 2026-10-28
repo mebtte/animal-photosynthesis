@@ -7,6 +7,7 @@ import fs from '../utils/fs.ts';
 import fontmin from '../utils/fontmin.ts';
 import parseArticle from '../utils/parse_article.ts';
 import parseHtmlResource from '../utils/parse_html_resource.ts';
+import { articleUrl, siteUrl } from '../utils/site_url.ts';
 import type { ArticleSummary } from '../types.ts';
 
 export interface ArticleContext {
@@ -37,6 +38,8 @@ export default async function buildArticle(
     config,
     titleFontPath: context.titleFontPath,
     commonFontPath: context.commonFontPath,
+    canonicalUrl: articleUrl(articleId),
+    feedUrl: siteUrl('rss.xml'),
     articleContentFontPath: articleContentFontPath.replace(`${directory.BUILD}/`, ''),
   });
   await fs.writeFile(`${directory.BUILD}/${articleId}.html`, await parseHtmlResource(html));
@@ -46,6 +49,7 @@ export default async function buildArticle(
       title: data.title,
       description: data.description,
       publishTime: data.publishTime,
+      modifiedTime: data.modifiedTime,
     },
     hidden: data.hidden,
   };

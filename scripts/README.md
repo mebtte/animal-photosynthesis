@@ -26,3 +26,18 @@ npm run build -- --help
 npm run build
 npm test
 ```
+
+## 文章更新时间
+
+RSS 的发布时间沿用 `publish_time`. 文章 sitemap 的 `lastmod` 取
+`publish_time`, 可选的 `updated_time` 和 `updates[].time` 中的最新日期.
+RSS 的 `lastBuildDate` 使用公开文章的最新日期, 不随重复构建变化.
+首页没有可靠的独立更新时间, 不添加 `lastmod`.
+
+```yaml
+publish_time: '2024-01-02'
+updated_time: '2024-03-04'
+```
+
+日期使用 `YYYY-MM-DD`, 带具体时间时须包含时区, 如 `2024-03-04T12:30:00+08:00`.
+修改正文或标题时应维护 `updated_time` 或更新记录; 不使用文件时间或部署时间代替.

@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc><%= config.origin %></loc>
+    <loc><%= homeUrl %></loc>
   </url>
-  <% articleList.forEach(({ id }) => { %>
+  <% articleList.forEach(({ url, lastmod }) => { %>
     <url>
-      <loc><%= config.origin %>/<%= id %></loc>
+      <loc><%= url %></loc>
+      <% if (lastmod) { %>
+        <lastmod><%= lastmod %></lastmod>
+      <% } %>
     </url>
   <% }) %>
 </urlset>

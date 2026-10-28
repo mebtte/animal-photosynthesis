@@ -7,6 +7,8 @@ import frontMatter from 'front-matter';
 import config from '../config.ts';
 import directory from '../utils/directory.ts';
 import parseHtmlResource from '../utils/parse_html_resource.ts';
+import { articleModifiedTime, latestDate } from '../utils/article_dates.ts';
+import { articleUrl, siteUrl } from '../utils/site_url.ts';
 import type { ArticleAttributes } from '../types.ts';
 
 const readBuild = (name: string) => readFile(`${directory.BUILD}/${name}`, 'utf8');
@@ -45,16 +47,36 @@ test('RSS and sitemap preserve titles, descriptions and publication dates', asyn
   for (const [index, element] of items.entries()) {
     const article = published[index];
     const item = rss(element);
-    // RSS 模板在 CDATA 中也使用 EJS 转义, 升级时保留现有输出格式.
-    assert.equal(item.find('title').text().trim(), ejs.escapeXML(article.title));
-    assert.equal(item.find('link').text(), `${config.origin}/${article.id}`);
-    assert.equal(item.find('pubDate').text(), new Date(article.publish_time!).toISOString());
+    assert.equal(item.find('title').text().trim(), article.title);
+    assert.equal(item.find('link').text(), articleUrl(article.id));
+    assert.equal(item.find('pubDate').text(), new Date(article.publish_time!).toUTCString());
+    assert.equal(item.find('guid').text(), article.id);
+    assert.equal(item.find('guid').attr('isPermaLink'), 'false');
+    // 摘要继续沿用原有 Markdown 截取和转义规则.
     assert.equal(item.find('description').text().trim(),
       ejs.escapeXML(`${article.body.substring(0, 150).replace(/\s/gm, ' ')}...`).trim());
   }
   const sitemap = cheerio.load(await readBuild('sitemap.xml'), { xmlMode: true });
   assert.deepEqual(sitemap('loc').map((_, element) => sitemap(element).text()).get(),
-    [config.origin, ...published.map((article) => `${config.origin}/${article.id}`)]);
+    [siteUrl(), ...published.map((article) => articleUrl(article.id))]);
+  for (const [index, element] of sitemap('url').toArray().slice(1).entries()) {
+    assert.equal(sitemap(element).find('lastmod').text(), articleModifiedTime(published[index]));
+  }
+  assert.equal(sitemap('url').first().find('lastmod').length, 0);
+  const latest = latestDate(published.map(articleModifiedTime));
+  assert.equal(rss('lastBuildDate').text(), new Date(latest!).toUTCString());
+});
+
+test('RSS discovery, canonical URLs and robots sitemap declaration agree', async () => {
+  for (const id of [undefined, ...articles.map((article) => article.id)]) {
+    const $ = cheerio.load(await readBuild(`${id ?? 'index'}.html`));
+    assert.equal($('link[rel="canonical"]').attr('href'), id ? articleUrl(id) : siteUrl());
+    assert.equal($('link[rel="alternate"][type="application/rss+xml"]').attr('href'), siteUrl('rss.xml'));
+  }
+  const rss = cheerio.load(await readBuild('rss.xml'), { xmlMode: true });
+  assert.equal(rss('language').text(), config.language);
+  assert.equal(rss('atom\\:link[rel="self"]').attr('href'), siteUrl('rss.xml'));
+  assert((await readBuild('robots.txt')).split(/\r?\n/).includes(`Sitemap: ${siteUrl('sitemap.xml')}`));
 });
 
 test('generated pages reference existing local assets and valid TrueType fonts', async () => {

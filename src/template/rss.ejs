@@ -1,30 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rss
-  xmlns:dc="http://purl.org/dc/elements/1.1/"
-  xmlns:content="http://purl.org/rss/1.0/modules/content/"
   xmlns:atom="http://www.w3.org/2005/Atom"
   version="2.0"
 >
   <channel>
-    <title>
-      <![CDATA[<%= config.title %>]]>
-    </title>
-    <description>
-      <![CDATA[<%= config.description %>]]>
-    </description>
-    <link><%= config.origin %></link>
-    <lastBuildDate><%= new Date().toISOString() %></lastBuildDate>
-    <% articleList.forEach(({ id, title, description, publishTime }) => { %>
+    <title><%= config.title %></title>
+    <description><%= config.description %></description>
+    <link><%= homeUrl %></link>
+    <language><%= config.language %></language>
+    <atom:link href="<%= feedUrl %>" rel="self" type="application/rss+xml" />
+    <% if (lastBuildDate) { %>
+      <lastBuildDate><%= lastBuildDate %></lastBuildDate>
+    <% } %>
+    <% articleList.forEach(({ id, title, description, url, pubDate }) => { %>
       <item>
-        <title>
-          <![CDATA[<%= title %>]]>
-        </title>
+        <title><%= title %></title>
         <description>
           <![CDATA[<%= description %>]]>
         </description>
-        <link><%= config.origin %>/<%= id %></link>
+        <link><%= url %></link>
         <guid isPermaLink="false"><%= id %></guid>
-        <pubDate><%= new Date(publishTime).toISOString() %></pubDate>
+        <% if (pubDate) { %>
+          <pubDate><%= pubDate %></pubDate>
+        <% } %>
       </item>
     <% }) %>
   </channel>

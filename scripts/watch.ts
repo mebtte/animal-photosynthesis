@@ -15,6 +15,7 @@ import parseArticle from './utils/parse_article.ts';
 import generateTitleFont from './tasks/generate_title_font.ts';
 import generateCommonFont from './tasks/generate_common_font.ts';
 import config from './config.ts';
+import { articleUrl, siteUrl } from './utils/site_url.ts';
 
 const { id } = yargs(hideBin(process.argv))
   .option('id', { type: 'string', default: '' })
@@ -82,6 +83,8 @@ async function build() {
       {
         ...data,
         config,
+        canonicalUrl: articleUrl(id),
+        feedUrl: siteUrl('rss.xml'),
         titleFontPath,
         commonFontPath,
         articleContentFontPath: articleContentFontPath.replace(

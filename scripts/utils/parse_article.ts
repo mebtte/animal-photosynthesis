@@ -5,6 +5,7 @@ import { load } from "cheerio";
 import fs from "./fs.ts";
 import directory from "./directory.ts";
 import toBuild from "./to_build.ts";
+import { articleModifiedTime } from "./article_dates.ts";
 import type { ArticleAttributes } from "../types.ts";
 
 export default async (id: string) => {
@@ -114,6 +115,7 @@ export default async (id: string) => {
     // 取 markdown 内容的前 150 个字符作为页面的 description
     description: mdBody.substring(0, 150).replace(/\s/gm, " ") + "...",
     publishTime: attributes.publish_time,
+    modifiedTime: articleModifiedTime(attributes),
     updates: attributes.updates || [],
     hidden: !attributes.publish_time || attributes.hidden || false,
     content: $.html(),
