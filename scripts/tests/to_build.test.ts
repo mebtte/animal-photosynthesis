@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import fs from '../utils/fs.ts';
-import toBuild from '../utils/to_build.ts';
+import toBuild, { invalidateResources } from '../utils/to_build.ts';
 
 test('concurrent references share a single resource copy', async (context) => {
   const read = context.mock.method(fs, 'readFile', async () => Buffer.from('shared image'));
@@ -31,4 +31,15 @@ test('failed resource copies can be retried and do not hide write errors', async
   await assert.rejects(toBuild('/fixture/retry.png'), /permission denied/);
   assert.match(await toBuild('/fixture/retry.png'), /^[a-f0-9]{32}\.png$/);
   assert.equal(attempts, 2);
+});
+
+test('invalidating a changed resource refreshes its content hash', async (context) => {
+  let content = 'before save';
+  context.mock.method(fs, 'readFile', async () => Buffer.from(content));
+  context.mock.method(fs, 'writeFile', async () => {});
+  const before = await toBuild('/fixture/changing.png');
+  content = 'after save';
+  invalidateResources(['/fixture/changing.png']);
+  const after = await toBuild('/fixture/changing.png');
+  assert.notEqual(after, before);
 });

@@ -19,7 +19,14 @@ test('watch help documents the article id without starting a watcher', () => {
 test('watch rejects a missing article id', () => {
   const result = run('scripts/watch.ts');
   assert.equal(result.status, 1);
-  assert.match(result.stderr, /Please specify the article id/);
+  assert.match(result.stderr, /请使用 --id 指定文章目录/);
+});
+
+test('watch reports an unknown article directory without an unhandled stack trace', () => {
+  const result = run('scripts/watch.ts', '--id', '__missing_article__');
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /文章目录不存在或不是文件夹/);
+  assert.doesNotMatch(result.stderr, /\n\s+at /);
 });
 
 test('preview server retains the port and cache options', () => {
