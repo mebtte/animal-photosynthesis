@@ -1,38 +1,56 @@
-name: build and deploy to gh-pages
+name: Deploy to GitHub Pages
+
 on:
   push:
     branches:
       - master
+
+# 同一时间仅运行一个 Pages 发布流程.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
 jobs:
-  build_and_deploy_to_gh_pages:
+  build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: read
     env:
       HUSKY: '0'
     steps:
-      - uses: actions/checkout@main
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
-      - uses: actions/setup-node@main
+      - uses: actions/configure-pages@v6
+
+      - uses: actions/setup-node@v7
         with:
           node-version-file: '.nvmrc'
           cache: npm
 
-      - run: |
+      - name: Build site
+        run: |
           npm ci
           npm run generate-readme
           npm run build
           cp readme.md build/readme.md
 
-      - run: echo 'mebtte.com' > build/CNAME
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: build
 
-      - env:
-          TOKEN: ${{secrets.TOKEN}}
-        run: |
-          cd build
-          git init
-          git config --local user.name mebtte
-          git config --local user.email hi@mebtte.com
-          git remote add origin https://$TOKEN@github.com/$GITHUB_REPOSITORY.git
-          git checkout -b gh-pages
-          git add --all
-          git commit -m "deploy gh-pages"
-          git push origin gh-pages -f
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy site
+        id: deployment
+        uses: actions/deploy-pages@v5
